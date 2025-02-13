@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://js.stripe.com/v3/"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make a Transaction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Distinct background gradient */
+        body {
+            background: linear-gradient(to right, #eef3f9, #cfe2ff);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Unique heading style */
+        h1 {
+            font-size: 34px;
+            color: #1a3d7a;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        h1::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: #007bff;
+            margin: 8px auto;
+            border-radius: 4px;
+        }
+
+        /* Distinct transaction container */
+        .transaction-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0px 6px 24px rgba(0, 0, 0, 0.12);
+            border-left: 6px solid #007bff;
+            width: 400px;
+            text-align: center;
+        }
+
+        /* Input group with icons */
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .input-group input {
+            border: none;
+            background: none;
+            outline: none;
+            font-size: 15px;
+            width: 100%;
+            padding-left: 10px;
+        }
+
+        .input-group i {
+            color: #0056b3;
+            font-size: 18px;
+        }
+
+        .input-group:focus-within {
+            border-color: #007bff;
+            background: #ffffff;
+            box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.4);
+        }
+
+        /* Submit button with unique transaction styling */
+        input[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0px 4px 12px rgba(0, 123, 255, 0.2);
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+            box-shadow: 0px 6px 20px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Additional info section */
+        .info-text {
+            color: #333;
+            font-size: 14px;
+            margin-top: 12px;
+        }
+
+        .info-text a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .info-text a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Secure Transaction</h1>
+
+    <div class="transaction-container">
+        <form action="{{ url_for('manage_wait', transaction_id=transaction_id) }}" method="post" enctype="multipart/form-data">
+
+            <!-- Amount Input -->
+            <div class="input-group">
+                <i class="fa fa-dollar"></i>
+                <input type="text" name="amount" placeholder="Enter Amount" required />
+            </div>
+
+            <!-- Receiver Input -->
+            <div class="input-group">
+                <i class="fa fa-user"></i>
+                <input type="text" name="receiver" placeholder="Recipient Username" required />
+            </div>
+
+            <input type="submit" value="Send Money" />
+        </form>
+
+        <p class="info-text">Need assistance? <a href="#">Get Help</a></p>
+    </div>
+
+
+    
+
+</body>
+</html>

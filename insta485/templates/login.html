@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Safe Transaction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Background with a security-focused blue gradient */
+        body {
+            background: linear-gradient(to right, #e3efff, #d1e3ff);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Main login container with branding */
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0px 6px 24px rgba(0, 0, 0, 0.12);
+            width: 400px;
+            text-align: center;
+            border-left: 6px solid #007bff;
+        }
+
+        /* Company name styling */
+        .login-container h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a3d7a;
+            margin-bottom: 10px;
+        }
+
+        /* Tagline for trust */
+        .tagline {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* Input fields with icons */
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .input-group input {
+            border: none;
+            background: none;
+            outline: none;
+            font-size: 15px;
+            width: 100%;
+            padding-left: 10px;
+        }
+
+        .input-group i {
+            color: #0056b3;
+            font-size: 16px;
+        }
+
+        .input-group:focus-within {
+            border-color: #007bff;
+            background: #ffffff;
+            box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.4);
+        }
+
+        /* Secure Login Button */
+        input[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0px 4px 12px rgba(0, 123, 255, 0.2);
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+            box-shadow: 0px 6px 20px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Sign-up section */
+        .signup-container {
+            text-align: center;
+            margin-top: 15px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+            width: 360px;
+        }
+
+        .signup-container p {
+            color: #555555;
+            font-size: 14px;
+        }
+
+        .signup-container a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .signup-container a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h1>Safe Transaction</h1>
+        <p class="tagline">Secure and seamless financial transactions</p>
+        <form action="{{ url_for('manage_accounts') }}?target={{ url_for('show_index') }}" method="post" enctype="multipart/form-data">
+
+            <!-- Username Input -->
+            <div class="input-group">
+                <i class="fa fa-user"></i>
+                <input type="text" name="username" placeholder="Username or Email" required />
+            </div>
+
+            <!-- Password Input -->
+            <div class="input-group">
+                <i class="fa fa-lock"></i>
+                <input type="password" name="password" placeholder="Password" required />
+            </div>
+
+            <input type="submit" value="Log In" />
+            <input type="hidden" name="operation" value="login" />
+        </form>
+    </div>
+
+    <div class="signup-container">
+        <p>New to Safe Transaction? <a href="{{ url_for('show_accounts', url='create') }}">Create an account</a></p>
+    </div>
+
+</body>
+</html>
