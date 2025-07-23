@@ -43,3 +43,9 @@ def close_db(error):
     if sqlite_db is not None:
         sqlite_db.commit()
         sqlite_db.close()
+
+def check_login():
+    """Check if user is logged in."""
+    if 'email' not in flask.session:
+        return flask.redirect(flask.url_for('show_accounts', url='login'))
+    return False

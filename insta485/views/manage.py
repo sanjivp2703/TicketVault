@@ -1,366 +1,247 @@
-"""Insta485 manage function for files."""
-import os
+"""Safe-Transaction manage function for files."""
 import hashlib
 import pathlib
 import uuid
+import datetime
+import os
 import flask
-from flask import url_for
-import insta485
-import yagmail
 import stripe
+import insta485
+import time
 
-def check_login():
-    """Check if user is logged in."""
-    if 'username' not in flask.session:
-        return flask.redirect(flask.url_for('show_accounts', url='login'))
-    return False
+# This is a test key. In a real application, this should be stored securely.
+stripe.api_key = "sk_test_51QrpdQC07BpFIQPX9s25iHN5nA78PYrurooQeTqtiEUhqBhzC8qcl3BHd6ZDFYCNLM6fGS1ynqwHY0uKtZ19zSDe00OalrifSw"
 
-stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
-
-def charge_buyer(amount):
-    amount = amount*100  # Convert to cents
-    payment_method_id = ["card"]  # Payment token from frontend
-
-    try:
-        # Create a PaymentIntent to hold the funds in escrow
-        payment_intent = stripe.PaymentIntent.create(
-            amount=amount,
-            currency="usd",
-            payment_method=payment_method_id,
-            confirmation_method="manual",
-            confirm=True,
-            capture_method="manual"  # This holds the payment without capturing
-        )
-
-        return flask.jsonify({"status": "success", "transaction_id": payment_intent.id}), 200
-
-    except stripe.error.StripeError as e:
-        return flask.jsonify({"status": "failed", "error": str(e)}), 400
-
-def approve_payment(transaction_id, amount):
-    data = flask.request.json
-    seller_stripe_account = data["seller_stripe_account"]
-    amount = amount * 100  # Convert to cents
-
-    try:
-        # Capture the payment (release funds to middleman)
-        stripe.PaymentIntent.capture(transaction_id)
-
-        # Transfer funds from middleman to seller
-        transfer = stripe.Transfer.create(
-            amount=amount,
-            currency="usd",
-            destination=seller_stripe_account
-        )
-
-        return flask.jsonify({"status": "success", "transfer_id": transfer.id}), 200
-
-    except stripe.error.StripeError as e:
-        return flask.jsonify({"status": "failed", "error": str(e)}), 400
-
-def reject_payment(transaction_id):
-    try:
-        # Refund the buyer
-        stripe.Refund.create(payment_intent=transaction_id)
-
-        return flask.jsonify({"status": "success", "refund_id": transaction_id}), 200
-
-    except stripe.error.StripeError as e:
-        return flask.jsonify({"status": "failed", "error": str(e)}), 400
-
-
-@insta485.app.route('/wait/<transaction_id>', methods=["POST"])
-def manage_wait(transaction_id):
-    # target = flask.request.args.get('target')
-    if check_login():
-        return check_login()
-    logname = flask.session['username']
+def send_payment_buyer(transaction_id):
+    print(f"[PAYMENT] Buyer is paying Safe-Transaction for transaction {transaction_id}.")
+    """Create a stripe checkout session for the buyer and store tid in session."""
+    flask.session['transaction_id'] = transaction_id
     connection = insta485.model.get_db()
-    amount = flask.request.form['amount']
-    receiver = flask.request.form['receiver']
-    charge_buyer(amount)
+    transaction = connection.execute(
+        "SELECT price FROM transactions WHERE transaction_id = ?",
+        (transaction_id,)
+    ).fetchone()
 
-    status = connection.execute(
-        "SELECT status "
-        "FROM transactions "
-        "WHERE transaction_id = ? ",
-        (transaction_id, )
-    ).fetchone()['status']
+    if not transaction:
+        flask.abort(404)
 
-    context = {'amount': amount, 'transaction_id': transaction_id, 'status': status}
+    amount = transaction['price'] * 100  # Convert to cents
 
-    if status == "created":
-        connection.execute(
-            "UPDATE transactions "
-            "SET sender_username = ?, receiver_username = ?, amount = ?, status = ? "
-            "WHERE transaction_id = ?",
-            (logname, receiver, amount, "waiting", transaction_id, )
-        )
-
-        # send email
-        receiver_email = connection.execute(
-            "SELECT email "
-            "FROM users "
-            "WHERE username = ?",
-            (receiver,)
-        ).fetchone()['email']
-
-        yag = yagmail.SMTP("sanjivp2703@gmail.com", "aiyv zsyl xaea vnre")
-        html_content = f"""
-        
-    <html>
-        <p> Approve receiving ${amount} </p>
-        <p>Transaction ID: {transaction_id}</p>
-        <form action="{ url_for('manage_verdict', transaction_id = transaction_id, status = 'approved', _external=True) }" method="post" enctype="multipart/form-data">
-            <input type="submit" name = "approve_status" value="I Approve" />
-        </form>
-        <form action="{ url_for('manage_verdict', transaction_id = transaction_id, status = 'rejected', _external=True) }" method="post" enctype="multipart/form-data">
-            <input type="submit" name = "approve_status" value="I Reject" />
-        </form>
-    </html>
-    """
-        yag.send(
-        to=receiver_email,
-        subject="THIS IS FOR A CODING PROJECT - SANJIV",
-        contents=html_content
-        )
-
-        context['status'] = 'waiting'
-    
-    return flask.render_template("waiting.html", **context)
-
-
-@insta485.app.route('/verdict/<transaction_id>/<status>', methods=["POST"])
-def manage_verdict(transaction_id, status):
-    #UPDATE DATABASE
-    connection = insta485.model.get_db()
-
-    connection.execute(
-        "UPDATE transactions "
-        "SET status = ? "
-        "WHERE transaction_id = ? ",
-        ("Payment Processing", transaction_id, )
-
+    session = print(f"[PAYMENT] Stripe checkout session created for buyer payment on transaction {transaction_id}.")
+    session = stripe.checkout.Session.create(
+        payment_method_types=['card'],
+        line_items=[{
+            'price_data': {
+                'currency': 'usd',
+                'product_data': {
+                    'name': f'Payment for Transaction #{transaction_id}',
+                },
+                'unit_amount': amount,
+            },
+            'quantity': 1,
+        }],
+        mode='payment',
+        success_url=flask.url_for('payment_success', _external=True),
+        cancel_url=flask.url_for('payment_cancel', _external=True),
     )
-    if status == "approved":
-        approve_payment(transaction_id, amount)
-    elif status == "rejected":
-        reject_payment(transaction_id)
-    else:
+    return flask.redirect(session.url, code=303)
+
+def hash_password(password):
+    """Hash a password for storing."""
+    algorithm = 'sha512'
+    salt = uuid.uuid4().hex
+    hash_obj = hashlib.new(algorithm)
+    password_salted = salt + password
+    hash_obj.update(password_salted.encode('utf-8'))
+    password_hash = hash_obj.hexdigest()
+    password_db_string = "$".join([algorithm, salt, password_hash])
+    return password_db_string
+
+def verify_pw(stored, provided):
+    """Verify a stored password against one provided by user."""
+    algorithm, salt, hash_obj = stored.split('$')
+    hash_obj2 = hashlib.new(algorithm)
+    password_salted = salt + provided
+    hash_obj2.update(password_salted.encode('utf-8'))
+    password_hash = hash_obj2.hexdigest()
+    return password_hash == hash_obj
+
+def manage_create(target, connection):
+    """Create a user."""
+    firstname = flask.request.form['firstname']
+    lastname = flask.request.form['lastname']
+    email = flask.request.form['email']
+    password = flask.request.form['password']
+    if not all([password, email, firstname, lastname]):
         flask.abort(400)
-    connection.execute(
-        "UPDATE transactions "
-        "SET status = ? "
-        "WHERE transaction_id = ? ",
-        (status, transaction_id, )
 
+    # Check if user exists
+    row = connection.execute(
+        "SELECT * FROM users WHERE email == ?",
+        (email,)
+    ).fetchone()
+    if row:
+        flask.abort(409)
+
+    # Insert new user
+    connection.execute(
+        "INSERT INTO users "
+        "(firstname, lastname, email, password) "
+        "VALUES (?, ?, ?, ?)",
+        (firstname, lastname, email, hash_password(password))
+    )
+    flask.session['email'] = email
+    return seller_onboarding()
+
+
+def manage_login(connection, target):
+    """Login a user."""
+    email = flask.request.form['email']
+    password = flask.request.form['password']
+    if email == "" or password == "":
+        return flask.abort(400)
+    curr = connection.execute(
+        "SELECT password FROM users WHERE email == ?",
+        (email,)
+    )
+    row = curr.fetchone()
+    valid = False
+    if row:
+        valid = verify_pw(row['password'], password)
+    if valid:
+        flask.session['email'] = email
+        return flask.redirect(target)
+    return flask.abort(403)
+
+def manage_edit(connection, target):
+    """Handle account editing. (Placeholder)"""
+    # This feature is not yet implemented.
+    return flask.abort(501) # Not Implemented
+
+
+def seller_onboarding():
+    """Handle seller onboarding with Stripe."""
+    if 'email' not in flask.session:
+        return flask.redirect(flask.url_for('manage_accounts'))
+
+    email = flask.session['email']
+    connection = insta485.model.get_db()
+    user = connection.execute(
+        "SELECT firstname, lastname "
+        "FROM users "
+        "WHERE email = ? ",
+        (email, )
+    ).fetchone()
+
+    if not user:
+        flask.abort(404)
+
+    account = stripe.Account.create(
+        type="express",
+        country="US",
+        email=email,
+        business_type="individual",
+        capabilities={"transfers": {"requested": True}},
+        individual={
+            "first_name": user['firstname'],
+            "last_name": user['lastname'],
+            "email": email
+        },
+        business_profile={
+            "product_description": "Selling event tickets on Peer-to-peer platform for ticket resales."
+        }
     )
 
-    #SEND MONEY
-    #SET CONTEXT
-    amount = connection.execute(
-        "SELECT amount "
-        "FROM transactions "
-        "WHERE transaction_id = ? ",
-        (transaction_id, )
-    ).fetchone()['amount']
+    connection.execute(
+        "UPDATE users "
+        "SET stripe_id = ? "
+        "WHERE email = ? ",
+        (account.id, email, )
+    )
+
+    account_link = stripe.AccountLink.create(
+        account=account.id,
+        refresh_url=flask.url_for('reauth', _external=True),
+        return_url=flask.url_for('onboarding_complete', _external=True),
+        type="account_onboarding",
+    )
+
+    return flask.redirect(account_link.url)
 
 
-    context = {'amount': amount, 'transaction_id': transaction_id, 'status': status}
-    return flask.render_template("verdict.html", **context)
+@insta485.app.route('/reauth')
+def reauth():
+    """Handle Stripe re-authentication."""
+    return seller_onboarding()
 
 
-# @insta485.app.route('/following/', methods=["POST"])
-# def manage_follow():
-#     """Manage following."""
-#     if 'username' not in flask.session:
-#         return check_login()
-#     logname = flask.session['username']
-#     target = flask.request.args.get('target')
-#     if target is None:
-#         target = "/"
+@insta485.app.route('/onboarding_complete')
+def onboarding_complete():
+    """Handle completion of Stripe onboarding."""
+    return flask.redirect(flask.url_for('show_index', user_type='seller'))
 
-#     connection = insta485.model.get_db()
-#     acted_on = flask.request.form['username']
-#     operation = flask.request.form['operation']
-#     curr = connection.execute(
-#         "SELECT COUNT(*) "
-#         "FROM following "
-#         "WHERE username1 == ? "
-#         "AND username2 == ? ",
-#         (logname, acted_on)
-#     )
-#     followed = curr.fetchone()['COUNT(*)'] > 0
-#     if operation == "follow":
-#         if followed:
-#             return flask.abort(409)
-#         connection.execute(
-#             "INSERT INTO following "
-#             "(username1, username2) VALUES (?, ?) ",
-#             (logname, acted_on)
-#         )
-#     else:
-#         if not followed:
-#             return flask.abort(409)
-#         connection.execute(
-#             "DELETE FROM following "
-#             "WHERE username1=? AND username2=? ",
-#             (logname, acted_on)
-#         )
-#     return flask.redirect(target)
-
-
-# @insta485.app.route('/likes/', methods=["POST"])
-# def manage_likes():
-#     """Manage likes."""
-#     if check_login():
-#         return check_login()
-#     logname = flask.session['username']
-#     connection = insta485.model.get_db()
-#     operation = flask.request.form['operation']
-#     postid = flask.request.form['postid']
-#     target = flask.request.args.get('target')
-#     if target is None:
-#         target = "/"
-
-#     if operation == 'like':
-#         curr = connection.execute(
-#             "SELECT COUNT(*) "
-#             "FROM likes "
-#             "WHERE owner == ? "
-#             "AND postid == ? ",
-#             (logname, postid)
-#         )
-#         liked = curr.fetchone()['COUNT(*)'] > 0
-#         if liked:
-#             flask.abort(409)
-#         connection.execute(
-#             "INSERT INTO likes "
-#             " (owner, postid) VALUES (?, ?) ",
-#             (logname, postid)
-#         )
-#     elif operation == 'unlike':
-#         curr = connection.execute(
-#             "SELECT COUNT(*) "
-#             "FROM likes "
-#             "WHERE owner == ? "
-#             "AND postid == ? ",
-#             (logname, postid)
-#         )
-#         unliked = curr.fetchone()['COUNT(*)'] == 0
-#         if unliked:
-#             flask.abort(409)
-#         connection.execute(
-#             "DELETE FROM likes "
-#             "WHERE owner=? AND postid=? ",
-#             (logname, postid)
-#         )
-#     return flask.redirect(target)
-
-
-# @insta485.app.route('/comments/', methods=["POST"])
-# def manage_comments():
-#     """Manage comments."""
-#     if check_login():
-#         return check_login()
-#     logname = flask.session['username']
-#     connection = insta485.model.get_db()
-#     operation = flask.request.form['operation']
-#     target = flask.request.args.get('target')
-#     if target is None:
-#         target = "/"
-
-#     if operation == "create":
-#         text = flask.request.form['text']
-#         postid = flask.request.form['postid']
-#         if text == "" or text is None:
-#             return flask.abort(400)
-#         connection.execute(
-#             "INSERT INTO comments "
-#             " (owner, postid, text) VALUES (?, ?, ?) ",
-#             (logname, postid, text)
-#         )
-#     elif operation == "delete":
-#         # error if user tries deleting comment not owned
-#         commentid = flask.request.form['commentid']
-#         checker = connection.execute(
-#             "SELECT commentid "
-#             "FROM comments "
-#             "WHERE commentid == ? AND owner == ? ",
-#             (commentid, logname)
-#         ).fetchone()
-#         if not checker:
-#             return flask.abort(403)
-#         connection.execute(
-#             "DELETE FROM comments "
-#             "WHERE commentid == ?",
-#             (commentid, )
-#         )
-#     return flask.redirect(target)
-
-# @insta485.app.route('/posts/', methods=["POST"])
-# def manage_posts():
-#     """Manage posts."""
-#     if check_login():
-#         return check_login()
-#     logname = flask.session['username']
-#     connection = insta485.model.get_db()
-#     operation = flask.request.form['operation']
-#     target = flask.request.args.get('target')
-#     if target is None:
-#         target = url_for('show_user', user_url=logname)
-#     if operation == "create1":
-#         fileobj = flask.request.files['file']
-#         filename = fileobj.filename
-#         if filename is None or filename == "":
-#             return flask.abort(400)
-#         stem = uuid.uuid4().hex
-#         suffix = pathlib.Path(filename).suffix.lower()
-#         uuid_basename = f"{stem}{suffix}"
-#         path = insta485.app.config["UPLOAD_FOLDER"]/uuid_basename
-#         fileobj.save(path)
-#         # connection.execute(
-#         #     "INSERT INTO posts "
-#         #     " (filename, owner) VALUES (?, ?) ",
-#         #     (uuid_basename, logname)
-#         # )
-#         return flask.redirect(flask.url_for('show_create_post2', filename = uuid_basename))
-#     elif operation == "create2":
-#         filename = flask.request.form['filename']
-#         caption = flask.request.form['text']
-#         print(caption)
-#         connection.execute(
-#             "INSERT INTO posts "
-#             " (filename, caption, owner) VALUES (?, ?, ?) ",
-#             (filename, caption, logname)
-#         )
-#     elif operation == "delete":
-#         # check if owner of postid == logname
-#         filepath = insta485.app.config['UPLOAD_FOLDER']
-#         postid = flask.request.form['postid']
-#         cur = connection.execute(
-#             "SELECT * "
-#             "FROM posts "
-#             "WHERE postid == ? AND owner == ? ",
-#             (postid, logname)
-#         ).fetchone()
-#         if not cur:
-#             return flask.abort(403)
-#         os.remove(filepath/cur['filename'])
-#         connection.execute(
-#             "DELETE FROM posts "
-#             "WHERE postid == ? ",
-#             (postid, )
-#         )
-#     return flask.redirect(target)
-
-
-# @insta485.app.route('/accounts/logout/', methods=['POST'])
-# def manage_logout():
-#     """Manage logout."""
-#     flask.session.clear()
-#     return flask.redirect(url_for('show_accounts', url='login'))
-
+def send_payment_seller(transaction_id):
+    """Send payment to seller via Stripe after a 1-minute delay."""
+    print(f"Scheduler: Processing payment for transaction {transaction_id}")
+    import insta485.model
+    import stripe
+    import flask
+    # Always use a fresh DB connection to avoid sqlite locked errors
+    with insta485.app.app_context():
+        connection = insta485.model.get_db()
+        # Get transaction details
+        transaction = connection.execute(
+            """
+            SELECT t.seller_email, t.price, t.status, t.payment_processed_time,
+                   e.event_datetime
+            FROM transactions t
+            JOIN events e ON t.event_id = e.event_id
+            WHERE t.transaction_id = ?
+            """,
+            (transaction_id,)
+        ).fetchone()
+        if not transaction:
+            print(f"Scheduler: Transaction {transaction_id} not found.")
+            return
+        seller_email = transaction['seller_email']
+        price = transaction['price']
+        status = transaction['status']
+        payment_processed_time = transaction['payment_processed_time']
+        event_datetime = transaction['event_datetime']
+        # Get seller's Stripe ID
+        seller = connection.execute(
+            "SELECT stripe_id FROM users WHERE email = ?",
+            (seller_email,)
+        ).fetchone()
+        if not seller or not seller['stripe_id']:
+            print(f"Scheduler: Seller {seller_email} does not have a Stripe account.")
+            return
+        stripe_id = seller['stripe_id']
+        # Send payment via Stripe
+        try:
+            print(f"Scheduler: Sending payment of ${price:.2f} to {seller_email} (Stripe ID: {stripe_id})")
+            stripe.Transfer.create(
+                amount=int(price * 100),  # Amount in cents
+                currency="usd",
+                destination=stripe_id,
+                transfer_group=str(transaction_id),
+            )
+            try:
+                # Use a fresh connection for the status update
+                import insta485.model
+                connection2 = insta485.model.get_db()
+                connection2.execute(
+                    "UPDATE transactions SET status = 'success' WHERE transaction_id = ?",
+                    (transaction_id,)
+                )
+                connection2.commit()
+                print(f"Scheduler: Status updated to 'success' for transaction {transaction_id}.")
+                print(f"[PAYMENT] Safe-Transaction paid seller for transaction {transaction_id}.")
+            except Exception as db_err:
+                print(f"[ERROR] Failed to update status to 'success' for transaction {transaction_id}: {db_err}")
+            print(f"Scheduler: Successfully transferred ${price} for transaction {transaction_id}.")
+        except stripe.error.StripeError as e:
+            print(f"Scheduler: Stripe Error for transaction {transaction_id}: {e}")
 
 @insta485.app.route('/accounts/', methods=["POST", "GET"])
 def manage_accounts():
@@ -375,28 +256,19 @@ def manage_accounts():
     if operation == "edit_account":
         return manage_edit(connection, target)
     if operation == "create":
-        return manage_create(target, flask.request.form['username'],
-                             connection)
+        return manage_create(target, connection)
     if operation == "delete":
         pfp_file = connection.execute(
             "SELECT filename "
             "FROM users "
-            "WHERE username == ? ",
-            (flask.session['username'], )
+            "WHERE email == ? ",
+            (flask.session['email'], )
         ).fetchone()
         os.remove(insta485.app.config['UPLOAD_FOLDER']/pfp_file['filename'])
-        post_files = connection.execute(
-            "SELECT filename "
-            "FROM posts "
-            "WHERE owner == ? ",
-            (flask.session['username'], )
-        ).fetchall()
-        for file in post_files:
-            os.remove(insta485.app.config['UPLOAD_FOLDER']/file['filename'])
         connection.execute(
             "DELETE FROM users "
-            "WHERE username = ? ",
-            (flask.session['username'], )
+            "WHERE email = ? ",
+            (flask.session['email'], )
         )
         flask.session.clear()
     if operation == "update_password":
@@ -411,127 +283,14 @@ def manage_accounts():
         if status != -1:
             return flask.abort(status)
         row = connection.execute(
-            "SELECT password FROM users WHERE username == ?",
-            (flask.session['username'], )).fetchone()
+            "SELECT password FROM users WHERE email == ?",
+            (flask.session['email'], )).fetchone()
         if not verify_pw(row['password'], old_pw):
             return flask.abort(403)
         connection.execute(
             "UPDATE users "
             "SET password = ? "
-            "WHERE username == ? ",
-            (hash_password(new_pw1), flask.session['username'])
+            "WHERE email == ? ",
+            (hash_password(new_pw1), flask.session['email'])
         )
     return flask.redirect(target)
-
-
-def hash_password(password):
-    """Hash a password for storing."""
-    algorithm = 'sha512'
-    salt = uuid.uuid4().hex
-    hash_obj = hashlib.new(algorithm)
-    password_salted = salt + password
-    hash_obj.update(password_salted.encode('utf-8'))
-    password_hash = hash_obj.hexdigest()
-    password_db_string = "$".join([algorithm, salt, password_hash])
-    return password_db_string
-
-
-def verify_pw(stored, provided):
-    """Verify a stored password against one provided by user."""
-    algorithm, salt, hash_obj = stored.split('$')
-    hash_obj2 = hashlib.new(algorithm)
-    password_salted = salt + provided
-    hash_obj2.update(password_salted.encode('utf-8'))
-    password_hash = hash_obj2.hexdigest()
-    return password_hash == hash_obj
-
-
-def manage_create(target, username, connection):
-    """Create a user."""
-    fullname = flask.request.form['fullname']
-    username = flask.request.form['username']
-    email = flask.request.form['email']
-    password = flask.request.form['password']
-    fileobj = flask.request.files['file']
-    bio = flask.request.form['bio']
-    filename = fileobj.filename
-    if (
-        username == "" or
-        password == "" or
-        email == "" or
-        fullname == "" or
-        filename == "" or
-        bio == ""
-    ):
-        return flask.abort(400)
-    stem = uuid.uuid4().hex
-    suffix = pathlib.Path(filename).suffix.lower()
-    uuid_basename = f"{stem}{suffix}"
-    path = insta485.app.config["UPLOAD_FOLDER"]/uuid_basename
-    fileobj.save(path)
-    row = connection.execute(
-        "SELECT * FROM users WHERE username == ?",
-        (username, )
-    ).fetchone()
-    if row:
-        flask.abort(409)
-    connection.execute(
-        "INSERT INTO users "
-        "(username, fullname, email, filename, password, bio) "
-        "Values (?, ?, ?, ?, ?, ?) ",
-        (username, fullname, email, uuid_basename, hash_password(password), bio)
-    )
-    flask.session['username'] = username
-    return flask.redirect(target)
-
-
-def manage_edit(connection, target):
-    """Edit a user."""
-    email = flask.request.form['email']
-    fullname = flask.request.form['fullname']
-    fileobj = flask.request.files['file']
-    bio = flask.request.form['bio']
-    filename = fileobj.filename
-    if email == "" or fullname == "":
-        return flask.abort(400)
-    if filename == "":
-        connection.execute(
-            "UPDATE users "
-            "SET fullname = ?, email = ?, bio = ? "
-            "WHERE username == ? ",
-            (fullname, email, bio, flask.session['username'], )
-        )
-    else:
-        stem = uuid.uuid4().hex
-        suffix = pathlib.Path(filename).suffix.lower()
-        uuid_basename = f"{stem}{suffix}"
-        path = insta485.app.config["UPLOAD_FOLDER"]/uuid_basename
-        fileobj.save(path)
-        # Delete
-        connection.execute(
-            "UPDATE users "
-            "SET fullname = ?, email = ?, filename = ? "
-            "WHERE username == ? ",
-            (fullname, email, uuid_basename, flask.session['username'])
-        )
-    return flask.redirect(target)
-
-
-def manage_login(connection, target):
-    """Login a user."""
-    username = flask.request.form['username']
-    password = flask.request.form['password']
-    if username == "" or password == "":
-        return flask.abort(400)
-    curr = connection.execute(
-        "SELECT password FROM users WHERE username == ?",
-        (username,)
-    )
-    row = curr.fetchone()
-    valid = False
-    if row:
-        valid = verify_pw(row['password'], password)
-    if valid:
-        flask.session['username'] = username
-        return flask.redirect(target)
-    return flask.abort(403)

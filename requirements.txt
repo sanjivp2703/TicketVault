@@ -8,6 +8,8 @@ charset-normalizer==3.2.0
 click==8.1.7
 dill==0.3.7
 Flask==2.3.3
+APScheduler
+stripe
 html5validator==0.4.2
 idna==3.4
 iniconfig==2.0.0

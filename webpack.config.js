@@ -9,7 +9,7 @@ if (existsSync("./insta485/js/main.tsx")) {
 
 module.exports = {
   mode: "development",
-  entry,
+  entry: {},
   output: {
     path: path.join(__dirname, "/insta485/static/js/"),
     filename: "bundle.js",

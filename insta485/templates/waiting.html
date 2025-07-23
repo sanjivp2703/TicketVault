@@ -102,27 +102,94 @@
     </style>
 </head>
 <body>
+{% if buyer_status == "rejected" or seller_status == "rejected" %}
+    <script>
+        window.location.href = "{{ url_for('manage_rejected', transaction_id=transaction_id, user_type=user_type) }}";
+    </script>
 
-    <div class="status-container 
-        {% if status == 'waiting' %}status-waiting
-        {% elif status == 'approved' %}status-approved
-        {% elif status == 'rejected' %}status-rejected{% endif %}">
+{% elif buyer_status == "approved" and seller_status == "approved" %}
+    <script>
+        window.location.href = "{{ url_for('manage_approved', transaction_id=transaction_id, user_type=user_type) }}";
+    </script>
+{% else %}
+    {% if user_type == "buyer" %}
+        <div style="display: flex;">
+            <div style="width: 50%; padding: 20px; border-right: 1px solid black;">
+                <h2>Buyer Section</h2>
+                {% if buyer_status == "initiated" %}
+                    <form action="{{ url_for('manage_payment', transaction_id=transaction_id, user_type=user_type) }}" method="post">
+                        <input type="hidden" name="amount" value="{{ payment }}">
+                        <button type="submit" class="btn">Send ${{ payment }}</button>
+                    </form>
+                {% elif buyer_status == "payment_supplied" and seller_status != "ticket_uploaded" %}
+                    <p>${{ payment }} Sent</p>
+                {% elif buyer_status == "waiting_for_approval" %}
+                    <h3>${{ payment }} Waiting for Approval</h3>
+                {% elif buyer_status == "approved" %}
+                    <h2>APPROVED</h2>
+                {% endif %}
+            </div>
         
-        {% if status == "waiting" %}
-            <p class="status-message waiting"><i class="fa fa-clock-o"></i> Awaiting Approval</p>
-            <p class="amount">${{ amount }}</p>
+            <div style="width: 50%; padding: 20px;">
+                <h2>Seller Section</h2>
+                {% if seller_status == "initiated" %}
+                    <p>Waiting for {{ticket_requested}} Ticket</p>
 
-        {% elif status == "approved" %}
-            <p class="status-message approved"><i class="fa fa-check-circle"></i> Transaction Approved</p>
-            <p class="amount">${{ amount }} Sent</p>
-            <a href="{{ url_for('show_index') }}" class="btn">Return Home</a>
+                {% elif seller_status == "ticket_uploaded" and buyer_status != "payment_supplied" %}
+                    <img src="{{ url_for('get_image', filename=ticket_file) }}" width = 100px>
+                    <h3>Ticket Uploaded</h3>
+                {% elif seller_status == "waiting_for_approval" %}
+                    <img src="{{ url_for('get_image', filename=ticket_file) }}" width = 100px>
+                    <a href="{{ url_for('manage_verdict', transaction_id = transaction_id, user_type = 'buyer', verdict = 'approved') }}" class="btn">Approve</a>
+                    <a href="{{ url_for('manage_verdict', transaction_id = transaction_id, user_type = 'buyer', verdict = 'rejected') }}" class="btn">Reject</a>
+                {% elif seller_status == "approved" %}
+                    <h2>APPROVED</h2>
+                {% endif %}
+                
 
-        {% elif status == "rejected" %}
-            <p class="status-message rejected"><i class="fa fa-times-circle"></i> Transaction Rejected</p>
-            <p class="amount">${{ amount }} Refunded</p>
-            <a href="{{ url_for('show_index') }}" class="btn">Return Home</a>
-        {% endif %}
-    </div>
+            </div>
+        </div>
+    {% elif user_type == "seller" %}
+        <div style="display: flex;">
+            <div style="width: 50%; padding: 20px; border-right: 1px solid black;">
+                <h2>Seller Section</h2>
+                {% if seller_status == "initiated" %}
+                    <form action="{{ url_for('manage_payment', transaction_id=transaction_id, user_type=user_type) }}" method="post" enctype="multipart/form-data">
+                        <div class="input-group">
+                            <label for="ticket_image" id="file-label">Upload Ticket</label>
+                            <input type="file" name="ticket_image" id="ticket_image" accept="image/*" required />
+                        </div>
+                        <input type="submit" value="Submit Ticket" />
+                    </form>
+                {% elif seller_status == "ticket_uploaded" and buyer_status != "payment_supplied" %}
+                    <img src="{{ url_for('get_image', filename=ticket_file) }}" width = 100px>
+                    <h3>Ticket Uploaded</h3>
+                {% elif seller_status == "waiting_for_approval" %}
+                    <img src="{{ url_for('get_image', filename=ticket_file) }}" width = 100px>
+                    <h3>Waiting for Approval</h3>
+                {% elif seller_status == "approved"%}
+                    <h3>APPROVED</h3>
+                {% endif %}
+                
+            </div>
+            <div style="width: 50%; padding: 20px;">
+                    <h2>Buyer Section</h2>
+                    {% if buyer_status == "initiated" %}
+                        <h3>Waiting for ${{ payment }}</h3>
+                    {% elif buyer_status == "payment_supplied" and seller_status != "ticket_uploaded" %}
+                        <h3>${{ payment }} Sent</h3>
+                    {% elif buyer_status == "waiting_for_approval" %}
+                        <div>${{ payment }}</div>
+                        <a href="{{ url_for('manage_verdict', transaction_id = transaction_id, user_type = 'seller', verdict = 'approved') }}" class="btn">Approve</a>
+                        <a href="{{ url_for('manage_verdict', transaction_id = transaction_id, user_type = 'seller', verdict = 'rejected') }}" class="btn">Reject</a>
+                    {% elif buyer_status == "approved" %}
+                        <h3>APPROVED</h3>
+                    {% endif %}
+            </div>
+
+        </div>
+    {% endif %}
+{% endif %}
 
 </body>
 </html>

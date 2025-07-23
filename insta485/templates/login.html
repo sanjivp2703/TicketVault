@@ -134,12 +134,12 @@
     <div class="login-container">
         <h1>Safe Transaction</h1>
         <p class="tagline">Secure and seamless financial transactions</p>
-        <form action="{{ url_for('manage_accounts') }}?target={{ url_for('show_index') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ url_for('manage_accounts') }}?target={{ url_for('show_index_orig') }}" method="post" enctype="multipart/form-data">
 
-            <!-- Username Input -->
+            <!-- Email Input -->
             <div class="input-group">
-                <i class="fa fa-user"></i>
-                <input type="text" name="username" placeholder="Username or Email" required />
+                <i class="fa fa-envelope"></i>
+                <input type="email" name="email" placeholder="Email" required />
             </div>
 
             <!-- Password Input -->
@@ -154,7 +154,7 @@
     </div>
 
     <div class="signup-container">
-        <p>New to Safe Transaction? <a href="{{ url_for('show_accounts', url='create') }}">Create an account</a></p>
+        <p>Don't have an account? <a href="{{ url_for('show_accounts', url='create') }}">Sign up</a></p>
     </div>
 
 </body>
