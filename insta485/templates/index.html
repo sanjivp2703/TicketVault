@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Safe-Transaction</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
     <style>
         body {
             background: linear-gradient(to right, #eef3f9, #cfe2ff);
@@ -611,33 +612,36 @@
     {% endif %}
 
     {% endfor %}
-
-
-    {% endif %}
-{% if user_type == 'seller' %}
-    <div class="seller-initiate-area" style="margin-top: 40px; padding: 24px; background: #f8fbff; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,123,255,0.07);">
-        <h3 style="margin-bottom: 16px; color: #1976d2;">Initiate a New Sale</h3>
-        <form action="{{ url_for('initiate_transaction') }}" method="post" style="display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end;">
-            <input type="hidden" name="user_type" value="seller">
-            <div style="flex: 1; min-width: 220px; position: relative;">
-                <label for="event-search" style="font-weight: 500;">Event</label>
-                <input id="event-search" name="ticket_description" type="text" class="form-control" placeholder="Search for event..." required style="width: 100%; padding: 10px; border: 1px solid #bcdffb; border-radius: 5px;">
-            </div>
-            <div style="flex: 1; min-width: 120px;">
-                <label for="price" style="font-weight: 500;">Price ($)</label>
-                <input id="price" name="price" type="number" min="1" class="form-control" placeholder="Enter price" required style="width: 100%; padding: 10px; border: 1px solid #bcdffb; border-radius: 5px;">
-            </div>
-            <div style="flex: 1; min-width: 220px;">
-                <label for="buyer" style="font-weight: 500;">Buyer Email</label>
-                <input id="buyer" name="buyer" type="email" class="form-control" placeholder="Enter buyer's email" required style="width: 100%; padding: 10px; border: 1px solid #bcdffb; border-radius: 5px;">
-            </div>
-            <div style="flex: 0 0 auto;">
-                <button type="submit" class="btn-action btn-primary" style="padding: 10px 28px; border-radius: 6px; background: #1976d2; color: #fff; font-weight: 600; border: none;">Initiate Sale</button>
-            </div>
-        </form>
-        <div style="margin-top: 10px; color: #888; font-size: 0.98em;">Search for an event, set a price, and specify the buyer's email to start a transaction.</div>
     </div>
-{% endif %}
+    </div>
+    </div>
+    {% endif %}
+
+    {% if user_type == 'seller' %}
+    <div class="seller-initiate-area" style="margin-top: 40px; padding: 24px; background: #f8fbff; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,123,255,0.07);">
+      <h3 style="margin-bottom: 16px; color: #1976d2;">Initiate a New Sale</h3>
+      <form action="{{ url_for('initiate_transaction') }}" method="post" style="display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end;">
+        <input type="hidden" name="user_type" value="seller">
+        <div style="flex: 1; min-width: 220px; position: relative;">
+          <label for="event-search" style="font-weight: 500;">Event</label>
+          <input id="event-search" name="ticket_description" type="text" class="form-control" placeholder="Search for event..." required style="width: 100%; padding: 10px; border: 1px solid #bcdffb; border-radius: 5px;">
+        </div>
+        <div style="flex: 1; min-width: 120px;">
+          <label for="price" style="font-weight: 500;">Price ($)</label>
+          <input id="price" name="price" type="number" min="1" class="form-control" placeholder="Enter price" required style="width: 100%; padding: 10px; border: 1px solid #bcdffb; border-radius: 5px;">
+        </div>
+        <div style="flex: 1; min-width: 220px;">
+          <label for="buyer" style="font-weight: 500;">Buyer Email</label>
+          <input id="buyer" name="buyer" type="email" class="form-control" placeholder="Enter buyer's email" required style="width: 100%; padding: 10px; border: 1px solid #bcdffb; border-radius: 5px;">
+        </div>
+        <div style="flex: 0 0 auto;">
+          <button type="submit" class="btn-action btn-primary" style="padding: 10px 28px; border-radius: 6px; background: #1976d2; color: #fff; font-weight: 600; border: none;">Initiate Sale</button>
+        </div>
+      </form>
+      <div style="margin-top: 10px; color: #888; font-size: 0.98em;">Search for an event, set a price, and specify the buyer's email to start a transaction.</div>
+    </div>
+    {% endif %}
+
     <script>
         function toggleDetails(transactionId) {
             var details = document.getElementById('details-' + transactionId);
@@ -744,5 +748,6 @@
 
         autocomplete(document.getElementById("event-search"));
     </script>
+    
 </body>
 </html>
