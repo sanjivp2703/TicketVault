@@ -14,7 +14,7 @@ VALUES
 
 -- Add a test event in the near future
 INSERT INTO events (name, location, event_datetime) VALUES
-('10min Test Event', 'Test Venue', '2025-07-23 17:15:00');
+('10min Test Event', 'Test Venue', '2025-07-23 22:36:00');
 
 -- Add a transaction in pending status for this event
 INSERT INTO transactions (buyer_email, seller_email, price, event_id, status)
