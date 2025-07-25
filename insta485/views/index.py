@@ -364,10 +364,10 @@ def update_transaction_status(transaction_id):
         # Send rejection confirmation email
         if row['buyer_email'] and event_name and row['seller_email']:
             send_reject_confirmation_email(row['buyer_email'], event_name, row['seller_email'])
-        return "<html><body><h2>The offer has been rejected. You may now close this tab.</h2></body></html>"
+        return "<html><body><h2>The offer has been rejected. You may now close this tab and return to your email.</h2></body></html>"
     # Accept logic
     if row['status'] in ('waiting_for_payment_processing', 'waiting_for_ticket_transfer', 'success', 'complete'):
-        return "<html><body><h2>You have already accepted this offer. You may close this tab.</h2></body></html>"
+        return "<html><body><h2>You have already accepted this offer. You may close this tab and return to your email.</h2></body></html>"
     elif row['status'] == 'rejected':
         return "<html><body><h2>You have already rejected this offer.</h2></body></html>"
     if new_status == 'waiting_for_payment_processing':
@@ -389,7 +389,7 @@ def email_accept(transaction_id):
     if not row:
         return "<html><body><h2>Transaction not found.</h2></body></html>"
     if row['status'] in ('waiting_for_payment_processing', 'waiting_for_ticket_transfer', 'success', 'complete'):
-        return "<html><body><h2>You have already accepted this offer. You may close this tab.</h2></body></html>"
+        return "<html><body><h2>You have already accepted this offer. You may close this tab and return to your email.</h2></body></html>"
     elif row['status'] == 'rejected':
         return "<html><body><h2>You have already rejected this offer.</h2></body></html>"
     connection.execute(
@@ -434,7 +434,7 @@ def payment_success():
     )
     # Send acceptance confirmation email
     if row['buyer_email'] and row['event_name'] and row['price'] and row['seller_email']:
-        send_accept_confirmation_email(row['buyer_email'], row['event_name'], row['price'], row['seller_email'])
+        send_accept_confirmation_email(row['buyer_email'], row['event_name'], row['price'], row['seller_email'], transaction_id=transaction_id)
     else:
         connection.execute(
             "UPDATE transactions SET status = 'waiting_for_ticket_transfer' WHERE transaction_id = ?",
@@ -488,51 +488,75 @@ def payment_cancel():
     # GET fallback
     return flask.redirect(url_for('show_index', user_type='buyer'))
 
-@insta485.app.route('/ticket_status/<int:transaction_id>', methods=['POST'])
+@insta485.app.route('/ticket_status/<int:transaction_id>', methods=['GET', 'POST'])
 def update_ticket_status(transaction_id):
     from insta485.views.manage import send_payment_seller
     """Update the status of the ticket transfer."""
-    if 'email' not in flask.session:
-        return flask.redirect(url_for('show_accounts', url='login'))
-
-    logemail = flask.session['email']
     connection = insta485.model.get_db()
-    action = flask.request.form.get('action')
+    # Allow GET for email button actions
+    if flask.request.method == 'POST':
+        action = flask.request.form.get('action')
+    else:
+        action = flask.request.args.get('action')
 
-    # Verify user is part of the transaction
+    # If not logged in, allow GET from email with no session
+    logemail = flask.session.get('email')
     transaction = connection.execute(
         "SELECT seller_email, buyer_email FROM transactions WHERE transaction_id = ?",
         (transaction_id,)
     ).fetchone()
-
-    if not transaction or (logemail != transaction['seller_email'] and logemail != transaction['buyer_email']):
-        flask.abort(403)
-
-    user_type = 'seller' if logemail == transaction['seller_email'] else 'buyer'
-
+    if not transaction:
+        return "<html><body><h2>Transaction not found.</h2></body></html>"
+    # Only require login for POST; for GET allow if buyer or seller email matches
+    user_type = None
+    if logemail:
+        if logemail == transaction['seller_email']:
+            user_type = 'seller'
+        elif logemail == transaction['buyer_email']:
+            user_type = 'buyer'
+        else:
+            flask.abort(403)
+    else:
+        # For GET, infer user_type from action
+        if action == 'sent':
+            user_type = 'seller'
+        elif action in ['confirm', 'received']:
+            user_type = 'buyer'
+    # Seller confirms ticket sent
     if action == 'sent' and user_type == 'seller':
         connection.execute(
             "UPDATE transactions SET status = 'ticket_sent' WHERE transaction_id = ?",
             (transaction_id,)
         )
-        flask.flash("You've confirmed sending the ticket. The buyer will be notified.")
-    elif action == 'received' and user_type == 'buyer':
-        # Buyer confirms ticket worked: mark as success, send payment
+        return "<html><body><h2>Thank you! The buyer has been notified that the ticket was sent. You may now close this tab and return to your email.</h2></body></html>"
+    # Buyer confirms ticket received
+    elif action in ['confirm', 'received'] and user_type == 'buyer':
+        # Mark ticket as sent if not already
+        connection.execute(
+            "UPDATE transactions SET status = 'ticket_sent' WHERE transaction_id = ?",
+            (transaction_id,)
+        )
+        # Then immediately mark as success
         connection.execute(
             "UPDATE transactions SET status = 'success' WHERE transaction_id = ?",
             (transaction_id,)
         )
-        send_payment_seller(transaction_id)
-        payment = connection.execute(
-            "SELECT price FROM transactions WHERE transaction_id = ?",
+        # Gather transaction details for email
+        details = connection.execute(
+            "SELECT t.buyer_email, t.seller_email, t.price, e.name as event_name, e.event_datetime "
+            "FROM transactions t JOIN events e ON t.event_id = e.event_id "
+            "WHERE t.transaction_id = ?",
             (transaction_id,)
-        ).fetchone()['price']
-        # After marking success, redirect to dashboard so the card updates in-place
-        return flask.redirect(url_for('show_index', user_type=user_type))
-
-
-    return flask.redirect(url_for('show_index', user_type=user_type))
-
+        ).fetchone()
+        # Calculate complaint deadline (4 hours after event)
+        import datetime
+        event_dt = datetime.datetime.strptime(details['event_datetime'], '%Y-%m-%d %H:%M:%S')
+        complaint_deadline = (event_dt + datetime.timedelta(hours=4)).strftime('%Y-%m-%d %I:%M %p')
+        from insta485.email_utils import send_ticket_received_email
+        send_ticket_received_email(details['buyer_email'], details['event_name'], details['price'], details['seller_email'], details['event_datetime'], complaint_deadline)
+        send_payment_seller(transaction_id)
+        return "<html><body><h2>Thank you for confirming! Payment to the seller will be processed. You may now close this tab and return to your email.</h2></body></html>"
+    return flask.redirect(flask.url_for('show_index', user_type=user_type or 'buyer'))
 
 @insta485.app.route('/report_problem/<int:transaction_id>', methods=['POST'])
 def report_problem(transaction_id):
