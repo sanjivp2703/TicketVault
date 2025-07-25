@@ -10,6 +10,7 @@ import insta485
 import pathlib
 import uuid
 import datetime
+from insta485.email_utils import send_accept_confirmation_email, send_reject_confirmation_email
 
 # Custom Jinja2 filter for datetime conversion
 @insta485.app.template_filter('datetime')
@@ -300,125 +301,146 @@ def initiate_transaction():
 
         event_id = event_row['event_id']
 
-        connection.execute(
+        cursor = connection.execute(
             "INSERT INTO transactions (seller_email, buyer_email, price, event_id) "
             "VALUES (?, ?, ?, ?)",
             (logemail, buyer_email, price, event_id)
         )
+        transaction_id = cursor.lastrowid
+        # Send email notification to buyer with Accept/Reject buttons
+        from insta485.email_utils import send_email
+        subject = f"You have a new ticket offer for {event_name}!"
+        body = f"Hello,\n\nYou have received a new ticket offer for '{event_name}'.\nPrice: ${price}\nSeller: {logemail}\n\nPlease log in to Safe-Transaction to view and accept or reject the offer.\n\nBest,\nSafe-Transaction Team"
+        # Build Accept/Reject URLs
+        accept_url = flask.url_for('email_accept', transaction_id=transaction_id, _external=True)
+        reject_url = flask.url_for('update_transaction_status', transaction_id=transaction_id, _external=True)
+        html = f'''
+            <p>Hello,</p>
+            <p>You have received a new ticket offer for <b>{event_name}</b>.<br>
+            Price: <b>${price}</b><br>
+            Seller: <b>{logemail}</b></p>
+            <a href="{accept_url}" style="background:#28a745;color:white;padding:10px 18px;text-decoration:none;border-radius:4px;font-weight:bold;display:inline-block;">Accept</a>
+            <form action="{reject_url}" method="post" style="display:inline;margin-left:10px;">
+                <input type="hidden" name="status" value="rejected">
+                <button style="background:#dc3545;color:white;padding:8px 16px;border:none;border-radius:4px;cursor:pointer;">Reject</button>
+            </form>
+            <p style="margin-top:24px;">Best,<br>Safe-Transaction Team</p>
+        '''
+        send_email(buyer_email, subject, body, html=html)
 
     return flask.redirect(url_for('show_index', user_type=user_type))
 
 @insta485.app.route('/update_transaction_status/<int:transaction_id>', methods=['POST'])
 def update_transaction_status(transaction_id):
-    """Update the status of a transaction."""
-    if 'email' not in flask.session:
-        return flask.redirect(url_for('show_accounts', url='login'))
-
-    logemail = flask.session['email']
+    """Update the status of a transaction. No login or buyer check (email or dashboard)."""
+    new_status = flask.request.form.get('status')
     connection = insta485.model.get_db()
-
-    transaction = connection.execute(
-        "SELECT buyer_email FROM transactions WHERE transaction_id = ?",
+    row = connection.execute(
+        "SELECT status, buyer_email, seller_email, event_id FROM transactions WHERE transaction_id = ?",
         (transaction_id,)
     ).fetchone()
-
-    if not transaction or transaction['buyer_email'] != logemail:
-        flask.abort(403)
-
-    new_status = flask.request.form.get('status')
+    if not row:
+        return "<html><body><h2>Transaction not found.</h2></body></html>"
+    # Get event name for email
+    event_name = None
+    if row['event_id']:
+        event_row = connection.execute(
+            "SELECT name FROM events WHERE event_id = ?",
+            (row['event_id'],)
+        ).fetchone()
+        if event_row:
+            event_name = event_row['name']
+    # Allow Reject if status is waiting_for_payment_processing (payment not completed)
+    if new_status == 'rejected':
+        if row['status'] == 'rejected':
+            return "<html><body><h2>You have already rejected this offer.</h2></body></html>"
+        elif row['status'] in ('waiting_for_ticket_transfer', 'success', 'complete'):
+            return "<html><body><h2>You have already accepted this offer. You may close this tab.</h2></body></html>"
+        # Allow rejection if still waiting for payment
+        connection.execute(
+            "UPDATE transactions SET status = 'rejected' WHERE transaction_id = ?",
+            (transaction_id,)
+        )
+        # Send rejection confirmation email
+        if row['buyer_email'] and event_name and row['seller_email']:
+            send_reject_confirmation_email(row['buyer_email'], event_name, row['seller_email'])
+        return "<html><body><h2>The offer has been rejected. You may now close this tab.</h2></body></html>"
+    # Accept logic
+    if row['status'] in ('waiting_for_payment_processing', 'waiting_for_ticket_transfer', 'success', 'complete'):
+        return "<html><body><h2>You have already accepted this offer. You may close this tab.</h2></body></html>"
+    elif row['status'] == 'rejected':
+        return "<html><body><h2>You have already rejected this offer.</h2></body></html>"
     if new_status == 'waiting_for_payment_processing':
         connection.execute(
             "UPDATE transactions SET status = 'waiting_for_payment_processing' WHERE transaction_id = ?",
             (transaction_id,)
         )
         return insta485.views.manage.send_payment_buyer(transaction_id)
-    elif new_status == 'rejected':
-        connection.execute(
-            "UPDATE transactions SET status = 'rejected' WHERE transaction_id = ?",
-            (transaction_id,)
-        )
+    return "<html><body><h2>Action completed.</h2></body></html>"
 
-    return flask.redirect(url_for('show_index', user_type='buyer'))
-
+@insta485.app.route('/email_accept/<int:transaction_id>', methods=['GET'])
+def email_accept(transaction_id):
+    """Handle Accept button from email: set status and redirect to Stripe, then show thank you after payment."""
+    connection = insta485.model.get_db()
+    row = connection.execute(
+        "SELECT status FROM transactions WHERE transaction_id = ?",
+        (transaction_id,)
+    ).fetchone()
+    if not row:
+        return "<html><body><h2>Transaction not found.</h2></body></html>"
+    if row['status'] in ('waiting_for_payment_processing', 'waiting_for_ticket_transfer', 'success', 'complete'):
+        return "<html><body><h2>You have already accepted this offer. You may close this tab.</h2></body></html>"
+    elif row['status'] == 'rejected':
+        return "<html><body><h2>You have already rejected this offer.</h2></body></html>"
+    connection.execute(
+        "UPDATE transactions SET status = 'waiting_for_payment_processing' WHERE transaction_id = ?",
+        (transaction_id,)
+    )
+    return insta485.views.manage.send_payment_buyer(transaction_id)
 
 @insta485.app.route('/success')
 def payment_success():
     """Handle successful payment by updating status and expected_ticket_send_time."""
     if 'transaction_id' not in flask.session:
-        return flask.redirect(url_for('show_index', user_type='buyer'))
-
+        return "<html><body><h2>Thank you! Your payment was successful. You may now close this tab and return to your email.</h2></body></html>"
     transaction_id = flask.session.pop('transaction_id', None)
     connection = insta485.model.get_db()
-
-    # Get event time for this transaction
+    # Get event time and transaction info for confirmation email
     row = connection.execute(
         """
-        SELECT e.event_datetime, t.payment_processed_time 
+        SELECT t.buyer_email, t.seller_email, t.price, e.name as event_name, e.event_datetime, t.payment_processed_time 
         FROM transactions t 
         JOIN events e ON t.event_id = e.event_id 
         WHERE t.transaction_id = ?
         """,
         (transaction_id,)
     ).fetchone()
-    
-    if row:
-        # Get current time as payment processed time if not already set
-        if not row['payment_processed_time']:
-            # Store payment_processed_time as naive local time (no timezone info)
-            payment_processed_time = datetime.datetime.now().replace(second=0, microsecond=0)
-            # Update the payment_processed_time in the database (naive string)
-            connection.execute(
-                "UPDATE transactions SET payment_processed_time = ? WHERE transaction_id = ?",
-                (payment_processed_time.strftime('%Y-%m-%d %H:%M:%S'), transaction_id)
-            )
-        else:
-            # Convert string to datetime if it's a string
-            if isinstance(row['payment_processed_time'], str):
-                # Always interpret as naive local time
-                payment_processed_time = datetime.datetime.strptime(
-                    row['payment_processed_time'], 
-                    '%Y-%m-%d %H:%M:%S'
-                )
-            else:
-                payment_processed_time = row['payment_processed_time']
-        
-        # Parse event time
-        event_time = datetime.datetime.strptime(row['event_datetime'], '%Y-%m-%d %H:%M:%S')
-        # Ensure both are naive (no tzinfo)
-
-        time_to_event = (event_time - payment_processed_time).total_seconds() / 3600.0
-        
-        print(f"[DEBUG] payment_processed_time: {payment_processed_time}")
-        print(f"[DEBUG] event_time: {event_time}")
-        print(f"[DEBUG] time_to_event (hours): {time_to_event}")
-        
-        if time_to_event > 2:
-            # If event is more than 2 hours away, give seller 2 hours from payment processing
-            expected_send = (payment_processed_time + datetime.timedelta(hours=2)).replace(second=0, microsecond=0)
-        elif 1 < time_to_event <= 2:
-            # If event is 1-2 hours away, set deadline to 30 minutes before event
-            expected_send = (event_time - datetime.timedelta(minutes=30)).replace(second=0, microsecond=0)
-        else:  # Event is less than 1 hour away
-            # Give seller 1 minute to send the ticket from the time of payment processing
-            expected_send = (payment_processed_time + datetime.timedelta(minutes=1)).replace(second=0, microsecond=0)
-        
-        print(f"[DEBUG] expected_ticket_send_time: {expected_send}")
-        
-        connection.execute(
-            """
-            UPDATE transactions 
-            SET status = 'waiting_for_ticket_transfer', 
-                expected_ticket_send_time = ? 
-            WHERE transaction_id = ?
-            """,
-            (expected_send.strftime('%Y-%m-%d %H:%M:%S'), transaction_id)
-        )
+    # Calculate expected_send as 1 minute after payment_processed_time (or now if not available)
+    import datetime
+    payment_time = row['payment_processed_time']
+    if payment_time:
+        payment_dt = datetime.datetime.strptime(payment_time, '%Y-%m-%d %H:%M:%S')
+    else:
+        payment_dt = datetime.datetime.now()
+    expected_send = payment_dt + datetime.timedelta(minutes=1)
+    connection.execute(
+        """
+        UPDATE transactions 
+        SET status = 'waiting_for_ticket_transfer', 
+            expected_ticket_send_time = ? 
+        WHERE transaction_id = ?
+        """,
+        (expected_send.strftime('%Y-%m-%d %H:%M:%S'), transaction_id)
+    )
+    # Send acceptance confirmation email
+    if row['buyer_email'] and row['event_name'] and row['price'] and row['seller_email']:
+        send_accept_confirmation_email(row['buyer_email'], row['event_name'], row['price'], row['seller_email'])
     else:
         connection.execute(
             "UPDATE transactions SET status = 'waiting_for_ticket_transfer' WHERE transaction_id = ?",
             (transaction_id,)
         )
-    return flask.redirect(url_for('show_index', user_type='buyer'))
+    return "<html><body><h2>Thank you! Your payment was successful. You may now close this tab and return to your email.</h2></body></html>"
 
 @insta485.app.route('/cancel', methods=['GET', 'POST'])
 def payment_cancel():

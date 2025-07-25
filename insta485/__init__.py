@@ -16,6 +16,16 @@ app.config.from_object('insta485.config')
 # $ export INSTA485_SETTINGS=secret_key_config.py
 app.config.from_envvar('INSTA485_SETTINGS', silent=True)
 
+# Flask-Mail configuration for Gmail SMTP
+from flask_mail import Mail
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'sanjivp2703@gmail.com'
+app.config['MAIL_PASSWORD'] = 'slfa lcwa owan psxe'
+app.config['MAIL_DEFAULT_SENDER'] = 'sanjivp2703@gmail.com'
+mail = Mail(app)
+
 # Initialize scheduler (no timezone)
 scheduler = BackgroundScheduler()
 scheduler.start()
