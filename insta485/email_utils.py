@@ -32,7 +32,7 @@ def send_accept_confirmation_email(buyer_email, event_name, price, seller_email,
         # Use url_for to generate absolute URLs if possible, else set YOUR_DOMAIN to your deployed domain
         DOMAIN = "http://localhost:8000"  # CHANGE THIS to your deployed domain!
         confirm_url = f"{DOMAIN}/ticket_status/{transaction_id}?action=confirm"
-        cancel_url = f"{DOMAIN}/cancel?transaction_id={transaction_id}&user_type=buyer"
+        cancel_url = f"{DOMAIN}/cancel/{transaction_id}"
         confirm_btn = f'<a href="{confirm_url}" style="background:#28a745;color:white;padding:10px 18px;border:none;border-radius:4px;text-decoration:none;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;">I Received My Ticket</a>'
         cancel_btn = f'<a href="{cancel_url}" style="background:#dc3545;color:white;padding:10px 18px;border:none;border-radius:4px;text-decoration:none;margin-left:10px;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;">Cancel Transaction</a>'
     html = f'''

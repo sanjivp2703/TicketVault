@@ -481,6 +481,30 @@ def payment_cancel():
                 "UPDATE transactions SET status = 'cancelled' WHERE transaction_id = ?",
                 (transaction_id,)
             )
+            # Send cancellation email to buyer
+            transaction_info = connection.execute(
+                "SELECT buyer_email, event_id, price, seller_email FROM transactions WHERE transaction_id = ?",
+                (transaction_id,)
+            ).fetchone()
+            event_name = None
+            if transaction_info and transaction_info['event_id']:
+                event_row = connection.execute(
+                    "SELECT name FROM events WHERE event_id = ?",
+                    (transaction_info['event_id'],)
+                ).fetchone()
+                if event_row:
+                    event_name = event_row['name']
+            if transaction_info and transaction_info['buyer_email'] and event_name:
+                try:
+                    from insta485.send_cancelled_email import send_cancelled_email
+                    send_cancelled_email(
+                        transaction_info['buyer_email'],
+                        event_name,
+                        price=transaction_info['price'],
+                        seller_email=transaction_info['seller_email']
+                    )
+                except Exception as e:
+                    print(f"[EMAIL ERROR] Failed to send cancellation email: {e}")
             print(f"[PAYMENT] Safe-Transaction refunded buyer for transaction {transaction_id} (double cancellation).")
         connection.commit()
         flask.flash('Cancellation request submitted.')
@@ -529,34 +553,59 @@ def update_ticket_status(transaction_id):
             (transaction_id,)
         )
         return "<html><body><h2>Thank you! The buyer has been notified that the ticket was sent. You may now close this tab and return to your email.</h2></body></html>"
-    # Buyer confirms ticket received
-    elif action in ['confirm', 'received'] and user_type == 'buyer':
-        # Mark ticket as sent if not already
+    # Buyer or anyone with the link confirms ticket received
+    elif action in ['confirm', 'received']:
+        # Only check transaction_id, update status
         connection.execute(
             "UPDATE transactions SET status = 'ticket_sent' WHERE transaction_id = ?",
             (transaction_id,)
         )
-        # Then immediately mark as success
-        connection.execute(
-            "UPDATE transactions SET status = 'success' WHERE transaction_id = ?",
-            (transaction_id,)
-        )
-        # Gather transaction details for email
-        details = connection.execute(
-            "SELECT t.buyer_email, t.seller_email, t.price, e.name as event_name, e.event_datetime "
-            "FROM transactions t JOIN events e ON t.event_id = e.event_id "
-            "WHERE t.transaction_id = ?",
+        # Fetch transaction details for email
+        info = connection.execute(
+            "SELECT buyer_email, event_id, price, seller_email FROM transactions WHERE transaction_id = ?",
             (transaction_id,)
         ).fetchone()
-        # Calculate complaint deadline (4 hours after event)
+        event_name = None
+        event_datetime = None
+        if info and info['event_id']:
+            event_row = connection.execute(
+                "SELECT name, event_datetime FROM events WHERE event_id = ?",
+                (info['event_id'],)
+            ).fetchone()
+            if event_row:
+                event_name = event_row['name']
+                event_datetime = event_row['event_datetime']
+        # Calculate 48-hour complaint deadline from now
         import datetime
-        event_dt = datetime.datetime.strptime(details['event_datetime'], '%Y-%m-%d %H:%M:%S')
-        complaint_deadline = (event_dt + datetime.timedelta(hours=4)).strftime('%Y-%m-%d %I:%M %p')
-        from insta485.email_utils import send_ticket_received_email
-        send_ticket_received_email(details['buyer_email'], details['event_name'], details['price'], details['seller_email'], details['event_datetime'], complaint_deadline)
-        send_payment_seller(transaction_id)
-        return "<html><body><h2>Thank you for confirming! Payment to the seller will be processed. You may now close this tab and return to your email.</h2></body></html>"
-    return flask.redirect(flask.url_for('show_index', user_type=user_type or 'buyer'))
+        now = datetime.datetime.now()
+        complaint_deadline = (now + datetime.timedelta(hours=48)).strftime('%Y-%m-%d %I:%M %p')
+        if info and info['buyer_email'] and event_name and event_datetime:
+            try:
+                from insta485.email_utils import send_ticket_received_email
+                send_ticket_received_email(
+                    info['buyer_email'],
+                    event_name,
+                    price=info['price'],
+                    seller_email=info['seller_email'],
+                    event_datetime=event_datetime,
+                    complaint_deadline=complaint_deadline
+                )
+            except Exception as e:
+                print(f"[EMAIL ERROR] Failed to send ticket received email: {e}")
+        return "<html><body><h2>You have confirmed the ticket is sent. Please return to your email.</h2></body></html>"
+    # Default: show not found if no valid action
+    return "<html><body><h2>Invalid or missing action for this transaction.</h2></body></html>"
+
+@insta485.app.route('/cancel/<int:transaction_id>', methods=['GET', 'POST'])
+def simple_cancel(transaction_id):
+    """Buyer requests to cancel: set buyer_cancel_requested=1 and show confirmation."""
+    connection = insta485.model.get_db()
+    connection.execute(
+        "UPDATE transactions SET buyer_cancel_requested = 1 WHERE transaction_id = ?",
+        (transaction_id,)
+    )
+    connection.commit()
+    return "<html><body><h2>You have requested to cancel.</h2></body></html>"
 
 @insta485.app.route('/report_problem/<int:transaction_id>', methods=['POST'])
 def report_problem(transaction_id):
