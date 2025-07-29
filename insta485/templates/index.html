@@ -3,751 +3,1001 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safe-Transaction</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
+    <title>{% if user_type == 'buyer' %}Buy Tickets{% else %}Sell Tickets{% endif %} • Safe Transaction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            /* Trust-Building Color Palette */
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #00d4aa 0%, #00c896 100%);
+            --warning-gradient: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+            --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            --info-gradient: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            
+            /* Sophisticated Neutrals */
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-tertiary: #94a3b8;
+            --border-light: #e2e8f0;
+            --border-medium: #cbd5e1;
+            
+            /* Interactive States */
+            --hover-lift: translateY(-2px);
+            --hover-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            --active-scale: scale(0.98);
+            
+            /* Modern Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 0.75rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            
+            /* Border Radius System */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-2xl: 24px;
+            --radius-full: 9999px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background: linear-gradient(to right, #eef3f9, #cfe2ff);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 40px 20px;
-            color: #333;
-        }
-
-        .info-box {
-            padding: 14px 18px;
-            margin-bottom: 14px;
-            border-radius: 6px;
-            font-size: 15px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 1px 4px rgba(0,123,255,0.07);
-        }
-
-        .info-box i {
-            font-size: 20px;
-            margin-right: 12px;
-        }
-
-        .info-box-default {
-            background: #f3f8ff;
-            border-left: 5px solid #007bff;
-            color: #17416b;
-        }
-
-        .info-box-default i {
-            color: #007bff;
-        }
-
-        .info-box-warning {
-            background: #fff0f0;
-            border-left: 5px solid #e53935;
-            color: #b71c1c;
-        }
-
-        .info-box-warning i {
-            color: #e53935;
-        }
-
-        .flash-message {
-            padding: 15px 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            background-color: #e8f5e9; /* Light green background */
-            color: #2e7d32; /* Dark green text */
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            border: 1px solid #a5d6a7;
-        }
-
-        .flash-message i {
-            margin-right: 10px;
-            font-size: 20px;
-            color: #4caf50;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 30, 80, 0.1);
-            padding: 30px;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .header h1 {
-            font-size: 28px;
-            color: #1a3d7a;
-            margin: 0;
-        }
-
-        .header .user-info {
-            font-size: 14px;
-            color: #555;
-        }
-
-        .header a {
-            text-decoration: none;
-            color: #007bff;
-            font-weight: 500;
-            margin-left: 15px;
-        }
-
-        .view-toggle {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-
-        .view-toggle a {
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            color: #555;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .view-toggle a.active {
-            background-color: #007bff;
-            color: white;
-            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
-        }
-
-        .dashboard-title {
-            font-size: 22px;
-            color: #1a3d7a;
-            margin-bottom: 10px;
-        }
-
-        .dashboard-subtitle {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             font-size: 16px;
-            color: #666;
-            margin-bottom: 25px;
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        .transaction-grid {
+        /* Modern App Header */
+        .app-header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-md) var(--space-lg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-weight: 800;
+            font-size: 24px;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-gradient);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .user-avatar {
+            width: 44px;
+            height: 44px;
+            background: var(--primary-gradient);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .user-avatar:hover {
+            transform: var(--hover-lift);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .user-email {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .user-type-badge {
+            background: var(--success-gradient);
+            color: white;
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Main App Layout */
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-xl) var(--space-lg);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .hero-title {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 900;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-sm);
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: var(--space-xl);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Balance Card - CashApp Inspired */
+        .balance-hero {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-xl);
+            border: 1px solid var(--border-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .balance-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--success-gradient);
+        }
+
+        .balance-display {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .balance-amount {
+            font-size: 56px;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: var(--space-xs);
+            letter-spacing: -0.03em;
+        }
+
+        .balance-label {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .quick-actions {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-md);
+        }
+
+        /* Modern Button System */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            padding: var(--space-md) var(--space-lg);
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .btn:hover::before {
+            opacity: 1;
+        }
+
+        .btn:hover {
+            transform: var(--hover-lift);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .btn:active {
+            transform: var(--active-scale);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success-gradient);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-medium);
+        }
+
+        .btn-outline:hover {
+            background: var(--text-primary);
+            color: white;
+            border-color: var(--text-primary);
+        }
+
+        /* Tab Navigation - Venmo Inspired */
+        .tab-navigation {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xs);
+            margin-bottom: var(--space-xl);
+            display: flex;
+            gap: var(--space-xs);
+            border: 1px solid var(--border-light);
+        }
+
+        .tab-item {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-xs);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .tab-item.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .tab-count {
+            background: rgba(255, 255, 255, 0.2);
+            color: inherit;
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 700;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .tab-item:not(.active) .tab-count {
+            background: var(--bg-tertiary);
+            color: var(--text-tertiary);
+        }
+
+        /* Transaction Cards - Netflix/Spotify Inspired */
+        .transactions-grid {
+            display: grid;
+            gap: var(--space-lg);
         }
 
         .transaction-card {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            border: 1px solid var(--border-light);
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
         }
 
         .transaction-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transform: var(--hover-lift);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--border-medium);
         }
 
-        .transaction-card h3 {
-            font-size: 16px;
-            margin: 0 0 8px 0;
-            color: #333;
+        .transaction-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--success-gradient);
         }
 
-        .transaction-card p {
-            font-size: 14px;
-            color: #666;
-            margin: 0 0 15px 0;
+        .transaction-card.status-pending::before { background: var(--warning-gradient); }
+        .transaction-card.status-complaint::before { background: var(--danger-gradient); }
+        .transaction-card.status-waiting::before { background: var(--info-gradient); }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-lg);
         }
 
-        .transaction-card .actions a {
-            text-decoration: none;
-            color: #007bff;
-            font-weight: 500;
-            font-size: 14px;
+        .transaction-info {
+            flex: 1;
         }
 
-        .empty-message {
+        .transaction-id {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: var(--space-xs);
+        }
+
+        .event-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .price-display {
+            font-size: 28px;
+            font-weight: 900;
+            background: var(--success-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .status-badge {
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .status-pending {
+            background: rgba(255, 215, 0, 0.1);
+            color: #b8860b;
+        }
+
+        .status-success {
+            background: rgba(0, 212, 170, 0.1);
+            color: #00a085;
+        }
+
+        .status-complaint {
+            background: rgba(255, 107, 107, 0.1);
+            color: #d63031;
+        }
+
+        .status-waiting {
+            background: rgba(78, 205, 196, 0.1);
+            color: #00b894;
+        }
+
+        .card-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-lg);
+            margin: var(--space-lg) 0;
+            padding: var(--space-lg);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+        }
+
+        .detail-item {
             text-align: center;
-            padding: 40px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            color: #666;
         }
 
-        .section-divider {
-            border: 0;
-            height: 1px;
-            background: #e0e0e0;
-            margin: 40px 0;
+        .detail-label {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: var(--space-xs);
         }
 
-        .form-container h2 {
-            text-align: center;
-            color: #1a3d7a;
-            margin-bottom: 20px;
+        .detail-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .input-group {
+        .card-actions {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+            margin-top: var(--space-lg);
+        }
+
+        .btn-sm {
+            padding: var(--space-sm) var(--space-md);
+            font-size: 13px;
+            border-radius: var(--radius-sm);
+        }
+
+        /* Complaint Alert - Critical Design */
+        .complaint-alert {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            margin: var(--space-lg) 0;
             position: relative;
-            margin-bottom: 15px;
+            overflow: hidden;
         }
 
-                .input-group i {
+        .complaint-alert::before {
+            content: '';
             position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #aaa;
-        }
-
-        .autocomplete-items {
-            position: absolute;
-            border: 1px solid #d4d4d4;
-            border-bottom: none;
-            border-top: none;
-            z-index: 99;
-            top: 100%;
+            top: 0;
             left: 0;
             right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpolygon points='20 0 40 20 20 40 0 20'/%3E%3C/g%3E%3C/svg%3E");
+            animation: float 6s ease-in-out infinite;
         }
 
-        .autocomplete-items div {
-            padding: 10px;
-            cursor: pointer;
-            background-color: #fff;
-            border-bottom: 1px solid #d4d4d4;
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
 
-        .autocomplete-items div:hover {
-            background-color: #e9e9e9;
+        .complaint-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-md);
         }
 
-        .autocomplete-active {
-            background-color: DodgerBlue !important;
-            color: #ffffff;
+        .complaint-title {
+            font-size: 18px;
+            font-weight: 800;
         }
 
-        .btn-accept, .btn-reject {
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .btn-accept {
-            background-color: #28a745;
-        }
-
-        .btn-reject {
-            background-color: #dc3545;
-        }
-
-        .status-accepted {
-            color: #28a745;
-            font-weight: bold;
-        }
-
-        .status-rejected,
-        .status-terminated {
-            color: #dc3545; /* A bootstrap danger red */
-            font-weight: bold;
-        }
-
-        .status-waiting_for_payment_processing,
-        .status-waiting_for_ticket_transfer,
-        .status-ticket_sent {
-            color: #ff8c00;
-            font-weight: bold;
-        }
-
-        .status-payment_pending {
-            color: #e67e22;
-            font-weight: bold;
-        }
-
-        .status-complete {
-            color: #28a745;
-            font-weight: bold;
-        }
-
-        .btn-action {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            background-color: #007bff;
-            cursor: pointer;
-            font-weight: bold;
-            display: block;
-            width: 100%;
+        /* Empty States - Delightful */
+        .empty-state {
             text-align: center;
-            margin-top: 10px;
-            text-decoration: none;
+            padding: var(--space-2xl);
+            color: var(--text-secondary);
         }
 
-        .btn-action:hover {
-            background-color: #0056b3;
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-lg);
+            font-size: 32px;
+            color: var(--text-tertiary);
         }
 
-        .btn-danger {
-            background-color: #dc3545;
+        .empty-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: var(--space-sm);
+            color: var(--text-primary);
         }
 
-        .btn-danger:hover {
-            background-color: #c82333;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="number"] {
-            width: 100%;
-            padding: 12px 12px 12px 40px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-sizing: border-box;
-            transition: border-color 0.3s ease;
-        }
-
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="number"]:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-
-        input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-        }
-
-        input[type="submit"] {
-            width: 100%;
-            padding: 12px;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
+        .empty-subtitle {
             font-size: 16px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
+            margin-bottom: var(--space-xl);
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        input[type="submit"]:hover {
-            background: #218838;
+        /* Flash Messages - System Feedback */
+        .flash-messages {
+            position: fixed;
+            top: 80px;
+            right: var(--space-lg);
+            z-index: 1000;
+            max-width: 400px;
+        }
+
+        .flash-message {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: var(--space-md) var(--space-lg);
+            margin-bottom: var(--space-sm);
+            box-shadow: var(--hover-shadow);
+            animation: slideIn 0.3s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flash-message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--success-gradient);
+        }
+
+        .flash-message.error::before {
+            background: var(--danger-gradient);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .app-container {
+                padding: var(--space-lg) var(--space-md);
+            }
+
+            .header-content {
+                padding: var(--space-sm) var(--space-md);
+            }
+
+            .balance-hero {
+                padding: var(--space-lg);
+            }
+
+            .balance-amount {
+                font-size: 40px;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .tab-navigation {
+                flex-direction: column;
+                gap: var(--space-xs);
+            }
+
+            .card-details {
+                grid-template-columns: 1fr;
+                gap: var(--space-md);
+            }
+
+            .card-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid var(--text-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Accessibility Improvements */
+        .btn:focus,
+        .tab-item:focus {
+            outline: 2px solid var(--primary-gradient);
+            outline-offset: 2px;
+        }
+
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
-    <script>
-        function toggleDetails(transactionId) {
-            var details = document.getElementById('details-' + transactionId);
-            if (details.style.display === 'none' || details.style.display === '') {
-                details.style.display = 'block';
-            } else {
-                details.style.display = 'none';
-            }
-        }
-
-        function toggleProblemForm(transactionId) {
-            var form = document.getElementById('problem-form-' + transactionId);
-            if (form.style.display === 'none') {
-                form.style.display = 'block';
-            } else {
-                form.style.display = 'none';
-            }
-        }
-
-        function checkOtherReason(transactionId) {
-            var reasonSelect = document.getElementById('reason-' + transactionId);
-            var otherReasonDiv = document.getElementById('other-reason-div-' + transactionId);
-            if (reasonSelect.value === 'Other') {
-                otherReasonDiv.style.display = 'block';
-            } else {
-                otherReasonDiv.style.display = 'none';
-            }
-        }
-    </script>
 </head>
 <body>
+    <!-- Modern App Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <a href="{{ url_for('show_index', user_type=user_type) }}" class="brand">
+                <div class="brand-icon">
+                    <i class="fas fa-shield-check"></i>
+                </div>
+                Safe Transaction
+            </a>
+            
+            <div class="user-profile">
+                <div class="user-details">
+                    <div class="user-email">{{ logemail }}</div>
+                    <div class="user-type-badge">{{ user_type.title() }}</div>
+                </div>
+                <div class="user-avatar" onclick="showUserMenu()">
+                    {{ logemail[0].upper() }}
+                </div>
+            </div>
+        </div>
+    </header>
 
-    <div class="container">
+    <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
+            <div class="flash-messages">
             {% for category, message in messages %}
-              <div class="flash-message">
-                <i class="fa fa-check-circle"></i> {{ message }}
+                    <div class="flash-message {{ 'error' if category == 'error' else 'success' }}">
+                        <i class="fas fa-{% if category == 'error' %}exclamation-triangle{% else %}check-circle{% endif %}"></i>
+                        {{ message }}
               </div>
             {% endfor %}
+            </div>
           {% endif %}
         {% endwith %}
-        <div class="header">
-            <h1>Safe-Transaction</h1>
-            <div class="user-info">
-                Logged in as <strong>{{ logemail }}</strong>
-                <a href="{{ url_for('show_accounts', url='edit') }}">Edit Profile</a>
-                <a href="{{ url_for('logout') }}">Logout</a>
-            </div>
-        </div>
 
-
-        <div class="view-toggle">
-            <a href="{{ url_for('show_index', user_type='buyer') }}" class="{% if user_type == 'buyer' %}active{% endif %}">Buyer</a>
-            <a href="{{ url_for('show_index', user_type='seller') }}" class="{% if user_type == 'seller' %}active{% endif %}">Seller</a>
-        </div>
-
+    <!-- Main App Container -->
+    <div class="app-container">
+        <!-- Hero Section -->
+        <div class="hero-section">
         {% if user_type == 'buyer' %}
-            <h2 class="dashboard-title">Buyer Dashboard</h2>
-            <p class="dashboard-subtitle">Your secure way to manage all your purchases.</p>
+                <h1 class="hero-title">Buy Tickets Safely</h1>
+                <p class="hero-subtitle">Your secure marketplace for authentic tickets with 100% buyer protection</p>
         {% else %}
-            <h2 class="dashboard-title">Seller Dashboard</h2>
-            <p class="dashboard-subtitle">Your secure way to manage all your sales.</p>
+                <h1 class="hero-title">Sell Tickets Easily</h1>
+                <p class="hero-subtitle">The trusted platform to sell your tickets quickly and securely</p>
+        {% endif %}
+        </div>
+
+        <!-- Balance/Action Hero Card -->
+        {% if user_type == 'seller' %}
+            <div class="balance-hero">
+                <div class="balance-display">
+                    <div class="balance-amount">${{ user_balance }}</div>
+                    <div class="balance-label">Available Balance</div>
+                    </div>
+                
+                <div class="quick-actions">
+                    <a href="{{ url_for('create_listing') }}" class="btn btn-primary">
+                        <i class="fas fa-plus-circle"></i>
+                        Create New Listing
+                    </a>
+                    {% if user_balance >= 10 %}
+                        <a href="{{ url_for('withdraw_funds') }}" class="btn btn-success">
+                            <i class="fas fa-university"></i>
+                            Withdraw ${{ user_balance }}
+                        </a>
+        {% endif %}
+                    <a href="{{ url_for('show_balance') }}" class="btn btn-outline">
+                        <i class="fas fa-chart-line"></i>
+                        View Earnings
+                    </a>
+                            </div>
+                            </div>
+        {% else %}
+            <div class="balance-hero">
+                <div class="balance-display">
+                    <div class="balance-amount">{{ transactions|length }}</div>
+                    <div class="balance-label">Your Purchases</div>
+                    </div>
+                
+                <div class="quick-actions">
+                    <a href="{{ url_for('create_listing') }}" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                        Find Tickets
+                    </a>
+                    <a href="#" class="btn btn-outline">
+                        <i class="fas fa-heart"></i>
+                        Saved Events
+                    </a>
+                </div>
+            </div>
         {% endif %}
 
+        <!-- Tab Navigation -->
+        <nav class="tab-navigation">
+            <a href="{{ url_for('show_index', user_type=user_type, filter='active') }}" 
+               class="tab-item {% if view_filter == 'active' %}active{% endif %}">
+                <i class="fas fa-clock"></i>
+                Active
+                <span class="tab-count">{{ active_count }}</span>
+            </a>
+            <a href="{{ url_for('show_index', user_type=user_type, filter='history') }}" 
+               class="tab-item {% if view_filter == 'history' %}active{% endif %}">
+                <i class="fas fa-history"></i>
+                History
+                <span class="tab-count">{{ history_count }}</span>
+            </a>
+            <a href="{{ url_for('show_index', user_type=user_type, filter='all') }}" 
+               class="tab-item {% if view_filter == 'all' %}active{% endif %}">
+                <i class="fas fa-list"></i>
+                All
+                <span class="tab-count">{{ total_count }}</span>
+            </a>
+        </nav>
+
+        <!-- Transactions Grid -->
         {% if transactions %}
-            <div class="transaction-grid">
-                {% for trans in transactions %}
-
-
-                <div class="transaction-card">
-                    <h3>{{ trans.ticket_description or 'Untitled Transaction' }}</h3>
-                <span class="status-label status-{{ trans.status }}" style="display:inline-block; margin-bottom:7px; padding:2px 10px; border-radius:12px; font-size:0.97em; font-weight:500; background:#f1f4fa; color:#1a3d7a; border:1px solid #e0e7ef;">
-                Status: <span class="status-{{ trans.status }}">{{ trans.status.replace('_', ' ').title() }}</span>
-                </span>
-                    <p>Price: ${{ trans.price }}</p>
-                    <div class="transaction-details">
-                        <p>Location: {{ trans.location }}</p>
-                        <p>Date: {{ trans.event_datetime_str }}</p>
-                        {% if user_type == 'buyer' %}
-                            <p>From: {{ trans.seller_email }}</p>
-                        {% else %}
-                            <p>To: {{ trans.buyer_email }}</p>
-                        {% endif %}
-                    </div>
-    <div class="actions">
-    {% if trans.status == 'pending' %}
-        {% if user_type == 'buyer' %}
-            <form action="{{ url_for('update_transaction_status', transaction_id=trans.transaction_id) }}" method="post">
-                <input type="hidden" name="status" value="waiting_for_payment_processing">
-                <button type="submit" class="btn-accept">Accept & Pay</button>
-            </form>
-            <form action="{{ url_for('update_transaction_status', transaction_id=trans.transaction_id) }}" method="post">
-                <input type="hidden" name="status" value="rejected">
-                <button type="submit" class="btn-reject">Reject</button>
-            </form>
-        {% elif user_type == 'seller' %}
-            <div class="info-box info-box-default">Waiting for buyer to accept or reject.</div>
-        {% endif %}
-
-    {% elif trans.status == 'rejected' %}
-        <div class="info-box info-box-warning"><i class="fa fa-times-circle"></i> Transaction was rejected by the buyer.</div>
-
-    {% elif trans.status == 'waiting_for_payment_processing' %}
-        {% if user_type == 'buyer' %}
-            <div class="info-box info-box-default">Please complete payment to proceed.</div>
-        {% elif user_type == 'seller' %}
-            <div class="info-box info-box-default">Waiting for buyer to complete payment.</div>
-        {% endif %}
-
-    {% elif trans.status == 'waiting_for_ticket_transfer' %}
-        {% if user_type == 'buyer' %}
-            <div class="info-box info-box-default">Waiting for seller to send the ticket.</div>
-            {% include 'cancel_block.html' %}
-        {% elif user_type == 'seller' %}
-            <form action="{{ url_for('update_ticket_status', transaction_id=trans.transaction_id) }}" method="post">
-                <input type="hidden" name="action" value="sent">
-                <button type="submit" class="btn-action">I've Sent the Ticket</button>
-            </form>
-            {% include 'cancel_block.html' %}
-        {% endif %}
-
-    {% elif trans.status == 'ticket_sent' %}
-        {% if user_type == 'buyer' %}
-            <div class="info-box info-box-success">Ticket has been sent! Please confirm it's correct. If not, you can file a complaint after the event starts.</div>
-            {% include 'cancel_block.html' %}
-        {% elif user_type == 'seller' %}
-            <div class="info-box info-box-default">Waiting for buyer to confirm ticket or file complaint after event.</div>
-            {% include 'cancel_block.html' %}
-            {% if trans.buyer_cancel_requested and trans.status != 'cancelled' %}
-                <div class="info-box info-box-warning">Buyer has requested to cancel this transaction. If you agree, please also request cancellation.</div>
-            {% endif %}
-        {% endif %}
-
-    {% elif trans.status == 'event_occurred' %}
-        {% if user_type == 'buyer' %}
-            <div class="info-box info-box-event" style="background: #fffbe6; border-left: 5px solid #ffc107; padding: 1.2em; margin: 1.2em 0; border-radius: 6px; display: flex; align-items: flex-start;">
-                <i class="fa fa-star" style="color: #ffc107; font-size: 1.7em; margin-right: 0.7em;"></i>
-                <div style="display: inline-block; vertical-align: top;">
-                    <div style="font-weight: bold; font-size: 1.2em; margin-bottom: 0.3em;">Event Started</div>
-                    <div style="color: #333; margin-bottom: 1em;">You have 1 minute to file a complaint if your ticket didn’t work.</div>
-                    <button class="btn-action btn-danger" onclick="toggleProblemForm('event-{{ trans.transaction_id }}')">File a Complaint</button>
-                    <div id="problem-form-event-{{ trans.transaction_id }}" class="problem-form" style="display: none; margin-top: 1em;">
-                        <form action="{{ url_for('report_problem', transaction_id=trans.transaction_id) }}" method="post">
-                            <div class="form-group">
-                                <label for="reason-event-{{ trans.transaction_id }}">Reason:</label>
-                                <select name="reason" id="reason-event-{{ trans.transaction_id }}" onchange="checkOtherReason('event-{{ trans.transaction_id }}')">
-                                    <option value="Never Got Ticket">Never Got Ticket</option>
-                                    <option value="Wrong Event">Wrong Event</option>
-                                    <option value="Wrong Seat">Wrong Seat</option>
-                                    <option value="Other">Other</option>
-                                </select>
+            <div class="transactions-grid">
+                {% for transaction in transactions %}
+                    <div class="transaction-card status-{{ transaction.status.replace(' ', '-').replace('_', '-') }}">
+                        <div class="card-header">
+                            <div class="transaction-info">
+                                <div class="transaction-id">Transaction #{{ transaction.transaction_id }}</div>
+                                <div class="event-name">{{ transaction.event_name }}</div>
+                                <div class="price-display">${{ transaction.price }}</div>
                             </div>
-                            <div id="other-reason-div-event-{{ trans.transaction_id }}" class="form-group" style="display: none;">
-                                <label for="other_reason-event-{{ trans.transaction_id }}">Please specify:</label>
-                                <textarea name="other_reason" id="other_reason-event-{{ trans.transaction_id }}" rows="3"></textarea>
-                            </div>
-                            <button type="submit" class="btn-action btn-danger">Submit Complaint</button>
-                        </form>
-                    </div>
-                    <form action="{{ url_for('update_ticket_status', transaction_id=trans.transaction_id) }}" method="post" style="display:inline; margin-right: 1em; margin-top: 1em;">
-                        <input type="hidden" name="action" value="received">
-                        <button type="submit" class="btn-action btn-success">Ticket Worked</button>
-                    </form>
-                    <span style="color: #b85c00; font-size: 0.95em; margin-left: 0.5em;">You have 1 minute to claim if the ticket didn’t work.</span>
-                </div>
-            </div>
-        {% elif user_type == 'seller' %}
-            <div class="info-box info-box-event" style="background: #fff8e1; border-left: 5px solid #ffc107; padding: 1.2em; margin: 1.2em 0; border-radius: 6px; display: flex; align-items: flex-start;">
-                <i class="fa fa-trophy" style="color: #ffc107; font-size: 1.7em; margin-right: 0.7em;"></i>
-                <div style="display: inline-block; vertical-align: top;">
-                    <div style="font-weight: bold; font-size: 1.2em; margin-bottom: 0.3em;">Event Occurred</div>
-                    <div style="margin-bottom: 0.7em; color: #333;">If the ticket worked, you’ll receive your money in 1 minute. If the buyer files a complaint, we’ll notify you.</div>
-                </div>
-            </div>
-        {% endif %}
-
-    {% elif trans.status == 'success' %}
-        <div class="info-box info-box-success" style="background: #e8f5e9; border-left: 5px solid #43a047; padding: 1.1em; margin: 1.1em 0; border-radius: 6px; display: flex; align-items: flex-start;">
-            <i class="fa fa-check-circle" style="color: #43a047; font-size: 1.5em; margin-right: 0.7em;"></i>
-            <div style="display: inline-block; vertical-align: top; text-align: left;">
-                {% if user_type == 'buyer' %}
-                    <div style="font-weight: bold; font-size: 1.15em; margin-bottom: 0.3em; color: #2e7d32;">You’re all set!</div>
-                    <div style="color: #333;">Thanks for using Safe Transaction. If you have any problems, contact us.</div>
-                {% elif user_type == 'seller' %}
-                    <div style="font-weight: bold; font-size: 1.15em; margin-bottom: 0.3em; color: #1976d2;">Thanks for using Safe Transaction!</div>
-                    <div style="color: #333;">Payment has been sent to you.</div>
+                            <div class="status-badge status-{{ transaction.status.replace(' ', '-').replace('_', '-') }}">
+                                {% if transaction.status == 'pending' %}
+                                    <i class="fas fa-clock"></i> Pending
+                                {% elif transaction.status == 'success' %}
+                                    <i class="fas fa-check-circle"></i> Complete
+                                {% elif transaction.status == 'complaint_filed' %}
+                                    <i class="fas fa-exclamation-triangle"></i> Issue
+                                {% elif 'waiting' in transaction.status %}
+                                    <i class="fas fa-hourglass-half"></i> In Progress
+                                {% else %}
+                                    {{ transaction.status.replace('_', ' ').title() }}
                 {% endif %}
             </div>
         </div>
 
-    {% elif trans.status == 'complete' %}
-        <div class="info-box info-box-success" style="background: #e8f5e9; border-left: 5px solid #43a047; padding: 1.1em; margin: 1.1em 0; border-radius: 6px;">
-            <i class="fa fa-check-circle" style="color: #43a047; font-size: 1.5em; margin-right: 0.7em;"></i>
-            <div style="display: inline-block; vertical-align: top; text-align: left;">
-                {% if user_type == 'buyer' %}
-                    <div style="font-weight: bold; font-size: 1.15em; margin-bottom: 0.3em; color: #2e7d32;">You’re all set!</div>
-                    <div style="color: #333;">Thanks for using Safe Transaction.<br>
-                    If you have any problems, contact us at <a href="mailto:safetransaction@gmail.com">safetransaction@gmail.com</a>.</div>
-                {% elif user_type == 'seller' %}
-                    <div style="font-weight: bold; font-size: 1.15em; margin-bottom: 0.3em; color: #1976d2;">Thanks for using Safe Transaction!</div>
-                    <div style="color: #333;">Payment has been sent to you.</div>
+                        <div class="card-details">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    {% if user_type == 'seller' %}Buyer{% else %}Seller{% endif %}
+                                </div>
+                                <div class="detail-value">
+                                    {% if user_type == 'seller' %}
+                                        {{ transaction.buyer_email.split('@')[0] }}
+                                    {% else %}
+                                        {{ transaction.seller_email.split('@')[0] }}
                 {% endif %}
             </div>
         </div>
-
-    {% elif trans.status == 'cancelled' %}
-        <div class="info-box info-box-cancelled" style="background: #f3f7fa; border-left: 5px solid #1976d2; padding: 1.2em; margin: 1.2em 0; border-radius: 6px; display: flex; align-items: flex-start;">
-            <i class="fa fa-undo" style="color: #1976d2; font-size: 1.7em; margin-right: 0.7em;"></i>
-            <div style="display: inline-block; vertical-align: top;">
-                <div style="font-weight: bold; font-size: 1.2em; margin-bottom: 0.3em; color: #1976d2;">Transaction Cancelled</div>
-                {% if user_type == 'buyer' %}
-                    <div style="color: #333; margin-bottom: 0.7em;">This transaction was cancelled by mutual agreement. You have been refunded in full.</div>
-                    <div style="color: #555; font-size: 0.97em;">If you have any questions, contact us at <a href="mailto:safetransaction@gmail.com">safetransaction@gmail.com</a>.</div>
-                {% elif user_type == 'seller' %}
-                    <div style="color: #333; margin-bottom: 0.7em;">This transaction was cancelled by mutual agreement. The buyer will be refunded in full.</div>
-                    <div style="color: #555; font-size: 0.97em;">If you have any questions, contact us at <a href="mailto:safetransaction@gmail.com">safetransaction@gmail.com</a>.</div>
-                {% endif %}
+                            <div class="detail-item">
+                                <div class="detail-label">Date</div>
+                                <div class="detail-value">{{ transaction.created_date }}</div>
             </div>
         </div>
 
-    {% elif trans.status == 'complaint_filed' %}
-        <div class="info-box info-box-danger" style="background: #fff3f3; border-left: 5px solid #e53935; padding: 1.1em; margin: 1.1em 0; border-radius: 6px;">
-            <i class="fa fa-exclamation-circle" style="color: #e53935; font-size: 1.5em; margin-right: 0.7em;"></i>
-            <div style="display: inline-block; vertical-align: top;">
-                <div style="font-weight: bold; font-size: 1.15em; margin-bottom: 0.3em; color: #e53935;">Transaction Under Complaint</div>
-                <div style="color: #333;">Complaint: {{ trans.complaint_reason }}</div>
-                <div style="margin-top: 0.6em; color: #b71c1c; font-size: 0.99em; font-weight: 500;">This complaint will be reviewed and resolved within 48 hours.</div>
+                        <!-- Complaint Alert for Sellers -->
+                        {% if user_type == 'seller' and transaction.status == 'complaint_filed' %}
+                            <div class="complaint-alert">
+                                <div class="complaint-header">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <div class="complaint-title">URGENT: Action Required</div>
             </div>
+                                <p><strong>Issue:</strong> {{ transaction.complaint_reason }}</p>
+                                <p><strong>Deadline:</strong> 24 hours to provide proof or automatic refund</p>
+                                <div style="margin-top: var(--space-md);">
+                                    <a href="mailto:support@safetransaction.com?subject=Proof%20for%20Transaction%20{{ transaction.transaction_id }}" 
+                                       class="btn btn-primary btn-sm">
+                                        <i class="fas fa-paper-plane"></i> Send Proof Now
+                                    </a>
         </div>
     </div>
-    {% elif trans.status == 'complaint - refunded buyer' %}
-        <div class="info-box info-box-cancelled" style="background: #f3f7fa; border-left: 5px solid #1976d2; padding: 1.2em; margin: 1.2em 0; border-radius: 6px; display: flex; align-items: flex-start;">
-            <i class="fa fa-undo" style="color: #1976d2; font-size: 1.7em; margin-right: 0.7em;"></i>
-            <div style="display: inline-block; vertical-align: top;">
-                <div style="font-weight: bold; font-size: 1.2em; margin-bottom: 0.3em; color: #1976d2;">Complaint Resolved - Buyer Refunded</div>
-                {% if user_type == 'buyer' %}
-                    <div style="color: #333; margin-bottom: 0.7em;">Your complaint was resolved in your favor. You have been refunded in full.</div>
-                    <div style="color: #555; font-size: 0.97em;">If you have any questions, contact us at <a href="mailto:safetransaction@gmail.com">safetransaction@gmail.com</a>.</div>
-                {% elif user_type == 'seller' %}
-                    <div style="color: #333; margin-bottom: 0.7em;">The complaint was resolved in favor of the buyer. The buyer has been refunded in full.</div>
-                    <div style="color: #555; font-size: 0.97em;">If you have any questions, contact us at <a href="mailto:safetransaction@gmail.com">safetransaction@gmail.com</a>.</div>
                 {% endif %}
-            </div>
-        </div>
-    {% elif trans.status == 'complaint - paid seller' %}
-        <div class="info-box info-box-success" style="background: #e8f5e9; border-left: 5px solid #43a047; padding: 1.1em; margin: 1.1em 0; border-radius: 6px; display: flex; align-items: flex-start;">
-            <i class="fa fa-check-circle" style="color: #43a047; font-size: 1.5em; margin-right: 0.7em;"></i>
-            <div style="display: inline-block; vertical-align: top; text-align: left;">
-                {% if user_type == 'buyer' %}
-                    <div style="font-weight: bold; font-size: 1.15em; margin-bottom: 0.3em; color: #2e7d32;">Complaint Resolved - Seller Paid</div>
-                    <div style="color: #333;">Your complaint was resolved in favor of the seller. No refund will be issued.</div>
-                    <div style="color: #555; font-size: 0.97em; margin-top: 0.7em;">If you have any questions, contact us at <a href="mailto:safetransaction@gmail.com">safetransaction@gmail.com</a>.</div>
-                {% elif user_type == 'seller' %}
-                    <div style="font-weight: bold; font-size: 1.15em; margin-bottom: 0.3em; color: #1976d2;">Complaint Resolved - You Were Paid</div>
-                    <div style="color: #333;">The complaint was resolved in your favor. Payment has been sent to you.</div>
-                    <div style="color: #555; font-size: 0.97em; margin-top: 0.7em;">If you have any questions, contact us at <a href="mailto:safetransaction@gmail.com">safetransaction@gmail.com</a>.</div>
+
+                        <!-- Transaction Actions -->
+                        <div class="card-actions">
+                            {% if user_type == 'seller' %}
+                                {% if transaction.status == 'waiting_for_ticket_transfer' %}
+                                    <button onclick="markTicketSent({{ transaction.transaction_id }})" class="btn btn-success btn-sm">
+                                        <i class="fas fa-paper-plane"></i> Mark Sent
+                                    </button>
+                                {% endif %}
+                            {% else %}
+                                {% if transaction.status == 'pending' %}
+                                    <a href="{{ url_for('buyer_ticket_card', transaction_id=transaction.transaction_id) }}" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-credit-card"></i> Pay Now
+                                    </a>
+                                {% elif transaction.status == 'ticket_sent' %}
+                                    <a href="{{ url_for('validate_ticket', transaction_id=transaction.transaction_id) }}" class="btn btn-success btn-sm">
+                                        <i class="fas fa-check-circle"></i> Confirm Received
+                                    </a>
+                                    <a href="{{ url_for('buyer_ticket_card', transaction_id=transaction.transaction_id) }}#complaint" class="btn btn-outline btn-sm">
+                                        <i class="fas fa-flag"></i> Report Issue
+                                    </a>
                 {% endif %}
     {% endif %}
 
+                            <a href="{{ url_for('buyer_ticket_card', transaction_id=transaction.transaction_id) }}" class="btn btn-outline btn-sm">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
     </div>
     </div>
-
     {% endfor %}
+            </div>
+        {% else %}
+            <!-- Empty State -->
+            <div class="empty-state">
+                <div class="empty-icon">
+                    {% if view_filter == 'active' %}
+                        <i class="fas fa-clock"></i>
+                    {% elif view_filter == 'history' %}
+                        <i class="fas fa-history"></i>
+                    {% else %}
+                        <i class="fas fa-ticket-alt"></i>
     {% endif %}
     </div>
+                <h3 class="empty-title">
+                    {% if view_filter == 'active' %}
+                        No Active Transactions
+                    {% elif view_filter == 'history' %}
+                        No Transaction History
+                    {% else %}
+                        No Transactions Yet
+                    {% endif %}
+                </h3>
+                <p class="empty-subtitle">
     {% if user_type == 'seller' %}
-    <div class="seller-initiate-area" style="margin-top: 40px; padding: 24px; background: #f8fbff; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,123,255,0.07);">
-      <h3 style="margin-bottom: 16px; color: #1976d2;">Initiate a New Sale</h3>
-      <form action="{{ url_for('initiate_transaction') }}" method="post" style="display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end;">
-        <input type="hidden" name="user_type" value="seller">
-        <div style="flex: 1; min-width: 220px; position: relative;">
-          <label for="event-search" style="font-weight: 500;">Event</label>
-          <input id="event-search" name="ticket_description" type="text" class="form-control" placeholder="Search for event..." required style="width: 100%; padding: 10px; border: 1px solid #bcdffb; border-radius: 5px;">
-        </div>
-        <div style="flex: 1; min-width: 120px;">
-          <label for="price" style="font-weight: 500;">Price ($)</label>
-          <input id="price" name="price" type="number" min="1" class="form-control" placeholder="Enter price" required style="width: 100%; padding: 10px; border: 1px solid #bcdffb; border-radius: 5px;">
-        </div>
-        <div style="flex: 1; min-width: 220px;">
-          <label for="buyer" style="font-weight: 500;">Buyer Email</label>
-          <input id="buyer" name="buyer" type="email" class="form-control" placeholder="Enter buyer's email" required style="width: 100%; padding: 10px; border: 1px solid #bcdffb; border-radius: 5px;">
-        </div>
-        <div style="flex: 0 0 auto;">
-          <button type="submit" class="btn-action btn-primary" style="padding: 10px 28px; border-radius: 6px; background: #1976d2; color: #fff; font-weight: 600; border: none;">Initiate Sale</button>
-        </div>
-      </form>
-      <div style="margin-top: 10px; color: #888; font-size: 0.98em;">Search for an event, set a price, and specify the buyer's email to start a transaction.</div>
+                        {% if view_filter == 'active' %}
+                            All your transactions are complete. Ready to create a new listing?
+                        {% else %}
+                            Start by creating your first ticket listing to begin selling safely.
+                        {% endif %}
+                    {% else %}
+                        {% if view_filter == 'active' %}
+                            No pending purchases. Find tickets to buy safely!
+                        {% else %}
+                            You haven't made any purchases yet. Start browsing for tickets!
+                        {% endif %}
+                    {% endif %}
+                </p>
+                {% if user_type == 'seller' %}
+                    <a href="{{ url_for('create_listing') }}" class="btn btn-primary">
+                        <i class="fas fa-plus-circle"></i> Create Your First Listing
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('create_listing') }}" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Browse Available Tickets
+                    </a>
+                {% endif %}
     </div>
     {% endif %}
+    </div>
 
     <script>
-        function toggleDetails(transactionId) {
-            var details = document.getElementById('details-' + transactionId);
-            if (details.style.display === 'none' || details.style.display === '') {
-                details.style.display = 'block';
-            } else {
-                details.style.display = 'none';
+        function markTicketSent(transactionId) {
+            if (confirm('Have you successfully transferred the ticket to the buyer?')) {
+                const card = document.querySelector(`[data-transaction-id="${transactionId}"]`);
+                if (card) card.classList.add('loading');
+                
+                fetch(`/ticket_status/${transactionId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'action=sent'
+                }).then(() => {
+                    location.reload();
+                }).catch(() => {
+                    if (card) card.classList.remove('loading');
+                    alert('Failed to update status. Please try again.');
+                });
             }
         }
 
-        function toggleProblemForm(transactionId) {
-            var form = document.getElementById('problem-form-' + transactionId);
-            if (form.style.display === 'none') {
-                form.style.display = 'block';
-            } else {
-                form.style.display = 'none';
-            }
+        function showUserMenu() {
+            // Could implement a dropdown menu here
+            window.location.href = '{{ url_for("logout") }}';
         }
 
-        function checkOtherReason(transactionId) {
-            var reasonSelect = document.getElementById('reason-' + transactionId);
-            var otherReasonDiv = document.getElementById('other-reason-div-' + transactionId);
-            if (reasonSelect.value === 'Other') {
-                otherReasonDiv.style.display = 'block';
-            } else {
-                otherReasonDiv.style.display = 'none';
-            }
-        }
-
-        // Autocomplete script
-        function autocomplete(inp) {
-            var currentFocus;
-            inp.addEventListener("input", function(e) {
-                var a, b, i, val = this.value;
-                closeAllLists();
-                if (!val) { return false;}
-                currentFocus = -1;
-                a = document.createElement("DIV");
-                a.setAttribute("id", this.id + "autocomplete-list");
-                a.setAttribute("class", "autocomplete-items");
-                this.parentNode.appendChild(a);
-
-                fetch(`/api/events?q=${val}`)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(item => {
-                        b = document.createElement("DIV");
-                        b.innerHTML = "<strong>" + item.name.substr(0, val.length) + "</strong>";
-                        b.innerHTML += item.name.substr(val.length);
-                        b.innerHTML += "<input type='hidden' value='" + item.name + "'>";
-                        b.addEventListener("click", function(e) {
-                            inp.value = this.getElementsByTagName("input")[0].value;
-                            closeAllLists();
-                        });
-                        a.appendChild(b);
-                    });
+        // Auto-dismiss flash messages
+        document.addEventListener('DOMContentLoaded', function() {
+            const flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(message => {
+                setTimeout(() => {
+                    message.style.animation = 'slideOut 0.3s ease-in forwards';
+                    setTimeout(() => message.remove(), 300);
+                }, 5000);
                 });
             });
 
-            inp.addEventListener("keydown", function(e) {
-                var x = document.getElementById(this.id + "autocomplete-list");
-                if (x) x = x.getElementsByTagName("div");
-                if (e.keyCode == 40) {
-                    currentFocus++;
-                    addActive(x);
-                } else if (e.keyCode == 38) { //up
-                    currentFocus--;
-                    addActive(x);
-                } else if (e.keyCode == 13) {
-                    e.preventDefault();
-                    if (currentFocus > -1) {
-                        if (x) x[currentFocus].click();
-                    }
-                }
-            });
-
-            function addActive(x) {
-                if (!x) return false;
-                removeActive(x);
-                if (currentFocus >= x.length) currentFocus = 0;
-                if (currentFocus < 0) currentFocus = (x.length - 1);
-                x[currentFocus].classList.add("autocomplete-active");
-            }
-
-            function removeActive(x) {
-                for (var i = 0; i < x.length; i++) {
-                    x[i].classList.remove("autocomplete-active");
-                }
-            }
-
-            function closeAllLists(elmnt) {
-                var x = document.getElementsByClassName("autocomplete-items");
-                for (var i = 0; i < x.length; i++) {
-                    if (elmnt != x[i] && elmnt != inp) {
-                        x[i].parentNode.removeChild(x[i]);
-                    }
-                }
-            }
-
-            document.addEventListener("click", function (e) {
-                closeAllLists(e.target);
-            });
-        }
-
-        autocomplete(document.getElementById("event-search"));
+        // Add CSS for slide out animation
+        const style = document.createElement('style');
+        style.textContent = '@keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }';
+        document.head.appendChild(style);
     </script>
-    
 </body>
 </html>

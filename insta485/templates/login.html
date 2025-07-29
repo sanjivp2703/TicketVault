@@ -101,6 +101,55 @@
             box-shadow: 0px 6px 20px rgba(0, 123, 255, 0.3);
         }
 
+        /* Skip Login Development Buttons */
+        .dev-buttons {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed #ffc107;
+            background: #fff9c4;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .dev-buttons h3 {
+            color: #856404;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .skip-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 5px;
+            background: #ffc107;
+            color: #212529;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+            border: 2px solid #ffc107;
+        }
+
+        .skip-btn:hover {
+            background: #e0a800;
+            border-color: #e0a800;
+            transform: translateY(-1px);
+        }
+
+        .skip-btn.admin {
+            background: #dc3545;
+            border-color: #dc3545;
+            color: white;
+        }
+
+        .skip-btn.admin:hover {
+            background: #c82333;
+            border-color: #c82333;
+        }
+
         /* Sign-up section */
         .signup-container {
             text-align: center;
@@ -151,6 +200,20 @@
             <input type="submit" value="Log In" />
             <input type="hidden" name="operation" value="login" />
         </form>
+
+        <!-- TEMPORARY: Development Skip Login Buttons -->
+        <div class="dev-buttons">
+            <h3>🚧 Development Mode - Skip Login</h3>
+            <a href="{{ url_for('skip_login', user_type='buyer') }}" class="skip-btn">
+                👤 Login as Buyer
+            </a>
+            <a href="{{ url_for('skip_login', user_type='seller') }}" class="skip-btn">
+                🛒 Login as Seller
+            </a>
+            <a href="{{ url_for('skip_login', user_type='admin') }}" class="skip-btn admin">
+                👑 Login as Admin
+            </a>
+        </div>
     </div>
 
     <div class="signup-container">

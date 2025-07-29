@@ -1,6 +1,6 @@
 @echo off
 echo ========================================
-echo    Safe-Transaction App Setup & Run
+echo    Safe-Transaction App Setup ^& Run
 echo ========================================
 
 REM Check if virtual environment exists
@@ -58,4 +58,9 @@ echo App will be available at: http://localhost:8000
 echo Press Ctrl+C to stop the server
 echo.
 
-flask --app insta485 --debug run --host 0.0.0.0 --port 8000 
+REM Start Flask and handle Ctrl+C properly
+flask --app insta485 --debug run --host 0.0.0.0 --port 8000
+
+REM Clean shutdown message
+echo.
+echo App stopped. Cleaning up... 

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw Funds - Safe Transaction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .balance-info {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            border-left: 4px solid #28a745;
+        }
+
+        .balance-amount {
+            font-size: 28px;
+            font-weight: 700;
+            color: #28a745;
+            margin-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input[type="number"], input[type="text"], select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #28a745;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .btn-submit {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background: #218838;
+        }
+
+        .btn-cancel {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            margin-top: 15px;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+
+        .btn-cancel:hover {
+            background: #5a6268;
+            color: white;
+            text-decoration: none;
+        }
+
+        .security-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #007bff;
+        }
+
+        .security-info h4 {
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .security-info ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #666;
+        }
+
+        .security-info li {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            color: #856404;
+        }
+
+        .flash-message {
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .flash-message.error {
+            background: #f8d7da;
+            border-color: #f1aeb5;
+            color: #721c24;
+        }
+
+        .input-help {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .amount-suggestions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .amount-btn {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .amount-btn:hover {
+            background: #e8f5e8;
+            border-color: #28a745;
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fa fa-bank"></i> Withdraw Funds</h1>
+            <p>Transfer your earnings to your bank account</p>
+        </div>
+        
+        <div class="content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash-message {% if category == 'error' %}error{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="balance-info">
+                <div class="balance-amount">${{ balance }}</div>
+                <div>Available Balance</div>
+            </div>
+
+            {% if balance < 10 %}
+                <div class="warning">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <strong>Minimum withdrawal amount is $10.</strong> Complete more transactions to withdraw funds.
+                </div>
+                <a href="{{ url_for('show_balance') }}" class="btn-cancel">Back to Balance</a>
+            {% else %}
+                <form method="post">
+                    <div class="form-group">
+                        <label for="amount"><i class="fa fa-dollar"></i> Withdrawal Amount</label>
+                        <input type="number" id="amount" name="amount" min="10" max="{{ balance }}" 
+                               placeholder="Enter amount to withdraw" required>
+                        <div class="input-help">Minimum: $10 | Maximum: ${{ balance }}</div>
+                        <div class="amount-suggestions">
+                            {% if balance >= 50 %}
+                                <button type="button" class="amount-btn" onclick="setAmount(50)">$50</button>
+                            {% endif %}
+                            {% if balance >= 100 %}
+                                <button type="button" class="amount-btn" onclick="setAmount(100)">$100</button>
+                            {% endif %}
+                            {% if balance >= 200 %}
+                                <button type="button" class="amount-btn" onclick="setAmount(200)">$200</button>
+                            {% endif %}
+                            <button type="button" class="amount-btn" onclick="setAmount({{ balance }})">All (${{ balance }})</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bank_name"><i class="fa fa-university"></i> Bank Name</label>
+                        <input type="text" id="bank_name" name="bank_name" 
+                               placeholder="e.g., Chase, Bank of America" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="routing_number"><i class="fa fa-hashtag"></i> Routing Number</label>
+                            <input type="text" id="routing_number" name="routing_number" 
+                                   pattern="[0-9]{9}" maxlength="9" placeholder="9-digit routing number" required>
+                            <div class="input-help">9-digit bank routing number</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="account_number"><i class="fa fa-credit-card"></i> Account Number</label>
+                            <input type="text" id="account_number" name="account_number" 
+                                   placeholder="Your account number" required>
+                            <div class="input-help">We only store last 4 digits</div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fa fa-paper-plane"></i> Submit Withdrawal Request
+                    </button>
+                </form>
+
+                <a href="{{ url_for('show_balance') }}" class="btn-cancel">Cancel</a>
+
+                <div class="security-info">
+                    <h4><i class="fa fa-shield"></i> Security & Processing</h4>
+                    <ul>
+                        <li>We use bank-level encryption to protect your information</li>
+                        <li>Only the last 4 digits of your account number are stored</li>
+                        <li>Withdrawals are processed within 3-5 business days</li>
+                        <li>You'll receive an email confirmation once processed</li>
+                        <li>Contact us if you don't receive funds within 5 business days</li>
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        function setAmount(amount) {
+            document.getElementById('amount').value = amount;
+        }
+
+        // Auto-format routing number
+        document.getElementById('routing_number').addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '').substring(0, 9);
+        });
+
+        // Auto-format account number (remove non-digits)
+        document.getElementById('account_number').addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+    </script>
+</body>
+</html> 

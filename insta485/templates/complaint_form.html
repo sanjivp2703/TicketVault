@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Problem - Safe Transaction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .transaction-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #dc3545;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        select:focus, textarea:focus {
+            outline: none;
+            border-color: #dc3545;
+        }
+
+        .btn-submit {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background: #c82333;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            color: #856404;
+        }
+
+        .icon {
+            margin-right: 8px;
+        }
+
+        #otherReasonDiv {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fa fa-exclamation-triangle"></i> Report a Problem</h1>
+            <p>Safe Transaction - Secure Complaint System</p>
+        </div>
+        
+        <div class="content">
+            <div class="transaction-info">
+                <h3><i class="fa fa-info-circle icon"></i>Transaction Details</h3>
+                <p><strong>Transaction ID:</strong> #{{ transaction_id }}</p>
+                <p><strong>Your Email:</strong> {{ buyer_email }}</p>
+            </div>
+
+            <div class="warning">
+                <i class="fa fa-shield icon"></i>
+                <strong>Your Protection:</strong> We take all complaints seriously. The seller will be required to provide proof of ticket transfer within 24 hours or you'll receive a full refund.
+            </div>
+
+            <form action="{{ url_for('report_problem', transaction_id=transaction_id) }}" method="post">
+                <div class="form-group">
+                    <label for="reason"><i class="fa fa-list icon"></i>What's the issue?</label>
+                    <select name="reason" id="reason" required onchange="toggleOtherReason()">
+                        <option value="">Select the problem...</option>
+                        <option value="Wrong ticket">Wrong ticket (different event/seat)</option>
+                        <option value="Invalid ticket">Invalid or fake ticket</option>
+                        <option value="No ticket received">No ticket received</option>
+                        <option value="Ticket already used">Ticket already used/redeemed</option>
+                        <option value="Seller not responding">Seller not responding to messages</option>
+                        <option value="Other">Other issue</option>
+                    </select>
+                </div>
+
+                <div id="otherReasonDiv" class="form-group">
+                    <label for="other_reason"><i class="fa fa-edit icon"></i>Please describe the issue:</label>
+                    <textarea name="other_reason" id="other_reason" rows="4" 
+                              placeholder="Please provide detailed information about the problem..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fa fa-flag"></i> Submit Complaint
+                </button>
+            </form>
+
+            <a href="{{ url_for('buyer_ticket_card', transaction_id=transaction_id) }}" class="back-link">
+                <i class="fa fa-arrow-left"></i> Back to Transaction
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function toggleOtherReason() {
+            const reasonSelect = document.getElementById('reason');
+            const otherDiv = document.getElementById('otherReasonDiv');
+            const otherTextarea = document.getElementById('other_reason');
+            
+            if (reasonSelect.value === 'Other') {
+                otherDiv.style.display = 'block';
+                otherTextarea.required = true;
+            } else {
+                otherDiv.style.display = 'none';
+                otherTextarea.required = false;
+                otherTextarea.value = '';
+            }
+        }
+    </script>
+</body>
+</html> 

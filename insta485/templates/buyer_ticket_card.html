@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Ticket Offer | Safe Transaction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <style>
+        body {
+            background: linear-gradient(to right, #eef3f9, #cfe2ff);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 12px 32px rgba(0, 30, 80, 0.15);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0 0 8px 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 15px;
+        }
+
+        .ticket-content {
+            padding: 30px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .status-waiting_for_payment_processing {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #b8daff;
+        }
+
+        .event-details {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .event-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a3d7a;
+            margin: 0 0 12px 0;
+        }
+
+        .event-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .event-info-item {
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+            color: #555;
+        }
+
+        .event-info-item i {
+            width: 20px;
+            margin-right: 12px;
+            color: #007bff;
+        }
+
+        .price-section {
+            text-align: center;
+            margin: 24px 0;
+            padding: 20px;
+            background: #e8f4fd;
+            border-radius: 12px;
+            border: 2px solid #b8daff;
+        }
+
+        .price-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .price-amount {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a3d7a;
+            margin: 0;
+        }
+
+        .transaction-info {
+            background: #f1f3f4;
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+
+        .transaction-info strong {
+            color: #1a3d7a;
+        }
+
+        .btn-pay {
+            width: 100%;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+            margin-bottom: 12px;
+        }
+
+        .btn-pay:hover {
+            background: #218838;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(40, 167, 69, 0.4);
+        }
+
+        .btn-pay:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+            color: white;
+            text-decoration: none;
+        }
+
+        .security-note {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #155724;
+        }
+
+        .security-note i {
+            margin-right: 8px;
+            color: #28a745;
+        }
+
+        .status-message {
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-waiting {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .flash-message {
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            border: 1px solid #a5d6a7;
+        }
+
+        .flash-message i {
+            margin-right: 10px;
+            font-size: 20px;
+            color: #4caf50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fa fa-shield"></i> Safe Transaction</h1>
+            <p>Secure Ticket Purchase</p>
+        </div>
+
+        <div class="ticket-content">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="flash-message">
+                    <i class="fa fa-check-circle"></i> {{ message }}
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+            
+            <!-- Status Badge -->
+            <div class="status-badge status-{{ transaction.status }}">
+                {% if transaction.status == 'pending' %}
+                    <i class="fa fa-clock-o"></i> Awaiting Payment
+                {% elif transaction.status == 'waiting_for_payment_processing' %}
+                    <i class="fa fa-credit-card"></i> Payment Processing
+                {% elif transaction.status == 'waiting_for_ticket_transfer' %}
+                    <i class="fa fa-exchange"></i> Ticket Transfer Pending
+                {% elif transaction.status == 'ticket_sent' %}
+                    <i class="fa fa-check"></i> Ticket Received
+                {% elif transaction.status == 'success' %}
+                    <i class="fa fa-check-circle"></i> Complete
+                {% else %}
+                    {{ transaction.status.replace('_', ' ').title() }}
+                {% endif %}
+            </div>
+
+            <!-- Event Details -->
+            <div class="event-details">
+                <h2 class="event-name">{{ event_name }}</h2>
+                <div class="event-info">
+                    <div class="event-info-item">
+                        <i class="fa fa-map-marker"></i>
+                        <span>{{ event_location }}</span>
+                    </div>
+                    <div class="event-info-item">
+                        <i class="fa fa-calendar"></i>
+                        <span>{{ event_datetime }}</span>
+                    </div>
+                    <div class="event-info-item">
+                        <i class="fa fa-user"></i>
+                        <span>Sold by: {{ transaction.seller_email }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Price Section -->
+            <div class="price-section">
+                <div class="price-label">Total Price</div>
+                <h3 class="price-amount">${{ transaction.price }}</h3>
+            </div>
+
+            <!-- Transaction Info -->
+            <div class="transaction-info">
+                <strong>Transaction ID:</strong> #{{ transaction.transaction_id }}<br>
+                <strong>Buyer:</strong> {{ transaction.buyer_email }}
+            </div>
+
+            <!-- Action Buttons -->
+            {% if transaction.status == 'pending' %}
+                <form action="{{ url_for('simulate_payment', transaction_id=transaction.transaction_id) }}" method="post">
+                    <button type="submit" class="btn-pay">
+                        <i class="fa fa-credit-card"></i> Pay ${{ transaction.price }} Securely
+                    </button>
+                </form>
+                <p style="text-align: center; font-size: 13px; color: #666; margin: 8px 0;">
+                    Your payment is protected until you receive the ticket
+                </p>
+
+            {% elif transaction.status == 'waiting_for_payment_processing' %}
+                <div class="status-message status-waiting">
+                    <i class="fa fa-credit-card"></i>
+                    Payment is being processed. The seller will be notified shortly.
+                </div>
+
+            {% elif transaction.status == 'waiting_for_ticket_transfer' %}
+                <div class="status-message status-waiting">
+                    <i class="fa fa-clock-o"></i>
+                    Waiting for seller to transfer the ticket. You'll receive Email 2 when it's sent.
+                </div>
+
+            {% elif transaction.status == 'ticket_sent' %}
+                <div class="status-message status-success">
+                    <i class="fa fa-ticket"></i>
+                    Ticket has been sent! Check your email and ticket platform.
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+                    <form action="{{ url_for('validate_ticket', transaction_id=transaction.transaction_id) }}" method="post" style="flex: 1;">
+                        <button type="submit" class="btn-pay" style="width: 100%;">
+                            <i class="fa fa-check"></i> Confirm Ticket Received
+                        </button>
+                    </form>
+                    
+                    <button onclick="toggleComplaintForm()" class="btn-secondary" style="flex: 1; background: #dc3545; color: white; border: none;">
+                        <i class="fa fa-exclamation-triangle"></i> Report Problem
+                    </button>
+                </div>
+                
+                <!-- Complaint Form (Hidden by default) -->
+                <div id="complaintForm" style="display: none; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+                    <h4 style="margin-top: 0; color: #856404;">Report a Problem</h4>
+                    <form action="{{ url_for('report_problem', transaction_id=transaction.transaction_id) }}" method="post">
+                        <div style="margin-bottom: 12px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Issue Type:</label>
+                            <select name="reason" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" required>
+                                <option value="">Select an issue...</option>
+                                <option value="Wrong ticket">Wrong ticket (different event/seat)</option>
+                                <option value="Invalid ticket">Invalid or fake ticket</option>
+                                <option value="No ticket received">No ticket received</option>
+                                <option value="Ticket already used">Ticket already used/redeemed</option>
+                                <option value="Other">Other issue</option>
+                            </select>
+                        </div>
+                        
+                        <div id="otherReasonDiv" style="display: none; margin-bottom: 12px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Describe the issue:</label>
+                            <textarea name="other_reason" rows="3" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" placeholder="Please explain the problem..."></textarea>
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px;">
+                            <button type="submit" style="background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold;">
+                                <i class="fa fa-flag"></i> Submit Complaint
+                            </button>
+                            <button type="button" onclick="toggleComplaintForm()" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 4px;">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <p style="text-align: center; font-size: 13px; color: #666; margin: 8px 0;">
+                    ⏰ You have <strong>2 minutes</strong> to validate or report issues (testing mode)
+                </p>
+                
+                <script>
+                function toggleComplaintForm() {
+                    const form = document.getElementById('complaintForm');
+                    const reasonSelect = document.querySelector('select[name="reason"]');
+                    const otherDiv = document.getElementById('otherReasonDiv');
+                    
+                    if (form.style.display === 'none') {
+                        form.style.display = 'block';
+                    } else {
+                        form.style.display = 'none';
+                        reasonSelect.value = '';
+                        otherDiv.style.display = 'none';
+                    }
+                }
+
+                // Show/hide "other reason" text area
+                document.querySelector('select[name="reason"]').addEventListener('change', function() {
+                    const otherDiv = document.getElementById('otherReasonDiv');
+                    if (this.value === 'Other') {
+                        otherDiv.style.display = 'block';
+                    } else {
+                        otherDiv.style.display = 'none';
+                    }
+                });
+                </script>
+
+            {% elif transaction.status == 'success' %}
+                <div class="status-message status-success">
+                    <i class="fa fa-check-circle"></i>
+                    Transaction completed successfully! Enjoy the event!
+                </div>
+
+            {% endif %}
+
+            <!-- Back Link -->
+            {% if is_buyer_logged_in %}
+                <a href="{{ url_for('show_index', user_type='buyer') }}" class="btn-secondary">
+                    <i class="fa fa-arrow-left"></i> Back to Dashboard
+                </a>
+            {% else %}
+                <a href="{{ url_for('show_accounts', url='login') }}" class="btn-secondary">
+                    <i class="fa fa-sign-in"></i> Login to Safe Transaction
+                </a>
+            {% endif %}
+
+            <!-- Security Note -->
+            <div class="security-note">
+                <i class="fa fa-shield"></i>
+                <strong>100% Secure:</strong> Your payment is held safely until you confirm receipt of the ticket. No scams, guaranteed!
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

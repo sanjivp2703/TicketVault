@@ -4,17 +4,13 @@ A secure transaction management application built with Flask and React.
 
 ## 🚀 Quick Start
 
-**Just one command to run everything!**
+**One universal command that works on ALL systems!**
 
-### For Windows:
-```powershell
-.\run.bat
-```
-
-### For Mac/Linux:
 ```bash
-./run.sh
+python start.py
 ```
+
+That's it! Works on Windows, Mac, and Linux identically.
 
 That's it! The script will automatically:
 - ✅ Set up Python virtual environment
