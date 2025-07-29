@@ -2,7 +2,9 @@ README.md
 pyproject.toml
 insta485/__init__.py
 insta485/config.py
+insta485/email_utils.py
 insta485/model.py
+insta485/send_cancelled_email.py
 insta485/tasks.py
 insta485.egg-info/PKG-INFO
 insta485.egg-info/SOURCES.txt
