@@ -323,7 +323,8 @@ def get_events():
         results.append({
             'name': row['name'],
             'location': row['location'],
-            'datetime': event_dt.strftime('%A, %b %d, %Y at %I:%M %p')
+            'datetime': event_dt.strftime('%A, %b %d, %Y at %I:%M %p'),
+            'raw_datetime': row['event_datetime']
         })
     return flask.jsonify(results)
 
@@ -631,12 +632,40 @@ def validate_ticket(transaction_id):
         send_buyer_email_3(transaction_id, trans_details['buyer_email'])
         print(f"[EMAIL] Sent success email to {trans_details['buyer_email']}")
     
-    # Handle different response types
-    if flask.request.method == 'GET':
-        return "<html><body><h2>✅ Thank you! Transaction completed successfully. You may close this tab.</h2></body></html>"
-    else:
-        flask.flash('✅ Thank you! Transaction completed successfully.', 'success')
-        return flask.redirect(flask.url_for('buyer_ticket_card', transaction_id=transaction_id))
+    # Get event details for confirmation page
+    event_details = connection.execute(
+        "SELECT e.name, e.location, e.event_datetime "
+        "FROM events e JOIN transactions t ON e.event_id = t.event_id "
+        "WHERE t.transaction_id = ?",
+        (transaction_id,)
+    ).fetchone()
+    
+    # Generate a ticket code
+    ticket_code = f"SAFE-{transaction_id}-{hash(transaction['seller_email']) % 10000:04d}"
+    
+    # Format date for display
+    from datetime import datetime
+    event_datetime = event_details['event_datetime']
+    try:
+        dt = datetime.strptime(event_datetime, '%Y-%m-%d %H:%M:%S')
+        event_datetime = dt.strftime('%A, %b %d, %Y at %I:%M %p')
+    except ValueError:
+        # Already in pretty format
+        pass
+    
+    # Prepare context for success page
+    context = {
+        "transaction_id": transaction_id,
+        "event_name": event_details['name'],
+        "event_location": event_details['location'],
+        "event_datetime": event_datetime,
+        "price": trans_details['price'],
+        "seller_email": transaction['seller_email'],
+        "ticket_code": ticket_code
+    }
+    
+    # Render the success template
+    return flask.render_template('validate_ticket_success.html', **context)
 
 
 def send_seller_notification(transaction_id, seller_email):

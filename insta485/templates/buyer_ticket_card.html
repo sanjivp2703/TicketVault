@@ -337,79 +337,15 @@
                     Ticket has been sent! Check your email and ticket platform.
                 </div>
                 
-                <div style="display: flex; gap: 10px; margin-bottom: 16px;">
-                    <form action="{{ url_for('validate_ticket', transaction_id=transaction.transaction_id) }}" method="post" style="flex: 1;">
-                        <button type="submit" class="btn-pay" style="width: 100%;">
-                            <i class="fa fa-check"></i> Confirm Ticket Received
-                        </button>
-                    </form>
-                    
-                    <button onclick="toggleComplaintForm()" class="btn-secondary" style="flex: 1; background: #dc3545; color: white; border: none;">
-                        <i class="fa fa-exclamation-triangle"></i> Report Problem
-                    </button>
-                </div>
-                
-                <!-- Complaint Form (Hidden by default) -->
-                <div id="complaintForm" style="display: none; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
-                    <h4 style="margin-top: 0; color: #856404;">Report a Problem</h4>
-                    <form action="{{ url_for('report_problem', transaction_id=transaction.transaction_id) }}" method="post">
-                        <div style="margin-bottom: 12px;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Issue Type:</label>
-                            <select name="reason" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" required>
-                                <option value="">Select an issue...</option>
-                                <option value="Wrong ticket">Wrong ticket (different event/seat)</option>
-                                <option value="Invalid ticket">Invalid or fake ticket</option>
-                                <option value="No ticket received">No ticket received</option>
-                                <option value="Ticket already used">Ticket already used/redeemed</option>
-                                <option value="Other">Other issue</option>
-                            </select>
-                        </div>
-                        
-                        <div id="otherReasonDiv" style="display: none; margin-bottom: 12px;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Describe the issue:</label>
-                            <textarea name="other_reason" rows="3" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" placeholder="Please explain the problem..."></textarea>
-                        </div>
-                        
-                        <div style="display: flex; gap: 10px;">
-                            <button type="submit" style="background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold;">
-                                <i class="fa fa-flag"></i> Submit Complaint
-                            </button>
-                            <button type="button" onclick="toggleComplaintForm()" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 4px;">
-                                Cancel
-                            </button>
-                        </div>
-                    </form>
+                <div style="margin-bottom: 16px;">
+                    <a href="{{ url_for('show_report_problem', transaction_id=transaction.transaction_id) }}" class="btn-pay" style="display: block; text-align: center; text-decoration: none; background: #dc3545; font-size: 16px; font-weight: 600; padding: 14px 20px;">
+                        <i class="fa fa-exclamation-triangle"></i> Report a Problem
+                    </a>
                 </div>
                 
                 <p style="text-align: center; font-size: 13px; color: #666; margin: 8px 0;">
-                    ⏰ You have <strong>2 minutes</strong> to validate or report issues (testing mode)
+                    If you've received the ticket but have an issue, please report it using the button above
                 </p>
-                
-                <script>
-                function toggleComplaintForm() {
-                    const form = document.getElementById('complaintForm');
-                    const reasonSelect = document.querySelector('select[name="reason"]');
-                    const otherDiv = document.getElementById('otherReasonDiv');
-                    
-                    if (form.style.display === 'none') {
-                        form.style.display = 'block';
-                    } else {
-                        form.style.display = 'none';
-                        reasonSelect.value = '';
-                        otherDiv.style.display = 'none';
-                    }
-                }
-
-                // Show/hide "other reason" text area
-                document.querySelector('select[name="reason"]').addEventListener('change', function() {
-                    const otherDiv = document.getElementById('otherReasonDiv');
-                    if (this.value === 'Other') {
-                        otherDiv.style.display = 'block';
-                    } else {
-                        otherDiv.style.display = 'none';
-                    }
-                });
-                </script>
 
             {% elif transaction.status == 'success' %}
                 <div class="status-message status-success">

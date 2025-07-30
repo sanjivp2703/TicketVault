@@ -1,5 +1,6 @@
 import flask
 import insta485
+from insta485.views.balance import add_earnings, deduct_withdrawal
 
 @insta485.app.route('/admin', methods=['GET'], endpoint='admin_dashboard')
 def admin_dashboard():

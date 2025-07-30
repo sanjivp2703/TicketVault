@@ -7,6 +7,7 @@ CREATE TABLE users(
   password VARCHAR(256) NOT NULL,
   stripe_id VARCHAR(64),
   is_admin BOOLEAN DEFAULT 0,
+  balance INTEGER DEFAULT 0,
   created DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(email)
 );
@@ -34,4 +35,18 @@ CREATE TABLE transactions(
   FOREIGN KEY (seller_email) REFERENCES users(email),
   FOREIGN KEY (event_id) REFERENCES events(event_id),
   CHECK (status IN ('pending', 'rejected', 'waiting_for_payment_processing', 'waiting_for_ticket_transfer', 'ticket_sent', 'event_occurred', 'success', 'complaint_filed', 'cancelled', 'complaint - refunded buyer', 'complaint - paid seller'))
+);
+
+CREATE TABLE balance_transactions(
+  transaction_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_email VARCHAR(40) NOT NULL,
+  transaction_id_ref INTEGER,
+  withdrawal_id INTEGER,
+  amount INTEGER NOT NULL,
+  transaction_type VARCHAR(20) NOT NULL,
+  description TEXT,
+  created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_email) REFERENCES users(email),
+  FOREIGN KEY (transaction_id_ref) REFERENCES transactions(transaction_id),
+  CHECK (transaction_type IN ("earning", "withdrawal"))
 );
