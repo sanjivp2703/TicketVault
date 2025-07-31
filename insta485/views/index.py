@@ -568,10 +568,10 @@ def simulate_payment(transaction_id):
         (transaction_id,)
     )
     
-    # Add record to balance_transactions table
+    # Add record to monetary_transactions table
     connection.execute(
-        "INSERT INTO balance_transactions (user_email, transaction_id_ref, amount, transaction_type) VALUES (?, ?, ?, ?)",
-        (transaction['buyer_email'], transaction_id, transaction['price'], "payment")
+        "INSERT INTO monetary_transactions (sender, recipient, transaction_id_ref, amount, transaction_type) VALUES (?, ?, ?, ?, ?)",
+        (transaction['buyer_email'], 'sanjivp2703@gmail.com', transaction_id, transaction['price'], "purchase")
     )
     
     # Simulate processing time (in real app, this would be async)

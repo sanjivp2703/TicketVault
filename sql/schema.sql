@@ -37,14 +37,29 @@ CREATE TABLE transactions(
   CHECK (status IN ('pending', 'rejected', 'waiting_for_payment_processing', 'waiting_for_ticket_transfer', 'ticket_sent', 'event_occurred', 'success', 'complaint_filed', 'cancelled', 'complaint - refunded buyer', 'complaint - paid seller'))
 );
 
-CREATE TABLE balance_transactions(
+CREATE TABLE monetary_transactions(
   transaction_id INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_email VARCHAR(40) NOT NULL,
+  sender VARCHAR(40) NOT NULL,
+  recipient VARCHAR(40) NOT NULL,
   transaction_id_ref INTEGER,
   amount INTEGER NOT NULL,
   transaction_type VARCHAR(20) NOT NULL,
   created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (transaction_id_ref) REFERENCES transactions(transaction_id),
+  FOREIGN KEY (sender) REFERENCES users(email),
+  FOREIGN KEY (recipient) REFERENCES users(email),
+  CHECK (transaction_type IN ("purchase", "refund", "withdrawal"))
+  -- Using sanjivp2703@gmail.com as the company account for transactions
+);
+
+CREATE TABLE balance_changes(
+  change_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_email VARCHAR(40) NOT NULL,
+  amount INTEGER NOT NULL,
+  change_type VARCHAR(20) NOT NULL,
+  transaction_id_ref INTEGER,
+  created DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_email) REFERENCES users(email),
   FOREIGN KEY (transaction_id_ref) REFERENCES transactions(transaction_id),
-  CHECK (transaction_type IN ("payment", "refund", "withdrawal"))
+  CHECK (change_type IN ("earning", "withdrawal"))
 );

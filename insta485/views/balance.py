@@ -14,11 +14,11 @@ def add_earnings(user_email, amount, transaction_id, description="Transaction ea
             (amount, user_email)
         )
         
-        # Record balance transaction
+        # Record balance change
         connection.execute(
-            "INSERT INTO balance_transactions (user_email, transaction_id_ref, amount, transaction_type) "
-            "VALUES (?, ?, ?, 'payment')",
-            (user_email, transaction_id, amount)
+            "INSERT INTO balance_changes (user_email, amount, change_type, transaction_id_ref) "
+            "VALUES (?, ?, 'earning', ?)",
+            (user_email, amount, transaction_id)
         )
         
         connection.commit()
@@ -50,11 +50,18 @@ def deduct_withdrawal(user_email, amount, withdrawal_id, description="Withdrawal
             (amount, user_email)
         )
         
-        # Record balance transaction
+        # Record balance change
         connection.execute(
-            "INSERT INTO balance_transactions (user_email, amount, transaction_type) "
+            "INSERT INTO balance_changes (user_email, amount, change_type) "
             "VALUES (?, ?, 'withdrawal')",
             (user_email, -amount)
+        )
+        
+        # Record monetary transaction
+        connection.execute(
+            "INSERT INTO monetary_transactions (sender, recipient, amount, transaction_type) "
+            "VALUES (?, ?, ?, 'withdrawal')",
+            ('sanjivp2703@gmail.com', user_email, amount)
         )
         
         connection.commit()
@@ -79,7 +86,7 @@ def get_balance_history(user_email, limit=50):
     """Get balance transaction history for a user."""
     connection = insta485.model.get_db()
     history = connection.execute(
-        "SELECT * FROM balance_transactions WHERE user_email = ? "
+        "SELECT * FROM balance_changes WHERE user_email = ? "
         "ORDER BY created DESC LIMIT ?",
         (user_email, limit)
     ).fetchall()
@@ -105,31 +112,31 @@ def show_balance():
     
     # Get balance history
     balance_history = connection.execute(
-        "SELECT bt.*, t.transaction_id as ref_transaction_id "
-        "FROM balance_transactions bt "
-        "LEFT JOIN transactions t ON bt.transaction_id_ref = t.transaction_id "
-        "WHERE bt.user_email = ? "
-        "ORDER BY bt.created DESC LIMIT 20",
+        "SELECT bc.*, t.transaction_id as ref_transaction_id "
+        "FROM balance_changes bc "
+        "LEFT JOIN transactions t ON bc.transaction_id_ref = t.transaction_id "
+        "WHERE bc.user_email = ? "
+        "ORDER BY bc.created DESC LIMIT 20",
         (logemail,)
     ).fetchall()
     
     # Get recent successful transactions (earnings)
     recent_earnings = connection.execute(
         "SELECT t.transaction_id, t.price, e.name as event_name, t.status, "
-        "bt.created as earning_date "
+        "bc.created as earning_date "
         "FROM transactions t "
         "JOIN events e ON t.event_id = e.event_id "
-        "LEFT JOIN balance_transactions bt ON t.transaction_id = bt.transaction_id_ref AND bt.transaction_type = 'payment' "
+        "LEFT JOIN balance_changes bc ON t.transaction_id = bc.transaction_id_ref AND bc.change_type = 'earning' "
         "WHERE t.seller_email = ? AND t.status IN ('success', 'complaint - paid seller') "
-        "ORDER BY COALESCE(bt.created, t.payment_processed_time) DESC LIMIT 10",
+        "ORDER BY COALESCE(bc.created, t.payment_processed_time) DESC LIMIT 10",
         (logemail,)
     ).fetchall()
     
     # Get withdrawal history
     withdrawals = connection.execute(
-        "SELECT transaction_id, user_email, amount, created, transaction_type "
-        "FROM balance_transactions "
-        "WHERE user_email = ? AND transaction_type = 'withdrawal' "
+        "SELECT change_id, user_email, amount, created, change_type "
+        "FROM balance_changes "
+        "WHERE user_email = ? AND change_type = 'withdrawal' "
         "ORDER BY created DESC LIMIT 10",
         (logemail,)
     ).fetchall()
@@ -204,11 +211,18 @@ def withdraw_funds():
             (amount, logemail)
         )
         
-        # Record withdrawal in balance_transactions
+        # Record withdrawal in balance_changes
         connection.execute(
-            "INSERT INTO balance_transactions (user_email, amount, transaction_type) "
+            "INSERT INTO balance_changes (user_email, amount, change_type) "
             "VALUES (?, ?, 'withdrawal')",
             (logemail, -amount)
+        )
+        
+        # Record monetary transaction
+        connection.execute(
+            "INSERT INTO monetary_transactions (sender, recipient, amount, transaction_type) "
+            "VALUES (?, ?, ?, 'withdrawal')",
+            ('sanjivp2703@gmail.com', logemail, amount)
         )
         
         connection.commit()
@@ -254,11 +268,18 @@ def simulate_withdrawal():
             (amount, logemail)
         )
         
-        # Record withdrawal in balance_transactions
+        # Record withdrawal in balance_changes
         connection.execute(
-            "INSERT INTO balance_transactions (user_email, amount, transaction_type) "
+            "INSERT INTO balance_changes (user_email, amount, change_type) "
             "VALUES (?, ?, 'withdrawal')",
             (logemail, -amount)
+        )
+        
+        # Record monetary transaction
+        connection.execute(
+            "INSERT INTO monetary_transactions (sender, recipient, amount, transaction_type) "
+            "VALUES (?, ?, ?, 'withdrawal')",
+            ('sanjivp2703@gmail.com', logemail, amount)
         )
         
         connection.commit()

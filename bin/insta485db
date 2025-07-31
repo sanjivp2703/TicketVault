@@ -47,8 +47,11 @@ case $1 in
     echo "=== TRANSACTIONS ==="
     sqlite3 -batch -line var/insta485.sqlite3 'SELECT * FROM transactions'
     echo ""
-    echo "=== BALANCE TRANSACTIONS ==="
-    sqlite3 -batch -line var/insta485.sqlite3 'SELECT * FROM balance_transactions'
+    echo "=== MONETARY TRANSACTIONS ==="
+    sqlite3 -batch -line var/insta485.sqlite3 'SELECT * FROM monetary_transactions'
+    echo ""
+    echo "=== BALANCE CHANGES ==="
+    sqlite3 -batch -line var/insta485.sqlite3 'SELECT * FROM balance_changes'
     ;;
   "random")
 

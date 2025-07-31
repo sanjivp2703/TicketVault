@@ -31,7 +31,7 @@ def admin_refund_buyer(transaction_id):
     
     # Update transaction status
     connection.execute(
-        "UPDATE transactions SET status = 'refunded' WHERE transaction_id = ?",
+        "UPDATE transactions SET status = 'complaint - refunded buyer' WHERE transaction_id = ?",
         (transaction_id,)
     )
     
@@ -39,13 +39,13 @@ def admin_refund_buyer(transaction_id):
     # Note: In a real system, this would integrate with a payment processor
     # Here we're just updating the status and recording the transaction
     
-    # Record the refund in balance_transactions
+    # Record the refund in monetary_transactions
     try:
         connection.execute(
-            "INSERT INTO balance_transactions "
-            "(user_email, transaction_id_ref, amount, transaction_type) "
-            "VALUES (?, ?, ?, ?)",
-            (transaction['buyer_email'], transaction_id, transaction['price'], 'refund')
+            "INSERT INTO monetary_transactions "
+            "(sender, recipient, transaction_id_ref, amount, transaction_type) "
+            "VALUES (?, ?, ?, ?, ?)",
+            ('sanjivp2703@gmail.com', transaction['buyer_email'], transaction_id, transaction['price'], 'refund')
         )
         connection.commit()
         flask.flash(f'Buyer has been refunded for transaction #{transaction_id}', 'success')
@@ -80,7 +80,7 @@ def admin_pay_seller(transaction_id):
     
     # Update transaction status
     connection.execute(
-        "UPDATE transactions SET status = 'completed' WHERE transaction_id = ?",
+        "UPDATE transactions SET status = 'complaint - paid seller' WHERE transaction_id = ?",
         (transaction_id,)
     )
     

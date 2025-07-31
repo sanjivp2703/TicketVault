@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Submitted - Safe-Transaction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+            padding-bottom: 30px;
+        }
+        .header {
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header h1 i {
+            margin-right: 10px;
+            font-size: 32px;
+        }
+        .content {
+            padding: 30px;
+        }
+        .success-icon {
+            font-size: 80px;
+            color: #4caf50;
+            margin: 20px 0;
+        }
+        .message {
+            font-size: 18px;
+            margin-bottom: 30px;
+            padding: 0 20px;
+        }
+        .reference {
+            background: #f8f9fa;
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 16px;
+            margin: 20px 0;
+            border: 1px solid #e0e0e0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            margin: 20px 0;
+            text-decoration: none;
+            background: #4a6cf7;
+            color: white;
+        }
+        .btn:hover {
+            background: #3a5bd9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fa fa-check-circle"></i> Complaint Submitted</h1>
+        </div>
+        
+        <div class="content">
+            <i class="fa fa-check-circle-o success-icon"></i>
+            
+            <h2>Thank You!</h2>
+            
+            <div class="message">
+                <p>Your complaint has been successfully submitted. Our team will review it shortly and take appropriate action.</p>
+                <p>You will receive updates about your complaint via email.</p>
+            </div>
+            
+            <div class="reference">
+                Reference: Transaction #{{ transaction_id }}
+            </div>
+            
+            <p>If you have any additional questions or concerns, please contact our support team.</p>
+            
+            <a href="mailto:support@safetransaction.com" class="btn">
+                <i class="fa fa-envelope"></i> Contact Support
+            </a>
+        </div>
+    </div>
+</body>
+</html>

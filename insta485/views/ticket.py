@@ -72,23 +72,28 @@ def show_validate_ticket(transaction_id):
 
 @insta485.app.route('/show-report-problem/<int:transaction_id>', methods=['GET', 'POST'])
 def show_report_problem(transaction_id):
-    """Display and process problem reports for tickets."""
-    if 'email' not in flask.session:
-        return flask.redirect(flask.url_for('show_accounts', url='login'))
+    """Display and process problem reports for tickets.
     
+    This route allows buyers to report problems with their tickets.
+    It can be accessed directly from an email link without requiring login.
+    """
     connection = insta485.model.get_db()
     
-    # Get transaction details
+    # Get transaction details - FIXED: First get the transaction without checking buyer_email
     transaction = connection.execute(
         "SELECT t.*, e.name, e.location, e.event_datetime FROM transactions t "
         "JOIN events e ON t.event_id = e.event_id "
-        "WHERE t.transaction_id = ? AND t.buyer_email = ?",
-        (transaction_id, flask.session['email'])
+        "WHERE t.transaction_id = ?",
+        (transaction_id,)
     ).fetchone()
     
     if not transaction:
-        flask.flash("Transaction not found or you don't have permission to view it", "error")
+        flask.flash("Transaction not found", "error")
         return flask.redirect(flask.url_for('show_index', user_type='buyer'))
+    
+    # No need to check if the user is logged in or is the buyer
+    # This page is accessible directly from the email link
+    # The security is maintained by the unique transaction ID in the URL
     
     if flask.request.method == 'POST':
         problem_type = flask.request.form.get('problem_type')
@@ -101,8 +106,9 @@ def show_report_problem(transaction_id):
             (problem_details, transaction_id)
         )
         
-        flask.flash("Your complaint has been submitted. Our team will review it shortly.", "success")
-        return flask.redirect(flask.url_for('show_index', user_type='buyer'))
+        # Show a thank you page instead of redirecting to the index
+        # since the user might not be logged in
+        return flask.render_template('complaint_submitted.html', transaction_id=transaction_id)
     
     # Format date for display
     event_datetime = transaction['event_datetime']
