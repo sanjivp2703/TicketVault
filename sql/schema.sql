@@ -41,12 +41,10 @@ CREATE TABLE balance_transactions(
   transaction_id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_email VARCHAR(40) NOT NULL,
   transaction_id_ref INTEGER,
-  withdrawal_id INTEGER,
   amount INTEGER NOT NULL,
   transaction_type VARCHAR(20) NOT NULL,
-  description TEXT,
   created DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_email) REFERENCES users(email),
   FOREIGN KEY (transaction_id_ref) REFERENCES transactions(transaction_id),
-  CHECK (transaction_type IN ("earning", "withdrawal"))
+  CHECK (transaction_type IN ("payment", "refund", "withdrawal"))
 );

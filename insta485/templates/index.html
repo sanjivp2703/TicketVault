@@ -761,12 +761,12 @@
                         <i class="fas fa-plus-circle"></i>
                         Create New Listing
                     </a>
-                    {% if user_balance >= 10 %}
-                        <a href="{{ url_for('withdraw_funds') }}" class="btn btn-success">
+                    <form action="{{ url_for('simulate_withdrawal') }}" method="post" style="margin: 0;">
+                        <button type="submit" class="btn btn-success">
                             <i class="fas fa-university"></i>
-                            Withdraw ${{ user_balance }}
-                        </a>
-        {% endif %}
+                            Withdraw
+                        </button>
+                    </form>
                     <a href="{{ url_for('show_balance') }}" class="btn btn-outline">
                         <i class="fas fa-chart-line"></i>
                         View Earnings
@@ -866,17 +866,18 @@
                                 <div class="complaint-header">
                                     <i class="fas fa-exclamation-triangle"></i>
                                     <div class="complaint-title">URGENT: Action Required</div>
-            </div>
-                                <p><strong>Issue:</strong> {{ transaction.complaint_reason }}</p>
+                                </div>
+                                <p><strong>Issue:</strong> Never received the ticket</p>
                                 <p><strong>Deadline:</strong> 24 hours to provide proof or automatic refund</p>
+                                <p style="margin-top: 10px;"><strong>Instructions:</strong> Forward the confirmation email with subject "Ticket Transfer Initiation Confirmation" to <strong>support@safetransaction.com</strong> with subject line "Complaint: Transaction #{{ transaction.transaction_id }}"</p>
                                 <div style="margin-top: var(--space-md);">
-                                    <a href="mailto:support@safetransaction.com?subject=Proof%20for%20Transaction%20{{ transaction.transaction_id }}" 
+                                    <a href="mailto:support@safetransaction.com?subject=Complaint:%20Transaction%20%23{{ transaction.transaction_id }}" 
                                        class="btn btn-primary btn-sm">
                                         <i class="fas fa-paper-plane"></i> Send Proof Now
                                     </a>
-        </div>
-    </div>
-                {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
 
                         <!-- Transaction Actions -->
                         <div class="card-actions">

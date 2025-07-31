@@ -22,3 +22,4 @@ INSERT INTO transactions (buyer_email, seller_email, price, event_id, status)
 VALUES ('user2@gmail.com', 'user1@gmail.com', 100,
     (SELECT event_id FROM events WHERE name='10min Test Event'),
     'pending');
+

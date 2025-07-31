@@ -556,10 +556,22 @@ def simulate_payment(transaction_id):
     """Simulate payment processing for the transaction."""
     connection = insta485.model.get_db()
     
+    # Get transaction details
+    transaction = connection.execute(
+        "SELECT buyer_email, seller_email, price FROM transactions WHERE transaction_id = ?",
+        (transaction_id,)
+    ).fetchone()
+    
     # Update transaction status to payment processing
     connection.execute(
         "UPDATE transactions SET status = 'waiting_for_payment_processing', payment_processed_time = CURRENT_TIMESTAMP WHERE transaction_id = ?",
         (transaction_id,)
+    )
+    
+    # Add record to balance_transactions table
+    connection.execute(
+        "INSERT INTO balance_transactions (user_email, transaction_id_ref, amount, transaction_type) VALUES (?, ?, ?, ?)",
+        (transaction['buyer_email'], transaction_id, transaction['price'], "payment")
     )
     
     # Simulate processing time (in real app, this would be async)
@@ -573,11 +585,6 @@ def simulate_payment(transaction_id):
     )
     
     # Simulate sending notification to seller
-    transaction = connection.execute(
-        "SELECT seller_email FROM transactions WHERE transaction_id = ?",
-        (transaction_id,)
-    ).fetchone()
-    
     send_seller_notification(transaction_id, transaction['seller_email'])
     
     flask.flash('Payment successful! The seller has been notified.', 'success')

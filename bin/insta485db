@@ -41,9 +41,14 @@ case $1 in
     ;;
 
   "dump")
+    echo "=== USERS ==="
     sqlite3 -batch -line var/insta485.sqlite3 'SELECT * FROM users'
+    echo ""
+    echo "=== TRANSACTIONS ==="
     sqlite3 -batch -line var/insta485.sqlite3 'SELECT * FROM transactions'
-
+    echo ""
+    echo "=== BALANCE TRANSACTIONS ==="
+    sqlite3 -batch -line var/insta485.sqlite3 'SELECT * FROM balance_transactions'
     ;;
   "random")
 

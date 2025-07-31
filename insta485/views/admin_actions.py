@@ -37,9 +37,21 @@ def admin_refund_buyer(transaction_id):
     
     # Process refund to buyer
     # Note: In a real system, this would integrate with a payment processor
-    # Here we're just updating the status
+    # Here we're just updating the status and recording the transaction
     
-    flask.flash(f'Buyer has been refunded for transaction #{transaction_id}', 'success')
+    # Record the refund in balance_transactions
+    try:
+        connection.execute(
+            "INSERT INTO balance_transactions "
+            "(user_email, transaction_id_ref, amount, transaction_type) "
+            "VALUES (?, ?, ?, ?)",
+            (transaction['buyer_email'], transaction_id, transaction['price'], 'refund')
+        )
+        connection.commit()
+        flask.flash(f'Buyer has been refunded for transaction #{transaction_id}', 'success')
+    except Exception as e:
+        connection.rollback()
+        flask.flash(f'Error processing refund: {str(e)}', 'error')
     return flask.redirect(flask.url_for('admin_dashboard'))
 
 @insta485.app.route('/admin/pay-seller/<int:transaction_id>', methods=['POST'])

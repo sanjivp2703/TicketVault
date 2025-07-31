@@ -22,7 +22,7 @@ def show_validate_ticket(transaction_id):
     
     if not transaction:
         flask.flash("Transaction not found or you don't have permission to view it", "error")
-        return flask.redirect(flask.url_for('show_index'))
+        return flask.redirect(flask.url_for('show_index', user_type='buyer'))
     
     # Generate a ticket code (in a real app, this would be more sophisticated)
     ticket_code = f"SAFE-{transaction_id}-{hash(transaction['seller_email']) % 10000:04d}"
@@ -88,7 +88,7 @@ def show_report_problem(transaction_id):
     
     if not transaction:
         flask.flash("Transaction not found or you don't have permission to view it", "error")
-        return flask.redirect(flask.url_for('show_index'))
+        return flask.redirect(flask.url_for('show_index', user_type='buyer'))
     
     if flask.request.method == 'POST':
         problem_type = flask.request.form.get('problem_type')

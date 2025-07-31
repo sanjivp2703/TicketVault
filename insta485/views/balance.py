@@ -16,9 +16,9 @@ def add_earnings(user_email, amount, transaction_id, description="Transaction ea
         
         # Record balance transaction
         connection.execute(
-            "INSERT INTO balance_transactions (user_email, transaction_id, amount, transaction_type, description) "
-            "VALUES (?, ?, ?, 'earning', ?)",
-            (user_email, transaction_id, amount, description)
+            "INSERT INTO balance_transactions (user_email, transaction_id_ref, amount, transaction_type) "
+            "VALUES (?, ?, ?, 'payment')",
+            (user_email, transaction_id, amount)
         )
         
         connection.commit()
@@ -52,9 +52,9 @@ def deduct_withdrawal(user_email, amount, withdrawal_id, description="Withdrawal
         
         # Record balance transaction
         connection.execute(
-            "INSERT INTO balance_transactions (user_email, withdrawal_id, amount, transaction_type, description) "
-            "VALUES (?, ?, ?, 'withdrawal', ?)",
-            (user_email, withdrawal_id, -amount, description)
+            "INSERT INTO balance_transactions (user_email, amount, transaction_type) "
+            "VALUES (?, ?, 'withdrawal')",
+            (user_email, -amount)
         )
         
         connection.commit()
@@ -80,7 +80,7 @@ def get_balance_history(user_email, limit=50):
     connection = insta485.model.get_db()
     history = connection.execute(
         "SELECT * FROM balance_transactions WHERE user_email = ? "
-        "ORDER BY created_date DESC LIMIT ?",
+        "ORDER BY created DESC LIMIT ?",
         (user_email, limit)
     ).fetchall()
     return history
@@ -105,30 +105,32 @@ def show_balance():
     
     # Get balance history
     balance_history = connection.execute(
-        "SELECT bt.*, t.transaction_id as ref_transaction_id, w.withdrawal_id as ref_withdrawal_id "
+        "SELECT bt.*, t.transaction_id as ref_transaction_id "
         "FROM balance_transactions bt "
-        "LEFT JOIN transactions t ON bt.transaction_id = t.transaction_id "
-        "LEFT JOIN withdrawals w ON bt.withdrawal_id = w.withdrawal_id "
+        "LEFT JOIN transactions t ON bt.transaction_id_ref = t.transaction_id "
         "WHERE bt.user_email = ? "
-        "ORDER BY bt.created_date DESC LIMIT 20",
+        "ORDER BY bt.created DESC LIMIT 20",
         (logemail,)
     ).fetchall()
     
     # Get recent successful transactions (earnings)
     recent_earnings = connection.execute(
         "SELECT t.transaction_id, t.price, e.name as event_name, t.status, "
-        "bt.created_date as earning_date "
+        "bt.created as earning_date "
         "FROM transactions t "
         "JOIN events e ON t.event_id = e.event_id "
-        "LEFT JOIN balance_transactions bt ON t.transaction_id = bt.transaction_id AND bt.transaction_type = 'earning' "
+        "LEFT JOIN balance_transactions bt ON t.transaction_id = bt.transaction_id_ref AND bt.transaction_type = 'payment' "
         "WHERE t.seller_email = ? AND t.status IN ('success', 'complaint - paid seller') "
-        "ORDER BY COALESCE(bt.created_date, t.payment_processed_time) DESC LIMIT 10",
+        "ORDER BY COALESCE(bt.created, t.payment_processed_time) DESC LIMIT 10",
         (logemail,)
     ).fetchall()
     
     # Get withdrawal history
     withdrawals = connection.execute(
-        "SELECT * FROM withdrawals WHERE seller_email = ? ORDER BY requested_date DESC LIMIT 10",
+        "SELECT transaction_id, user_email, amount, created, transaction_type "
+        "FROM balance_transactions "
+        "WHERE user_email = ? AND transaction_type = 'withdrawal' "
+        "ORDER BY created DESC LIMIT 10",
         (logemail,)
     ).fetchall()
     
@@ -196,11 +198,17 @@ def withdraw_funds():
         return redirect(url_for('withdraw_funds'))
     
     try:
-        # Create withdrawal request
+        # Update user balance
         connection.execute(
-            "INSERT INTO withdrawals (seller_email, amount, bank_account_last_four, routing_number_last_four, bank_name) "
-            "VALUES (?, ?, ?, ?, ?)",
-            (logemail, amount, account_number[-4:], routing_number[-4:], bank_name)
+            "UPDATE users SET balance = balance - ? WHERE email = ?",
+            (amount, logemail)
+        )
+        
+        # Record withdrawal in balance_transactions
+        connection.execute(
+            "INSERT INTO balance_transactions (user_email, amount, transaction_type) "
+            "VALUES (?, ?, 'withdrawal')",
+            (logemail, -amount)
         )
         
         connection.commit()
@@ -211,4 +219,54 @@ def withdraw_funds():
     except Exception as e:
         print(f"[WITHDRAWAL ERROR] Failed to create withdrawal request: {e}")
         flash("Failed to submit withdrawal request. Please try again.", "error")
-        return redirect(url_for('withdraw_funds')) 
+        return redirect(url_for('withdraw_funds'))
+
+
+@insta485.app.route('/simulate-withdrawal', methods=['POST'])
+def simulate_withdrawal():
+    """Simulate a withdrawal for testing purposes."""
+    if 'email' not in flask.session:
+        return redirect(url_for('show_accounts', url='login'))
+    
+    logemail = flask.session['email']
+    connection = insta485.model.get_db()
+    
+    # Get user balance
+    user = connection.execute(
+        "SELECT balance FROM users WHERE email = ?",
+        (logemail,)
+    ).fetchone()
+    
+    if not user:
+        flask.abort(404)
+    
+    # Default withdrawal amount (for testing)
+    amount = min(user['balance'], 50)  # Take either full balance or $50, whichever is smaller
+    
+    if amount <= 0:
+        flash("No funds available for withdrawal.", "error")
+        return redirect(url_for('show_balance'))
+    
+    try:
+        # Update user balance
+        connection.execute(
+            "UPDATE users SET balance = balance - ? WHERE email = ?",
+            (amount, logemail)
+        )
+        
+        # Record withdrawal in balance_transactions
+        connection.execute(
+            "INSERT INTO balance_transactions (user_email, amount, transaction_type) "
+            "VALUES (?, ?, 'withdrawal')",
+            (logemail, -amount)
+        )
+        
+        connection.commit()
+        
+        flash(f"✅ Simulated withdrawal of ${amount} completed successfully!", "success")
+    except Exception as e:
+        print(f"[WITHDRAWAL ERROR] Failed to simulate withdrawal: {e}")
+        connection.rollback()
+        flash("Failed to simulate withdrawal. Please try again.", "error")
+    
+    return redirect(url_for('show_balance')) 

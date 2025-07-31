@@ -456,9 +456,16 @@
                     <p>You can withdraw your earnings to your bank account. Withdrawals are processed within 3-5 business days.</p>
                     <p><strong>Available:</strong> ${{ balance }} | <strong>Minimum:</strong> $10</p>
                 </div>
-                <a href="{{ url_for('withdraw_funds') }}" class="btn btn-withdraw">
-                    <i class="fas fa-university"></i> Withdraw ${{ balance }}
-                </a>
+                <div style="display: flex; gap: 10px;">
+                    <a href="{{ url_for('withdraw_funds') }}" class="btn btn-withdraw">
+                        <i class="fas fa-university"></i> Withdraw ${{ balance }}
+                    </a>
+                    <form action="{{ url_for('simulate_withdrawal') }}" method="post" style="margin: 0;">
+                        <button type="submit" class="btn btn-withdraw" style="background: #20c997;">
+                            <i class="fas fa-bolt"></i> Simulate Withdrawal
+                        </button>
+                    </form>
+                </div>
             {% else %}
                 <div class="withdrawal-info">
                     <h4><i class="fas fa-exclamation-triangle"></i> Minimum Not Met</h4>
@@ -541,43 +548,26 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th><i class="fas fa-hashtag"></i> Withdrawal ID</th>
+                            <th><i class="fas fa-hashtag"></i> Transaction ID</th>
                             <th><i class="fas fa-dollar-sign"></i> Amount</th>
-                            <th><i class="fas fa-university"></i> Bank</th>
-                            <th><i class="fas fa-calendar"></i> Requested</th>
+                            <th><i class="fas fa-calendar"></i> Date</th>
                             <th><i class="fas fa-info-circle"></i> Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for withdrawal in withdrawals %}
                         <tr>
-                            <td><strong>#{{ withdrawal.withdrawal_id }}</strong></td>
+                            <td><strong>#{{ withdrawal.transaction_id }}</strong></td>
                             <td>
                                 <div class="transaction-type withdrawal">
-                                    <i class="fas fa-minus-circle"></i> ${{ withdrawal.amount }}
+                                    <i class="fas fa-minus-circle"></i> ${{ withdrawal.amount|abs }}
                                 </div>
                             </td>
+                            <td>{{ withdrawal.created[:19] }}</td>
                             <td>
-                                <i class="fas fa-university"></i> {{ withdrawal.bank_name }}
-                                <br><small style="color: #666;">****{{ withdrawal.bank_account_last_four }}</small>
-                            </td>
-                            <td>{{ withdrawal.requested_date[:10] }}</td>
-                            <td>
-                                {% if withdrawal.status == 'pending' %}
-                                    <span class="status-badge status-pending">
-                                        <i class="fas fa-clock"></i> Pending
-                                    </span>
-                                {% elif withdrawal.status == 'processing' %}
-                                    <span class="status-badge status-processing">
-                                        <i class="fas fa-cog fa-spin"></i> Processing
-                                    </span>
-                                {% elif withdrawal.status == 'completed' %}
-                                    <span class="status-badge status-completed">
-                                        <i class="fas fa-check-circle"></i> Completed
-                                    </span>
-                                {% else %}
-                                    <span class="status-badge">{{ withdrawal.status.title() }}</span>
-                                {% endif %}
+                                <span class="status-badge status-completed">
+                                    <i class="fas fa-check-circle"></i> Completed
+                                </span>
                             </td>
                         </tr>
                         {% endfor %}
