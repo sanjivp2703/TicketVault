@@ -192,12 +192,13 @@
         /* Balance Card - CashApp Inspired */
         .balance-hero {
             background: var(--bg-secondary);
-            border-radius: var(--radius-2xl);
-            padding: var(--space-2xl);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
             margin-bottom: var(--space-xl);
             border: 1px solid var(--border-light);
             position: relative;
             overflow: hidden;
+            transition: all 0.3s ease;
         }
 
         .balance-hero::before {
@@ -208,6 +209,11 @@
             right: 0;
             height: 4px;
             background: var(--success-gradient);
+        }
+        
+        .balance-hero.zero-balance {
+            padding: var(--space-md);
+            margin-bottom: var(--space-lg);
         }
 
         .balance-display {
@@ -221,6 +227,20 @@
             color: var(--text-primary);
             margin-bottom: var(--space-xs);
             letter-spacing: -0.03em;
+            transition: all 0.3s ease;
+        }
+        
+        .zero-balance .balance-amount {
+            font-size: 32px;
+        }
+        
+        .positive-balance .balance-amount {
+            font-size: 64px;
+            background: var(--success-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 10px rgba(0, 212, 170, 0.2);
         }
 
         .balance-label {
@@ -686,6 +706,282 @@
             outline-offset: 2px;
         }
 
+        /* Create Listing Section Styles */
+        .create-listing-section {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-xl);
+            border: 1px solid var(--border-light);
+            position: relative;
+        }
+        
+        .create-listing-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+        
+        .section-header {
+            margin-bottom: var(--space-md);
+            padding-bottom: var(--space-sm);
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .section-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin: 0;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            margin-bottom: var(--space-lg);
+            color: #1565c0;
+            font-size: 14px;
+        }
+        
+        .info-box i {
+            margin-right: 8px;
+            color: #1976d2;
+        }
+        
+        .create-listing-form {
+            margin-top: var(--space-lg);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .compact-form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: var(--space-md);
+        }
+        
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+        
+        .compact-info-box {
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            border-radius: var(--radius-md);
+            padding: var(--space-sm);
+            margin-bottom: var(--space-md);
+            color: #1565c0;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .compact-info-box i {
+            color: #1976d2;
+        }
+        
+        .event-search {
+            position: relative;
+        }
+        
+        .event-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .suggestion-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+        
+        .suggestion-item:hover {
+            background-color: var(--bg-secondary);
+        }
+        
+        .suggestion-event-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+        
+        .suggestion-details {
+            display: flex;
+            font-size: 13px;
+            color: var(--text-secondary);
+            gap: 12px;
+        }
+        
+        .suggestion-location, .suggestion-time {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .suggestion-location i, .suggestion-time i {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        
+        .event-info {
+            display: flex;
+            gap: var(--space-md);
+            margin-top: 10px;
+            flex-wrap: wrap;
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            border: 1px solid var(--border-light);
+        }
+        
+        .event-detail-item {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            min-width: 200px;
+            padding: 4px 8px;
+        }
+        
+        .event-detail-item i {
+            margin-right: 10px;
+            color: var(--primary-color);
+            font-size: 16px;
+        }
+        
+        .event-detail-item span {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .help-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        
+        .required {
+            color: #e53935;
+        }
+        
+        .event-search {
+            position: relative;
+        }
+        
+        .event-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid var(--border-light);
+            border-top: none;
+            border-radius: 0 0 var(--radius-md) var(--radius-md);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .event-suggestion {
+            padding: 10px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 14px;
+        }
+        
+        .event-suggestion:hover {
+            background: var(--bg-tertiary);
+        }
+        
+        .event-suggestion:last-child {
+            border-bottom: none;
+        }
+        
+        .create-listing-btn {
+            margin-top: var(--space-md);
+            width: 100%;
+            padding: var(--space-md) var(--space-lg);
+        }
+
         /* Reduce motion for accessibility */
         @media (prefers-reduced-motion: reduce) {
             *,
@@ -694,6 +990,18 @@
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group.full-width {
+                grid-column: span 1;
             }
         }
     </style>
@@ -750,29 +1058,87 @@
 
         <!-- Balance/Action Hero Card -->
         {% if user_type == 'seller' %}
-            <div class="balance-hero">
+            <div class="balance-hero {% if user_balance == 0 %}zero-balance{% else %}positive-balance{% endif %}">
                 <div class="balance-display">
                     <div class="balance-amount">${{ user_balance }}</div>
                     <div class="balance-label">Available Balance</div>
-                    </div>
+                </div>
                 
+                {% if user_balance > 0 %}
                 <div class="quick-actions">
-                    <a href="{{ url_for('create_listing') }}" class="btn btn-primary">
-                        <i class="fas fa-plus-circle"></i>
-                        Create New Listing
-                    </a>
                     <form action="{{ url_for('simulate_withdrawal') }}" method="post" style="margin: 0;">
-                        <button type="submit" class="btn btn-success">
-                            <i class="fas fa-university"></i>
-                            Withdraw
+                        <button type="submit" class="btn btn-outline">
+                            <i class="fas fa-university"></i> Withdraw Funds
                         </button>
                     </form>
-                    <a href="{{ url_for('show_balance') }}" class="btn btn-outline">
-                        <i class="fas fa-chart-line"></i>
-                        View Earnings
-                    </a>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Integrated Create Listing Form -->
+            <div class="create-listing-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-ticket-alt"></i> Create New Listing</h2>
+                    <p>Set up a secure transaction for your ticket sale</p>
+                </div>
+                
+                <div class="compact-info-box">
+                    <i class="fas fa-info-circle"></i>
+                    Add buyer's email, event details, and price. We'll handle the rest!
+                </div>
+                
+                <form action="{{ url_for('create_transaction') }}" method="post" class="create-listing-form">
+                    <div class="compact-form-grid">
+                        <!-- Event Information -->
+                        <div class="form-group event-group">
+                            <label for="event_name">Event <span class="required">*</span></label>
+                            <div class="event-search">
+                                <input type="text" id="event_name" name="event_name" placeholder="Search or enter event name" required autocomplete="off">
+                                <div id="event_suggestions" class="event-suggestions"></div>
                             </div>
+                            <div class="event-info" id="event-info" style="display: none;">
+                                <div class="event-detail-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span id="event-location-display">No location available</span>
+                                </div>
+                                <div class="event-detail-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span id="event-datetime-display">No date available</span>
+                                </div>
                             </div>
+                            <!-- Hidden fields to store the actual data -->
+                            <input type="hidden" id="event_location" name="event_location" value="">
+                            <input type="hidden" id="event_datetime" name="event_datetime" value="">
+                        </div>
+                        
+                        <!-- Transaction Details in a row -->
+                        <div class="form-row">
+                            <div class="form-group price-group">
+                                <label for="price">Price ($) <span class="required">*</span></label>
+                                <input type="number" id="price" name="price" placeholder="100" min="1" max="10000" required>
+                            </div>
+                            
+                            <div class="form-group email-group">
+                                <label for="buyer_email">Buyer's Email <span class="required">*</span></label>
+                                <input type="email" id="buyer_email" name="buyer_email" placeholder="buyer@gmail.com" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group details-group">
+                            <label for="ticket_details">Ticket Details (Optional)</label>
+                            <textarea id="ticket_details" name="ticket_details" placeholder="Section, Row, Seat numbers, any special notes..." rows="2"></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Hidden fields -->
+                    <input type="hidden" name="seller_email" value="{{ logemail }}">
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary create-listing-btn">
+                        <i class="fas fa-paper-plane"></i> Create Listing & Send to Buyer
+                    </button>
+                </form>
+            </div>
         {% else %}
             <div class="balance-hero">
                 <div class="balance-display">
@@ -1000,5 +1366,127 @@
         style.textContent = '@keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }';
         document.head.appendChild(style);
     </script>
+    
+    {% if user_type == 'seller' %}
+    <script>
+        const eventNameInput = document.getElementById('event_name');
+        const suggestionsContainer = document.getElementById('event_suggestions');
+        const eventInfoContainer = document.getElementById('event-info');
+        const eventLocationDisplay = document.getElementById('event-location-display');
+        const eventDatetimeDisplay = document.getElementById('event-datetime-display');
+        const eventLocationInput = document.getElementById('event_location');
+        const eventDatetimeInput = document.getElementById('event_datetime');
+        
+        let debounceTimer;
+        let selectedEventData = null;
+        
+        eventNameInput.addEventListener('input', function() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                const query = this.value.trim();
+                if (query.length < 2) {
+                    suggestionsContainer.style.display = 'none';
+                    return;
+                }
+                
+                fetch(`/api/events?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(events => {
+                        if (events && events.length > 0) {
+                            showSuggestions(events);
+                        } else {
+                            suggestionsContainer.style.display = 'none';
+                            hideEventInfo();
+                        }
+                    })
+                    .catch(error => console.error('Error fetching events:', error));
+            }, 300);
+            
+            // If user changes the event name, hide the event info unless it matches a selected event
+            if (selectedEventData && eventNameInput.value !== selectedEventData.name) {
+                hideEventInfo();
+            }
+        });
+        
+        function showSuggestions(events) {
+            suggestionsContainer.innerHTML = '';
+            events.forEach(event => {
+                const item = document.createElement('div');
+                item.className = 'suggestion-item';
+                item.addEventListener('click', function() {
+                    selectEvent(event);
+                });
+                
+                // Event name
+                const nameElement = document.createElement('div');
+                nameElement.className = 'suggestion-event-name';
+                nameElement.textContent = event.name;
+                item.appendChild(nameElement);
+                
+                // Details container
+                const detailsElement = document.createElement('div');
+                detailsElement.className = 'suggestion-details';
+                
+                // Location
+                const locationElement = document.createElement('div');
+                locationElement.className = 'suggestion-location';
+                const locationIcon = document.createElement('i');
+                locationIcon.className = 'fas fa-map-marker-alt';
+                locationElement.appendChild(locationIcon);
+                const locationText = document.createTextNode(event.location || 'Unknown location');
+                locationElement.appendChild(locationText);
+                detailsElement.appendChild(locationElement);
+                
+                // Time
+                const timeElement = document.createElement('div');
+                timeElement.className = 'suggestion-time';
+                const timeIcon = document.createElement('i');
+                timeIcon.className = 'far fa-clock';
+                timeElement.appendChild(timeIcon);
+                const timeText = document.createTextNode(event.datetime || 'No date');
+                timeElement.appendChild(timeText);
+                detailsElement.appendChild(timeElement);
+                
+                item.appendChild(detailsElement);
+                suggestionsContainer.appendChild(item);
+            });
+            
+            suggestionsContainer.style.display = 'block';
+        }
+
+        function selectEvent(event) {
+            selectedEventData = event;
+            eventNameInput.value = event.name;
+            suggestionsContainer.style.display = 'none';
+            
+            // Display event info
+            eventLocationDisplay.textContent = event.location || 'No location available';
+            
+            // Use the formatted date directly from the API
+            eventDatetimeDisplay.textContent = event.datetime || 'No date available';
+            
+            // Set the hidden input values
+            eventLocationInput.value = event.location || '';
+            eventDatetimeInput.value = event.raw_datetime || '';
+            
+            // Show the event info section
+            eventInfoContainer.style.display = 'flex';
+        }
+        
+        function hideEventInfo() {
+            selectedEventData = null;
+            eventInfoContainer.style.display = 'none';
+            eventLocationInput.value = '';
+            eventDatetimeInput.value = '';
+        }
+        
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!eventNameInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+                suggestionsContainer.style.display = 'none';
+            }
+        });
+    </script>
+    {% endif %}
 </body>
 </html>
