@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             /* Trust-Building Color Palette */
@@ -95,10 +96,10 @@
         }
 
         .brand-icon {
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             background: var(--primary-gradient);
-            border-radius: var(--radius-md);
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -113,63 +114,71 @@
         }
 
         .user-avatar {
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             background: var(--primary-gradient);
             border-radius: var(--radius-full);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: 700;
+            font-weight: 600;
             font-size: 16px;
-            cursor: pointer;
-            transition: all 0.2s ease;
         }
 
-        .user-avatar:hover {
-            transform: var(--hover-lift);
-            box-shadow: var(--hover-shadow);
-        }
-
-        .user-details {
+        .user-info {
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
         }
 
         .user-email {
-            font-weight: 600;
-            color: var(--text-primary);
             font-size: 14px;
+            color: var(--text-secondary);
         }
 
-        .user-type-badge {
-            background: var(--success-gradient);
-            color: white;
-            padding: 2px 8px;
-            border-radius: var(--radius-full);
-            font-size: 11px;
-            font-weight: 600;
+        .user-type {
+            font-size: 12px;
+            color: var(--text-tertiary);
             text-transform: uppercase;
+            font-weight: 600;
             letter-spacing: 0.5px;
         }
 
-        /* Main App Layout */
+        /* Main Layout */
         .app-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: var(--space-xl) var(--space-lg);
+            padding: var(--space-lg);
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: var(--space-xl);
+            align-items: start;
         }
 
-        /* Hero Section */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+            position: sticky;
+            top: var(--space-lg);
+        }
+
+        /* Hero Section - Full Width */
         .hero-section {
+            grid-column: 1 / -1;
             text-align: center;
-            margin-bottom: var(--space-2xl);
+            margin-bottom: var(--space-xl);
+            padding: var(--space-xl) 0;
         }
 
         .hero-title {
-            font-size: clamp(32px, 5vw, 48px);
+            font-size: 48px;
             font-weight: 900;
             background: var(--primary-gradient);
             -webkit-background-clip: text;
@@ -183,81 +192,370 @@
             font-size: 18px;
             color: var(--text-secondary);
             font-weight: 500;
-            margin-bottom: var(--space-xl);
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
 
-        /* Balance Card - CashApp Inspired */
-        .balance-hero {
-            background: var(--bg-secondary);
+        /* Balance Card - Modern & Psychological */
+        .balance-card {
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border: 1px solid #e2e8f0;
             border-radius: var(--radius-xl);
             padding: var(--space-xl);
-            margin-bottom: var(--space-xl);
-            border: 1px solid var(--border-light);
-            position: relative;
-            overflow: hidden;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 8px 24px rgba(59, 130, 246, 0.04);
             transition: all 0.3s ease;
+            position: relative;
         }
 
-        .balance-hero::before {
+        .balance-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: var(--success-gradient);
-        }
-        
-        .balance-hero.zero-balance {
-            padding: var(--space-md);
-            margin-bottom: var(--space-lg);
+            height: 3px;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
         }
 
-        .balance-display {
-            text-align: center;
-            margin-bottom: var(--space-xl);
+        .balance-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 16px 32px rgba(59, 130, 246, 0.06);
         }
 
-        .balance-amount {
-            font-size: 56px;
-            font-weight: 900;
-            color: var(--text-primary);
+        .balance-card .balance-amount {
+            font-size: 42px;
+            font-weight: 700;
+            color: #1e293b;
             margin-bottom: var(--space-xs);
-            letter-spacing: -0.03em;
-            transition: all 0.3s ease;
-        }
-        
-        .zero-balance .balance-amount {
-            font-size: 32px;
-        }
-        
-        .positive-balance .balance-amount {
-            font-size: 64px;
-            background: var(--success-gradient);
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #1e293b, #475569);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 2px 10px rgba(0, 212, 170, 0.2);
         }
 
-        .balance-label {
-            font-size: 16px;
-            color: var(--text-secondary);
+        .balance-card .balance-label {
+            font-size: 13px;
+            color: #64748b;
             font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
+            margin-bottom: var(--space-sm);
         }
 
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        .balance-card .balance-status {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        /* Professional Withdrawal Section - Compact */
+        .withdrawal-section {
+            padding: var(--space-lg);
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border: 2px solid #64748b;
+            border-radius: var(--radius-xl);
+            box-shadow: 0 4px 15px rgba(100, 116, 139, 0.1);
+        }
+
+        .withdrawal-header {
+            text-align: center;
+            margin-bottom: var(--space-md);
+        }
+
+        .withdrawal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: var(--space-xs);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+        }
+
+        .withdrawal-subtitle {
+            color: #475569;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: var(--space-md);
+            line-height: 1.4;
+        }
+
+        .instruction-text {
+            text-align: center;
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+            border: 1px solid #64748b;
+            border-radius: var(--radius-sm);
+            padding: var(--space-sm);
+            margin-bottom: var(--space-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-xs);
+            color: #334155;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Professional Verification Container - Smooth */
+        .maze-container {
+            width: 100%;
+            height: 140px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius-md);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: var(--space-md);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .maze-container:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .maze-orb {
+            width: 12px;
+            height: 12px;
+            background: #3b82f6;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 10;
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            cursor: grab;
+        }
+
+        .maze-orb:active {
+            cursor: grabbing;
+            transform: scale(1.1);
+            box-shadow: 0 0 16px rgba(59, 130, 246, 0.6);
+        }
+
+        .maze-orb.dragging {
+            transition: none;
+            z-index: 15;
+        }
+
+        .maze-difficulty-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-size: 11px;
+            font-weight: 600;
+            z-index: 15;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+
+        .maze-instructions {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 500;
+            z-index: 15;
+            animation: instructionPulse 2s infinite;
+        }
+
+        @keyframes instructionPulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        /* Simple Maze Styles */
+        #homeCanvas {
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+        }
+
+        .maze-orb:hover {
+            transform: scale(1.1);
+            box-shadow: 
+                0 0 25px rgba(96, 165, 250, 0.8),
+                0 0 50px rgba(96, 165, 250, 0.4),
+                inset 0 1px 1px rgba(255, 255, 255, 0.4);
+            border-color: rgba(31, 41, 55, 0.5);
+        }
+
+        .maze-status {
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, #f3f4f6, #e5e7eb);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: var(--space-sm);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #64748b, #475569, #334155);
+            border-radius: 20px;
+            transition: width 0.3s ease;
+            position: relative;
+            box-shadow: 0 0 8px rgba(100, 116, 139, 0.4);
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.2) 50%, transparent 60%);
+            animation: progressShimmer 3s infinite;
+        }
+
+        .status-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #475569;
+            transition: all 0.3s ease;
+        }
+
+        .status-text.completed {
+            color: #334155;
+            font-weight: 600;
+        }
+
+        .status-text.no-balance {
+            color: #dc2626;
+        }
+
+        /* Enhanced celebration animation */
+        @keyframes celebration {
+            0% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.4) rotate(90deg); }
+            50% { transform: scale(1.2) rotate(180deg); }
+            75% { transform: scale(1.3) rotate(270deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        @keyframes successRipple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .success-ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.6), transparent);
+            animation: successRipple 0.6s ease-out;
+            pointer-events: none;
+        }
+
+        /* Modal for withdrawal confirmation */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal h3 {
+            margin-bottom: var(--space-lg);
+            color: var(--text-primary);
+        }
+
+        .modal .balance-display {
+            margin: var(--space-lg) 0;
+        }
+
+        .modal .balance-amount {
+            font-size: 32px;
+        }
+
+        .bank-form {
+            text-align: left;
+            margin: var(--space-lg) 0;
+        }
+
+        .bank-form .form-group {
+            margin-bottom: var(--space-md);
+        }
+
+        .bank-form label {
+            display: block;
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: var(--space-xs);
+            font-size: 14px;
+        }
+
+        .bank-form input {
+            width: 100%;
+            padding: var(--space-md);
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-medium);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .bank-form input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .modal-actions {
+            display: flex;
             gap: var(--space-md);
+            margin-top: var(--space-lg);
         }
 
-        /* Modern Button System */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -270,34 +568,8 @@
             text-decoration: none;
             border: none;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.1);
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
-        .btn:hover::before {
-            opacity: 1;
-        }
-
-        .btn:hover {
-            transform: var(--hover-lift);
-            box-shadow: var(--hover-shadow);
-        }
-
-        .btn:active {
-            transform: var(--active-scale);
+            transition: all 0.2s ease;
+            flex: 1;
         }
 
         .btn-primary {
@@ -305,712 +577,246 @@
             color: white;
         }
 
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-medium);
+        }
+
         .btn-success {
             background: var(--success-gradient);
             color: white;
         }
 
-        .btn-outline {
-            background: transparent;
-            color: var(--text-primary);
-            border: 2px solid var(--border-medium);
-        }
-
-        .btn-outline:hover {
-            background: var(--text-primary);
-            color: white;
-            border-color: var(--text-primary);
-        }
-
-        /* Tab Navigation - Venmo Inspired */
-        .tab-navigation {
-            background: var(--bg-secondary);
-            border-radius: var(--radius-xl);
-            padding: var(--space-xs);
-            margin-bottom: var(--space-xl);
-            display: flex;
-            gap: var(--space-xs);
-            border: 1px solid var(--border-light);
-        }
-
-        .tab-item {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--space-xs);
-            padding: var(--space-md);
-            border-radius: var(--radius-md);
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s ease;
-            position: relative;
-        }
-
-        .tab-item.active {
-            background: var(--primary-gradient);
-            color: white;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-        }
-
-        .tab-count {
-            background: rgba(255, 255, 255, 0.2);
-            color: inherit;
-            padding: 2px 8px;
-            border-radius: var(--radius-full);
-            font-size: 12px;
-            font-weight: 700;
-            min-width: 20px;
-            text-align: center;
-        }
-
-        .tab-item:not(.active) .tab-count {
-            background: var(--bg-tertiary);
-            color: var(--text-tertiary);
-        }
-
-        /* Transaction Cards - Netflix/Spotify Inspired */
-        .transactions-grid {
-            display: grid;
-            gap: var(--space-lg);
-        }
-
-        .transaction-card {
-            background: var(--bg-secondary);
-            border-radius: var(--radius-xl);
-            padding: var(--space-xl);
-            border: 1px solid var(--border-light);
-            position: relative;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-        }
-
-        .transaction-card:hover {
+        .btn:hover {
             transform: var(--hover-lift);
-            box-shadow: var(--hover-shadow);
-            border-color: var(--border-medium);
         }
 
-        .transaction-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--success-gradient);
-        }
-
-        .transaction-card.status-pending::before { background: var(--warning-gradient); }
-        .transaction-card.status-complaint::before { background: var(--danger-gradient); }
-        .transaction-card.status-waiting::before { background: var(--info-gradient); }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: var(--space-lg);
-        }
-
-        .transaction-info {
-            flex: 1;
-        }
-
-        .transaction-id {
-            font-size: 12px;
-            color: var(--text-tertiary);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: var(--space-xs);
-        }
-
-        .event-name {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: var(--space-sm);
-        }
-
-        .price-display {
-            font-size: 28px;
-            font-weight: 900;
-            background: var(--success-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .status-badge {
-            padding: var(--space-sm) var(--space-md);
-            border-radius: var(--radius-full);
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: var(--space-xs);
-        }
-
-        .status-pending {
-            background: rgba(255, 215, 0, 0.1);
-            color: #b8860b;
-        }
-
-        .status-success {
-            background: rgba(0, 212, 170, 0.1);
-            color: #00a085;
-        }
-
-        .status-complaint {
-            background: rgba(255, 107, 107, 0.1);
-            color: #d63031;
-        }
-
-        .status-waiting {
-            background: rgba(78, 205, 196, 0.1);
-            color: #00b894;
-        }
-
-        .card-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: var(--space-lg);
-            margin: var(--space-lg) 0;
-            padding: var(--space-lg);
-            background: var(--bg-tertiary);
-            border-radius: var(--radius-md);
-        }
-
-        .detail-item {
-            text-align: center;
-        }
-
-        .detail-label {
-            font-size: 12px;
-            color: var(--text-tertiary);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: var(--space-xs);
-        }
-
-        .detail-value {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .card-actions {
-            display: flex;
-            gap: var(--space-sm);
-            flex-wrap: wrap;
-            margin-top: var(--space-lg);
-        }
-
-        .btn-sm {
-            padding: var(--space-sm) var(--space-md);
-            font-size: 13px;
-            border-radius: var(--radius-sm);
-        }
-
-        /* Complaint Alert - Critical Design */
-        .complaint-alert {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
-            color: white;
-            padding: var(--space-xl);
-            border-radius: var(--radius-lg);
-            margin: var(--space-lg) 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .complaint-alert::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpolygon points='20 0 40 20 20 40 0 20'/%3E%3C/g%3E%3C/svg%3E");
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .complaint-header {
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-            margin-bottom: var(--space-md);
-        }
-
-        .complaint-title {
-            font-size: 18px;
-            font-weight: 800;
-        }
-
-        /* Empty States - Delightful */
-        .empty-state {
-            text-align: center;
-            padding: var(--space-2xl);
-            color: var(--text-secondary);
-        }
-
-        .empty-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--bg-tertiary);
-            border-radius: var(--radius-full);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto var(--space-lg);
-            font-size: 32px;
-            color: var(--text-tertiary);
-        }
-
-        .empty-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: var(--space-sm);
-            color: var(--text-primary);
-        }
-
-        .empty-subtitle {
-            font-size: 16px;
-            margin-bottom: var(--space-xl);
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Flash Messages - System Feedback */
-        .flash-messages {
-            position: fixed;
-            top: 80px;
-            right: var(--space-lg);
-            z-index: 1000;
-            max-width: 400px;
-        }
-
-        .flash-message {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-md);
-            padding: var(--space-md) var(--space-lg);
-            margin-bottom: var(--space-sm);
-            box-shadow: var(--hover-shadow);
-            animation: slideIn 0.3s ease-out;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .flash-message::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--success-gradient);
-        }
-
-        .flash-message.error::before {
-            background: var(--danger-gradient);
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .app-container {
-                padding: var(--space-lg) var(--space-md);
-            }
-
-            .header-content {
-                padding: var(--space-sm) var(--space-md);
-            }
-
-            .balance-hero {
-                padding: var(--space-lg);
-            }
-
-            .balance-amount {
-                font-size: 40px;
-            }
-
-            .quick-actions {
-                grid-template-columns: 1fr;
-            }
-
-            .tab-navigation {
-                flex-direction: column;
-                gap: var(--space-xs);
-            }
-
-            .card-details {
-                grid-template-columns: 1fr;
-                gap: var(--space-md);
-            }
-
-            .card-actions {
-                flex-direction: column;
-            }
-        }
-
-        /* Loading States */
-        .loading {
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
-        .loading::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            border: 2px solid transparent;
-            border-top: 2px solid var(--text-primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            transform: translate(-50%, -50%);
-        }
-
-        @keyframes spin {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        /* Accessibility Improvements */
-        .btn:focus,
-        .tab-item:focus {
-            outline: 2px solid var(--primary-gradient);
-            outline-offset: 2px;
-        }
-
-        /* Create Listing Section Styles */
+        /* Create Listing Section - Main Content */
         .create-listing-section {
             background: var(--bg-secondary);
             border-radius: var(--radius-xl);
-            padding: var(--space-lg);
-            margin-bottom: var(--space-xl);
+            padding: var(--space-xl);
             border: 1px solid var(--border-light);
-            position: relative;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
-        
-        .create-listing-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--primary-gradient);
+
+        .create-listing-header {
+            margin-bottom: var(--space-xl);
+            text-align: center;
         }
-        
-        .section-header {
-            margin-bottom: var(--space-md);
-            padding-bottom: var(--space-sm);
-            border-bottom: 1px solid var(--border-light);
-        }
-        
-        .section-header h2 {
-            font-size: 24px;
-            font-weight: 700;
+
+        .create-listing-title {
+            font-size: 32px;
+            font-weight: 800;
             color: var(--text-primary);
-            margin-bottom: 5px;
+            margin-bottom: var(--space-sm);
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            gap: var(--space-sm);
         }
-        
-        .section-header p {
+
+        .create-listing-subtitle {
+            font-size: 16px;
             color: var(--text-secondary);
-            font-size: 15px;
-            margin: 0;
+            font-weight: 500;
+            line-height: 1.5;
         }
-        
-        .info-box {
-            background: #e3f2fd;
-            border: 1px solid #90caf9;
-            border-radius: var(--radius-md);
-            padding: var(--space-md);
-            margin-bottom: var(--space-lg);
-            color: #1565c0;
-            font-size: 14px;
+
+        .listing-form {
+            display: grid;
+            gap: var(--space-lg);
         }
-        
-        .info-box i {
-            margin-right: 8px;
-            color: #1976d2;
-        }
-        
-        .create-listing-form {
-            margin-top: var(--space-lg);
-        }
-        
-        .form-grid {
+
+        .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: var(--space-lg);
-            margin-bottom: var(--space-lg);
         }
-        
-        .compact-form-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: var(--space-md);
-            margin-bottom: var(--space-md);
+
+        .form-group {
+            margin-bottom: 0;
         }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: var(--space-md);
-        }
-        
-        .form-group.full-width {
-            grid-column: span 2;
-        }
-        
-        .compact-info-box {
-            background: #e3f2fd;
-            border: 1px solid #90caf9;
-            border-radius: var(--radius-md);
-            padding: var(--space-sm);
-            margin-bottom: var(--space-md);
-            color: #1565c0;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .compact-info-box i {
-            color: #1976d2;
-        }
-        
-        .event-search {
-            position: relative;
-        }
-        
-        .event-suggestions {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-md);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            z-index: 10;
-            max-height: 200px;
-            overflow-y: auto;
-            display: none;
-        }
-        
-        .suggestion-item {
-            padding: 12px 15px;
-            cursor: pointer;
-            border-bottom: 1px solid var(--border-light);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .suggestion-item:last-child {
-            border-bottom: none;
-        }
-        
-        .suggestion-item:hover {
-            background-color: var(--bg-secondary);
-        }
-        
-        .suggestion-event-name {
-            font-weight: 600;
-            margin-bottom: 4px;
-            color: var(--text-primary);
-        }
-        
-        .suggestion-details {
-            display: flex;
-            font-size: 13px;
-            color: var(--text-secondary);
-            gap: 12px;
-        }
-        
-        .suggestion-location, .suggestion-time {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        
-        .suggestion-location i, .suggestion-time i {
-            font-size: 12px;
-            opacity: 0.7;
-        }
-        
-        .event-info {
-            display: flex;
-            gap: var(--space-md);
-            margin-top: 10px;
-            flex-wrap: wrap;
-            background-color: var(--bg-secondary);
-            border-radius: var(--radius-md);
-            padding: 12px;
-            border: 1px solid var(--border-light);
-        }
-        
-        .event-detail-item {
-            display: flex;
-            align-items: center;
-            flex: 1;
-            min-width: 200px;
-            padding: 4px 8px;
-        }
-        
-        .event-detail-item i {
-            margin-right: 10px;
-            color: var(--primary-color);
-            font-size: 16px;
-        }
-        
-        .event-detail-item span {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-        
+
         .form-group label {
             display: block;
-            font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 6px;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
             font-size: 14px;
         }
-        
+
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 10px 12px;
+            padding: var(--space-md);
+            background: var(--bg-tertiary);
             border: 2px solid var(--border-light);
             border-radius: var(--radius-md);
-            font-size: 14px;
-            font-family: inherit;
-            transition: border-color 0.3s ease;
-            box-sizing: border-box;
+            color: var(--text-primary);
+            font-size: 15px;
+            transition: all 0.2s ease;
         }
-        
+
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
-        }
-        
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-        
-        .help-text {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-        
-        .required {
-            color: #e53935;
-        }
-        
-        .event-search {
-            position: relative;
-        }
-        
-        .event-suggestions {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border: 1px solid var(--border-light);
-            border-top: none;
-            border-radius: 0 0 var(--radius-md) var(--radius-md);
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 1000;
-            display: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        .event-suggestion {
-            padding: 10px 12px;
-            cursor: pointer;
-            border-bottom: 1px solid var(--border-light);
-            font-size: 14px;
-        }
-        
-        .event-suggestion:hover {
-            background: var(--bg-tertiary);
-        }
-        
-        .event-suggestion:last-child {
-            border-bottom: none;
-        }
-        
-        .create-listing-btn {
-            margin-top: var(--space-md);
-            width: 100%;
-            padding: var(--space-md) var(--space-lg);
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-1px);
         }
 
-        /* Reduce motion for accessibility */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
+        .create-listing-btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: var(--space-lg) var(--space-xl);
+            border-radius: var(--radius-md);
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            margin-top: var(--space-lg);
         }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .form-grid {
+
+        .create-listing-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.25);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .app-container {
                 grid-template-columns: 1fr;
+                gap: var(--space-lg);
             }
             
-            .form-group.full-width {
-                grid-column: span 1;
+            .sidebar {
+                position: static;
+                order: -1;
+            }
+            
+            .hero-section {
+                grid-column: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                padding: var(--space-md);
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: var(--space-md);
+            }
+            
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .create-listing-title {
+                font-size: 24px;
+            }
+            
+            .maze-container {
+                height: 120px;
+            }
+        }
+
+        /* Enhanced Form Interactions */
+        .form-group input:hover,
+        .form-group select:hover,
+        .form-group textarea:hover {
+            border-color: #94a3b8;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .create-listing-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+        }
+
+        /* Enhanced Balance Card Interactions */
+        .balance-card .balance-amount {
+            transition: all 0.3s ease;
+        }
+
+        .balance-card:hover .balance-amount {
+            transform: scale(1.02);
+        }
+
+        .balance-status {
+            transition: all 0.3s ease;
+        }
+
+        .balance-card:hover .balance-status {
+            transform: scale(1.05);
+            background: rgba(16, 185, 129, 0.15);
+        }
+
+        /* Smooth Withdrawal Section */
+        .withdrawal-section:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(100, 116, 139, 0.12);
+        }
+
+        .instruction-text:hover {
+            background: linear-gradient(135deg, #ddd6fe, #c4b5fd);
+            border-color: #8b5cf6;
+            color: #6d28d9;
+        }
+
+        /* Smooth Progress Bar */
+        .progress-bar:hover {
+            transform: scale(1.02);
+        }
+
+        /* Enhanced Button Interactions */
+        .btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        /* Smooth Scroll Behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Enhanced App Container */
+        .app-container {
+            animation: pageLoad 0.6s ease-out;
+        }
+
+        @keyframes pageLoad {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
     </style>
 </head>
+
 <body>
-    <!-- Modern App Header -->
+    <!-- App Header -->
     <header class="app-header">
         <div class="header-content">
-            <a href="{{ url_for('show_index', user_type=user_type) }}" class="brand">
+            <a href="/" class="brand">
                 <div class="brand-icon">
                     <i class="fas fa-shield-check"></i>
                 </div>
@@ -1018,30 +824,16 @@
             </a>
             
             <div class="user-profile">
-                <div class="user-details">
+                <div class="user-info">
                     <div class="user-email">{{ logemail }}</div>
-                    <div class="user-type-badge">{{ user_type.title() }}</div>
+                    <div class="user-type">{{ user_type }}</div>
                 </div>
-                <div class="user-avatar" onclick="showUserMenu()">
+                <div class="user-avatar">
                     {{ logemail[0].upper() }}
                 </div>
             </div>
         </div>
     </header>
-
-    <!-- Flash Messages -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            <div class="flash-messages">
-            {% for category, message in messages %}
-                    <div class="flash-message {{ 'error' if category == 'error' else 'success' }}">
-                        <i class="fas fa-{% if category == 'error' %}exclamation-triangle{% else %}check-circle{% endif %}"></i>
-                        {{ message }}
-              </div>
-            {% endfor %}
-            </div>
-          {% endif %}
-        {% endwith %}
 
     <!-- Main App Container -->
     <div class="app-container">
@@ -1049,444 +841,842 @@
         <div class="hero-section">
         {% if user_type == 'buyer' %}
                 <h1 class="hero-title">Buy Tickets Safely</h1>
-                <p class="hero-subtitle">Your secure marketplace for authentic tickets with 100% buyer protection</p>
+                <p class="hero-subtitle">The trusted platform to purchase tickets with complete protection</p>
         {% else %}
                 <h1 class="hero-title">Sell Tickets Easily</h1>
                 <p class="hero-subtitle">The trusted platform to sell your tickets quickly and securely</p>
         {% endif %}
         </div>
 
-        <!-- Balance/Action Hero Card -->
+        <!-- Main Content Area -->
         {% if user_type == 'seller' %}
-            <div class="balance-hero {% if user_balance == 0 %}zero-balance{% else %}positive-balance{% endif %}">
-                <div class="balance-display">
-                    <div class="balance-amount">${{ user_balance }}</div>
-                    <div class="balance-label">Available Balance</div>
-                </div>
-                
-                {% if user_balance > 0 %}
-                <div class="quick-actions">
-                    <form action="{{ url_for('simulate_withdrawal') }}" method="post" style="margin: 0;">
-                        <button type="submit" class="btn btn-outline">
-                            <i class="fas fa-university"></i> Withdraw Funds
-                        </button>
-                    </form>
-                </div>
-                {% endif %}
-            </div>
-            
-            <!-- Integrated Create Listing Form -->
+        <div class="main-content">
+            <!-- Create Listing Section -->
             <div class="create-listing-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-ticket-alt"></i> Create New Listing</h2>
-                    <p>Set up a secure transaction for your ticket sale</p>
+                <div class="create-listing-header">
+                    <h2 class="create-listing-title"><i class="fas fa-ticket-alt"></i> Create New Listing</h2>
+                    <p class="create-listing-subtitle">List your tickets for sale on our secure platform</p>
                 </div>
                 
-                <div class="compact-info-box">
-                    <i class="fas fa-info-circle"></i>
-                    Add buyer's email, event details, and price. We'll handle the rest!
-                </div>
-                
-                <form action="{{ url_for('create_transaction') }}" method="post" class="create-listing-form">
-                    <div class="compact-form-grid">
-                        <!-- Event Information -->
-                        <div class="form-group event-group">
-                            <label for="event_name">Event <span class="required">*</span></label>
-                            <div class="event-search">
-                                <input type="text" id="event_name" name="event_name" placeholder="Search or enter event name" required autocomplete="off">
-                                <div id="event_suggestions" class="event-suggestions"></div>
-                            </div>
-                            <div class="event-info" id="event-info" style="display: none;">
-                                <div class="event-detail-item">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span id="event-location-display">No location available</span>
-                                </div>
-                                <div class="event-detail-item">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    <span id="event-datetime-display">No date available</span>
-                                </div>
-                            </div>
-                            <!-- Hidden fields to store the actual data -->
-                            <input type="hidden" id="event_location" name="event_location" value="">
-                            <input type="hidden" id="event_datetime" name="event_datetime" value="">
+                <form action="{{ url_for('create_transaction') }}" method="post" class="listing-form">
+                    <!-- Event Information -->
+                    <div class="form-group">
+                        <label for="event_name">Event Name</label>
+                        <input type="text" id="event_name" name="event_name" required placeholder="e.g., Taylor Swift Concert">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="event_location">Venue/Location</label>
+                            <input type="text" id="event_location" name="event_location" required placeholder="e.g., Madison Square Garden">
                         </div>
                         
-                        <!-- Transaction Details in a row -->
-                        <div class="form-row">
-                            <div class="form-group price-group">
-                                <label for="price">Price ($) <span class="required">*</span></label>
-                                <input type="number" id="price" name="price" placeholder="100" min="1" max="10000" required>
-                            </div>
-                            
-                            <div class="form-group email-group">
-                                <label for="buyer_email">Buyer's Email <span class="required">*</span></label>
-                                <input type="email" id="buyer_email" name="buyer_email" placeholder="buyer@gmail.com" required>
-                            </div>
+                        <div class="form-group">
+                            <label for="event_datetime">Event Date & Time</label>
+                            <input type="datetime-local" id="event_datetime" name="event_datetime" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Transaction Details -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="price">Ticket Price ($)</label>
+                            <input type="number" id="price" name="price" step="0.01" min="1" max="10000" required placeholder="100.00">
                         </div>
                         
-                        <div class="form-group details-group">
-                            <label for="ticket_details">Ticket Details (Optional)</label>
-                            <textarea id="ticket_details" name="ticket_details" placeholder="Section, Row, Seat numbers, any special notes..." rows="2"></textarea>
+                        <div class="form-group">
+                            <label for="buyer_email">Buyer Email</label>
+                            <input type="email" id="buyer_email" name="buyer_email" required placeholder="buyer@example.com">
                         </div>
+                    </div>
+                    
+                    <!-- Additional Details -->
+                    <div class="form-group">
+                        <label for="ticket_details">Ticket Details (Optional)</label>
+                        <textarea id="ticket_details" name="ticket_details" rows="3" placeholder="Section, Row, Seat numbers, any special notes..."></textarea>
                     </div>
                     
                     <!-- Hidden fields -->
                     <input type="hidden" name="seller_email" value="{{ logemail }}">
                     
-                    <!-- Submit Button -->
-                    <button type="submit" class="btn btn-primary create-listing-btn">
-                        <i class="fas fa-paper-plane"></i> Create Listing & Send to Buyer
+                    <button type="submit" class="create-listing-btn">
+                        <i class="fas fa-plus"></i> Create Listing & Send to Buyer
                     </button>
                 </form>
             </div>
-        {% else %}
-            <div class="balance-hero">
-                <div class="balance-display">
-                    <div class="balance-amount">{{ transactions|length }}</div>
-                    <div class="balance-label">Your Purchases</div>
-                    </div>
-                
-                <div class="quick-actions">
-                    <a href="{{ url_for('create_listing') }}" class="btn btn-primary">
-                        <i class="fas fa-search"></i>
-                        Find Tickets
-                    </a>
-                    <a href="#" class="btn btn-outline">
-                        <i class="fas fa-heart"></i>
-                        Saved Events
-                    </a>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Balance Card -->
+            <div class="balance-card">
+                <div class="balance-amount">${{ user_balance }}</div>
+                <div class="balance-label">Available Balance</div>
+                <div class="balance-status">
+                    <i class="fas fa-check-circle"></i>
+                    Verified & Ready
                 </div>
             </div>
-        {% endif %}
-
-        <!-- Tab Navigation -->
-        <nav class="tab-navigation">
-            <a href="{{ url_for('show_index', user_type=user_type, filter='active') }}" 
-               class="tab-item {% if view_filter == 'active' %}active{% endif %}">
-                <i class="fas fa-clock"></i>
-                Active
-                <span class="tab-count">{{ active_count }}</span>
-            </a>
-            <a href="{{ url_for('show_index', user_type=user_type, filter='history') }}" 
-               class="tab-item {% if view_filter == 'history' %}active{% endif %}">
-                <i class="fas fa-history"></i>
-                History
-                <span class="tab-count">{{ history_count }}</span>
-            </a>
-            <a href="{{ url_for('show_index', user_type=user_type, filter='all') }}" 
-               class="tab-item {% if view_filter == 'all' %}active{% endif %}">
-                <i class="fas fa-list"></i>
-                All
-                <span class="tab-count">{{ total_count }}</span>
-            </a>
-        </nav>
-
-        <!-- Transactions Grid -->
-        {% if transactions %}
-            <div class="transactions-grid">
-                {% for transaction in transactions %}
-                    <div class="transaction-card status-{{ transaction.status.replace(' ', '-').replace('_', '-') }}">
-                        <div class="card-header">
-                            <div class="transaction-info">
-                                <div class="transaction-id">Transaction #{{ transaction.transaction_id }}</div>
-                                <div class="event-name">{{ transaction.event_name }}</div>
-                                <div class="price-display">${{ transaction.price }}</div>
-                            </div>
-                            <div class="status-badge status-{{ transaction.status.replace(' ', '-').replace('_', '-') }}">
-                                {% if transaction.status == 'pending' %}
-                                    <i class="fas fa-clock"></i> Pending
-                                {% elif transaction.status == 'success' %}
-                                    <i class="fas fa-check-circle"></i> Complete
-                                {% elif transaction.status == 'complaint_filed' %}
-                                    <i class="fas fa-exclamation-triangle"></i> Issue
-                                {% elif 'waiting' in transaction.status %}
-                                    <i class="fas fa-hourglass-half"></i> In Progress
-                                {% else %}
-                                    {{ transaction.status.replace('_', ' ').title() }}
-                {% endif %}
-            </div>
-        </div>
-
-                        <div class="card-details">
-                            <div class="detail-item">
-                                <div class="detail-label">
-                                    {% if user_type == 'seller' %}Buyer{% else %}Seller{% endif %}
-                                </div>
-                                <div class="detail-value">
-                                    {% if user_type == 'seller' %}
-                                        {{ transaction.buyer_email.split('@')[0] }}
-                                    {% else %}
-                                        {{ transaction.seller_email.split('@')[0] }}
-                {% endif %}
-            </div>
-        </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Date</div>
-                                <div class="detail-value">{{ transaction.created_date }}</div>
-            </div>
-        </div>
-
-                        <!-- Complaint Alert for Sellers -->
-                        {% if user_type == 'seller' and transaction.status == 'complaint_filed' %}
-                            <div class="complaint-alert">
-                                <div class="complaint-header">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                    <div class="complaint-title">URGENT: Action Required</div>
-                                </div>
-                                <p><strong>Issue:</strong> Never received the ticket</p>
-                                <p><strong>Deadline:</strong> 24 hours to provide proof or automatic refund</p>
-                                <p style="margin-top: 10px;"><strong>Instructions:</strong> Forward the confirmation email with subject "Ticket Transfer Initiation Confirmation" to <strong>support@safetransaction.com</strong> with subject line "Complaint: Transaction #{{ transaction.transaction_id }}"</p>
-                                <div style="margin-top: var(--space-md);">
-                                    <a href="mailto:support@safetransaction.com?subject=Complaint:%20Transaction%20%23{{ transaction.transaction_id }}" 
-                                       class="btn btn-primary btn-sm">
-                                        <i class="fas fa-paper-plane"></i> Send Proof Now
-                                    </a>
-                                </div>
-                            </div>
-                        {% endif %}
-
-                        <!-- Transaction Actions -->
-                        <div class="card-actions">
-                            {% if user_type == 'seller' %}
-                                {% if transaction.status == 'waiting_for_ticket_transfer' %}
-                                    <button onclick="markTicketSent({{ transaction.transaction_id }})" class="btn btn-success btn-sm">
-                                        <i class="fas fa-paper-plane"></i> Mark Sent
-                                    </button>
-                                {% endif %}
-                            {% else %}
-                                {% if transaction.status == 'pending' %}
-                                    <a href="{{ url_for('buyer_ticket_card', transaction_id=transaction.transaction_id) }}" class="btn btn-primary btn-sm">
-                                        <i class="fas fa-credit-card"></i> Pay Now
-                                    </a>
-                                {% elif transaction.status == 'ticket_sent' %}
-                                    <a href="{{ url_for('validate_ticket', transaction_id=transaction.transaction_id) }}" class="btn btn-success btn-sm">
-                                        <i class="fas fa-check-circle"></i> Confirm Received
-                                    </a>
-                                    <a href="{{ url_for('buyer_ticket_card', transaction_id=transaction.transaction_id) }}#complaint" class="btn btn-outline btn-sm">
-                                        <i class="fas fa-flag"></i> Report Issue
-                                    </a>
-                {% endif %}
-    {% endif %}
-
-                            <a href="{{ url_for('buyer_ticket_card', transaction_id=transaction.transaction_id) }}" class="btn btn-outline btn-sm">
-                                <i class="fas fa-eye"></i> View Details
-                            </a>
-    </div>
-    </div>
-    {% endfor %}
-            </div>
-        {% else %}
-            <!-- Empty State -->
-            <div class="empty-state">
-                <div class="empty-icon">
-                    {% if view_filter == 'active' %}
-                        <i class="fas fa-clock"></i>
-                    {% elif view_filter == 'history' %}
-                        <i class="fas fa-history"></i>
-                    {% else %}
-                        <i class="fas fa-ticket-alt"></i>
-    {% endif %}
-    </div>
-                <h3 class="empty-title">
-                    {% if view_filter == 'active' %}
-                        No Active Transactions
-                    {% elif view_filter == 'history' %}
-                        No Transaction History
-                    {% else %}
-                        No Transactions Yet
-                    {% endif %}
-                </h3>
-                <p class="empty-subtitle">
-    {% if user_type == 'seller' %}
-                        {% if view_filter == 'active' %}
-                            All your transactions are complete. Ready to create a new listing?
-                        {% else %}
-                            Start by creating your first ticket listing to begin selling safely.
-                        {% endif %}
-                    {% else %}
-                        {% if view_filter == 'active' %}
-                            No pending purchases. Find tickets to buy safely!
-                        {% else %}
-                            You haven't made any purchases yet. Start browsing for tickets!
-                        {% endif %}
-                    {% endif %}
-                </p>
-                {% if user_type == 'seller' %}
-                    <a href="{{ url_for('create_listing') }}" class="btn btn-primary">
-                        <i class="fas fa-plus-circle"></i> Create Your First Listing
-                    </a>
-                {% else %}
-                    <a href="{{ url_for('create_listing') }}" class="btn btn-primary">
-                        <i class="fas fa-search"></i> Browse Available Tickets
-                    </a>
-                {% endif %}
-    </div>
-    {% endif %}
-    </div>
-
-    <script>
-        function markTicketSent(transactionId) {
-            if (confirm('Have you successfully transferred the ticket to the buyer?')) {
-                const card = document.querySelector(`[data-transaction-id="${transactionId}"]`);
-                if (card) card.classList.add('loading');
+            
+            <!-- Withdrawal Section -->
+            <div class="withdrawal-section">
+                <div class="withdrawal-header">
+                    <h3 class="withdrawal-title">
+                        <i class="fas fa-university"></i>
+                        Withdraw Funds
+                    </h3>
+                    <p class="withdrawal-subtitle">
+                        Security verification required - Complete the path to authorize your ${{ user_balance }} withdrawal
+                    </p>
+                </div>
                 
-                fetch(`/ticket_status/${transactionId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: 'action=sent'
-                }).then(() => {
-                    location.reload();
-                }).catch(() => {
-                    if (card) card.classList.remove('loading');
-                    alert('Failed to update status. Please try again.');
-                });
-            }
-        }
+                <div class="instruction-text">
+                    <i class="fas fa-shield-alt"></i>
+                    Security Check: Navigate the verification path to confirm your identity
+                </div>
+                
+                <div class="maze-container" id="homePageMaze">
+                    <canvas id="homeCanvas"></canvas>
+                    <div class="maze-orb" id="homeOrb"></div>
+                </div>
+                
+                <div class="maze-status" id="mazeStatus">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="homeProgress"></div>
+                    </div>
+                    <div class="status-text">Follow the secure path to complete verification</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
 
-        function showUserMenu() {
-            // Could implement a dropdown menu here
-            window.location.href = '{{ url_for("logout") }}';
-        }
+    <!-- Bank Details Modal -->
+    <div id="bankModal" class="modal-overlay">
+        <div class="modal">
+            <h3 id="modalTitle">Complete Withdrawal</h3>
+            
+            <div class="balance-display">
+                <div class="balance-amount">${{ user_balance }}</div>
+                <div class="balance-label">Withdrawal Amount</div>
+            </div>
+            
+            <div class="bank-form" id="bankForm">
+                <div class="form-group">
+                    <label for="accountNumber">Account Number</label>
+                    <input type="text" id="accountNumber" placeholder="Enter account number" maxlength="20">
+                </div>
+                
+                <div class="form-group">
+                    <label for="routingNumber">Routing Number</label>
+                    <input type="text" id="routingNumber" placeholder="Enter routing number" maxlength="9">
+                </div>
+                
+                <div class="form-group">
+                    <label for="bankName">Bank Name</label>
+                    <input type="text" id="bankName" placeholder="Enter bank name">
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-success" onclick="confirmWithdrawal()">
+                    <i class="fas fa-university"></i> Confirm Withdrawal
+                </button>
+            </div>
+        </div>
+    </div>
 
-        // Auto-dismiss flash messages
-        document.addEventListener('DOMContentLoaded', function() {
-            const flashMessages = document.querySelectorAll('.flash-message');
-            flashMessages.forEach(message => {
-                setTimeout(() => {
-                    message.style.animation = 'slideOut 0.3s ease-in forwards';
-                    setTimeout(() => message.remove(), 300);
-                }, 5000);
-                });
-            });
+    <!-- No Balance Modal -->
+    <div id="noBalanceModal" class="modal-overlay">
+        <div class="modal">
+            <h3>No Balance Available</h3>
+            <p style="margin: var(--space-lg) 0; color: var(--text-secondary);">
+                You currently have no funds available for withdrawal. Complete some sales to earn money first!
+            </p>
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="closeModal()" style="width: 100%;">
+                    <i class="fas fa-check"></i> Got It
+                </button>
+            </div>
+        </div>
+    </div>
 
-        // Add CSS for slide out animation
-        const style = document.createElement('style');
-        style.textContent = '@keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }';
-        document.head.appendChild(style);
-    </script>
-    
-    {% if user_type == 'seller' %}
     <script>
-        const eventNameInput = document.getElementById('event_name');
-        const suggestionsContainer = document.getElementById('event_suggestions');
-        const eventInfoContainer = document.getElementById('event-info');
-        const eventLocationDisplay = document.getElementById('event-location-display');
-        const eventDatetimeDisplay = document.getElementById('event-datetime-display');
-        const eventLocationInput = document.getElementById('event_location');
-        const eventDatetimeInput = document.getElementById('event_datetime');
-        
-        let debounceTimer;
-        let selectedEventData = null;
-        
-        eventNameInput.addEventListener('input', function() {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(() => {
-                const query = this.value.trim();
-                if (query.length < 2) {
-                    suggestionsContainer.style.display = 'none';
-                    return;
+        class SimpleMazeWithdrawal {
+            constructor() {
+                this.canvas = document.getElementById('homeCanvas');
+                if (!this.canvas) return;
+                
+                this.ctx = this.canvas.getContext('2d');
+                this.orb = document.getElementById('homeOrb');
+                this.container = document.getElementById('homePageMaze');
+                this.progressFill = document.getElementById('homeProgress');
+                this.statusText = document.querySelector('.status-text');
+                
+                this.canvas.width = 350;
+                this.canvas.height = 140;
+                this.cellSize = 20; // Smaller cells for compact sidebar
+                this.rows = Math.floor(this.canvas.height / this.cellSize);
+                this.cols = Math.floor(this.canvas.width / this.cellSize);
+                
+                // Ensure odd dimensions for proper maze
+                if (this.cols % 2 === 0) this.cols--;
+                if (this.rows % 2 === 0) this.rows--;
+                
+                this.maze = [];
+                this.startPosition = { x: 1, y: 1 };
+                this.endPosition = { x: this.cols - 2, y: this.rows - 2 };
+                this.orbPosition = { ...this.startPosition }; // Start at valid position
+                this.isDragging = false;
+                this.isCompleted = false;
+                this.userBalance = {{ user_balance or 0 }};
+                
+                this.initializeCanvas();
+                this.generateClearMaze();
+                this.setupEventListeners();
+                this.positionOrb(); // Position orb at start
+                this.animateTargetGlow();
+            }
+
+            initializeCanvas() {
+                const rect = this.container.getBoundingClientRect();
+                this.canvas.width = rect.width;
+                this.canvas.height = rect.height;
+                
+                this.cols = Math.floor(this.canvas.width / this.cellSize);
+                this.rows = Math.floor(this.canvas.height / this.cellSize);
+                
+                // Ensure odd dimensions for proper maze
+                if (this.cols % 2 === 0) this.cols--;
+                if (this.rows % 2 === 0) this.rows--;
+            }
+
+            generateClearMaze() {
+                // Create a true pencil-paper maze with only ONE correct path
+                this.maze = Array(this.rows).fill().map(() => Array(this.cols).fill(1)); // Start with all walls
+                
+                // Use recursive backtracking to create a proper maze
+                const stack = [];
+                const startX = 1;
+                const startY = 1;
+                
+                // Ensure start position is always clear (white path)
+                this.maze[startY][startX] = 0; // Starting point - white path
+                stack.push([startX, startY]);
+                
+                const directions = [[0, 2], [2, 0], [0, -2], [-2, 0]]; // Move by 2 to ensure walls between paths
+                
+                while (stack.length > 0) {
+                    const [x, y] = stack[stack.length - 1];
+                    const neighbors = [];
+                    
+                    // Find unvisited neighbors
+                    for (let [dx, dy] of directions) {
+                        const nx = x + dx;
+                        const ny = y + dy;
+                        
+                        if (nx > 0 && nx < this.cols - 1 && ny > 0 && ny < this.rows - 1 && this.maze[ny][nx] === 1) {
+                            neighbors.push([nx, ny, x + dx/2, y + dy/2]);
+                        }
+                    }
+                    
+                    if (neighbors.length > 0) {
+                        // Choose random neighbor to create branching paths
+                        const [nx, ny, wallX, wallY] = neighbors[Math.floor(Math.random() * neighbors.length)];
+                        this.maze[ny][nx] = 0; // Mark as path (white)
+                        this.maze[wallY][wallX] = 0; // Remove wall between (white)
+                        stack.push([nx, ny]);
+                    } else {
+                        stack.pop();
+                    }
                 }
                 
-                fetch(`/api/events?q=${encodeURIComponent(query)}`)
-                    .then(response => response.json())
-                    .then(events => {
-                        if (events && events.length > 0) {
-                            showSuggestions(events);
-                        } else {
-                            suggestionsContainer.style.display = 'none';
-                            hideEventInfo();
-                        }
-                    })
-                    .catch(error => console.error('Error fetching events:', error));
-            }, 300);
-            
-            // If user changes the event name, hide the event info unless it matches a selected event
-            if (selectedEventData && eventNameInput.value !== selectedEventData.name) {
-                hideEventInfo();
+                // Set positions - ensure they're in valid white cells
+                this.startPosition = { x: 1, y: 1 };
+                this.endPosition = { x: this.cols - 2, y: this.rows - 2 };
+                
+                // Force start and end to be white paths
+                this.maze[this.startPosition.y][this.startPosition.x] = 0; // White path
+                this.maze[this.endPosition.y][this.endPosition.x] = 2; // Target (green)
+                
+                // Ensure path from start to near end
+                this.maze[this.endPosition.y - 1][this.endPosition.x] = 0;
+                this.maze[this.endPosition.y][this.endPosition.x - 1] = 0;
+                
+                // Set orb to start position
+                this.orbPosition = { ...this.startPosition };
+                
+                this.drawMaze();
             }
-        });
-        
-        function showSuggestions(events) {
-            suggestionsContainer.innerHTML = '';
-            events.forEach(event => {
-                const item = document.createElement('div');
-                item.className = 'suggestion-item';
-                item.addEventListener('click', function() {
-                    selectEvent(event);
-                });
+
+            drawMaze() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
                 
-                // Event name
-                const nameElement = document.createElement('div');
-                nameElement.className = 'suggestion-event-name';
-                nameElement.textContent = event.name;
-                item.appendChild(nameElement);
+                // Fill with white background (like paper)
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
                 
-                // Details container
-                const detailsElement = document.createElement('div');
-                detailsElement.className = 'suggestion-details';
+                for (let y = 0; y < this.rows; y++) {
+                    for (let x = 0; x < this.cols; x++) {
+                        const cellX = x * this.cellSize;
+                        const cellY = y * this.cellSize;
+                        
+                        if (this.maze[y][x] === 1) {
+                            // Black walls (like pencil marks)
+                            this.ctx.fillStyle = '#000000';
+                            this.ctx.fillRect(cellX, cellY, this.cellSize, this.cellSize);
+                        } else if (this.maze[y][x] === 2) {
+                            // Puzzle piece connection point (target)
+                            this.drawPuzzleTarget(cellX, cellY);
+                        }
+                    }
+                }
                 
-                // Location
-                const locationElement = document.createElement('div');
-                locationElement.className = 'suggestion-location';
-                const locationIcon = document.createElement('i');
-                locationIcon.className = 'fas fa-map-marker-alt';
-                locationElement.appendChild(locationIcon);
-                const locationText = document.createTextNode(event.location || 'Unknown location');
-                locationElement.appendChild(locationText);
-                detailsElement.appendChild(locationElement);
+                // Continue animation for smooth effects
+                if (!this.isCompleted) {
+                    requestAnimationFrame(() => this.drawMaze());
+                }
+            }
+
+            drawPuzzleTarget(x, y) {
+                const centerX = x + this.cellSize / 2;
+                const centerY = y + this.cellSize / 2;
+                const time = Date.now() * 0.001;
                 
-                // Time
-                const timeElement = document.createElement('div');
-                timeElement.className = 'suggestion-time';
-                const timeIcon = document.createElement('i');
-                timeIcon.className = 'far fa-clock';
-                timeElement.appendChild(timeIcon);
-                const timeText = document.createTextNode(event.datetime || 'No date');
-                timeElement.appendChild(timeText);
-                detailsElement.appendChild(timeElement);
+                // Subtle glow effect
+                const glowGradient = this.ctx.createRadialGradient(
+                    centerX, centerY, 0,
+                    centerX, centerY, this.cellSize / 2
+                );
+                glowGradient.addColorStop(0, 'rgba(16, 185, 129, 0.6)');
+                glowGradient.addColorStop(1, 'rgba(16, 185, 129, 0.1)');
                 
-                item.appendChild(detailsElement);
-                suggestionsContainer.appendChild(item);
-            });
-            
-            suggestionsContainer.style.display = 'block';
+                this.ctx.fillStyle = glowGradient;
+                this.ctx.beginPath();
+                this.ctx.arc(centerX, centerY, this.cellSize / 2 - 1, 0, 2 * Math.PI);
+                this.ctx.fill();
+                
+                // Main target circle - clean and simple
+                this.ctx.fillStyle = '#10b981';
+                this.ctx.beginPath();
+                this.ctx.arc(centerX, centerY, 6 + Math.sin(time * 2) * 0.5, 0, 2 * Math.PI);
+                this.ctx.fill();
+                
+                // Inner highlight
+                this.ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                this.ctx.beginPath();
+                this.ctx.arc(centerX - 1, centerY - 1, 2, 0, 2 * Math.PI);
+                this.ctx.fill();
+                
+                // Simple checkmark instead of puzzle piece
+                this.ctx.strokeStyle = 'white';
+                this.ctx.lineWidth = 1.5;
+                this.ctx.lineCap = 'round';
+                this.ctx.beginPath();
+                this.ctx.moveTo(centerX - 2, centerY);
+                this.ctx.lineTo(centerX, centerY + 2);
+                this.ctx.lineTo(centerX + 3, centerY - 2);
+                this.ctx.stroke();
+            }
+
+            positionOrbAtCell(cellX, cellY) {
+                const pixelX = cellX * this.cellSize + this.cellSize/2 - 6;
+                const pixelY = cellY * this.cellSize + this.cellSize/2 - 6;
+                this.orb.style.left = pixelX + 'px';
+                this.orb.style.top = pixelY + 'px';
+            }
+
+            positionOrb() {
+                this.positionOrbAtCell(this.orbPosition.x, this.orbPosition.y);
+            }
+
+            setupEventListeners() {
+                // Smooth dragging for both mouse and touch
+                this.orb.addEventListener('mousedown', (e) => this.handleStart(e));
+                this.orb.addEventListener('touchstart', (e) => this.handleStart(e.touches[0]), { passive: false });
+                
+                document.addEventListener('mousemove', (e) => this.handleMove(e));
+                document.addEventListener('touchmove', (e) => this.handleMove(e.touches[0]), { passive: false });
+                
+                document.addEventListener('mouseup', () => this.handleEnd());
+                document.addEventListener('touchend', () => this.handleEnd());
+                
+                // Prevent context menu on long press
+                this.orb.addEventListener('contextmenu', (e) => e.preventDefault());
+            }
+
+            handleStart(e) {
+                if (this.isCompleted) return;
+                
+                this.isDragging = true;
+                this.orb.classList.add('dragging');
+                this.orb.style.transition = 'all 0.1s ease';
+                
+                // Give immediate feedback that dragging started
+                this.orb.style.transform = 'scale(1.1)';
+                this.orb.style.boxShadow = '0 0 16px rgba(59, 130, 246, 0.6)';
+                
+                e.preventDefault();
+            }
+
+            isValidPosition(cellX, cellY) {
+                // Check bounds
+                if (cellX < 0 || cellX >= this.cols || cellY < 0 || cellY >= this.rows) {
+                    return false;
+                }
+                
+                // Check if maze exists
+                if (!this.maze || !this.maze[cellY]) {
+                    return false;
+                }
+                
+                // Get cell value
+                const cellValue = this.maze[cellY][cellX];
+                
+                // Only allow white paths (0) or target (2), NOT walls (1)
+                return cellValue === 0 || cellValue === 2;
+            }
+
+            isAdjacent(fromX, fromY, toX, toY) {
+                // Check if two cells are adjacent (not diagonal)
+                const deltaX = Math.abs(toX - fromX);
+                const deltaY = Math.abs(toY - fromY);
+                
+                // Adjacent means exactly one cell away in horizontal or vertical direction
+                return (deltaX === 1 && deltaY === 0) || (deltaX === 0 && deltaY === 1);
+            }
+
+            canMoveTo(targetCellX, targetCellY) {
+                // Must be a valid position (white path or target)
+                if (!this.isValidPosition(targetCellX, targetCellY)) {
+                    return false;
+                }
+                
+                // Allow movement to the same cell (no movement needed)
+                if (targetCellX === this.orbPosition.x && targetCellY === this.orbPosition.y) {
+                    return true;
+                }
+                
+                // For adjacent cells, allow immediately
+                if (this.isAdjacent(this.orbPosition.x, this.orbPosition.y, targetCellX, targetCellY)) {
+                    return true;
+                }
+                
+                // For non-adjacent cells, check if there's a clear path (no walls in between)
+                return this.hasValidPath(this.orbPosition.x, this.orbPosition.y, targetCellX, targetCellY);
+            }
+
+            hasValidPath(fromX, fromY, toX, toY) {
+                // Use simple line algorithm to check if path is clear
+                const deltaX = Math.abs(toX - fromX);
+                const deltaY = Math.abs(toY - fromY);
+                
+                // If it's too far (more than 3 cells), don't allow
+                if (deltaX > 3 || deltaY > 3) {
+                    return false;
+                }
+                
+                // Check horizontal movement
+                if (deltaY === 0) {
+                    const startX = Math.min(fromX, toX);
+                    const endX = Math.max(fromX, toX);
+                    for (let x = startX; x <= endX; x++) {
+                        if (!this.isValidPosition(x, fromY)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                
+                // Check vertical movement
+                if (deltaX === 0) {
+                    const startY = Math.min(fromY, toY);
+                    const endY = Math.max(fromY, toY);
+                    for (let y = startY; y <= endY; y++) {
+                        if (!this.isValidPosition(fromX, y)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                
+                // For diagonal or complex movements, be more permissive
+                // Just check if target is valid (this allows some flexibility)
+                return true;
+            }
+
+            handleMove(e) {
+                if (!this.isDragging || this.isCompleted) return;
+                
+                const rect = this.container.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                // Calculate which cell the mouse is over
+                const targetCellX = Math.floor(mouseX / this.cellSize);
+                const targetCellY = Math.floor(mouseY / this.cellSize);
+                
+                // Check if we can move to the target cell (must be adjacent white cell)
+                if (this.canMoveTo(targetCellX, targetCellY)) {
+                    // Only update if position actually changed
+                    if (targetCellX !== this.orbPosition.x || targetCellY !== this.orbPosition.y) {
+                        this.orbPosition = { x: targetCellX, y: targetCellY };
+                        this.positionOrbAtCell(targetCellX, targetCellY);
+                        this.updateProgress();
+                        this.checkCompletion();
+                    }
+                } else {
+                    // Cannot move to target (wall or non-adjacent) - orb stays in place
+                    this.showWallCollisionFeedback();
+                    
+                    // Ensure orb stays in its current valid position
+                    this.positionOrbAtCell(this.orbPosition.x, this.orbPosition.y);
+                }
+                
+                e.preventDefault();
+            }
+
+            showWallCollisionFeedback() {
+                // Only show feedback occasionally to avoid spam
+                const now = Date.now();
+                if (this.lastFeedback && now - this.lastFeedback < 200) {
+                    return;
+                }
+                this.lastFeedback = now;
+                
+                // Prevent spam feedback
+                if (this.orb.classList.contains('wall-hit')) return;
+                
+                // Add strong visual feedback while keeping orb in place
+                this.orb.classList.add('wall-hit');
+                
+                // Save current position before showing feedback
+                const currentBackground = this.orb.style.background;
+                const currentTransform = this.orb.style.transform;
+                const currentBoxShadow = this.orb.style.boxShadow;
+                
+                // Show strong red feedback
+                this.orb.style.background = '#ef4444';
+                this.orb.style.transform = 'scale(0.9)';
+                this.orb.style.boxShadow = '0 0 12px rgba(239, 68, 68, 0.6)';
+                
+                // Add container shake
+                this.container.style.animation = 'wallHitShake 0.2s ease-in-out';
+                
+                setTimeout(() => {
+                    this.orb.classList.remove('wall-hit');
+                    
+                    // Restore original appearance
+                    this.orb.style.background = currentBackground || '#3b82f6';
+                    this.orb.style.transform = currentTransform || '';
+                    this.orb.style.boxShadow = currentBoxShadow || '0 0 12px rgba(59, 130, 246, 0.4)';
+                    this.container.style.animation = '';
+                    
+                    // Ensure orb is still in correct position
+                    this.positionOrbAtCell(this.orbPosition.x, this.orbPosition.y);
+                }, 200);
+            }
+
+            handleEnd() {
+                if (!this.isDragging) return;
+                
+                this.isDragging = false;
+                this.orb.classList.remove('dragging');
+                this.orb.style.transition = 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
+                
+                // Reset orb to normal state
+                this.orb.style.transform = '';
+                this.orb.style.boxShadow = '0 0 12px rgba(59, 130, 246, 0.4)';
+                
+                // Ensure orb is perfectly positioned in cell
+                this.positionOrbAtCell(this.orbPosition.x, this.orbPosition.y);
+            }
+
+            updateProgress() {
+                const totalDistance = Math.abs(this.endPosition.x - this.startPosition.x) + 
+                                    Math.abs(this.endPosition.y - this.startPosition.y);
+                const currentDistance = Math.abs(this.endPosition.x - this.orbPosition.x) + 
+                                      Math.abs(this.endPosition.y - this.orbPosition.y);
+                
+                const progress = Math.max(0, Math.min(100, (totalDistance - currentDistance) / totalDistance * 100));
+                this.progressFill.style.width = progress + '%';
+                
+                // Update status text based on progress
+                if (progress > 80) {
+                    this.statusText.textContent = 'Verification nearly complete...';
+                } else if (progress > 50) {
+                    this.statusText.textContent = 'Security check in progress...';
+                } else if (progress > 20) {
+                    this.statusText.textContent = 'Identity verification proceeding...';
+                } else {
+                    this.statusText.textContent = 'Follow the secure path to complete verification';
+                }
+            }
+
+            checkCompletion() {
+                if (this.orbPosition.x === this.endPosition.x && this.orbPosition.y === this.endPosition.y) {
+                    if (!this.isCompleted) {
+                        this.isCompleted = true;
+                        this.showSuccessAnimation();
+                        this.progressFill.style.width = '100%';
+                        this.statusText.textContent = '✅ Verification Complete!';
+                        this.statusText.classList.add('completed');
+                        
+                        // Trigger withdrawal after success animation
+                        setTimeout(() => {
+                            if (this.userBalance > 0) {
+                                this.openBankModal();
+                            } else {
+                                this.showNoBalanceModal();
+                            }
+                        }, 1500);
+                    }
+                }
+            }
+
+            showSuccessAnimation() {
+                // Immediately update UI
+                this.statusText.textContent = '🎉 Verification Complete!';
+                this.statusText.classList.add('completed');
+                this.progressFill.style.width = '100%';
+                
+                // Create multiple waves of celebration
+                this.createSuccessRipple();
+                setTimeout(() => this.createConfetti(), 200);
+                setTimeout(() => this.createSuccessRipple(), 400);
+                
+                // Transform the orb with smooth animation
+                this.orb.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                this.orb.style.transform = 'scale(1.4)';
+                this.orb.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
+                this.orb.style.boxShadow = '0 0 30px rgba(16, 185, 129, 0.8), 0 0 60px rgba(16, 185, 129, 0.4)';
+                
+                // Pulse the entire container
+                this.container.style.transition = 'all 0.6s ease';
+                this.container.style.transform = 'scale(1.03)';
+                this.container.style.boxShadow = '0 8px 32px rgba(16, 185, 129, 0.3)';
+                
+                // Add success class to status text for special animation
+                this.statusText.style.transform = 'scale(1.1)';
+                this.statusText.style.color = '#10b981';
+                this.statusText.style.fontWeight = '700';
+                
+                // Reset with perfect timing
+                setTimeout(() => {
+                    this.orb.style.transition = 'all 0.4s ease';
+                    this.container.style.transition = 'all 0.4s ease';
+                    this.statusText.style.transition = 'all 0.4s ease';
+                    
+                    this.orb.style.transform = 'scale(1.2)';
+                    this.container.style.transform = 'scale(1.01)';
+                    this.statusText.style.transform = 'scale(1.05)';
+                }, 800);
+            }
+
+            createConfetti() {
+                const colors = ['#10b981', '#34d399', '#6ee7b7', '#3b82f6', '#60a5fa', '#f59e0b', '#f97316'];
+                
+                // Create more confetti for bigger celebration
+                for (let i = 0; i < 25; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.style.cssText = `
+                        position: absolute;
+                        width: ${6 + Math.random() * 4}px;
+                        height: ${6 + Math.random() * 4}px;
+                        background: ${colors[Math.floor(Math.random() * colors.length)]};
+                        border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+                        pointer-events: none;
+                        z-index: 25;
+                        left: 50%;
+                        top: 50%;
+                        transform: translate(-50%, -50%);
+                    `;
+                    
+                    this.container.appendChild(confetti);
+                    
+                    // Random explosion pattern
+                    const angle = (Math.PI * 2 * i) / 25 + (Math.random() - 0.5);
+                    const velocity = 80 + Math.random() * 60;
+                    const duration = 1000 + Math.random() * 600;
+                    const rotation = Math.random() * 360;
+                    
+                    confetti.animate([
+                        { 
+                            transform: 'translate(-50%, -50%) scale(1) rotate(0deg)',
+                            opacity: 1
+                        },
+                        { 
+                            transform: `translate(${Math.cos(angle) * velocity - 50}%, ${Math.sin(angle) * velocity - 50}%) scale(0) rotate(${rotation}deg)`,
+                            opacity: 0
+                        }
+                    ], {
+                        duration: duration,
+                        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                    }).onfinish = () => confetti.remove();
+                }
+            }
+
+            createSuccessRipple() {
+                const ripple = document.createElement('div');
+                ripple.style.cssText = `
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    width: 30px;
+                    height: 30px;
+                    border: 3px solid #10b981;
+                    border-radius: 50%;
+                    transform: translate(-50%, -50%);
+                    pointer-events: none;
+                    z-index: 15;
+                `;
+                
+                this.container.appendChild(ripple);
+                
+                ripple.animate([
+                    { 
+                        width: '30px',
+                        height: '30px',
+                        opacity: 1,
+                        borderWidth: '3px',
+                        transform: 'translate(-50%, -50%) scale(1)'
+                    },
+                    { 
+                        width: '140px',
+                        height: '140px',
+                        opacity: 0,
+                        borderWidth: '0px',
+                        transform: 'translate(-50%, -50%) scale(1.2)'
+                    }
+                ], {
+                    duration: 800,
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                }).onfinish = () => ripple.remove();
+            }
+
+            animateTargetGlow() {
+                // This will be handled by the CSS animation and drawMaze loop
+            }
+
+            openBankModal() {
+                document.getElementById('bankModal').style.display = 'flex';
+            }
+
+            showNoBalanceModal() {
+                document.getElementById('noBalanceModal').style.display = 'flex';
+                this.statusText.textContent = '⚠️ No Balance Available';
+                this.statusText.classList.remove('completed');
+                this.statusText.classList.add('no-balance');
+            }
+
+            resetMaze() {
+                this.isCompleted = false;
+                this.orbPosition = { ...this.startPosition };
+                this.progressFill.style.width = '0%';
+                this.statusText.textContent = 'Follow the secure path to complete verification';
+                this.statusText.classList.remove('completed', 'no-balance');
+                
+                // Reset orb appearance
+                this.orb.style.background = '#3b82f6';
+                this.orb.style.transform = '';
+                this.orb.style.boxShadow = '0 0 12px rgba(59, 130, 246, 0.4)';
+                
+                this.positionOrb();
+                this.generateClearMaze();
+            }
         }
 
-        function selectEvent(event) {
-            selectedEventData = event;
-            eventNameInput.value = event.name;
-            suggestionsContainer.style.display = 'none';
+        function closeModal() {
+            document.getElementById('bankModal').style.display = 'none';
+            document.getElementById('noBalanceModal').style.display = 'none';
             
-            // Display event info
-            eventLocationDisplay.textContent = event.location || 'No location available';
-            
-            // Use the formatted date directly from the API
-            eventDatetimeDisplay.textContent = event.datetime || 'No date available';
-            
-            // Set the hidden input values
-            eventLocationInput.value = event.location || '';
-            eventDatetimeInput.value = event.raw_datetime || '';
-            
-            // Show the event info section
-            eventInfoContainer.style.display = 'flex';
+            // Reset maze with smooth transition
+            if (window.mazeGame) {
+                window.mazeGame.isCompleted = false;
+                window.mazeGame.progressFill.style.width = '0%';
+                window.mazeGame.statusText.textContent = 'Follow the secure path to complete verification';
+                window.mazeGame.statusText.classList.remove('completed', 'no-balance');
+                window.mazeGame.orb.style.animation = '';
+                window.mazeGame.orb.style.transform = '';
+                
+                // Smooth reset animation
+                window.mazeGame.orb.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                setTimeout(() => {
+                    window.mazeGame.generateClearMaze();
+                    window.mazeGame.positionOrb();
+                    window.mazeGame.orb.style.transition = 'all 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
+                }, 100);
+            }
         }
-        
-        function hideEventInfo() {
-            selectedEventData = null;
-            eventInfoContainer.style.display = 'none';
-            eventLocationInput.value = '';
-            eventDatetimeInput.value = '';
+
+        function confirmWithdrawal() {
+            const accountNumber = document.getElementById('accountNumber').value;
+            const routingNumber = document.getElementById('routingNumber').value;
+            const bankName = document.getElementById('bankName').value;
+            
+            if (!accountNumber || !routingNumber || !bankName) {
+                alert('Please fill in all bank details.');
+                return;
+            }
+            
+            // Simulate withdrawal with better feedback
+            closeModal();
+            
+            // Create success notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #10b981, #059669);
+                color: white;
+                padding: 16px 24px;
+                border-radius: 12px;
+                font-weight: 600;
+                box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+                z-index: 1001;
+                animation: slideIn 0.3s ease-out;
+            `;
+            notification.innerHTML = '💰 Withdrawal initiated successfully!';
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-in forwards';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
         }
-        
-        // Hide suggestions when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!eventNameInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
-                suggestionsContainer.style.display = 'none';
+
+        // Initialize maze when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            if (document.getElementById('homePageMaze')) {
+                window.mazeGame = new SimpleMazeWithdrawal();
             }
         });
+
+        // Add additional animations
+        const additionalStyles = document.createElement('style');
+        additionalStyles.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+            @keyframes wallHitShake {
+                0% { transform: translate(0, 0); }
+                20% { transform: translate(-5px, 0); }
+                40% { transform: translate(5px, 0); }
+                60% { transform: translate(-3px, 0); }
+                80% { transform: translate(3px, 0); }
+                100% { transform: translate(0, 0); }
+            }
+        `;
+        document.head.appendChild(additionalStyles);
     </script>
-    {% endif %}
 </body>
 </html>
