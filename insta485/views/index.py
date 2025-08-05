@@ -165,6 +165,9 @@ def show_index(user_type):
         from insta485.views.balance import get_user_balance
         user_balance = get_user_balance(logemail)
 
+    # Calculate real platform statistics
+    stats = calculate_platform_stats(connection)
+
     context = {
         'user_type': user_type,
         'logemail': logemail,
@@ -174,10 +177,50 @@ def show_index(user_type):
         'active_count': active_count,
         'history_count': history_count,
         'total_count': len(formatted_transactions),
-        'user_balance': user_balance
+        'user_balance': user_balance,
+        'stats': stats
     }
     return flask.render_template("index.html", **context)
 
+
+def calculate_platform_stats(connection):
+    """Calculate real platform statistics from database."""
+    # Total transaction count
+    total_transactions = connection.execute(
+        "SELECT COUNT(*) as count FROM transactions"
+    ).fetchone()['count']
+    
+    # Total value protected (sum of all transaction prices)
+    total_value = connection.execute(
+        "SELECT COALESCE(SUM(price), 0) as total FROM transactions"
+    ).fetchone()['total']
+    
+    # Success rate calculation
+    total_completed = connection.execute(
+        "SELECT COUNT(*) as count FROM transactions WHERE status IN ('success', 'event_occurred')"
+    ).fetchone()['count']
+    
+    success_rate = 100.0 if total_transactions == 0 else (total_completed / total_transactions) * 100
+    
+    # Format total value
+    if total_value >= 1000000:
+        formatted_value = f"${total_value / 1000000:.1f}M+"
+    elif total_value >= 1000:
+        formatted_value = f"${total_value / 1000:.0f}K+"
+    else:
+        formatted_value = f"${total_value}"
+    
+    # Format transaction count
+    if total_transactions >= 1000:
+        formatted_transactions = f"{total_transactions / 1000:.0f}K+"
+    else:
+        formatted_transactions = str(total_transactions)
+    
+    return {
+        'total_value': formatted_value,
+        'total_transactions': formatted_transactions,
+        'success_rate': f"{success_rate:.1f}%"
+    }
 
 @insta485.app.route('/uploads/<filename>')
 def get_image(filename):
