@@ -144,14 +144,14 @@
             letter-spacing: 0.5px;
         }
 
-        /* Main Layout */
+        /* Main Layout - Full Width Modern */
         .app-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: var(--space-lg);
             display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: var(--space-xl);
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-2xl);
             align-items: start;
         }
 
@@ -167,6 +167,7 @@
             gap: var(--space-lg);
             position: sticky;
             top: var(--space-lg);
+            width: 100%;
         }
 
         /* Modern Hero Section - Psychological Design */
@@ -237,7 +238,7 @@
             min-width: 140px;
             transition: all 0.3s ease;
         }
-        
+
         .hero-stat:hover {
             transform: translateY(-5px);
             background: rgba(255, 255, 255, 0.2);
@@ -580,7 +581,7 @@
         @keyframes successRipple {
             0% {
                 transform: scale(0);
-                opacity: 1;
+            opacity: 1;
             }
             100% {
                 transform: scale(4);
@@ -809,22 +810,32 @@
             box-shadow: 0 8px 25px rgba(59, 130, 246, 0.25);
         }
 
-        /* Responsive Design */
-        @media (max-width: 1024px) {
+                /* Responsive Design - Enhanced for Full Width */
+        @media (max-width: 1200px) {
             .app-container {
                 grid-template-columns: 1fr;
-                gap: var(--space-lg);
+                gap: var(--space-xl);
+                max-width: 1000px;
             }
-
+            
             .sidebar {
                 position: static;
-                order: -1;
-            }
+                order: 2;
+            display: grid;
+                grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+        }
 
             .hero-section {
                 grid-column: 1;
             }
+        }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                grid-template-columns: 1fr;
             }
+        }
 
         @media (max-width: 768px) {
             .app-container {
@@ -934,169 +945,7 @@
             scroll-padding-top: 100px;
         }
 
-        /* Vertical Scroll Guide */
-        .vertical-scroll-guide {
-            position: fixed;
-            top: 20%;
-            right: 25px;
-            z-index: 100;
-            height: 60vh;
-            width: 60px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(15px);
-            border-radius: 30px;
-            padding: var(--space-md) var(--space-sm);
-            box-shadow: 
-                -4px 0 20px rgba(0, 0, 0, 0.08),
-                -2px 0 8px rgba(0, 0, 0, 0.04),
-                inset 1px 0 0 rgba(255, 255, 255, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 0.85;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-        }
 
-        .vertical-scroll-guide:hover {
-            transform: translateX(-5px);
-            opacity: 1;
-            box-shadow: 
-                -8px 0 32px rgba(0, 0, 0, 0.12),
-                -4px 0 12px rgba(0, 0, 0, 0.08),
-                inset 1px 0 0 rgba(255, 255, 255, 0.4);
-        }
-
-        .scroll-track {
-            position: relative;
-            width: 4px;
-            height: 70%;
-            background: linear-gradient(180deg, #f1f5f9, #e2e8f0);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        
-        .scroll-progress {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 0%;
-            background: var(--primary-gradient);
-            border-radius: 2px;
-            transition: height 0.3s ease;
-            box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
-        }
-
-        .scroll-thumb {
-            position: absolute;
-            top: 0%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 16px;
-            height: 16px;
-            background: var(--primary-gradient);
-            border-radius: 50%;
-            border: 2px solid white;
-            box-shadow: 
-                0 4px 12px rgba(99, 102, 241, 0.3),
-                0 0 0 1px rgba(99, 102, 241, 0.2);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .scroll-thumb:hover {
-            transform: translateX(-50%) scale(1.2);
-            box-shadow: 
-                0 6px 16px rgba(99, 102, 241, 0.4),
-                0 0 0 2px rgba(99, 102, 241, 0.3);
-        }
-
-        .thumb-indicator {
-            color: white;
-            font-size: 8px;
-            animation: thumbPulse 2s ease-in-out infinite;
-        }
-
-        .thumb-tooltip {
-            position: absolute;
-            right: 25px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            padding: var(--space-xs) var(--space-sm);
-            border-radius: var(--radius-sm);
-            font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 101;
-        }
-
-        .scroll-thumb:hover .thumb-tooltip {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(-50%) translateX(-5px);
-        }
-
-        .guide-steps {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-sm);
-            align-items: center;
-        }
-
-        .step-dot {
-            width: 10px;
-            height: 10px;
-            background: rgba(148, 163, 184, 0.4);
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .step-dot:hover {
-            background: rgba(148, 163, 184, 0.6);
-            transform: scale(1.2);
-        }
-
-        .step-dot.active {
-            background: var(--primary-gradient);
-            transform: scale(1.3);
-            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
-        }
-
-        .step-dot.completed {
-            background: linear-gradient(135deg, #10b981, #059669);
-            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
-        }
-
-        @keyframes thumbPulse {
-            0%, 100% { 
-                opacity: 1; 
-                transform: scale(1);
-            }
-            50% { 
-                opacity: 0.7; 
-                transform: scale(0.9);
-            }
-        }
-
-        /* Hide on small screens */
-        @media (max-width: 768px) {
-            .vertical-scroll-guide {
-                display: none;
-            }
-        }
 
         /* Integrated Swipe-Down Guide */
         .swipe-guide {
@@ -1192,97 +1041,1445 @@
             transform: scale(1.02);
         }
 
-        /* Vertical Scroll Guide */
-        .vertical-scroll-guide {
-            position: fixed;
-            top: 50%;
-            right: 20px;
-            transform: translateY(-50%);
-            z-index: 100;
-            width: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            padding: var(--space-xs);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            opacity: 0.9;
+        /* Listings Section */
+        .listings-section {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 8px 24px rgba(59, 130, 246, 0.04);
+            border: 1px solid var(--border-light);
         }
 
-        .vertical-scroll-guide:hover {
-            transform: translateY(-50%) scale(1.05);
-            opacity: 1;
+        .listings-header {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-lg);
+            border-bottom: 2px solid var(--border-light);
         }
 
-        .scroll-track {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-xs);
-        }
-
-        .scroll-progress {
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #f3f4f6, #e5e7eb);
-            border-radius: 20px;
-            overflow: hidden;
+        .listings-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
             margin-bottom: var(--space-xs);
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .scroll-thumb {
-            display: flex;
-            align-items: center;
-            gap: var(--space-xs);
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border-radius: var(--radius-sm);
-            padding: var(--space-xs) var(--space-sm);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .scroll-thumb:hover {
-            transform: translateX(-5px) scale(1.05);
-        }
-
-        .thumb-indicator {
-            width: 20px;
-            height: 20px;
-            background: var(--primary-gradient);
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 12px;
+            gap: var(--space-sm);
+        }
+        
+        .listings-subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .listings-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+
+        .listing-card {
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            transition: all 0.3s ease;
             position: relative;
         }
 
-        .thumb-tooltip {
-            font-size: 14px;
-            color: var(--text-primary);
-            font-weight: 500;
-            white-space: nowrap;
+        .listing-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 16px 32px rgba(59, 130, 246, 0.06);
+            border-color: #3b82f6;
         }
 
-        .guide-steps {
+        .listing-header {
             display: flex;
             justify-content: space-between;
-            margin-top: var(--space-xs);
+            align-items: start;
+            margin-bottom: var(--space-md);
         }
 
-        .step-dot {
-            width: 8px;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.5);
+        .listing-event {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+            flex: 1;
+        }
+
+        .listing-price {
+            font-size: 24px;
+            font-weight: 800;
+            color: #059669;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .listing-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-sm);
+            margin-bottom: var(--space-md);
+        }
+        
+        .listing-location,
+        .listing-date,
+        .listing-buyer {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .listing-location i,
+        .listing-date i,
+        .listing-buyer i {
+            color: #3b82f6;
+            width: 16px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .status-approved {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .status-completed {
+            background: rgba(59, 130, 246, 0.1);
+            color: #2563eb;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .listing-notes {
+            margin-top: var(--space-md);
+            padding: var(--space-sm);
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: var(--radius-sm);
+            border-left: 3px solid #6366f1;
+            display: flex;
+            align-items: start;
+            gap: var(--space-xs);
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .listing-notes i {
+            color: #6366f1;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .empty-listings {
+            text-align: center;
+            padding: var(--space-2xl);
+            color: var(--text-tertiary);
+        }
+
+        .empty-listings i {
+            font-size: 48px;
+            margin-bottom: var(--space-md);
+            color: #cbd5e1;
+        }
+
+        .empty-listings h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xs);
+        }
+
+        .empty-listings p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        /* Ultra-Modern 3D Scroll Catalyst */
+        .scroll-catalyst {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            z-index: 100;
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            perspective: 2000px;
+            animation: float3D 4s ease-in-out infinite;
+            outline: none; /* Remove blue focus outline */
+            border: none; /* Remove any borders */
+            -webkit-tap-highlight-color: transparent; /* Remove mobile tap highlight */
+        }
+
+        .catalyst-core {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(99, 102, 241, 0.95) 0%, 
+                rgba(139, 92, 246, 0.95) 30%,
+                rgba(168, 85, 247, 0.95) 60%,
+                rgba(139, 92, 246, 0.95) 100%);
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform-style: preserve-3d;
+            transform: translateZ(20px);
+            box-shadow: 
+                0 15px 45px rgba(99, 102, 241, 0.4),
+                0 5px 15px rgba(0, 0, 0, 0.2),
+                inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* 3D Floating Animation */
+        @keyframes float3D {
+            0%, 100% { 
+                transform: translateY(0) rotateX(5deg) rotateY(5deg);
+            }
+            50% { 
+                transform: translateY(-8px) rotateX(-2deg) rotateY(-2deg);
+            }
+        }
+
+        /* ==========================================
+           ULTRA-MODERN WITHDRAWAL MODAL STYLES
+           ========================================== */
+
+        .modern-withdrawal-overlay {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            animation: modalFadeIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .modern-withdrawal-modal {
+            position: relative;
+            max-width: 520px;
+            width: 90%;
+            max-height: 85vh;
+            background: linear-gradient(145deg, 
+                rgba(255, 255, 255, 0.95) 0%, 
+                rgba(248, 250, 252, 0.95) 100%);
+            border-radius: 24px;
+            box-shadow: 
+                0 25px 60px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            overflow-y: auto;
+            animation: modalSlideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            scrollbar-width: thin;
+            scrollbar-color: rgba(99, 102, 241, 0.3) transparent;
+        }
+
+        /* Custom Scrollbar for Webkit browsers */
+        .modern-withdrawal-modal::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .modern-withdrawal-modal::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .modern-withdrawal-modal::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 3px;
+        }
+
+        .modern-withdrawal-modal::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.5);
+        }
+
+        /* Modal Close Button */
+        .modal-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(148, 163, 184, 0.1);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            z-index: 10;
+            transition: all 0.3s ease;
+            outline: none;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-close-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            transform: scale(1.1);
+        }
+
+        .modal-close-btn:active {
+            transform: scale(0.95);
+        }
+
+        [data-theme="dark"] .modal-close-btn {
+            background: rgba(71, 85, 105, 0.2);
+            color: var(--text-secondary);
+        }
+
+        [data-theme="dark"] .modal-close-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        [data-theme="dark"] .modern-withdrawal-modal {
+            background: linear-gradient(145deg, 
+                rgba(30, 41, 59, 0.95) 0%, 
+                rgba(15, 23, 42, 0.95) 100%);
+            box-shadow: 
+                0 25px 60px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(71, 85, 105, 0.6),
+                inset 0 1px 0 rgba(148, 163, 184, 0.1);
+        }
+
+        .floating-success-orb {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #10b981, #34d399);
             border-radius: 50%;
+            opacity: 0.1;
+            animation: floatOrb 6s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .modern-modal-header {
+            position: relative;
+            text-align: center;
+            padding: 24px 32px 20px;
+            background: linear-gradient(135deg, 
+                rgba(99, 102, 241, 0.03) 0%, 
+                rgba(139, 92, 246, 0.03) 100%);
+        }
+
+        .success-pulse-ring {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 56px;
+            height: 56px;
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            border-radius: 50%;
+            animation: pulseRing 2s ease-out infinite;
+        }
+
+        .withdrawal-icon {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 16px;
+            color: white;
+            font-size: 22px;
+            margin-bottom: 16px;
+            box-shadow: 
+                0 8px 20px rgba(16, 185, 129, 0.3),
+                inset 0 2px 0 rgba(255, 255, 255, 0.2);
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        .modal-title-modern {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 6px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin: 0;
+            opacity: 0.8;
+            line-height: 1.3;
+        }
+
+        .premium-balance-card {
+            position: relative;
+            margin: 0 32px 24px;
+            padding: 20px;
+            background: linear-gradient(135deg, 
+                rgba(16, 185, 129, 0.08) 0%, 
+                rgba(5, 150, 105, 0.08) 100%);
+            border: 2px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .balance-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(16, 185, 129, 0.1) 0%, 
+                rgba(5, 150, 105, 0.1) 100%);
+            animation: balanceGlow 3s ease-in-out infinite;
+        }
+
+        .balance-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .balance-label-modern {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .balance-amount-modern {
+            font-size: 36px;
+            font-weight: 800;
+            color: #10b981;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+        }
+
+        .balance-verified {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .balance-particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .balance-particles .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(16, 185, 129, 0.6);
+            border-radius: 50%;
+        }
+
+        .balance-particles .particle:nth-child(1) {
+            top: 20%;
+            left: 15%;
+            animation: particleFloat1 4s ease-in-out infinite;
+        }
+
+        .balance-particles .particle:nth-child(2) {
+            top: 30%;
+            right: 20%;
+            animation: particleFloat2 4s ease-in-out infinite 1s;
+        }
+
+        .balance-particles .particle:nth-child(3) {
+            bottom: 25%;
+            left: 25%;
+            animation: particleFloat3 4s ease-in-out infinite 2s;
+        }
+
+        .modern-bank-form {
+            padding: 0 32px 24px;
+        }
+
+        .form-group-modern {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .form-group-modern input {
+            width: 100%;
+            padding: 18px 52px 18px 16px;
+            border: 2px solid rgba(148, 163, 184, 0.2);
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--text-primary);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            outline: none;
+        }
+
+        [data-theme="dark"] .form-group-modern input {
+            background: rgba(15, 23, 42, 0.8);
+            border-color: rgba(71, 85, 105, 0.3);
+        }
+
+        .form-group-modern input:focus {
+            border-color: #6366f1;
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 
+                0 0 0 4px rgba(99, 102, 241, 0.1),
+                0 4px 12px rgba(99, 102, 241, 0.15);
+            transform: translateY(-2px);
+        }
+
+        [data-theme="dark"] .form-group-modern input:focus {
+            background: rgba(15, 23, 42, 1);
+            box-shadow: 
+                0 0 0 4px rgba(99, 102, 241, 0.2),
+                0 4px 12px rgba(99, 102, 241, 0.25);
+        }
+
+        .form-group-modern label {
+            position: absolute;
+            top: 50%;
+            left: 16px;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: var(--text-secondary);
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background: transparent;
+            padding: 0 8px;
+            font-weight: 500;
+        }
+
+        .form-group-modern input:focus + label,
+        .form-group-modern input:not(:placeholder-shown) + label {
+            top: 0;
+            left: 12px;
+            font-size: 12px;
+            color: #6366f1;
+            font-weight: 600;
+            background: var(--bg-primary);
+        }
+
+        .input-highlight {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform: translateX(-50%);
+        }
+
+        .form-group-modern input:focus ~ .input-highlight {
+            width: 100%;
+        }
+
+        .input-icon {
+            position: absolute;
+            top: 50%;
+            right: 16px;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 16px;
             transition: all 0.3s ease;
         }
 
-        .step-dot.active {
-            background: var(--primary-gradient);
-            transform: scale(1.5);
+        .form-group-modern input:focus ~ .input-icon {
+            color: #6366f1;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .modern-modal-actions {
+            display: flex;
+            gap: 16px;
+            padding: 24px 32px 32px;
+            align-items: center;
+        }
+
+        .btn-modern {
+            position: relative;
+            flex: 1;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            outline: none;
+        }
+
+        .btn-cancel {
+            background: rgba(148, 163, 184, 0.1);
+            color: var(--text-secondary);
+            border: 2px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .btn-cancel:hover {
+            background: rgba(148, 163, 184, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(148, 163, 184, 0.2);
+        }
+
+        .btn-confirm {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: 2px solid transparent;
+            box-shadow: 
+                0 4px 12px rgba(99, 102, 241, 0.3),
+                inset 0 2px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-confirm:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 12px 24px rgba(99, 102, 241, 0.4),
+                inset 0 2px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-confirm:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-icon {
+            font-size: 18px;
+        }
+
+        .btn-shimmer {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-confirm:hover .btn-shimmer {
+            left: 100%;
+        }
+
+        .btn-ripple {
+            position: absolute;
+            inset: 0;
+            background: transparent;
+            overflow: hidden;
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: rgba(34, 197, 94, 0.1);
+            color: #059669;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 0 32px 24px;
+            border-radius: 12px;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        /* Animations */
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes floatOrb {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @keyframes pulseRing {
+            0% { 
+                transform: translateX(-50%) scale(1);
+                opacity: 0.6;
+            }
+            100% { 
+                transform: translateX(-50%) scale(2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0) rotateY(0deg); }
+            50% { transform: translateY(-4px) rotateY(5deg); }
+        }
+
+        @keyframes balanceGlow {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.2; }
+        }
+
+        @keyframes particleFloat1 {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
+            50% { transform: translateY(-15px) scale(1.2); opacity: 1; }
+        }
+
+        @keyframes particleFloat2 {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
+            50% { transform: translateY(-20px) scale(1.3); opacity: 1; }
+        }
+
+        @keyframes particleFloat3 {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
+            50% { transform: translateY(-12px) scale(1.1); opacity: 1; }
+        }
+
+                 /* ==========================================
+            MULTI-STEP WITHDRAWAL SYSTEM STYLES
+           ========================================== */
+
+        .withdrawal-progress {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 32px 0;
+            margin-bottom: 20px;
+        }
+
+        .progress-step {
+            display: flex;
+                flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.4;
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active {
+            opacity: 1;
+        }
+
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(148, 163, 184, 0.2);
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active .step-number {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .progress-step span {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .progress-step.active span {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .progress-line {
+            width: 40px;
+            height: 2px;
+            background: rgba(148, 163, 184, 0.2);
+            margin: 0 16px;
+        }
+
+        .withdrawal-step {
+            min-height: 400px;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 0 32px 24px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            margin-bottom: 32px;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(148, 163, 184, 0.1);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .back-btn:hover {
+            background: rgba(148, 163, 184, 0.2);
+            transform: translateX(-2px);
+        }
+
+        .step-title h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .step-title p {
+            margin: 4px 0 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Payment Method Options */
+        .payment-methods-container {
+            position: relative;
+            padding: 0 32px;
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-height: 300px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(99, 102, 241, 0.3) transparent;
+            padding-right: 8px;
+        }
+
+        .payment-methods::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .payment-methods::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .payment-methods::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 2px;
+        }
+
+        .payment-methods::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.5);
+        }
+
+        /* Scroll Indicators */
+        .scroll-indicator, .bottom-scroll-indicator {
+            position: sticky;
+            background: linear-gradient(to bottom, 
+                rgba(255, 255, 255, 0.95) 0%, 
+                rgba(255, 255, 255, 0.8) 100%);
+            padding: 12px 0;
+            text-align: center;
+            z-index: 5;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .scroll-indicator {
+            top: 0;
+            margin-bottom: 8px;
+        }
+
+        .bottom-scroll-indicator {
+            bottom: 0;
+            margin-top: 8px;
+            background: linear-gradient(to top, 
+                rgba(255, 255, 255, 0.95) 0%, 
+                rgba(255, 255, 255, 0.8) 100%);
+        }
+
+        [data-theme="dark"] .scroll-indicator,
+        [data-theme="dark"] .bottom-scroll-indicator {
+            background: linear-gradient(to bottom, 
+                rgba(15, 23, 42, 0.95) 0%, 
+                rgba(15, 23, 42, 0.8) 100%);
+        }
+
+        [data-theme="dark"] .bottom-scroll-indicator {
+            background: linear-gradient(to top, 
+                rgba(15, 23, 42, 0.95) 0%, 
+                rgba(15, 23, 42, 0.8) 100%);
+        }
+
+        .scroll-hint {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .scroll-hint i {
+            font-size: 12px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .scroll-indicator.hidden,
+        .bottom-scroll-indicator.hidden {
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+        }
+
+        /* Scroll Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        .method-option {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            border: 2px solid rgba(148, 163, 184, 0.1);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        [data-theme="dark"] .method-option {
+            background: rgba(30, 41, 59, 0.5);
+            border-color: rgba(71, 85, 105, 0.2);
+        }
+
+        .method-option:hover {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.03);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.1);
+        }
+
+        .method-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            font-size: 20px;
+            color: white;
+        }
+
+        .method-icon.bank { background: linear-gradient(135deg, #10b981, #059669); }
+        .method-icon.debit { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .method-icon.paypal { background: linear-gradient(135deg, #0070ba, #003087); }
+        .method-icon.apple { background: linear-gradient(135deg, #000, #333); }
+
+        .method-content {
+            flex: 1;
+        }
+
+        .method-content h3 {
+            margin: 0 0 4px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .method-content p {
+            margin: 0 0 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .method-features {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .method-features span {
+            font-size: 12px;
+            color: #10b981;
+            font-weight: 500;
+        }
+
+        .method-arrow {
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .method-option:hover .method-arrow {
+            color: #6366f1;
+            transform: translateX(4px);
+        }
+
+        /* Payment Forms */
+        .payment-form {
+            padding: 0 32px 24px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 16px;
+        }
+
+        .form-group-modern.half {
+            flex: 1;
+        }
+
+        .paypal-info, .apple-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 12px;
+            margin-top: 16px;
+        }
+
+        .paypal-info i, .apple-info i {
+            font-size: 20px;
+            margin-top: 2px;
+        }
+
+        .paypal-info i { color: #0070ba; }
+        .apple-info i { color: #000; }
+
+        .paypal-info p, .apple-info p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Step Actions */
+        .step-actions {
+            padding: 24px 32px 0;
+        }
+
+        .btn-continue, .btn-confirm-final {
+            width: 100%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: 2px solid transparent;
+            padding: 16px 24px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            outline: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-continue:hover, .btn-confirm-final:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Confirmation Summary */
+        .confirmation-summary {
+            padding: 0 32px;
+        }
+
+        .summary-section {
+            margin-bottom: 24px;
+            padding: 20px;
+            background: rgba(248, 250, 252, 0.8);
+            border-radius: 16px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        [data-theme="dark"] .summary-section {
+            background: rgba(15, 23, 42, 0.8);
+            border-color: rgba(71, 85, 105, 0.2);
+        }
+
+        .summary-section h3 {
+            margin: 0 0 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .amount-display {
+            font-size: 28px;
+            font-weight: 800;
+            color: #10b981;
+            margin: 0;
+        }
+
+        .method-summary {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .processing-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .processing-info div {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .processing-info .label {
+            color: var(--text-secondary);
+        }
+
+        .processing-info .value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Cancel Button */
+        .modal-cancel {
+            padding: 16px 32px 0;
+            text-align: center;
+        }
+
+        .btn-text-only {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .btn-text-only:hover {
+            color: var(--text-primary);
+            background: rgba(148, 163, 184, 0.1);
+        }
+
+         /* Responsive Design */
+        @media (max-width: 768px) {
+            .modern-withdrawal-modal {
+                margin: 20px;
+                max-width: none;
+                width: calc(100% - 40px);
+            }
+            
+            .modern-modal-header {
+                padding: 32px 24px 24px;
+            }
+            
+            .premium-balance-card,
+            .payment-methods,
+            .payment-form,
+            .step-actions,
+            .confirmation-summary,
+            .modal-cancel,
+            .security-badge {
+                margin-left: 24px;
+                margin-right: 24px;
+                padding-left: 0;
+                padding-right: 0;
+            }
+            
+            .withdrawal-progress {
+                padding: 24px 24px 0;
+            }
+            
+            .step-header {
+                padding: 0 24px 24px;
+            }
+            
+            .progress-line {
+                width: 20px;
+                margin: 0 8px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .form-group-modern.half {
+                flex: none;
+            }
+            
+            .method-features {
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+
+        .catalyst-core::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .catalyst-core::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 23px;
+            background: conic-gradient(from 0deg, #6366f1, #8b5cf6, #a855f7, #6366f1);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .scroll-catalyst:hover .catalyst-core {
+            transform: translateZ(40px) translateY(-15px) rotateX(15deg) rotateY(10deg) scale(1.1);
+            box-shadow: 
+                0 30px 80px rgba(99, 102, 241, 0.5),
+                0 10px 30px rgba(0, 0, 0, 0.2),
+                inset 0 3px 0 rgba(255, 255, 255, 0.4),
+                inset 0 -3px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .scroll-catalyst:hover .catalyst-core::before {
+            transform: translateX(100%);
+        }
+
+        .scroll-catalyst:hover .catalyst-core::after {
+            opacity: 1;
+            animation: rotateBorder 2s linear infinite;
+        }
+
+        .scroll-catalyst:active .catalyst-core {
+            transform: translateZ(15px) translateY(-5px) rotateX(8deg) rotateY(5deg) scale(1.05);
+            transition: all 0.2s ease;
+        }
+
+        /* Modern Clear Arrow Design */
+        .arrow-morph {
+            position: relative;
+            width: 28px;
+            height: 28px;
+            color: white;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Clear Modern Arrow Shape */
+        .arrow-morph::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-right: 3px solid currentColor;
+            border-bottom: 3px solid currentColor;
+            transform: rotate(45deg);
+            border-radius: 2px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Arrow shaft/line */
+        .arrow-morph::after {
+            content: '';
+            position: absolute;
+            width: 3px;
+            height: 18px;
+            background: currentColor;
+            top: 2px;
+            border-radius: 2px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-catalyst:hover .arrow-morph {
+            animation: arrowPulse 0.6s ease-in-out;
+        }
+
+        /* Orbital Particles */
+        .catalyst-particles {
+            position: absolute;
+            inset: -20px;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        .particle:nth-child(1) { top: 0; left: 50%; animation: orbit1 3s ease-in-out infinite; }
+        .particle:nth-child(2) { top: 50%; right: 0; animation: orbit2 3s ease-in-out infinite 0.5s; }
+        .particle:nth-child(3) { bottom: 0; left: 50%; animation: orbit3 3s ease-in-out infinite 1s; }
+        .particle:nth-child(4) { top: 50%; left: 0; animation: orbit4 3s ease-in-out infinite 1.5s; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .scroll-catalyst {
+                width: 60px;
+                height: 60px;
+                bottom: 30px;
+                right: 30px;
+            }
+            
+            .arrow-morph {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        /* Advanced Animations */
+        @keyframes rotateBorder {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes arrowPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @keyframes orbit1 {
+            0%, 100% { transform: translateX(-50%) rotate(0deg) translateX(35px) rotate(0deg); opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes orbit2 {
+            0%, 100% { transform: translateY(-50%) rotate(90deg) translateX(35px) rotate(-90deg); opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes orbit3 {
+            0%, 100% { transform: translateX(-50%) rotate(180deg) translateX(35px) rotate(-180deg); opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes orbit4 {
+            0%, 100% { transform: translateY(-50%) rotate(270deg) translateX(35px) rotate(-270deg); opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        /* Success Transformation */
+        .scroll-catalyst.success .catalyst-core {
+            background: linear-gradient(135deg, #10b981, #34d399, #6ee7b7);
+            animation: successMorph 0.8s ease-out;
+        }
+
+        /* Success State - Transform to Checkmark */
+        .scroll-catalyst.success .arrow-morph::before {
+            width: 12px;
+            height: 6px;
+            transform: rotate(-45deg) translate(-2px, 2px);
+            border-right: 3px solid currentColor;
+            border-bottom: 3px solid currentColor;
+        }
+
+        .scroll-catalyst.success .arrow-morph::after {
+            width: 6px;
+            height: 3px;
+            background: currentColor;
+            top: 12px;
+            left: 8px;
+            transform: rotate(-45deg);
+        }
+
+        @keyframes successMorph {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.15) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        /* Hide State */
+        .scroll-catalyst.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px) scale(0.8) rotateX(90deg);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
     </style>
 </head>
@@ -1357,32 +2554,8 @@
                     </div>
                 </div>
                 
-                
 
-                <!-- Vertical Scroll Guide -->
-                <div class="vertical-scroll-guide" id="verticalGuide">
-                    <div class="scroll-track">
-                        <div class="scroll-progress" id="scrollProgress"></div>
-                        <div class="scroll-thumb" id="scrollThumb">
-                            <div class="thumb-indicator">
-                                <i class="fas fa-chevron-down"></i>
                 </div>
-                            <div class="thumb-tooltip">
-                                {% if user_type == 'seller' %}
-                                Start earning
-                                {% else %}
-                                Find tickets
-                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="guide-steps">
-                        <div class="step-dot active" data-target="hero"></div>
-                        <div class="step-dot" data-target="content"></div>
-                        <div class="step-dot" data-target="bottom"></div>
-                    </div>
-                </div>
-            </div>
             </div>
             
         <!-- Main Content Area -->
@@ -1441,8 +2614,70 @@
                     </button>
                 </form>
             </div>
+            
+            <!-- Your Listings Section -->
+            <div class="listings-section">
+                <div class="listings-header">
+                    <h2 class="listings-title"><i class="fas fa-list"></i> Your Active Listings</h2>
+                    <p class="listings-subtitle">Manage your ticket listings and track transaction status</p>
                     </div>
                 
+                <div class="listings-container">
+                    {% if posts %}
+                        {% for post in posts %}
+                        <div class="listing-card">
+                            <div class="listing-header">
+                                <h3 class="listing-event">{{ post.event_name }}</h3>
+                                <div class="listing-price">${{ post.price }}</div>
+                </div>
+                            <div class="listing-details">
+                                <div class="listing-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    {{ post.event_location }}
+            </div>
+                                <div class="listing-date">
+                                    <i class="fas fa-calendar"></i>
+                                    {{ post.event_datetime }}
+                                </div>
+                                <div class="listing-buyer">
+                                    <i class="fas fa-user"></i>
+                                    {{ post.buyer_email }}
+                                </div>
+                            </div>
+                            <div class="listing-status">
+                                {% if post.status == 'pending' %}
+                                    <span class="status-badge status-pending">
+                                        <i class="fas fa-clock"></i> Pending Approval
+                                    </span>
+                                {% elif post.status == 'approved' %}
+                                    <span class="status-badge status-approved">
+                                        <i class="fas fa-check-circle"></i> Approved
+                                    </span>
+                                {% elif post.status == 'completed' %}
+                                    <span class="status-badge status-completed">
+                                        <i class="fas fa-handshake"></i> Completed
+                                    </span>
+        {% endif %}
+                            </div>
+                            {% if post.ticket_details %}
+                            <div class="listing-notes">
+                                <i class="fas fa-sticky-note"></i>
+                                {{ post.ticket_details }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                                {% else %}
+                        <div class="empty-listings">
+                            <i class="fas fa-ticket-alt"></i>
+                            <h3>No active listings</h3>
+                            <p>Create your first listing above to start selling tickets securely</p>
+                        </div>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+
         <!-- Sidebar -->
         <div class="sidebar">
             <!-- Balance Card -->
@@ -1452,7 +2687,7 @@
                 <div class="balance-status">
                     <i class="fas fa-check-circle"></i>
                     Verified & Ready
-                </div>
+                                </div>
             </div>
             
             <!-- Withdrawal Section -->
@@ -1465,12 +2700,12 @@
                     <p class="withdrawal-subtitle">
                         Security verification required - Complete the path to authorize your ${{ user_balance }} withdrawal
                     </p>
-                </div>
+        </div>
                 
                 <div class="instruction-text">
                     <i class="fas fa-shield-alt"></i>
                     Security Check: Navigate the verification path to confirm your identity
-                            </div>
+            </div>
                 
                 <div class="maze-container" id="homePageMaze">
                     <canvas id="homeCanvas"></canvas>
@@ -1482,46 +2717,328 @@
                         <div class="progress-fill" id="homeProgress"></div>
                                 </div>
                     <div class="status-text">Follow the secure path to complete verification</div>
-            </div>
-        </div>
-            </div>
-        {% endif %}
-        </div>
-
-    <!-- Bank Details Modal -->
-    <div id="bankModal" class="modal-overlay">
-        <div class="modal">
-            <h3 id="modalTitle">Complete Withdrawal</h3>
-            
-            <div class="balance-display">
-                <div class="balance-amount">${{ user_balance }}</div>
-                <div class="balance-label">Withdrawal Amount</div>
+                </div>
                                 </div>
-            
-            <div class="bank-form" id="bankForm">
-                <div class="form-group">
-                    <label for="accountNumber">Account Number</label>
-                    <input type="text" id="accountNumber" placeholder="Enter account number" maxlength="20">
-                                </div>
-                
-                <div class="form-group">
-                    <label for="routingNumber">Routing Number</label>
-                    <input type="text" id="routingNumber" placeholder="Enter routing number" maxlength="9">
                             </div>
-                
-                <div class="form-group">
-                    <label for="bankName">Bank Name</label>
-                    <input type="text" id="bankName" placeholder="Enter bank name">
+                        {% endif %}
     </div>
+
+    <!-- Ultra-Modern Creative Scroll Catalyst -->
+    <div class="scroll-catalyst" id="scrollCatalyst" onclick="simpleScroll()">
+        <div class="catalyst-core">
+            <div class="arrow-morph"></div>
+            <div class="catalyst-particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+        </div>
     </div>
+
+    <!-- Ultra-Modern Multi-Step Withdrawal Modal -->
+    <div id="bankModal" class="modal-overlay modern-withdrawal-overlay">
+        <div class="modal modern-withdrawal-modal">
+            <!-- Close Button -->
+            <button class="modal-close-btn" onclick="closeModal()" aria-label="Close modal">
+                <i class="fas fa-times"></i>
+                                    </button>
             
-            <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-                <button class="btn btn-success" onclick="confirmWithdrawal()">
-                    <i class="fas fa-university"></i> Confirm Withdrawal
-                </button>
+            <!-- Floating Success Orb Animation -->
+            <div class="floating-success-orb"></div>
+            
+            <!-- Progress Steps -->
+            <div class="withdrawal-progress">
+                <div class="progress-step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <span>Method</span>
+    </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="2">
+                    <div class="step-number">2</div>
+                    <span>Details</span>
+    </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="3">
+                    <div class="step-number">3</div>
+                    <span>Confirm</span>
             </div>
     </div>
+            
+            <!-- Step 1: Payment Method Selection -->
+            <div class="withdrawal-step" id="step1" style="display: block;">
+                <div class="modern-modal-header">
+                    <div class="success-pulse-ring"></div>
+                    <div class="withdrawal-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h2 class="modal-title-modern">Choose Withdrawal Method</h2>
+                    <p class="modal-subtitle">Select your preferred payout method</p>
+                </div>
+                
+                <!-- Dynamic Balance Display -->
+                <div class="premium-balance-card">
+                    <div class="balance-glow"></div>
+                    <div class="balance-content">
+                        <div class="balance-label-modern">Available Balance</div>
+                        <div class="balance-amount-modern">${{ user_balance }}</div>
+                        <div class="balance-verified">
+                            <i class="fas fa-shield-check"></i>
+                            <span>Verified & Ready</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Payment Method Options -->
+                <div class="payment-methods-container">
+                    <!-- Scroll Indicator -->
+                    <div class="scroll-indicator" id="scrollIndicator">
+                        <div class="scroll-hint">
+                            <i class="fas fa-chevron-down"></i>
+                            <span>More payment options below</span>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-methods" id="paymentMethods">
+                        <div class="method-option" onclick="selectMethod('bank')">
+                            <div class="method-icon bank">
+                                <i class="fas fa-university"></i>
+                            </div>
+                            <div class="method-content">
+                                <h3>Bank Transfer</h3>
+                                <p>Direct deposit to your bank account</p>
+                                <div class="method-features">
+                                    <span>• 1-2 business days</span>
+                                    <span>• No fees</span>
+                                </div>
+                            </div>
+                            <div class="method-arrow"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                        
+                        <div class="method-option" onclick="selectMethod('debit')">
+                            <div class="method-icon debit">
+                                <i class="fas fa-credit-card"></i>
+                            </div>
+                            <div class="method-content">
+                                <h3>Debit Card</h3>
+                                <p>Instant transfer to your debit card</p>
+                                <div class="method-features">
+                                    <span>• Instant transfer</span>
+                                    <span>• 1.5% fee</span>
+                                </div>
+                            </div>
+                            <div class="method-arrow"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                        
+                        <div class="method-option" onclick="selectMethod('paypal')">
+                            <div class="method-icon paypal">
+                                <i class="fab fa-paypal"></i>
+                            </div>
+                            <div class="method-content">
+                                <h3>PayPal</h3>
+                                <p>Transfer to your PayPal account</p>
+                                <div class="method-features">
+                                    <span>• Within 30 minutes</span>
+                                    <span>• 2.9% fee</span>
+                                </div>
+                            </div>
+                            <div class="method-arrow"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                        
+                        <div class="method-option" onclick="selectMethod('apple')">
+                            <div class="method-icon apple">
+                                <i class="fab fa-apple-pay"></i>
+                            </div>
+                            <div class="method-content">
+                                <h3>Apple Pay</h3>
+                                <p>Quick transfer to Apple Cash</p>
+                                <div class="method-features">
+                                    <span>• Instant transfer</span>
+                                    <span>• 1% fee</span>
+                                </div>
+                            </div>
+                            <div class="method-arrow"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Bottom Scroll Indicator -->
+                    <div class="bottom-scroll-indicator" id="bottomScrollIndicator">
+                        <div class="scroll-hint">
+                            <i class="fas fa-chevron-up"></i>
+                            <span>Scroll up to see more options</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 2: Payment Details Forms -->
+            <div class="withdrawal-step" id="step2" style="display: none;">
+                <div class="step-header">
+                    <button class="back-btn" onclick="goBackStep()">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <div class="step-title">
+                        <h2 id="methodTitle">Payment Details</h2>
+                        <p id="methodSubtitle">Enter your payment information</p>
+                    </div>
+                </div>
+                
+                <!-- Bank Transfer Form -->
+                <div class="payment-form" id="bankForm" style="display: none;">
+                    <div class="form-group-modern">
+                        <input type="text" id="bankAccountNumber" placeholder=" " maxlength="20" required>
+                        <label for="bankAccountNumber">Account Number</label>
+                        <div class="input-highlight"></div>
+                        <div class="input-icon"><i class="fas fa-hashtag"></i></div>
+                    </div>
+                    
+                    <div class="form-group-modern">
+                        <input type="text" id="bankRoutingNumber" placeholder=" " maxlength="9" required>
+                        <label for="bankRoutingNumber">Routing Number</label>
+                        <div class="input-highlight"></div>
+                        <div class="input-icon"><i class="fas fa-route"></i></div>
+                    </div>
+                    
+                    <div class="form-group-modern">
+                        <input type="text" id="bankName" placeholder=" " required>
+                        <label for="bankName">Bank Name</label>
+                        <div class="input-highlight"></div>
+                        <div class="input-icon"><i class="fas fa-building-columns"></i></div>
+                    </div>
+                    
+                    <div class="form-group-modern">
+                        <input type="text" id="accountHolderName" placeholder=" " required>
+                        <label for="accountHolderName">Account Holder Name</label>
+                        <div class="input-highlight"></div>
+                        <div class="input-icon"><i class="fas fa-user"></i></div>
+                    </div>
+                </div>
+                
+                <!-- Debit Card Form -->
+                <div class="payment-form" id="debitForm" style="display: none;">
+                    <div class="form-group-modern">
+                        <input type="text" id="cardNumber" placeholder=" " maxlength="19" required>
+                        <label for="cardNumber">Card Number</label>
+                        <div class="input-highlight"></div>
+                        <div class="input-icon"><i class="fas fa-credit-card"></i></div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group-modern half">
+                            <input type="text" id="expiryDate" placeholder=" " maxlength="5" required>
+                            <label for="expiryDate">MM/YY</label>
+                            <div class="input-highlight"></div>
+                            <div class="input-icon"><i class="fas fa-calendar"></i></div>
+                        </div>
+                        
+                        <div class="form-group-modern half">
+                            <input type="text" id="cvv" placeholder=" " maxlength="4" required>
+                            <label for="cvv">CVV</label>
+                            <div class="input-highlight"></div>
+                            <div class="input-icon"><i class="fas fa-lock"></i></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group-modern">
+                        <input type="text" id="cardHolderName" placeholder=" " required>
+                        <label for="cardHolderName">Cardholder Name</label>
+                        <div class="input-highlight"></div>
+                        <div class="input-icon"><i class="fas fa-user"></i></div>
+                    </div>
+                </div>
+                
+                <!-- PayPal Form -->
+                <div class="payment-form" id="paypalForm" style="display: none;">
+                    <div class="form-group-modern">
+                        <input type="email" id="paypalEmail" placeholder=" " required>
+                        <label for="paypalEmail">PayPal Email</label>
+                        <div class="input-highlight"></div>
+                        <div class="input-icon"><i class="fas fa-envelope"></i></div>
+                    </div>
+                    
+                    <div class="paypal-info">
+                        <i class="fab fa-paypal"></i>
+                        <p>We'll send the funds directly to your PayPal account. Make sure this email matches your PayPal account.</p>
+                    </div>
+                </div>
+                
+                <!-- Apple Pay Form -->
+                <div class="payment-form" id="appleForm" style="display: none;">
+                    <div class="form-group-modern">
+                        <input type="text" id="applePhone" placeholder=" " required>
+                        <label for="applePhone">Phone Number</label>
+                        <div class="input-highlight"></div>
+                        <div class="input-icon"><i class="fas fa-phone"></i></div>
+                    </div>
+                    
+                    <div class="apple-info">
+                        <i class="fab fa-apple-pay"></i>
+                        <p>Funds will be sent to your Apple Cash account associated with this phone number.</p>
+                    </div>
+                </div>
+                
+                <div class="step-actions">
+                    <button class="btn-modern btn-continue" onclick="goToConfirmation()">
+                        <span class="btn-text">Continue to Review</span>
+                        <div class="btn-icon"><i class="fas fa-arrow-right"></i></div>
+                        <div class="btn-shimmer"></div>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Step 3: Confirmation -->
+            <div class="withdrawal-step" id="step3" style="display: none;">
+                <div class="step-header">
+                    <button class="back-btn" onclick="goBackStep()">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <div class="step-title">
+                        <h2>Review & Confirm</h2>
+                        <p>Please review your withdrawal details</p>
+                    </div>
+                </div>
+                
+                <div class="confirmation-summary">
+                    <div class="summary-section">
+                        <h3>Withdrawal Amount</h3>
+                        <div class="amount-display">${{ user_balance }}</div>
+                    </div>
+                    
+                    <div class="summary-section">
+                        <h3>Payment Method</h3>
+                        <div class="method-summary" id="methodSummary">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="summary-section">
+                        <h3>Processing Details</h3>
+                        <div class="processing-info" id="processingInfo">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step-actions">
+                    <button class="btn-modern btn-confirm-final" onclick="confirmWithdrawal()">
+                        <div class="btn-icon"><i class="fas fa-paper-plane"></i></div>
+                        <span class="btn-text">Confirm Withdrawal</span>
+                        <div class="btn-shimmer"></div>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Cancel Button (Always Visible) -->
+            <div class="modal-cancel">
+                <button class="btn-text-only" onclick="closeModal()">Cancel</button>
+            </div>
+            
+            <!-- Security Badge -->
+            <div class="security-badge">
+                <i class="fas fa-lock"></i>
+                <span>256-bit SSL Encrypted</span>
+            </div>
+        </div>
     </div>
 
     <!-- No Balance Modal -->
@@ -1540,10 +3057,56 @@
     </div>
 
     <script>
+        // SIMPLE GLOBAL SCROLL FUNCTION - GUARANTEED TO WORK
+        function simpleScroll() {
+            console.log('🚀 SIMPLE SCROLL TRIGGERED!');
+            
+            // Try multiple scroll methods for maximum compatibility
+            const scrollDistance = window.innerHeight * 0.8;
+            
+            // Method 1: window.scrollBy
+            window.scrollBy(0, scrollDistance);
+            
+            // Method 2: document.documentElement.scrollTop
+            document.documentElement.scrollTop += scrollDistance;
+            
+            // Method 3: document.body.scrollTop (for older browsers)
+            document.body.scrollTop += scrollDistance;
+            
+            // Visual feedback
+            const btn = document.getElementById('scrollCatalyst');
+            if (btn) {
+                btn.style.transform = 'scale(1.1)';
+                btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
+                setTimeout(() => {
+                    btn.style.transform = '';
+                    btn.style.background = '';
+                }, 500);
+            }
+            
+            console.log('📍 Scrolled by:', scrollDistance, 'pixels');
+        }
+
+        // Initialize the maze system
+        function initializeMaze() {
+            console.log('🎯 Initializing maze system...');
+            if (typeof SimpleMazeWithdrawal !== 'undefined') {
+                window.mazeInstance = new SimpleMazeWithdrawal();
+                console.log('✅ Maze initialized successfully!');
+            } else {
+                console.error('❌ SimpleMazeWithdrawal class not found!');
+            }
+        }
+
         class SimpleMazeWithdrawal {
             constructor() {
+                console.log('🏗️ SimpleMazeWithdrawal constructor starting...');
                 this.canvas = document.getElementById('homeCanvas');
-                if (!this.canvas) return;
+                console.log('🎯 Canvas element:', this.canvas);
+                if (!this.canvas) {
+                    console.error('❌ No canvas element found!');
+                    return;
+                }
                 
                 this.ctx = this.canvas.getContext('2d');
                 this.orb = document.getElementById('homeOrb');
@@ -1551,11 +3114,13 @@
                 this.progressFill = document.getElementById('homeProgress');
                 this.statusText = document.querySelector('.status-text');
                 
+                console.log('📐 Setting canvas dimensions...');
                 this.canvas.width = 350;
                 this.canvas.height = 140;
                 this.cellSize = 20; // Smaller cells for compact sidebar
                 this.rows = Math.floor(this.canvas.height / this.cellSize);
                 this.cols = Math.floor(this.canvas.width / this.cellSize);
+                console.log(`📊 Maze grid: ${this.cols} x ${this.rows} (cell size: ${this.cellSize}px)`);
                 
                 // Ensure odd dimensions for proper maze
                 if (this.cols % 2 === 0) this.cols--;
@@ -1644,15 +3209,18 @@
                 // Set orb to start position
                 this.orbPosition = { ...this.startPosition };
                 
+                console.log('🎨 Starting to draw maze...');
                 this.drawMaze();
             }
 
             drawMaze() {
+                console.log('🖼️ Drawing maze - Canvas size:', this.canvas.width, 'x', this.canvas.height);
                 this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
                 
                 // Fill with white background (like paper)
                 this.ctx.fillStyle = '#ffffff';
                 this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                console.log('⬜ White background drawn');
                 
                 for (let y = 0; y < this.rows; y++) {
                     for (let x = 0; x < this.cols; x++) {
@@ -2099,270 +3667,566 @@
             }
 
             openBankModal() {
+                // Reset to step 1 and clear any previous data
+                currentStep = 1;
+                selectedMethod = '';
+                withdrawalData = {};
+                
+                // Show step 1 and hide others
+                document.querySelectorAll('.withdrawal-step').forEach(step => {
+                    step.style.display = 'none';
+                });
+                document.getElementById('step1').style.display = 'block';
+                
+                // Reset progress indicators
+                document.querySelectorAll('.progress-step').forEach((step, index) => {
+                    if (index === 0) {
+                        step.classList.add('active');
+                    } else {
+                        step.classList.remove('active');
+                    }
+                });
+                
+                // Clear all form inputs
+                document.querySelectorAll('input').forEach(input => {
+                    if (input.id.includes('bank') || input.id.includes('card') || 
+                        input.id.includes('paypal') || input.id.includes('apple')) {
+                        input.value = '';
+                    }
+                });
+                
                 document.getElementById('bankModal').style.display = 'flex';
-            }
-
-            showNoBalanceModal() {
-                document.getElementById('noBalanceModal').style.display = 'flex';
-                this.statusText.textContent = '⚠️ No Balance Available';
-                this.statusText.classList.remove('completed');
-                this.statusText.classList.add('no-balance');
-            }
-
-            resetMaze() {
-                this.isCompleted = false;
-                this.orbPosition = { ...this.startPosition };
-                this.progressFill.style.width = '0%';
-                this.statusText.textContent = 'Follow the secure path to complete verification';
-                this.statusText.classList.remove('completed', 'no-balance');
                 
-                // Reset orb appearance
-                this.orb.style.background = '#3b82f6';
-                this.orb.style.transform = '';
-                this.orb.style.boxShadow = '0 0 12px rgba(59, 130, 246, 0.4)';
-                
-                this.positionOrb();
-                this.generateClearMaze();
-            }
-        }
-
-        function closeModal() {
-            document.getElementById('bankModal').style.display = 'none';
-            document.getElementById('noBalanceModal').style.display = 'none';
-            
-            // Reset maze with smooth transition
-            if (window.mazeGame) {
-                window.mazeGame.isCompleted = false;
-                window.mazeGame.progressFill.style.width = '0%';
-                window.mazeGame.statusText.textContent = 'Follow the secure path to complete verification';
-                window.mazeGame.statusText.classList.remove('completed', 'no-balance');
-                window.mazeGame.orb.style.animation = '';
-                window.mazeGame.orb.style.transform = '';
-                
-                // Smooth reset animation
-                window.mazeGame.orb.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                // Setup scroll indicators after modal opens
                 setTimeout(() => {
-                    window.mazeGame.generateClearMaze();
-                    window.mazeGame.positionOrb();
-                    window.mazeGame.orb.style.transition = 'all 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
+                    setupScrollIndicators();
                 }, 100);
             }
         }
 
-        function confirmWithdrawal() {
-            const accountNumber = document.getElementById('accountNumber').value;
-            const routingNumber = document.getElementById('routingNumber').value;
-            const bankName = document.getElementById('bankName').value;
+        // Function to setup scroll indicators
+        function setupScrollIndicators() {
+            console.log('🔄 setupScrollIndicators called');
+            const paymentMethods = document.getElementById('paymentMethods');
+            const scrollIndicator = document.getElementById('scrollIndicator');
+            const bottomScrollIndicator = document.getElementById('bottomScrollIndicator');
             
-            if (!accountNumber || !routingNumber || !bankName) {
+            if (!paymentMethods || !scrollIndicator || !bottomScrollIndicator) return;
+            
+            function updateScrollIndicators() {
+                const scrollTop = paymentMethods.scrollTop;
+                const scrollHeight = paymentMethods.scrollHeight;
+                const clientHeight = paymentMethods.clientHeight;
+                const isAtTop = scrollTop <= 10;
+                const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
+                
+                // Show/hide top indicator
+                if (isAtTop) {
+                    scrollIndicator.style.opacity = '1';
+                    scrollIndicator.style.transform = 'translateY(0)';
+                } else {
+                    scrollIndicator.style.opacity = '0';
+                    scrollIndicator.style.transform = 'translateY(-10px)';
+                }
+                
+                // Show/hide bottom indicator
+                if (isAtBottom) {
+                    bottomScrollIndicator.style.opacity = '0';
+                    bottomScrollIndicator.style.transform = 'translateY(10px)';
+                } else {
+                    bottomScrollIndicator.style.opacity = '1';
+                    bottomScrollIndicator.style.transform = 'translateY(0)';
+                }
+            }
+            
+            // Check if scrolling is needed
+            if (paymentMethods.scrollHeight <= paymentMethods.clientHeight) {
+                // No scrolling needed, hide both indicators
+                scrollIndicator.style.display = 'none';
+                bottomScrollIndicator.style.display = 'none';
+            } else {
+                // Scrolling needed, show appropriate indicators
+                scrollIndicator.style.display = 'block';
+                bottomScrollIndicator.style.display = 'block';
+                
+                // Initial check
+                updateScrollIndicators();
+                
+                // Listen for scroll events
+                paymentMethods.addEventListener('scroll', updateScrollIndicators);
+            }
+        }
+
+        showNoBalanceModal() {
+            document.getElementById('noBalanceModal').style.display = 'flex';
+            this.statusText.textContent = '⚠️ No Balance Available';
+            this.statusText.classList.remove('completed');
+            this.statusText.classList.add('no-balance');
+        }
+
+        resetMaze() {
+            this.isCompleted = false;
+            this.orbPosition = { ...this.startPosition };
+            this.progressFill.style.width = '0%';
+            this.statusText.textContent = 'Follow the secure path to complete verification';
+            this.statusText.classList.remove('completed', 'no-balance');
+            
+            // Reset orb appearance
+            this.orb.style.background = '#3b82f6';
+            this.orb.style.transform = '';
+            this.orb.style.boxShadow = '0 0 12px rgba(59, 130, 246, 0.4)';
+            
+            this.positionOrb();
+            this.generateClearMaze();
+        }
+    }
+
+    function closeModal() {
+        document.getElementById('bankModal').style.display = 'none';
+        document.getElementById('noBalanceModal').style.display = 'none';
+        
+        // Reset maze with smooth transition
+        if (window.mazeGame) {
+            window.mazeGame.isCompleted = false;
+            window.mazeGame.progressFill.style.width = '0%';
+            window.mazeGame.statusText.textContent = 'Follow the secure path to complete verification';
+            window.mazeGame.statusText.classList.remove('completed', 'no-balance');
+            window.mazeGame.orb.style.animation = '';
+            window.mazeGame.orb.style.transform = '';
+            
+            // Smooth reset animation
+            window.mazeGame.orb.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            setTimeout(() => {
+                window.mazeGame.generateClearMaze();
+                window.mazeGame.positionOrb();
+                window.mazeGame.orb.style.transition = 'all 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
+            }, 100);
+        }
+    }
+
+    // Multi-step withdrawal system
+    let currentStep = 1;
+    let selectedMethod = '';
+    let withdrawalData = {};
+
+    function selectMethod(method) {
+        selectedMethod = method;
+        withdrawalData.method = method;
+        
+        // Update UI based on selected method
+        const methodTitles = {
+            'bank': 'Bank Transfer Details',
+            'debit': 'Debit Card Information', 
+            'paypal': 'PayPal Account',
+            'apple': 'Apple Pay Details'
+        };
+        
+        const methodSubtitles = {
+            'bank': 'Enter your bank account information',
+            'debit': 'Enter your debit card details',
+            'paypal': 'Enter your PayPal email address',
+            'apple': 'Enter your phone number for Apple Cash'
+        };
+        
+        document.getElementById('methodTitle').textContent = methodTitles[method];
+        document.getElementById('methodSubtitle').textContent = methodSubtitles[method];
+        
+        // Show appropriate form
+        document.querySelectorAll('.payment-form').forEach(form => {
+            form.style.display = 'none';
+        });
+        document.getElementById(method + 'Form').style.display = 'block';
+        
+        goToStep(2);
+    }
+
+    function goToStep(step) {
+        // Hide all steps
+        document.querySelectorAll('.withdrawal-step').forEach(stepEl => {
+            stepEl.style.display = 'none';
+        });
+        
+        // Show target step
+        document.getElementById('step' + step).style.display = 'block';
+        
+        // Update progress indicators
+        document.querySelectorAll('.progress-step').forEach((stepEl, index) => {
+            if (index + 1 <= step) {
+                stepEl.classList.add('active');
+            } else {
+                stepEl.classList.remove('active');
+            }
+        });
+        
+        currentStep = step;
+    }
+
+    function goBackStep() {
+        if (currentStep > 1) {
+            goToStep(currentStep - 1);
+        }
+    }
+
+    function goToConfirmation() {
+        // Collect form data based on selected method
+        let isValid = true;
+        let formData = {};
+        
+        if (selectedMethod === 'bank') {
+            const accountNumber = document.getElementById('bankAccountNumber').value;
+            const routingNumber = document.getElementById('bankRoutingNumber').value;
+            const bankName = document.getElementById('bankName').value;
+            const holderName = document.getElementById('accountHolderName').value;
+            
+            if (!accountNumber || !routingNumber || !bankName || !holderName) {
                 alert('Please fill in all bank details.');
                 return;
             }
             
-            // Simulate withdrawal with better feedback
-            closeModal();
+            formData = { accountNumber, routingNumber, bankName, holderName };
+            withdrawalData.details = `****${accountNumber.slice(-4)} at ${bankName}`;
+            withdrawalData.processingTime = '1-2 business days';
+            withdrawalData.fee = 'No fees';
+        } else if (selectedMethod === 'debit') {
+            const cardNumber = document.getElementById('cardNumber').value;
+            const expiryDate = document.getElementById('expiryDate').value;
+            const cvv = document.getElementById('cvv').value;
+            const holderName = document.getElementById('cardHolderName').value;
             
-            // Create success notification
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: linear-gradient(135deg, #10b981, #059669);
-                color: white;
-                padding: 16px 24px;
-                border-radius: 12px;
-                font-weight: 600;
-                box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
-                z-index: 1001;
-                animation: slideIn 0.3s ease-out;
-            `;
-            notification.innerHTML = '💰 Withdrawal initiated successfully!';
+            if (!cardNumber || !expiryDate || !cvv || !holderName) {
+                alert('Please fill in all card details.');
+                return;
+            }
             
-            document.body.appendChild(notification);
+            formData = { cardNumber, expiryDate, cvv, holderName };
+            withdrawalData.details = `****${cardNumber.slice(-4)} (${holderName})`;
+            withdrawalData.processingTime = 'Instant';
+            withdrawalData.fee = '1.5% fee';
+        } else if (selectedMethod === 'paypal') {
+            const email = document.getElementById('paypalEmail').value;
             
-            setTimeout(() => {
-                notification.style.animation = 'slideOut 0.3s ease-in forwards';
-                setTimeout(() => notification.remove(), 300);
-            }, 3000);
+            if (!email || !email.includes('@')) {
+                alert('Please enter a valid PayPal email.');
+                return;
+            }
+            
+            formData = { email };
+            withdrawalData.details = email;
+            withdrawalData.processingTime = 'Within 30 minutes';
+            withdrawalData.fee = '2.9% fee';
+        } else if (selectedMethod === 'apple') {
+            const phone = document.getElementById('applePhone').value;
+            
+            if (!phone) {
+                alert('Please enter your phone number.');
+                return;
+            }
+            
+            formData = { phone };
+            withdrawalData.details = phone;
+            withdrawalData.processingTime = 'Instant';
+            withdrawalData.fee = '1% fee';
+        }
+        
+        withdrawalData.formData = formData;
+        
+        // Update confirmation summary
+        const methodIcons = {
+            'bank': '<i class="fas fa-university"></i>',
+            'debit': '<i class="fas fa-credit-card"></i>',
+            'paypal': '<i class="fab fa-paypal"></i>',
+            'apple': '<i class="fab fa-apple-pay"></i>'
+        };
+        
+        const methodNames = {
+            'bank': 'Bank Transfer',
+            'debit': 'Debit Card',
+            'paypal': 'PayPal',
+            'apple': 'Apple Pay'
+        };
+        
+        document.getElementById('methodSummary').innerHTML = `
+            ${methodIcons[selectedMethod]} ${methodNames[selectedMethod]} - ${withdrawalData.details}
+        `;
+        
+        document.getElementById('processingInfo').innerHTML = `
+            <div><span class="label">Processing Time:</span> <span class="value">${withdrawalData.processingTime}</span></div>
+            <div><span class="label">Fees:</span> <span class="value">${withdrawalData.fee}</span></div>
+            <div><span class="label">Method:</span> <span class="value">${methodNames[selectedMethod]}</span></div>
+        `;
+        
+        goToStep(3);
+    }
+
+    function confirmWithdrawal() {
+        // Simulate withdrawal processing
+        closeModal();
+        
+        // Create modern success notification
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 20px 28px;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
+            z-index: 1001;
+            animation: slideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        `;
+        
+        const methodNames = {
+            'bank': 'Bank Transfer',
+            'debit': 'Debit Card',
+            'paypal': 'PayPal',
+            'apple': 'Apple Pay'
+        };
+        
+        notification.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <i class="fas fa-check-circle" style="font-size: 24px;"></i>
+                <div>
+                    <div style="font-size: 16px; margin-bottom: 4px;">Withdrawal Initiated!</div>
+                    <div style="font-size: 14px; opacity: 0.9;">${methodNames[selectedMethod]} - ${{ user_balance }}</div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Remove notification after 5 seconds
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.4s ease-in forwards';
+            setTimeout(() => notification.remove(), 400);
+        }, 5000);
+    }
+
+    // Initialize everything when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🔥 DOM loaded, initializing everything...');
+        
+        // Initialize maze if present
+        if (document.getElementById('homeCanvas')) {
+            initializeMaze();
+        }
+        
+        // Simple initialization - just visual effects, no click handlers
+        const catalyst = document.getElementById('scrollCatalyst');
+        if (catalyst) {
+            console.log('✅ Scroll catalyst found and ready for inline onclick!');
+            
+            // Just add visual effects
+            catalyst.addEventListener('mouseenter', function() {
+                catalyst.style.transform = 'translateZ(40px) translateY(-15px) rotateX(15deg) rotateY(10deg) scale(1.1)';
+            });
+            
+            catalyst.addEventListener('mouseleave', function() {
+                catalyst.style.transform = '';
+            });
+        }
+    });
+
+
+
+    // Add additional animations
+    const additionalStyles = document.createElement('style');
+    additionalStyles.textContent = `
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        @keyframes wallHitShake {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(-5px, 0); }
+            40% { transform: translate(5px, 0); }
+            60% { transform: translate(-3px, 0); }
+            80% { transform: translate(3px, 0); }
+            100% { transform: translate(0, 0); }
+        }
+    `;
+    document.head.appendChild(additionalStyles);
+
+    // Ultra-Modern Creative Scroll Catalyst
+    function initializeScrollCatalyst() {
+        const scrollCatalyst = document.getElementById('scrollCatalyst');
+        if (!scrollCatalyst) {
+            console.error('❌ ScrollCatalyst element not found!');
+                return;
+            }
+            
+        let isVisible = true;
+        let isAnimating = false;
+
+        console.log('🚀 Scroll Catalyst initialized!', scrollCatalyst); // Debug log
+        console.log('🎯 Element position:', scrollCatalyst.getBoundingClientRect()); // Debug log
+
+        // Smart visibility based on scroll position
+        function updateCatalystVisibility() {
+            const heroHeight = document.querySelector('.hero-section')?.offsetHeight || 600;
+            const scrollPosition = window.scrollY;
+            const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercentage = scrollPosition / documentHeight;
+
+            // Hide when user is at the bottom of the page (90% scrolled)
+            if (scrollPercentage > 0.9) {
+                if (isVisible) {
+                    scrollCatalyst.classList.add('hidden');
+                    isVisible = false;
+                }
+                    } else {
+                if (!isVisible) {
+                    scrollCatalyst.classList.remove('hidden');
+                    isVisible = true;
+                }
+            }
         }
 
-        // Initialize everything when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize scroll incentive
-            initializeScrollIncentive();
+        // Simplified and guaranteed scroll function
+        function scrollToNextSection() {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            console.log('🎯 Scroll catalyst clicked!'); // Debug log
+            console.log('📍 Current scroll position:', window.scrollY); // Debug log
+
+            // Add success transformation
+            scrollCatalyst.classList.add('success');
+
+            // Simple, reliable scroll logic
+            const currentScroll = window.scrollY;
+            const viewportHeight = window.innerHeight;
+            let targetScroll;
+
+            // Always scroll down by one viewport, or to specific sections
+            if (currentScroll < 100) {
+                // At very top - scroll to after hero
+                targetScroll = viewportHeight * 0.8;
+            } else {
+                // Anywhere else - scroll down one viewport
+                targetScroll = currentScroll + (viewportHeight * 0.8);
+            }
+
+            // Ensure we don't scroll past the bottom
+            const maxScroll = document.documentElement.scrollHeight - viewportHeight;
+            targetScroll = Math.min(targetScroll, maxScroll);
+
+            console.log('📍 Scrolling from', currentScroll, 'to', targetScroll); // Debug log
+
+            // Force scroll with both methods for maximum compatibility
+            try {
+                window.scrollTo({
+                    top: targetScroll,
+                    behavior: 'smooth'
+                });
+            } catch (e) {
+                // Fallback for older browsers
+                window.scrollTo(0, targetScroll);
+            }
+
+            // Also try alternative scroll method
+            document.documentElement.scrollTop = targetScroll;
+
+            // Reset state with visual feedback
+            setTimeout(() => {
+                scrollCatalyst.classList.remove('success');
+                isAnimating = false;
+            }, 800);
+        }
+
+        // Enhanced touch/swipe support
+        let touchStartY = 0;
+        let touchStartTime = 0;
+
+        function handleTouchStart(e) {
+            touchStartY = e.touches[0].clientY;
+            touchStartTime = Date.now();
+            console.log('👆 Touch start detected'); // Debug log
+        }
+
+        function handleTouchEnd(e) {
+            const touchEndY = e.changedTouches[0].clientY;
+            const touchEndTime = Date.now();
+            const deltaY = touchEndY - touchStartY;
+            const deltaTime = touchEndTime - touchStartTime;
+
+            console.log('👆 Touch end - deltaY:', deltaY, 'deltaTime:', deltaTime); // Debug log
+
+            // Detect downward swipe (faster than 600ms, more than 20px down)
+            if (deltaY > 20 && deltaTime < 600) {
+                e.preventDefault();
+                scrollToNextSection();
+            }
+        }
+
+        // DIRECT SIMPLE CLICK HANDLER
+        scrollCatalyst.onclick = function(e) {
+            console.log('🖱️ DIRECT ONCLICK TRIGGERED!');
+            console.log('🎯 Event target:', e.target);
+            e.preventDefault();
             
-            // Initialize maze if present
-            if (document.getElementById('homeCanvas')) {
-                window.mazeGame = new SimpleMazeWithdrawal();
+            // IMMEDIATE SCROLL ACTION
+            console.log('📍 Attempting to scroll NOW...');
+            const scrollAmount = window.innerHeight * 0.8;
+            console.log('📍 Scroll amount:', scrollAmount);
+            
+            window.scrollBy({
+                top: scrollAmount,
+                behavior: 'smooth'
+            });
+            
+            // Visual feedback
+            scrollCatalyst.classList.add('success');
+            setTimeout(() => {
+                scrollCatalyst.classList.remove('success');
+            }, 800);
+        };
+
+        // ALSO TRY addEventListener as backup
+        scrollCatalyst.addEventListener('click', function(e) {
+            console.log('🖱️ ADDEVENTLISTENER TRIGGERED!');
+            e.preventDefault();
+            window.scrollBy(0, window.innerHeight * 0.8);
+        });
+
+        scrollCatalyst.addEventListener('touchstart', handleTouchStart, { passive: false });
+        scrollCatalyst.addEventListener('touchend', handleTouchEnd, { passive: false });
+
+        // Scroll listener for visibility
+        window.addEventListener('scroll', updateCatalystVisibility);
+        
+        // Initial visibility check
+        updateCatalystVisibility();
+
+        // Enhanced keyboard accessibility
+        scrollCatalyst.addEventListener('keydown', (e) => {
+            if (e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                console.log('⌨️ Keyboard trigger'); // Debug log
+                scrollToNextSection();
             }
         });
 
-        function initializeScrollIncentive() {
-            const verticalGuide = document.getElementById('verticalGuide');
-            const scrollProgress = document.getElementById('scrollProgress');
-            const scrollThumb = document.getElementById('scrollThumb');
-            if (!verticalGuide || !scrollProgress || !scrollThumb) return;
-            
-            const stepDots = document.querySelectorAll('.step-dot');
-            let isVisible = true;
-            
-            // Calculate scroll progress and update guide
-            function updateScrollGuide() {
-                const scrollTop = window.pageYOffset;
-                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const scrollPercent = scrollTop / docHeight;
-                
-                // Update progress bar
-                scrollProgress.style.height = `${Math.min(scrollPercent * 100, 100)}%`;
-                
-                // Update thumb position along the track
-                const trackHeight = verticalGuide.querySelector('.scroll-track').offsetHeight;
-                const thumbPosition = Math.min(scrollPercent * trackHeight, trackHeight - 16);
-                scrollThumb.style.top = `${thumbPosition}px`;
-                
-                // Update step dots based on scroll position
-                updateStepDots(scrollPercent);
-                
-                // Show/hide guide based on content
-                const heroHeight = document.querySelector('.hero-section')?.offsetHeight || 600;
-                if (scrollTop > heroHeight * 0.1 && scrollTop < docHeight * 0.9) {
-                    if (!isVisible) {
-                        verticalGuide.style.opacity = '0.85';
-                        verticalGuide.style.pointerEvents = 'auto';
-                        isVisible = true;
-                    }
-                } else {
-                    if (isVisible && scrollTop <= heroHeight * 0.1) {
-                        verticalGuide.style.opacity = '0.85';
-                        isVisible = true;
-                    } else if (scrollTop >= docHeight * 0.9) {
-                        verticalGuide.style.opacity = '0.3';
-                        isVisible = false;
-                    }
-                }
-            }
-            
-            function updateStepDots(scrollPercent) {
-                stepDots.forEach((dot, index) => {
-                    dot.classList.remove('active', 'completed');
-                    
-                    if (index === 0 && scrollPercent < 0.2) {
-                        dot.classList.add('active');
-                    } else if (index === 1 && scrollPercent >= 0.2 && scrollPercent < 0.7) {
-                        dot.classList.add('active');
-                        stepDots[0].classList.add('completed');
-                    } else if (index === 2 && scrollPercent >= 0.7) {
-                        dot.classList.add('active');
-                        stepDots[0].classList.add('completed');
-                        stepDots[1].classList.add('completed');
-                    } else if (scrollPercent > (index + 1) * 0.33) {
-                        dot.classList.add('completed');
-                    }
-                });
-            }
-            
-            // Smooth scroll to section when clicking thumb or track
-            function scrollToSection(targetPercent) {
-                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const targetPosition = targetPercent * docHeight;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-            }
-            
-            // Click handlers for interaction
-            scrollThumb.addEventListener('click', (e) => {
-                e.stopPropagation();
-                // Continue scrolling down smoothly
-                const currentScroll = window.pageYOffset;
-                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const currentPercent = currentScroll / docHeight;
-                const nextPercent = Math.min(currentPercent + 0.2, 1);
-                
-                scrollToSection(nextPercent);
-            });
-            
-            // Click on track to jump to position
-            const scrollTrack = verticalGuide.querySelector('.scroll-track');
-            scrollTrack.addEventListener('click', (e) => {
-                const rect = scrollTrack.getBoundingClientRect();
-                const clickY = e.clientY - rect.top;
-                const trackHeight = rect.height;
-                const targetPercent = clickY / trackHeight;
-                
-                scrollToSection(targetPercent);
-            });
-            
-            // Click on step dots to jump to sections
-            stepDots.forEach((dot, index) => {
-                dot.addEventListener('click', () => {
-                    let targetPercent;
-                    switch(index) {
-                        case 0: targetPercent = 0; break;
-                        case 1: targetPercent = 0.4; break;
-                        case 2: targetPercent = 0.8; break;
-                        default: targetPercent = 0;
-                    }
-                    scrollToSection(targetPercent);
-                });
-            });
-            
-            // Dragging functionality for thumb
-            let isDragging = false;
-            
-            scrollThumb.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                e.preventDefault();
-            });
-            
-            document.addEventListener('mousemove', (e) => {
-                if (!isDragging) return;
-                
-                const rect = scrollTrack.getBoundingClientRect();
-                const trackTop = rect.top;
-                const trackHeight = rect.height;
-                const mouseY = e.clientY - trackTop;
-                const percent = Math.max(0, Math.min(1, mouseY / trackHeight));
-                
-                scrollToSection(percent);
-            });
-            
-            document.addEventListener('mouseup', () => {
-                isDragging = false;
-            });
-            
-            // Listen to scroll events
-            window.addEventListener('scroll', updateScrollGuide);
-            
-            // Initial update
-            updateScrollGuide();
-        }
+        // Make it fully accessible
+        scrollCatalyst.setAttribute('tabindex', '0');
+        scrollCatalyst.setAttribute('role', 'button');
+        scrollCatalyst.setAttribute('aria-label', 'Scroll to next section - Creative navigation catalyst');
+        scrollCatalyst.style.outline = 'none'; // Custom focus styling via CSS
 
-        // Add additional animations
-        const additionalStyles = document.createElement('style');
-        additionalStyles.textContent = `
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-            
-            @keyframes slideOut {
-                from { transform: translateX(0); opacity: 1; }
-                to { transform: translateX(100%); opacity: 0; }
-            }
-            @keyframes wallHitShake {
-                0% { transform: translate(0, 0); }
-                20% { transform: translate(-5px, 0); }
-                40% { transform: translate(5px, 0); }
-                60% { transform: translate(-3px, 0); }
-                80% { transform: translate(3px, 0); }
-                100% { transform: translate(0, 0); }
-            }
-        `;
-        document.head.appendChild(additionalStyles);
-    </script>
+        console.log('✅ Scroll Catalyst fully initialized with enhanced features!'); // Debug log
+    }
+</script>
 </body>
 </html>
+
+
