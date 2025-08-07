@@ -5,10 +5,10 @@ import sqlite3
 conn = sqlite3.connect('var/insta485.sqlite3')
 
 # Add balance to test user
-conn.execute('UPDATE users SET balance = 150.00 WHERE email = "awdeorio@umich.edu"')
+conn.execute('UPDATE users SET balance = 15000 WHERE email = "user2@gmail.com"')
 conn.commit()
 
-print("✓ Added $150.00 balance to awdeorio@umich.edu")
+print("✓ Added $150.00 balance to user2@gmail.com")
 print("Now refresh your browser to see the Secure Withdrawal button!")
 
 conn.close() 

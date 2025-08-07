@@ -80,7 +80,8 @@ def get_user_balance(user_email):
         "SELECT balance FROM users WHERE email = ?",
         (user_email,)
     ).fetchone()
-    return user['balance'] if user else 0
+    # Convert from cents to dollars
+    return (user['balance'] / 100) if user else 0
 
 def get_balance_history(user_email, limit=50):
     """Get balance transaction history for a user."""
@@ -151,6 +152,28 @@ def show_balance():
     }
     
     return flask.render_template('balance.html', **context)
+
+@insta485.app.route('/secure-withdrawal', methods=['GET'])
+def secure_withdrawal():
+    """Show the secure withdrawal page with maze verification."""
+    if 'email' not in flask.session:
+        return redirect(url_for('show_accounts', url='login'))
+    
+    logemail = flask.session['email']
+    connection = insta485.model.get_db()
+    
+    # Get user balance
+    user = connection.execute(
+        "SELECT balance FROM users WHERE email = ?",
+        (logemail,)
+    ).fetchone()
+    
+    if not user:
+        flask.abort(404)
+    
+    return flask.render_template('secure_withdrawal.html', 
+                                user_balance=user['balance'],
+                                logemail=logemail)
 
 @insta485.app.route('/withdraw', methods=['GET', 'POST'])
 def withdraw_funds():
