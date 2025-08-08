@@ -871,6 +871,193 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
+        /* Event Search Autocomplete Styles */
+        .event-search {
+            position: relative;
+        }
+
+        .event-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .event-suggestion {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .event-suggestion:hover {
+            background: #f8f9fa;
+        }
+
+        .event-suggestion:last-child {
+            border-bottom: none;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        /* Event Details Display Cards */
+        .event-details-container {
+            margin: 20px 0;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .event-details-container.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .event-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 0;
+        }
+
+        .event-detail-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-detail-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #6366f1);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .event-detail-card.populated::before {
+            opacity: 1;
+        }
+
+        .event-detail-card.populated {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-color: #cbd5e1;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .venue-card.populated::before {
+            background: linear-gradient(90deg, #ef4444, #f97316);
+        }
+
+        .datetime-card.populated::before {
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+
+        .detail-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .event-detail-card.populated .detail-icon {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .venue-card.populated .detail-icon {
+            background: linear-gradient(135deg, #ef4444, #f97316);
+        }
+
+        .datetime-card.populated .detail-icon {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .detail-icon i {
+            font-size: 16px;
+            color: #64748b;
+            transition: color 0.2s ease;
+        }
+
+        .event-detail-card.populated .detail-icon i {
+            color: white;
+        }
+
+        .detail-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .detail-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            font-weight: 500;
+            color: #94a3b8;
+            line-height: 1.3;
+            transition: color 0.2s ease;
+        }
+
+        .event-detail-card.populated .detail-value {
+            color: #1e293b;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .event-details-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .event-detail-card {
+                padding: 14px;
+            }
+            
+            .detail-icon {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .detail-icon i {
+                font-size: 14px;
+            }
+        }
+
         .create-listing-btn:active {
             transform: translateY(0);
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
@@ -2574,20 +2761,41 @@
                     <!-- Event Information -->
                     <div class="form-group">
                         <label for="event_name">Event Name</label>
-                        <input type="text" id="event_name" name="event_name" required placeholder="e.g., Taylor Swift Concert">
+                        <div class="event-search">
+                            <input type="text" id="event_name" name="event_name" required placeholder="e.g., Taylor Swift Concert" autocomplete="off">
+                            <div id="event_suggestions" class="event-suggestions"></div>
+                        </div>
+                        <div class="help-text">Start typing to search existing events or create a new one</div>
                 </div>
                 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="event_location">Venue/Location</label>
-                            <input type="text" id="event_location" name="event_location" required placeholder="e.g., Madison Square Garden">
-                            </div>
-                        
-                        <div class="form-group">
-                            <label for="event_datetime">Event Date & Time</label>
-                            <input type="datetime-local" id="event_datetime" name="event_datetime" required>
+                    <!-- Event Details Display (Hidden until event selected) -->
+                    <div id="event_details_container" class="event-details-container" style="display: none;">
+                        <div class="event-details-grid">
+                            <div class="event-detail-card venue-card">
+                                <div class="detail-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
                                 </div>
+                                <div class="detail-content">
+                                    <label class="detail-label">Venue/Location</label>
+                                    <div id="event_location_display" class="detail-value">Select an event to see venue</div>
+                                </div>
+                            </div>
+                            
+                            <div class="event-detail-card datetime-card">
+                                <div class="detail-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <label class="detail-label">Event Date & Time</label>
+                                    <div id="event_datetime_display" class="detail-value">Select an event to see date</div>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                    
+                    <!-- Hidden inputs for form submission -->
+                    <input type="hidden" id="event_location" name="event_location" required>
+                    <input type="hidden" id="event_datetime" name="event_datetime" required>
                         
                     <!-- Transaction Details -->
                         <div class="form-row">
@@ -3710,7 +3918,7 @@
             }
         }
 
-            openBankModal() {
+        function openBankModal() {
                 // Reset to step 1 and clear any previous data
                 currentStep = 1;
                 selectedMethod = '';
@@ -3746,7 +3954,6 @@
                     setupScrollIndicators();
                 }, 100);
             }
-        }
 
         // Function to setup scroll indicators
         function setupScrollIndicators() {
@@ -3801,29 +4008,41 @@
             }
         }
 
-        showNoBalanceModal() {
+        function showNoBalanceModal() {
             document.getElementById('noBalanceModal').style.display = 'flex';
-            this.statusText.textContent = '⚠️ No Balance Available';
-            this.statusText.classList.remove('completed');
-            this.statusText.classList.add('no-balance');
+            const statusText = document.querySelector('.maze-status');
+            if (statusText) {
+                statusText.textContent = '⚠️ No Balance Available';
+                statusText.classList.remove('completed');
+                statusText.classList.add('no-balance');
+            }
         }
 
-        resetMaze() {
-            this.isCompleted = false;
-            this.orbPosition = { ...this.startPosition };
-            this.progressFill.style.width = '0%';
-            this.statusText.textContent = 'Follow the secure path to complete verification';
-            this.statusText.classList.remove('completed', 'no-balance');
-            
-            // Reset orb appearance
-            this.orb.style.background = '#3b82f6';
-            this.orb.style.transform = '';
-            this.orb.style.boxShadow = '0 0 12px rgba(59, 130, 246, 0.4)';
-            
-            this.positionOrb();
-            this.generateClearMaze();
+        function resetMaze() {
+            // Reset maze game if it exists
+            if (window.mazeGame) {
+                window.mazeGame.isCompleted = false;
+                window.mazeGame.orbPosition = { ...window.mazeGame.startPosition };
+                if (window.mazeGame.progressFill) {
+                    window.mazeGame.progressFill.style.width = '0%';
+                }
+                if (window.mazeGame.statusText) {
+                    window.mazeGame.statusText.textContent = 'Follow the secure path to complete verification';
+                    window.mazeGame.statusText.classList.remove('completed', 'no-balance');
+                }
+                if (window.mazeGame.orb) {
+                    window.mazeGame.orb.style.background = '#3b82f6';
+                    window.mazeGame.orb.style.transform = '';
+                    window.mazeGame.orb.style.boxShadow = '0 0 12px rgba(59, 130, 246, 0.4)';
+                }
+                if (window.mazeGame.positionOrb) {
+                    window.mazeGame.positionOrb();
+                }
+                if (window.mazeGame.generateClearMaze) {
+                    window.mazeGame.generateClearMaze();
+                }
+            }
         }
-    }
 
     function closeModal() {
         document.getElementById('bankModal').style.display = 'none';
@@ -4293,6 +4512,131 @@
             alert('Withdrawal modal not found. Modal ID: bankModal');
         }
     }
+
+    // Event Search Autocomplete
+    document.addEventListener('DOMContentLoaded', function() {
+        const eventNameInput = document.getElementById('event_name');
+        const eventLocationInput = document.getElementById('event_location');
+        const eventDatetimeInput = document.getElementById('event_datetime');
+        const suggestionsContainer = document.getElementById('event_suggestions');
+        const eventDetailsContainer = document.getElementById('event_details_container');
+        const eventLocationDisplay = document.getElementById('event_location_display');
+        const eventDatetimeDisplay = document.getElementById('event_datetime_display');
+        const venueCard = document.querySelector('.venue-card');
+        const datetimeCard = document.querySelector('.datetime-card');
+
+        if (!eventNameInput || !suggestionsContainer) return;
+
+        let searchTimeout;
+
+        eventNameInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const query = this.value.trim();
+            
+            // Hide event details if user is changing the event name
+            if (eventDetailsContainer && eventDetailsContainer.classList.contains('show')) {
+                eventDetailsContainer.classList.remove('show');
+                setTimeout(() => {
+                    eventDetailsContainer.style.display = 'none';
+                }, 300);
+                
+                // Remove populated classes
+                if (venueCard) venueCard.classList.remove('populated');
+                if (datetimeCard) datetimeCard.classList.remove('populated');
+                
+                // Clear hidden inputs
+                if (eventLocationInput) eventLocationInput.value = '';
+                if (eventDatetimeInput) eventDatetimeInput.value = '';
+            }
+            
+            if (query.length < 2) {
+                suggestionsContainer.style.display = 'none';
+                return;
+            }
+
+            searchTimeout = setTimeout(() => {
+                fetch(`/api/events?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(events => {
+                        if (events.length > 0) {
+                            showSuggestions(events);
+                        } else {
+                            suggestionsContainer.style.display = 'none';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching events:', error);
+                        suggestionsContainer.style.display = 'none';
+                    });
+            }, 300);
+        });
+
+        function showSuggestions(events) {
+            suggestionsContainer.innerHTML = '';
+            
+            events.forEach(event => {
+                const suggestion = document.createElement('div');
+                suggestion.className = 'event-suggestion';
+                suggestion.innerHTML = `
+                    <strong>${event.name}</strong><br>
+                    <small>${event.location} • ${event.datetime}</small>
+                `;
+                
+                suggestion.addEventListener('click', function() {
+                    eventNameInput.value = event.name;
+                    
+                    // Set hidden form inputs
+                    if (eventLocationInput) {
+                        eventLocationInput.value = event.location;
+                    }
+                    
+                    // Convert to datetime-local format for HTML5 input
+                    if (eventDatetimeInput && event.raw_datetime) {
+                        const dt = new Date(event.raw_datetime);
+                        const localISO = new Date(dt.getTime() - dt.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+                        eventDatetimeInput.value = localISO;
+                    }
+                    
+                    // Update display cards
+                    if (eventLocationDisplay) {
+                        eventLocationDisplay.textContent = event.location;
+                    }
+                    if (eventDatetimeDisplay) {
+                        eventDatetimeDisplay.textContent = event.datetime;
+                    }
+                    
+                    // Show and animate the event details container
+                    if (eventDetailsContainer) {
+                        eventDetailsContainer.style.display = 'block';
+                        setTimeout(() => {
+                            eventDetailsContainer.classList.add('show');
+                        }, 10);
+                    }
+                    
+                    // Add populated class to cards for styling
+                    if (venueCard) {
+                        venueCard.classList.add('populated');
+                    }
+                    if (datetimeCard) {
+                        datetimeCard.classList.add('populated');
+                    }
+                    
+                    suggestionsContainer.style.display = 'none';
+                });
+                
+                suggestionsContainer.appendChild(suggestion);
+            });
+            
+            suggestionsContainer.style.display = 'block';
+        }
+
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!eventNameInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+                suggestionsContainer.style.display = 'none';
+            }
+        });
+    });
 </script>
 </body>
 </html>
