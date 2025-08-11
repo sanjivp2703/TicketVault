@@ -871,6 +871,362 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
+        /* Premium Welcome Modal - Modern SaaS Style */
+        .welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            animation: fadeInSmooth 0.4s ease-out;
+            padding: 20px;
+        }
+
+        .welcome-modal {
+            background: linear-gradient(145deg, #ffffff 0%, #fefefe 100%);
+            border-radius: 20px;
+            padding: 32px 32px;
+            max-width: 460px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            text-align: center;
+            box-shadow: 
+                0 32px 64px rgba(0, 0, 0, 0.12),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+            position: relative;
+            animation: slideInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .welcome-modal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6, #d946ef);
+        }
+
+        .close-button {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: rgba(100, 116, 139, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            z-index: 1;
+        }
+
+        .close-button:hover {
+            background: rgba(100, 116, 139, 0.15);
+            color: #475569;
+            transform: scale(1.1);
+        }
+
+        .close-button:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes fadeInSmooth {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(24px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        .welcome-hero {
+            margin-bottom: 24px;
+        }
+
+        .brand-mark {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 6px 24px rgba(99, 102, 241, 0.3);
+            position: relative;
+        }
+
+        .brand-mark::after {
+            content: '🏈';
+            font-size: 24px;
+            position: absolute;
+        }
+
+        .welcome-heading {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .welcome-tagline {
+            font-size: 16px;
+            color: #64748b;
+            margin-bottom: 6px;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        .version-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 800;
+            border: 2px solid #fb923c;
+            margin-bottom: 24px;
+            box-shadow: 
+                0 8px 25px rgba(245, 158, 11, 0.4),
+                0 0 0 4px rgba(245, 158, 11, 0.1);
+            transform: translateZ(0);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .version-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: badgeShimmer 3s infinite;
+        }
+
+        @keyframes badgeShimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .version-badge:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 
+                0 12px 35px rgba(245, 158, 11, 0.5),
+                0 0 0 6px rgba(245, 158, 11, 0.15);
+        }
+
+        .platforms-showcase {
+            margin: 20px 0;
+        }
+
+        .platforms-label {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .platforms-grid {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .platform-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .platform-icon:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .platform-icon.groupme { background: linear-gradient(135deg, #00bcd4, #0097a7); }
+        .platform-icon.facebook { background: linear-gradient(135deg, #1877f2, #1565c0); }
+        .platform-icon.telegram { background: linear-gradient(135deg, #29b6f6, #0288d1); }
+        .platform-icon.discord { background: linear-gradient(135deg, #5865f2, #4527a0); }
+
+        .platform-icon i {
+            font-size: 18px;
+            color: white;
+        }
+
+        .value-props {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .value-prop {
+            text-align: left;
+            padding: 16px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .value-prop:hover {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            transform: translateY(-1px);
+        }
+
+        .prop-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .prop-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 3px;
+        }
+
+        .prop-desc {
+            font-size: 11px;
+            color: #64748b;
+            line-height: 1.4;
+        }
+
+        .future-note {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 1px solid #93c5fd;
+            border-radius: 10px;
+            padding: 12px;
+            margin: 20px 0;
+        }
+
+        .future-text {
+            font-size: 12px;
+            color: #1e40af;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .start-button {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            width: 100%;
+            box-shadow: 0 3px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .start-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+            background: linear-gradient(135deg, #5855eb 0%, #7c3aed 100%);
+        }
+
+        .start-button:active {
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 640px) {
+            .welcome-modal {
+                margin: 0 16px;
+                padding: 40px 32px;
+                border-radius: 18px;
+            }
+            
+            .value-props {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .platforms-grid {
+                gap: 12px;
+            }
+            
+            .platform-icon {
+                width: 48px;
+                height: 48px;
+            }
+            
+            .welcome-heading {
+                font-size: 28px;
+            }
+            
+            .welcome-tagline {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-modal {
+                padding: 32px 24px;
+            }
+            
+            .brand-mark {
+                width: 56px;
+                height: 56px;
+            }
+            
+            .brand-mark::after {
+                font-size: 24px;
+            }
+            
+            .value-prop {
+                padding: 16px;
+            }
+        }
+
         /* Event Search Autocomplete Styles */
         .event-search {
             position: relative;
@@ -2674,6 +3030,87 @@
 </head>
 
 <body>
+    <!-- Welcome Modal -->
+    <div id="welcomeOverlay" class="welcome-overlay">
+        <div class="welcome-modal">
+            <button class="close-button" onclick="closeWelcomeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="welcome-hero">
+                <div class="brand-mark"></div>
+                <h1 class="welcome-heading">Safe Transaction</h1>
+                <p class="welcome-tagline">Secure college football ticket trading</p>
+                <div class="version-badge">
+                    <span>🏈</span>
+                    Beta V1 • College Football Focus
+                </div>
+            </div>
+
+            <div class="platforms-showcase">
+                <div class="platforms-label">Works with your favorite platforms</div>
+                <div class="platforms-grid">
+                    <div class="platform-icon groupme">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="platform-icon facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <div class="platform-icon telegram">
+                        <i class="fab fa-telegram-plane"></i>
+                    </div>
+                    <div class="platform-icon discord">
+                        <i class="fab fa-discord"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="value-props">
+                <div class="value-prop">
+                    <div class="prop-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="prop-title">100% Secure</div>
+                    <div class="prop-desc">Advanced verification + escrow protection against scams</div>
+                </div>
+
+                <div class="value-prop">
+                    <div class="prop-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="prop-title">Instant Trading</div>
+                    <div class="prop-desc">Find & trade tickets directly from group chats</div>
+                </div>
+
+                <div class="value-prop">
+                    <div class="prop-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <div class="prop-title">Zero Scams</div>
+                    <div class="prop-desc">Money held safely until ticket delivery confirmed</div>
+                </div>
+
+                <div class="value-prop">
+                    <div class="prop-icon">
+                        <i class="fas fa-football-ball"></i>
+                    </div>
+                    <div class="prop-title">College Football</div>
+                    <div class="prop-desc">V1 optimized specifically for college football games</div>
+                </div>
+            </div>
+
+            <div class="future-note">
+                <div class="future-text">
+                    <i class="fas fa-rocket"></i>
+                    V2 launching soon with all sports, concerts & events
+                </div>
+            </div>
+
+            <button class="start-button" onclick="closeWelcomeModal()">
+                Start Trading Securely
+            </button>
+        </div>
+    </div>
+
     <!-- App Header -->
     <header class="app-header">
         <div class="header-content">
@@ -4214,8 +4651,54 @@
         }, 5000);
     }
 
+    // Welcome Modal Functions
+    function closeWelcomeModal() {
+        const overlay = document.getElementById('welcomeOverlay');
+        if (overlay) {
+            overlay.style.opacity = '0';
+            overlay.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 300);
+        }
+    }
+
+    function showWelcomeModal() {
+        // Always show the welcome modal on seller page visits
+        const overlay = document.getElementById('welcomeOverlay');
+        if (overlay) {
+            overlay.style.display = 'flex';
+        }
+    }
+
+    // Setup click-outside-to-close functionality
+    function setupWelcomeModalEvents() {
+        const overlay = document.getElementById('welcomeOverlay');
+        const modal = document.querySelector('.welcome-modal');
+        
+        if (overlay && modal) {
+            // Close modal when clicking on overlay background
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                    closeWelcomeModal();
+                }
+            });
+            
+            // Prevent modal from closing when clicking inside the modal content
+            modal.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+    }
+
     // Initialize everything when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
+        // Setup welcome modal events (close on outside click)
+        setupWelcomeModalEvents();
+        
+        // Show welcome modal for first-time users
+        showWelcomeModal();
+        
         // Initialize maze if present
         if (document.getElementById('homeCanvas')) {
             initializeMaze();
