@@ -2900,9 +2900,7 @@
                                 </div>
             </div>
             
-            <!-- DEBUG: Balance = ${{ user_balance }} -->
             <!-- Withdrawal Section -->
-            {% if user_balance > 0 %}
             <div class="withdrawal-section">
                 <div class="withdrawal-header">
                     <h3 class="withdrawal-title">
@@ -2930,33 +2928,9 @@
                                 </div>
                     <div class="status-text">Follow the secure path to complete verification</div>
                 </div>
-                
-                <!-- DEV: Skip button -->
-                <button onclick="
-                    console.log('Skip button clicked');
-                    const modal = document.getElementById('bankModal');
-                    console.log('Modal found:', modal);
-                    if (modal) {
-                        modal.style.display = 'flex';
-                        console.log('Modal opened');
-                        // Reset to step 1
-                        document.querySelectorAll('.withdrawal-step').forEach(step => step.style.display = 'none');
-                        const step1 = document.getElementById('step1');
-                        if (step1) step1.style.display = 'block';
-                    } else {
-                        alert('Modal not found - check console');
-                    }
-                " style="background: #ff6b6b; color: white; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 10px; cursor: pointer; width: 100%;">
-                    🚀 DEV: Skip Maze & Open Withdrawal
-                </button>
-                
-                <!-- DEV: Link to working withdrawal page -->
-                <a href="/secure-withdrawal" style="display: block; background: #4f46e5; color: white; text-decoration: none; text-align: center; padding: 10px 20px; border-radius: 5px; margin-top: 10px;">
-                    🎯 Go to Full Withdrawal Page (WORKING)
-                </a>
+
                                 </div>
                             </div>
-                        {% endif %}
                         {% endif %}
     </div>
 
@@ -3326,36 +3300,15 @@
 
         // Initialize the maze system
         function initializeMaze() {
-            console.log('🎯 Initializing maze system...');
-            
-            // Debug: Check if all required elements exist
-            const canvas = document.getElementById('homeCanvas');
-            const orb = document.getElementById('homeOrb');
-            const container = document.getElementById('homePageMaze');
-            const progressFill = document.getElementById('homeProgress');
-            
-            console.log('🔍 Debug elements:');
-            console.log('Canvas:', canvas);
-            console.log('Orb:', orb);
-            console.log('Container:', container);
-            console.log('Progress:', progressFill);
-            
             if (typeof SimpleMazeWithdrawal !== 'undefined') {
-                console.log('✅ SimpleMazeWithdrawal class found, creating instance...');
                 window.mazeInstance = new SimpleMazeWithdrawal();
-                console.log('✅ Maze initialized successfully!');
-            } else {
-                console.error('❌ SimpleMazeWithdrawal class not found!');
             }
         }
 
         class SimpleMazeWithdrawal {
             constructor() {
-                console.log('🏗️ SimpleMazeWithdrawal constructor starting...');
                 this.canvas = document.getElementById('homeCanvas');
-                console.log('🎯 Canvas element:', this.canvas);
                 if (!this.canvas) {
-                    console.error('❌ No canvas element found!');
                     return;
                 }
                 
@@ -3364,8 +3317,6 @@
                 this.container = document.getElementById('homePageMaze');
                 this.progressFill = document.getElementById('homeProgress');
                 this.statusText = document.querySelector('.status-text');
-                
-                console.log('📐 Setting canvas dimensions...');
                 this.canvas.width = 350;
                 this.canvas.height = 140;
                 this.cellSize = 20; // Smaller cells for compact sidebar
@@ -3460,18 +3411,15 @@
                 // Set orb to start position
                 this.orbPosition = { ...this.startPosition };
                 
-                console.log('🎨 Starting to draw maze...');
                 this.drawMaze();
             }
 
             drawMaze() {
-                console.log('🖼️ Drawing maze - Canvas size:', this.canvas.width, 'x', this.canvas.height);
                 this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
                 
                 // Fill with white background (like paper)
                 this.ctx.fillStyle = '#ffffff';
                 this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-                console.log('⬜ White background drawn');
                 
                 for (let y = 0; y < this.rows; y++) {
                     for (let x = 0; x < this.cols; x++) {
@@ -3783,11 +3731,7 @@
                         
                         // Trigger withdrawal after success animation
                         setTimeout(() => {
-                            if (this.userBalance > 0) {
-                                this.openBankModal();
-                            } else {
-                                this.showNoBalanceModal();
-                            }
+                            openBankModal();
                         }, 1500);
                     }
                 }
@@ -4272,8 +4216,6 @@
 
     // Initialize everything when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('🔥 DOM loaded, initializing everything...');
-        
         // Initialize maze if present
         if (document.getElementById('homeCanvas')) {
             initializeMaze();
@@ -4489,29 +4431,7 @@
         console.log('✅ Scroll Catalyst fully initialized with enhanced features!'); // Debug log
     }
 
-    // GLOBAL: Dev skip function
-    function skipMazeForDev() {
-        console.log('🚀 DEV: Skipping maze verification');
-        
-        // Find and show the withdrawal modal directly
-        const modal = document.getElementById('bankModal');
-        if (modal) {
-            console.log('✅ Found modal, opening it...');
-            modal.style.display = 'flex';
-            
-            // Reset to step 1
-            document.querySelectorAll('.withdrawal-step').forEach(step => {
-                step.style.display = 'none';
-            });
-            const step1 = document.getElementById('step1');
-            if (step1) {
-                step1.style.display = 'block';
-            }
-        } else {
-            console.error('❌ Modal not found');
-            alert('Withdrawal modal not found. Modal ID: bankModal');
-        }
-    }
+
 
     // Event Search Autocomplete
     document.addEventListener('DOMContentLoaded', function() {
