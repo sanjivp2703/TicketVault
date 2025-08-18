@@ -3371,6 +3371,826 @@
             transform: translateY(20px) scale(0.8) rotateX(90deg);
             transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
+
+        /* How It Works Modal Specific Styles */
+        .how-it-works-modal {
+            max-width: 1400px !important;
+            max-height: 95vh !important;
+            overflow: hidden !important; /* Prevent modal from scrolling */
+            padding: 32px 40px !important;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Sticky Step Tracker */
+        .step-tracker-sticky {
+            position: relative; /* Changed from sticky since modal doesn't scroll */
+            top: 0;
+            z-index: 20;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            padding: 24px 32px;
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(16px);
+            flex-shrink: 0; /* Don't shrink */
+        }
+
+        .step-tracker-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 800px;
+            margin: 0 auto;
+            gap: 8px;
+        }
+
+        .tracker-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 12px;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-width: 100px;
+        }
+
+        .tracker-step:hover {
+            transform: translateY(-2px);
+        }
+
+        .tracker-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: white;
+            background: #94a3b8;
+            transition: all 0.4s ease;
+            border: 3px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .tracker-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            text-align: center;
+            line-height: 1.2;
+            transition: all 0.3s ease;
+        }
+
+        /* Active state styles */
+        .tracker-step.active .tracker-icon.seller-type {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            box-shadow: 0 8px 24px rgba(34, 197, 94, 0.4);
+            transform: scale(1.1);
+        }
+
+        .tracker-step.active .tracker-icon.buyer-type {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+            transform: scale(1.1);
+        }
+
+        .tracker-step.active .tracker-icon.success-type {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.4);
+            transform: scale(1.1);
+        }
+
+        .tracker-step.active .tracker-label {
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .tracker-connector {
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, #e2e8f0 0%, #cbd5e1 100%);
+            border-radius: 1px;
+            margin: 0 4px;
+        }
+
+        /* Step Sections Container */
+        .step-sections-container {
+            overflow-y: auto;
+            flex: 1; /* Take up remaining space */
+            height: 0; /* Allow flex to control height */
+        }
+
+        .step-section {
+            min-height: 100%; /* Fill the container height */
+            padding: 60px 40px;
+            display: flex;
+            align-items: center;
+            opacity: 0.4;
+            transition: opacity 0.4s ease;
+        }
+
+        .step-section.active {
+            opacity: 1;
+        }
+
+        .step-content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        /* Text Content */
+        .step-text-content {
+            max-width: 500px;
+        }
+
+        .step-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: white;
+        }
+
+        .seller-badge {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        }
+
+        .buyer-badge {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+
+        .success-badge {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .step-section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 24px;
+            line-height: 1.1;
+        }
+
+        .step-description {
+            font-size: 1.2rem;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .step-features {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .feature-item i {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            border-radius: 50%;
+            color: #475569;
+            font-size: 10px;
+        }
+
+        /* Visual Content */
+        .step-visual-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mockup-device {
+            width: 320px;
+            height: 480px;
+            background: linear-gradient(145deg, #1e293b 0%, #334155 100%);
+            border-radius: 32px;
+            padding: 16px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 8px 16px rgba(0, 0, 0, 0.2),
+                inset 0 2px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .mockup-device::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: #64748b;
+            border-radius: 2px;
+        }
+
+        .device-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 24px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .screen-header {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 24px;
+            text-align: center;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        /* Form Mockup */
+        .form-mockup {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            flex: 1;
+        }
+
+        .mock-input {
+            padding: 16px;
+            background: #f1f5f9;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 14px;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .mock-button {
+            padding: 16px;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        /* Payment Flow Visual */
+        .payment-flow-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .payment-step-visual {
+            padding: 12px 16px;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .status-indicator {
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .status-indicator.success {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+        }
+
+        /* Platform Options */
+        .platform-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .platform-option {
+            padding: 12px 16px;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .timer-visual {
+            padding: 16px;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        /* Confirmation Checklist */
+        .confirmation-checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .check-item {
+            padding: 12px 16px;
+            border: 1px solid #22c55e;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #059669;
+            font-weight: 600;
+        }
+
+        .confirm-button {
+            padding: 16px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        /* Payment Breakdown Visual */
+        .payment-breakdown-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .breakdown-line {
+            padding: 10px 16px;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #475569;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .breakdown-line.bonus {
+            border-color: #22c55e;
+            color: #059669;
+            font-weight: 600;
+        }
+
+        .breakdown-total {
+            padding: 16px;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .payment-status-visual {
+            padding: 12px 16px;
+            background: #f1f5f9;
+            border: 2px solid #22c55e;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #059669;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .how-it-works-modal {
+                padding: 16px !important;
+            }
+
+            .step-tracker-sticky {
+                padding: 16px;
+            }
+
+            .step-tracker-container {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .tracker-step {
+                min-width: 80px;
+                padding: 12px 8px;
+            }
+
+            .tracker-icon {
+                width: 44px;
+                height: 44px;
+                font-size: 1.1rem;
+            }
+
+            .tracker-connector {
+                display: none;
+            }
+
+            .step-section {
+                padding: 40px 20px;
+                min-height: auto;
+            }
+
+            .step-content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .step-section-title {
+                font-size: 2.2rem;
+            }
+
+            .step-description {
+                font-size: 1.1rem;
+            }
+
+            .mockup-device {
+                width: 280px;
+                height: 420px;
+            }
+        }
+
+        /* Detailed Steps Container */
+        .detailed-steps-container {
+            margin: 32px 0;
+        }
+
+        .detailed-step {
+            margin-bottom: 48px;
+            padding: 32px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 24px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+            opacity: 0.6;
+            transform: translateY(20px);
+        }
+
+        .detailed-step.active {
+            opacity: 1;
+            transform: translateY(0);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        .step-detail-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .step-detail-header .step-number {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .seller-theme .step-number {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        }
+
+        .buyer-theme .step-number {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .success-theme .step-number {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        }
+
+        .dispute-theme .step-number {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .step-title h3 {
+            margin: 0 0 4px 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .step-actor {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 12px;
+            color: white;
+        }
+
+        .seller-theme .step-actor {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        }
+
+        .buyer-theme .step-actor {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .success-theme .step-actor {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        }
+
+        .dispute-theme .step-actor {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .step-detail-content p {
+            font-size: 1.1rem;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+
+        /* Large Visual Mockups */
+        .step-visual-large {
+            display: flex;
+            justify-content: center;
+            margin-top: 24px;
+        }
+
+        .visual-mockup {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 32px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            min-width: 400px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+        }
+
+        .visual-mockup i {
+            font-size: 3rem;
+            color: #6366f1;
+            opacity: 0.8;
+        }
+
+        .buyer-theme .visual-mockup i {
+            color: #10b981;
+        }
+
+        .success-theme .visual-mockup i {
+            color: #22c55e;
+        }
+
+        .dispute-theme .visual-mockup i {
+            color: #f59e0b;
+        }
+
+        .mockup-text {
+            flex: 1;
+        }
+
+        /* Form Preview */
+        .form-preview {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-field {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        /* Payment Flow */
+        .payment-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .payment-step {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+            color: #475569;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Transfer Flow */
+        .transfer-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .platform-option {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 13px;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .timer-display {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        /* Confirmation Flow */
+        .confirmation-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .confirm-item {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid #22c55e;
+            font-size: 13px;
+            color: #059669;
+            font-weight: 600;
+        }
+
+        /* Payment Breakdown */
+        .payment-breakdown {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .payment-line {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+            color: #475569;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .payment-line.bonus {
+            border-color: #22c55e;
+            color: #059669;
+            font-weight: 600;
+        }
+
+        .payment-total {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .payment-status {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid #22c55e;
+            font-size: 14px;
+            color: #059669;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* Dispute Process */
+        .dispute-process {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .dispute-step {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 13px;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .protection-badge {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .how-it-works-modal {
+                padding: 24px 20px !important;
+                max-width: none !important;
+                width: 95% !important;
+            }
+
+            .step-timeline {
+                flex-wrap: wrap;
+                gap: 12px;
+                padding: 16px;
+            }
+
+            .timeline-step {
+                min-width: 80px;
+            }
+
+            .timeline-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .timeline-connector {
+                display: none;
+            }
+
+            .detailed-step {
+                padding: 24px 16px;
+            }
+
+            .step-detail-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 16px;
+            }
+
+            .visual-mockup {
+                flex-direction: column;
+                min-width: auto;
+                width: 100%;
+                gap: 16px;
+            }
+        }
     </style>
 </head>
 
@@ -3433,11 +4253,309 @@
                  <div class="disclaimer-text">Terms apply. See website for details.</div>
              </div>
 
-             <button class="start-button" onclick="closeWelcomeModal()">
-                 See How It Works
-             </button>
+                         <button class="start-button" onclick="openHowItWorksModal()">
+                See How It Works
+            </button>
          </div>
      </div>
+
+    <!-- How It Works Modal -->
+    <div id="howItWorksOverlay" class="welcome-overlay" style="display: none;">
+        <div class="welcome-modal how-it-works-modal">
+            <button class="close-button" onclick="closeHowItWorksModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <!-- Header -->
+            <div class="welcome-hero" style="flex-shrink: 0; margin-bottom: 16px;">
+                <h1 class="popup-title welcome-heading">How It Works</h1>
+            </div>
+
+            <!-- Sticky Horizontal Step Tracker -->
+            <div class="step-tracker-sticky">
+                <div class="step-tracker-container">
+                    <div class="tracker-step" data-step="1">
+                        <div class="tracker-icon seller-type">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <div class="tracker-label">List Ticket</div>
+                    </div>
+                    
+                    <div class="tracker-connector"></div>
+                    
+                    <div class="tracker-step" data-step="2">
+                        <div class="tracker-icon buyer-type">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="tracker-label">Buyer Pays</div>
+                    </div>
+                    
+                    <div class="tracker-connector"></div>
+                    
+                    <div class="tracker-step" data-step="3">
+                        <div class="tracker-icon seller-type">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="tracker-label">Transfer</div>
+                    </div>
+                    
+                    <div class="tracker-connector"></div>
+                    
+                    <div class="tracker-step" data-step="4">
+                        <div class="tracker-icon buyer-type">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="tracker-label">Confirm</div>
+                    </div>
+                    
+                    <div class="tracker-connector"></div>
+                    
+                    <div class="tracker-step" data-step="5">
+                        <div class="tracker-icon success-type">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="tracker-label">Get Paid</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scrollable Step Sections -->
+            <div class="step-sections-container">
+                <!-- Step 1 Section -->
+                <section class="step-section" data-step="1">
+                    <div class="step-content-wrapper">
+                        <div class="step-text-content">
+                            <div class="step-badge seller-badge">
+                                <i class="fas fa-user-tie"></i>
+                                <span>You (Seller)</span>
+                            </div>
+                            <h2 class="step-section-title">List Your Ticket</h2>
+                            <p class="step-description">
+                                Create a listing with your ticket details and price on our secure platform. 
+                                Include event information, seat details, and your asking price. Our system 
+                                makes it easy to get your tickets in front of verified buyers.
+                            </p>
+                            <div class="step-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-shield-check"></i>
+                                    <span>Secure listing process</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>Verified buyer network</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Instant visibility</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-visual-content">
+                            <div class="mockup-device">
+                                <div class="device-screen">
+                                    <div class="screen-header">Create Listing</div>
+                                    <div class="form-mockup">
+                                        <div class="mock-input">Event: Michigan vs Ohio State</div>
+                                        <div class="mock-input">Price: $150.00</div>
+                                        <div class="mock-input">Section: 12, Row: A, Seat: 15</div>
+                                        <div class="mock-button">List Ticket</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Step 2 Section -->
+                <section class="step-section" data-step="2">
+                    <div class="step-content-wrapper">
+                        <div class="step-text-content">
+                            <div class="step-badge buyer-badge">
+                                <i class="fas fa-user"></i>
+                                <span>Buyer</span>
+                            </div>
+                            <h2 class="step-section-title">Buyer Reviews & Pays</h2>
+                            <p class="step-description">
+                                The buyer finds your listing and submits payment through our secure platform. 
+                                Funds are immediately held in escrow to protect both parties. You get notified 
+                                instantly when payment is received.
+                            </p>
+                            <div class="step-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-lock"></i>
+                                    <span>Secure escrow payment</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-bell"></i>
+                                    <span>Instant notifications</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-credit-card"></i>
+                                    <span>Multiple payment methods</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-visual-content">
+                            <div class="mockup-device">
+                                <div class="device-screen">
+                                    <div class="screen-header">Payment Secure</div>
+                                    <div class="payment-flow-visual">
+                                        <div class="payment-step-visual">💳 Payment Submitted</div>
+                                        <div class="payment-step-visual">🔒 Funds Secured</div>
+                                        <div class="payment-step-visual">📧 Seller Notified</div>
+                                        <div class="status-indicator success">Payment Complete</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Step 3 Section -->
+                <section class="step-section" data-step="3">
+                    <div class="step-content-wrapper">
+                        <div class="step-text-content">
+                            <div class="step-badge seller-badge">
+                                <i class="fas fa-user-tie"></i>
+                                <span>You (Seller)</span>
+                            </div>
+                            <h2 class="step-section-title">Transfer Your Ticket</h2>
+                            <p class="step-description">
+                                You have 24 hours to transfer the ticket using your ticket platform 
+                                (Ticketmaster, StubHub, SeatGeek, etc.). Simply transfer to the buyer's 
+                                email address. Our system tracks the transfer automatically.
+                            </p>
+                            <div class="step-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>24-hour transfer window</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-link"></i>
+                                    <span>All platforms supported</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-tracking"></i>
+                                    <span>Automatic tracking</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-visual-content">
+                            <div class="mockup-device">
+                                <div class="device-screen">
+                                    <div class="screen-header">Transfer Options</div>
+                                    <div class="platform-options">
+                                        <div class="platform-option">📱 Ticketmaster</div>
+                                        <div class="platform-option">🎫 StubHub</div>
+                                        <div class="platform-option">💺 SeatGeek</div>
+                                        <div class="timer-visual">⏰ 23:45:12 remaining</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Step 4 Section -->
+                <section class="step-section" data-step="4">
+                    <div class="step-content-wrapper">
+                        <div class="step-text-content">
+                            <div class="step-badge buyer-badge">
+                                <i class="fas fa-user"></i>
+                                <span>Buyer</span>
+                            </div>
+                            <h2 class="step-section-title">Buyer Confirms Receipt</h2>
+                            <p class="step-description">
+                                The buyer has 24 hours to confirm they received the correct ticket. They verify 
+                                the event details, seat information, and ticket authenticity. This protects 
+                                both parties and ensures a smooth transaction.
+                            </p>
+                            <div class="step-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-search"></i>
+                                    <span>Ticket verification</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-double"></i>
+                                    <span>Detail confirmation</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>Fraud protection</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-visual-content">
+                            <div class="mockup-device">
+                                <div class="device-screen">
+                                    <div class="screen-header">Confirm Ticket</div>
+                                    <div class="confirmation-checklist">
+                                        <div class="check-item completed">✓ Event matches listing</div>
+                                        <div class="check-item completed">✓ Seats are correct</div>
+                                        <div class="check-item completed">✓ Ticket is valid</div>
+                                        <div class="confirm-button">Confirm Receipt</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Step 5 Section -->
+                <section class="step-section" data-step="5">
+                    <div class="step-content-wrapper">
+                        <div class="step-text-content">
+                            <div class="step-badge success-badge">
+                                <i class="fas fa-trophy"></i>
+                                <span>Success!</span>
+                            </div>
+                            <h2 class="step-section-title">Get Paid + Bonus</h2>
+                            <p class="step-description">
+                                Once the buyer confirms everything is correct, you get paid immediately! 
+                                You receive the full ticket price plus a 10% bonus for a successful 
+                                transaction. Funds are instantly transferred to your account.
+                            </p>
+                            <div class="step-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>Instant payment</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-percentage"></i>
+                                    <span>10% bonus included</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-bank"></i>
+                                    <span>Direct to your account</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-visual-content">
+                            <div class="mockup-device">
+                                <div class="device-screen">
+                                    <div class="screen-header">Payment Complete</div>
+                                    <div class="payment-breakdown-visual">
+                                        <div class="breakdown-line">Ticket Price: $150.00</div>
+                                        <div class="breakdown-line bonus">Success Bonus: +$15.00</div>
+                                        <div class="breakdown-total">Total Earned: $165.00</div>
+                                        <div class="payment-status-visual">💸 Transferred to Account</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="disclaimer">
+                <div class="disclaimer-text">🛡️ All transactions are fully protected by our guarantee system</div>
+            </div>
+
+            <button class="start-button" onclick="closeHowItWorksModal()">
+                Start Selling Now
+            </button>
+        </div>
+    </div>
 
     <!-- App Header -->
     <header class="app-header">
@@ -4990,6 +6108,58 @@
         }
     }
 
+    // How It Works Modal Functions
+    function openHowItWorksModal() {
+        // First close the welcome modal
+        closeWelcomeModal();
+        
+        // Then open the how it works modal after a brief delay
+        setTimeout(() => {
+            const overlay = document.getElementById('howItWorksOverlay');
+            if (overlay) {
+                overlay.style.display = 'flex';
+                overlay.style.opacity = '1';
+                overlay.style.transform = 'scale(1)';
+                
+                // Reset scroll position and setup auto-scroll
+                const modal = overlay.querySelector('.how-it-works-modal');
+                const sectionsContainer = overlay.querySelector('.step-sections-container');
+                if (modal && sectionsContainer) {
+                    modal.scrollTop = 0;
+                    sectionsContainer.scrollTop = 0; // Reset the sections container scroll
+                    currentAutoStep = 1;
+                    isUserScrolling = false;
+                    
+                    // Initialize step highlighting after modal is visible
+                    setTimeout(() => {
+                        activateStepInTracker(1);
+                        console.log('Modal opened, starting auto-scroll in 3 seconds...');
+                        setTimeout(() => {
+                            startAutoScroll();
+                        }, 3000); // Start auto-scroll after 3 seconds
+                    }, 200);
+                }
+            }
+        }, 400);
+    }
+
+    function closeHowItWorksModal() {
+        const overlay = document.getElementById('howItWorksOverlay');
+        if (overlay) {
+            overlay.style.opacity = '0';
+            overlay.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 300);
+        }
+        
+        // Stop auto-scrolling and clear timeouts
+        stopAutoScroll();
+        clearTimeout(userScrollTimeout);
+        isUserScrolling = false;
+        currentAutoStep = 1; // Reset to first step for next time
+    }
+
     function showWelcomeModal() {
         // Always show the welcome modal on seller page visits
         const overlay = document.getElementById('welcomeOverlay');
@@ -5001,7 +6171,7 @@
     // Setup click-outside-to-close functionality
     function setupWelcomeModalEvents() {
         const overlay = document.getElementById('welcomeOverlay');
-        const modal = document.querySelector('.welcome-modal');
+        const modal = overlay?.querySelector('.welcome-modal');
         
         if (overlay && modal) {
             // Close modal when clicking on overlay background
@@ -5018,10 +6188,198 @@
         }
     }
 
+    function setupHowItWorksModalEvents() {
+        const overlay = document.getElementById('howItWorksOverlay');
+        const modal = overlay?.querySelector('.welcome-modal');
+        
+        if (overlay && modal) {
+            // Close modal when clicking on overlay background
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                    closeHowItWorksModal();
+                }
+            });
+            
+            // Prevent modal from closing when clicking inside the modal content
+            modal.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+
+            // Setup scroll-based step highlighting with delay to ensure elements are rendered
+            setTimeout(() => {
+                setupScrollBasedStepHighlighting();
+            }, 100);
+        }
+    }
+
+    // Auto-scroll variables
+    let autoScrollInterval;
+    let currentAutoStep = 1;
+    let isUserScrolling = false;
+    let userScrollTimeout;
+
+    function setupScrollBasedStepHighlighting() {
+        const modal = document.querySelector('.how-it-works-modal');
+        const stepSections = document.querySelectorAll('.step-section');
+        const trackerSteps = document.querySelectorAll('.tracker-step');
+        const sectionsContainer = document.querySelector('.step-sections-container');
+        
+        if (!modal || !stepSections.length || !trackerSteps.length) return;
+
+        // Initially activate first step
+        activateStepInTracker(1);
+
+        // Start auto-scrolling
+        startAutoScroll();
+
+        // Add click handlers to tracker steps
+        trackerSteps.forEach((step, index) => {
+            step.addEventListener('click', () => {
+                const stepNumber = index + 1;
+                stopAutoScroll();
+                scrollToStepSection(stepNumber);
+                currentAutoStep = stepNumber;
+                
+                // Restart auto-scroll after 10 seconds of inactivity
+                setTimeout(() => {
+                    if (!isUserScrolling) {
+                        startAutoScroll();
+                    }
+                }, 10000);
+            });
+        });
+
+        // Add scroll listener to sections container
+        sectionsContainer.addEventListener('scroll', () => {
+            // Detect user manual scrolling
+            if (!sectionsContainer.dataset.autoScrolling) {
+                isUserScrolling = true;
+                stopAutoScroll();
+                
+                // Clear existing timeout
+                clearTimeout(userScrollTimeout);
+                
+                // Restart auto-scroll after 8 seconds of no scrolling
+                userScrollTimeout = setTimeout(() => {
+                    isUserScrolling = false;
+                    startAutoScroll();
+                }, 8000);
+            }
+
+            let activeStepNumber = 1;
+            const scrollTop = sectionsContainer.scrollTop;
+            const containerHeight = sectionsContainer.clientHeight;
+            const centerPoint = scrollTop + containerHeight / 3; // Use upper third for activation
+
+            stepSections.forEach((section, index) => {
+                const sectionTop = section.offsetTop;
+                const sectionBottom = sectionTop + section.offsetHeight;
+                
+                if (centerPoint >= sectionTop && centerPoint <= sectionBottom) {
+                    activeStepNumber = index + 1;
+                }
+            });
+
+            activateStepInTracker(activeStepNumber);
+            currentAutoStep = activeStepNumber;
+        });
+    }
+
+    function startAutoScroll() {
+        if (autoScrollInterval) return; // Already running
+        
+        console.log('Starting auto-scroll from step:', currentAutoStep);
+        
+        autoScrollInterval = setInterval(() => {
+            if (isUserScrolling) {
+                console.log('Skipping auto-scroll - user is scrolling');
+                return;
+            }
+            
+            // Move to next step (cycle back to 1 after step 5)
+            currentAutoStep = (currentAutoStep % 5) + 1;
+            console.log('Auto-scrolling to step:', currentAutoStep);
+            autoScrollToStep(currentAutoStep);
+        }, 4000); // Auto-scroll every 4 seconds
+    }
+
+    function stopAutoScroll() {
+        if (autoScrollInterval) {
+            clearInterval(autoScrollInterval);
+            autoScrollInterval = null;
+        }
+    }
+
+    function autoScrollToStep(stepNumber) {
+        const sectionsContainer = document.querySelector('.step-sections-container');
+        const targetSection = document.querySelector(`.step-section[data-step="${stepNumber}"]`);
+        
+        if (sectionsContainer && targetSection) {
+            // Mark as auto-scrolling to prevent user scroll detection
+            sectionsContainer.dataset.autoScrolling = 'true';
+            
+            // Calculate position within the sections container
+            const sectionTop = targetSection.offsetTop;
+            
+            console.log('Auto-scrolling to step:', stepNumber, 'position:', sectionTop);
+            
+            sectionsContainer.scrollTo({
+                top: sectionTop,
+                behavior: 'smooth'
+            });
+            
+            // Remove auto-scroll flag after animation completes
+            setTimeout(() => {
+                delete sectionsContainer.dataset.autoScrolling;
+            }, 1000);
+        }
+    }
+
+    function activateStepInTracker(stepNumber) {
+        // Update tracker highlighting
+        const trackerSteps = document.querySelectorAll('.tracker-step');
+        const stepSections = document.querySelectorAll('.step-section');
+        
+        trackerSteps.forEach((step, index) => {
+            if (index + 1 === stepNumber) {
+                step.classList.add('active');
+            } else {
+                step.classList.remove('active');
+            }
+        });
+
+        // Update step section visibility
+        stepSections.forEach((section, index) => {
+            if (index + 1 === stepNumber) {
+                section.classList.add('active');
+            } else {
+                section.classList.remove('active');
+            }
+        });
+    }
+
+    function scrollToStepSection(stepNumber) {
+        const sectionsContainer = document.querySelector('.step-sections-container');
+        const targetSection = document.querySelector(`.step-section[data-step="${stepNumber}"]`);
+        
+        if (sectionsContainer && targetSection) {
+            // Calculate position within the sections container
+            const sectionTop = targetSection.offsetTop;
+            
+            console.log('Clicking to step:', stepNumber, 'position:', sectionTop);
+            
+            sectionsContainer.scrollTo({
+                top: sectionTop,
+                behavior: 'smooth'
+            });
+        }
+    }
+
     // Initialize everything when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
-        // Setup welcome modal events (close on outside click)
+        // Setup modal events (close on outside click)
         setupWelcomeModalEvents();
+        setupHowItWorksModalEvents();
         
         // Show welcome modal for first-time users
         showWelcomeModal();
