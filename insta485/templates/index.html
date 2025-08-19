@@ -3463,6 +3463,12 @@
             transform: scale(1.1);
         }
 
+        .tracker-step.active .tracker-icon.dispute-type {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+            transform: scale(1.1);
+        }
+
         .tracker-step.active .tracker-label {
             color: #1e293b;
             font-weight: 700;
@@ -3534,6 +3540,10 @@
             background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
         }
 
+        .dispute-badge {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        }
+
         .step-section-title {
             font-size: 3rem;
             font-weight: 800;
@@ -3547,6 +3557,67 @@
             color: #475569;
             line-height: 1.6;
             margin-bottom: 32px;
+        }
+
+        /* Step Bullets Styling */
+        .step-bullets {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .bullet-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .bullet-item:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .bullet-icon {
+            font-size: 1.5rem;
+            min-width: 32px;
+            text-align: center;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        .bullet-item span:last-child {
+            font-size: 1rem;
+            color: #475569;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        /* Special bullet item styles */
+        .bullet-item.highlight {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-color: #f59e0b;
+        }
+
+        .bullet-item.highlight span:last-child {
+            color: #92400e;
+            font-weight: 600;
+        }
+
+        .bullet-item.special-note {
+            background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+            border-color: #8b5cf6;
+        }
+
+        .bullet-item.special-note span:last-child {
+            color: #6b21a8;
+            font-weight: 500;
         }
 
         .step-features {
@@ -3793,6 +3864,35 @@
             color: #059669;
             font-weight: 600;
             text-align: center;
+        }
+
+        /* Dispute Process Visual */
+        .dispute-process-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .dispute-step-visual {
+            padding: 12px 16px;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .resolution-indicator {
+            padding: 16px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            margin-top: auto;
         }
 
         /* Responsive Design */
@@ -4316,6 +4416,15 @@
                         </div>
                         <div class="tracker-label">Get Paid</div>
                     </div>
+                    
+                    <div class="tracker-connector"></div>
+                    
+                    <div class="tracker-step" data-step="6">
+                        <div class="tracker-icon dispute-type">
+                            <i class="fas fa-gavel"></i>
+                        </div>
+                        <div class="tracker-label">If Disputed</div>
+                    </div>
                 </div>
             </div>
 
@@ -4330,23 +4439,18 @@
                                 <span>You (Seller)</span>
                             </div>
                             <h2 class="step-section-title">List Your Ticket</h2>
-                            <p class="step-description">
-                                Create a listing with your ticket details and price on our secure platform. 
-                                Include event information, seat details, and your asking price. Our system 
-                                makes it easy to get your tickets in front of verified buyers.
-                            </p>
-                            <div class="step-features">
-                                <div class="feature-item">
-                                    <i class="fas fa-shield-check"></i>
-                                    <span>Secure listing process</span>
+                            <div class="step-bullets">
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">🔍</span>
+                                    <span>Search for your event</span>
                                 </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-users"></i>
-                                    <span>Verified buyer network</span>
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">💰</span>
+                                    <span>Set your ticket price</span>
                                 </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-clock"></i>
-                                    <span>Instant visibility</span>
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">📧</span>
+                                    <span>Enter buyer's email address</span>
                                 </div>
                             </div>
                         </div>
@@ -4375,23 +4479,18 @@
                                 <span>Buyer</span>
                             </div>
                             <h2 class="step-section-title">Buyer Reviews & Pays</h2>
-                            <p class="step-description">
-                                The buyer finds your listing and submits payment through our secure platform. 
-                                Funds are immediately held in escrow to protect both parties. You get notified 
-                                instantly when payment is received.
-                            </p>
-                            <div class="step-features">
-                                <div class="feature-item">
-                                    <i class="fas fa-lock"></i>
-                                    <span>Secure escrow payment</span>
+                            <div class="step-bullets">
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">📬</span>
+                                    <span>Buyer receives email notification</span>
                                 </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-bell"></i>
-                                    <span>Instant notifications</span>
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">💳</span>
+                                    <span>Payment submitted securely</span>
                                 </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-credit-card"></i>
-                                    <span>Multiple payment methods</span>
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">🏦</span>
+                                    <span>Funds held in escrow safely</span>
                                 </div>
                             </div>
                         </div>
@@ -4420,23 +4519,18 @@
                                 <span>You (Seller)</span>
                             </div>
                             <h2 class="step-section-title">Transfer Your Ticket</h2>
-                            <p class="step-description">
-                                You have 24 hours to transfer the ticket using your ticket platform 
-                                (Ticketmaster, StubHub, SeatGeek, etc.). Simply transfer to the buyer's 
-                                email address. Our system tracks the transfer automatically.
-                            </p>
-                            <div class="step-features">
-                                <div class="feature-item">
-                                    <i class="fas fa-clock"></i>
-                                    <span>24-hour transfer window</span>
+                            <div class="step-bullets">
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">🎫</span>
+                                    <span>Use Mathletics transfer system</span>
                                 </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-link"></i>
-                                    <span>All platforms supported</span>
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">📧</span>
+                                    <span>Send to buyer's email address</span>
                                 </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-tracking"></i>
-                                    <span>Automatic tracking</span>
+                                <div class="bullet-item special-note">
+                                    <span class="bullet-icon">📝</span>
+                                    <span><strong>Note:</strong> Better directions will be added to the site</span>
                                 </div>
                             </div>
                         </div>
@@ -4465,23 +4559,18 @@
                                 <span>Buyer</span>
                             </div>
                             <h2 class="step-section-title">Buyer Confirms Receipt</h2>
-                            <p class="step-description">
-                                The buyer has 24 hours to confirm they received the correct ticket. They verify 
-                                the event details, seat information, and ticket authenticity. This protects 
-                                both parties and ensures a smooth transaction.
-                            </p>
-                            <div class="step-features">
-                                <div class="feature-item">
-                                    <i class="fas fa-search"></i>
-                                    <span>Ticket verification</span>
+                            <div class="step-bullets">
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">⏰</span>
+                                    <span>24-hour validation window</span>
                                 </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-check-double"></i>
-                                    <span>Detail confirmation</span>
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">✅</span>
+                                    <span>Verify ticket matches listing</span>
                                 </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-shield-alt"></i>
-                                    <span>Fraud protection</span>
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">🔍</span>
+                                    <span>Check event details are correct</span>
                                 </div>
                             </div>
                         </div>
@@ -4510,23 +4599,18 @@
                                 <span>Success!</span>
                             </div>
                             <h2 class="step-section-title">Get Paid + Bonus</h2>
-                            <p class="step-description">
-                                Once the buyer confirms everything is correct, you get paid immediately! 
-                                You receive the full ticket price plus a 10% bonus for a successful 
-                                transaction. Funds are instantly transferred to your account.
-                            </p>
-                            <div class="step-features">
-                                <div class="feature-item">
-                                    <i class="fas fa-bolt"></i>
-                                    <span>Instant payment</span>
+                            <div class="step-bullets">
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">💸</span>
+                                    <span>Funds available for withdrawal</span>
                                 </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-percentage"></i>
-                                    <span>10% bonus included</span>
+                                <div class="bullet-item highlight">
+                                    <span class="bullet-icon">🎁</span>
+                                    <span>10% bonus from our platform</span>
                                 </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-bank"></i>
-                                    <span>Direct to your account</span>
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">⚡</span>
+                                    <span>Instant access to your money</span>
                                 </div>
                             </div>
                         </div>
@@ -4539,6 +4623,46 @@
                                         <div class="breakdown-line bonus">Success Bonus: +$15.00</div>
                                         <div class="breakdown-total">Total Earned: $165.00</div>
                                         <div class="payment-status-visual">💸 Transferred to Account</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Step 6 Section -->
+                <section class="step-section" data-step="6">
+                    <div class="step-content-wrapper">
+                        <div class="step-text-content">
+                            <div class="step-badge dispute-badge">
+                                <i class="fas fa-balance-scale"></i>
+                                <span>If Disputed</span>
+                            </div>
+                            <h2 class="step-section-title">Complaint Resolution</h2>
+                            <div class="step-bullets">
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">📋</span>
+                                    <span>Collect proof from both parties</span>
+                                </div>
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">⚖️</span>
+                                    <span>Fair review of all evidence</span>
+                                </div>
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">💰</span>
+                                    <span>Money goes to rightful party</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-visual-content">
+                            <div class="mockup-device">
+                                <div class="device-screen">
+                                    <div class="screen-header">Dispute Resolution</div>
+                                    <div class="dispute-process-visual">
+                                        <div class="dispute-step-visual">📄 Collect Evidence</div>
+                                        <div class="dispute-step-visual">🔍 Review Details</div>
+                                        <div class="dispute-step-visual">⚖️ Fair Decision</div>
+                                        <div class="resolution-indicator">✅ Money to Rightful Party</div>
                                     </div>
                                 </div>
                             </div>
@@ -6296,8 +6420,8 @@
                 return;
             }
             
-            // Move to next step (cycle back to 1 after step 5)
-            currentAutoStep = (currentAutoStep % 5) + 1;
+            // Move to next step (cycle back to 1 after step 6)
+            currentAutoStep = (currentAutoStep % 6) + 1;
             console.log('Auto-scrolling to step:', currentAutoStep);
             autoScrollToStep(currentAutoStep);
         }, 4000); // Auto-scroll every 4 seconds
