@@ -3411,7 +3411,7 @@
             gap: 12px;
             padding: 16px 12px;
             border-radius: 16px;
-            transition: all 0.3s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
             cursor: pointer;
             min-width: 100px;
         }
@@ -3430,7 +3430,7 @@
             font-size: 1.4rem;
             color: white;
             background: #94a3b8;
-            transition: all 0.4s ease;
+            transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
             border: 3px solid rgba(255, 255, 255, 0.9);
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         }
@@ -3441,7 +3441,7 @@
             color: #64748b;
             text-align: center;
             line-height: 1.2;
-            transition: all 0.3s ease;
+            transition: color 0.3s ease, font-weight 0.3s ease;
         }
 
         /* Active state styles */
@@ -3484,22 +3484,115 @@
 
         /* Step Sections Container */
         .step-sections-container {
-            overflow-y: auto;
+            overflow: hidden; /* Disable scrolling */
             flex: 1; /* Take up remaining space */
             height: 0; /* Allow flex to control height */
+            position: relative;
         }
 
         .step-section {
-            min-height: 100%; /* Fill the container height */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             padding: 60px 40px;
             display: flex;
             align-items: center;
-            opacity: 0.4;
-            transition: opacity 0.4s ease;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+            pointer-events: none;
         }
 
         .step-section.active {
             opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+        }
+
+        /* Step Navigation Arrows */
+        .step-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 32px;
+            margin: 16px 0;
+            position: relative;
+            z-index: 15;
+        }
+
+        .nav-arrow {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            color: #475569;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            min-width: 120px;
+        }
+
+        .nav-arrow:hover {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            border-color: #cbd5e1;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-arrow:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-arrow:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        .nav-arrow:disabled:hover {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-color: #e2e8f0;
+        }
+
+        .nav-prev {
+            justify-content: flex-start;
+        }
+
+        .nav-next {
+            justify-content: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .nav-arrow i {
+            font-size: 16px;
+            color: #6366f1;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-arrow:hover i {
+            transform: scale(1.1);
+        }
+
+        .nav-prev:hover i {
+            transform: translateX(-2px) scale(1.1);
+        }
+
+        .nav-next:hover i {
+            transform: translateX(2px) scale(1.1);
+        }
+
+        .nav-label {
+            color: #475569;
+            font-weight: 600;
         }
 
         .step-content-wrapper {
@@ -4428,7 +4521,19 @@
                 </div>
             </div>
 
-            <!-- Scrollable Step Sections -->
+            <!-- Step Navigation Arrows -->
+            <div class="step-navigation">
+                <button class="nav-arrow nav-prev" onclick="navigateStep(-1)" id="prevButton">
+                    <i class="fas fa-chevron-left"></i>
+                    <span class="nav-label">Previous</span>
+                </button>
+                <button class="nav-arrow nav-next" onclick="navigateStep(1)" id="nextButton">
+                    <span class="nav-label">Next</span>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <!-- Step Sections Container -->
             <div class="step-sections-container">
                 <!-- Step 1 Section -->
                 <section class="step-section" data-step="1">
@@ -6232,8 +6337,8 @@
         }
     }
 
-    // How It Works Modal Functions
-    function openHowItWorksModal() {
+    // How It Works Modal Functions - Global scope for onclick handlers
+    window.openHowItWorksModal = function() {
         // First close the welcome modal
         closeWelcomeModal();
         
@@ -6245,29 +6350,25 @@
                 overlay.style.opacity = '1';
                 overlay.style.transform = 'scale(1)';
                 
-                // Reset scroll position and setup auto-scroll
+                // Reset to first step
                 const modal = overlay.querySelector('.how-it-works-modal');
-                const sectionsContainer = overlay.querySelector('.step-sections-container');
-                if (modal && sectionsContainer) {
-                    modal.scrollTop = 0;
-                    sectionsContainer.scrollTop = 0; // Reset the sections container scroll
-                    currentAutoStep = 1;
-                    isUserScrolling = false;
+                if (modal) {
+                    currentStep = 1;
                     
-                    // Initialize step highlighting after modal is visible
+                    // Initialize step navigation after modal is visible
                     setTimeout(() => {
+                        console.log('Initializing modal navigation...');
                         activateStepInTracker(1);
-                        console.log('Modal opened, starting auto-scroll in 3 seconds...');
-                        setTimeout(() => {
-                            startAutoScroll();
-                        }, 3000); // Start auto-scroll after 3 seconds
-                    }, 200);
+                        updateNavigationButtons();
+                        setupStepNavigation(); // Ensure navigation is set up
+                        console.log('Modal opened, navigation ready');
+                    }, 300);
                 }
             }
         }, 400);
     }
 
-    function closeHowItWorksModal() {
+    window.closeHowItWorksModal = function() {
         const overlay = document.getElementById('howItWorksOverlay');
         if (overlay) {
             overlay.style.opacity = '0';
@@ -6277,11 +6378,8 @@
             }, 300);
         }
         
-        // Stop auto-scrolling and clear timeouts
-        stopAutoScroll();
-        clearTimeout(userScrollTimeout);
-        isUserScrolling = false;
-        currentAutoStep = 1; // Reset to first step for next time
+        // Reset step navigation
+        currentStep = 1;
     }
 
     function showWelcomeModal() {
@@ -6329,175 +6427,117 @@
                 e.stopPropagation();
             });
 
-            // Setup scroll-based step highlighting with delay to ensure elements are rendered
+            // Setup step navigation with delay to ensure elements are rendered
             setTimeout(() => {
-                setupScrollBasedStepHighlighting();
+                setupStepNavigation();
             }, 100);
         }
     }
 
-    // Auto-scroll variables
-    let autoScrollInterval;
-    let currentAutoStep = 1;
-    let isUserScrolling = false;
-    let userScrollTimeout;
+    // Current step tracking
+    let currentStep = 1;
+    const totalSteps = 6;
 
-    function setupScrollBasedStepHighlighting() {
-        const modal = document.querySelector('.how-it-works-modal');
+    function setupStepNavigation() {
         const stepSections = document.querySelectorAll('.step-section');
         const trackerSteps = document.querySelectorAll('.tracker-step');
-        const sectionsContainer = document.querySelector('.step-sections-container');
         
-        if (!modal || !stepSections.length || !trackerSteps.length) return;
+        if (!stepSections.length || !trackerSteps.length) return;
 
         // Initially activate first step
         activateStepInTracker(1);
-
-        // Start auto-scrolling
-        startAutoScroll();
+        updateNavigationButtons();
 
         // Add click handlers to tracker steps
         trackerSteps.forEach((step, index) => {
             step.addEventListener('click', () => {
                 const stepNumber = index + 1;
-                stopAutoScroll();
-                scrollToStepSection(stepNumber);
-                currentAutoStep = stepNumber;
-                
-                // Restart auto-scroll after 10 seconds of inactivity
-                setTimeout(() => {
-                    if (!isUserScrolling) {
-                        startAutoScroll();
-                    }
-                }, 10000);
+                navigateToStep(stepNumber);
             });
-        });
-
-        // Add scroll listener to sections container
-        sectionsContainer.addEventListener('scroll', () => {
-            // Detect user manual scrolling
-            if (!sectionsContainer.dataset.autoScrolling) {
-                isUserScrolling = true;
-                stopAutoScroll();
-                
-                // Clear existing timeout
-                clearTimeout(userScrollTimeout);
-                
-                // Restart auto-scroll after 8 seconds of no scrolling
-                userScrollTimeout = setTimeout(() => {
-                    isUserScrolling = false;
-                    startAutoScroll();
-                }, 8000);
-            }
-
-            let activeStepNumber = 1;
-            const scrollTop = sectionsContainer.scrollTop;
-            const containerHeight = sectionsContainer.clientHeight;
-            const centerPoint = scrollTop + containerHeight / 3; // Use upper third for activation
-
-            stepSections.forEach((section, index) => {
-                const sectionTop = section.offsetTop;
-                const sectionBottom = sectionTop + section.offsetHeight;
-                
-                if (centerPoint >= sectionTop && centerPoint <= sectionBottom) {
-                    activeStepNumber = index + 1;
-                }
-            });
-
-            activateStepInTracker(activeStepNumber);
-            currentAutoStep = activeStepNumber;
         });
     }
 
-    function startAutoScroll() {
-        if (autoScrollInterval) return; // Already running
+    window.navigateStep = function(direction) {
+        const newStep = currentStep + direction;
         
-        console.log('Starting auto-scroll from step:', currentAutoStep);
-        
-        autoScrollInterval = setInterval(() => {
-            if (isUserScrolling) {
-                console.log('Skipping auto-scroll - user is scrolling');
-                return;
-            }
-            
-            // Move to next step (cycle back to 1 after step 6)
-            currentAutoStep = (currentAutoStep % 6) + 1;
-            console.log('Auto-scrolling to step:', currentAutoStep);
-            autoScrollToStep(currentAutoStep);
-        }, 4000); // Auto-scroll every 4 seconds
-    }
-
-    function stopAutoScroll() {
-        if (autoScrollInterval) {
-            clearInterval(autoScrollInterval);
-            autoScrollInterval = null;
+        // Check bounds
+        if (newStep >= 1 && newStep <= totalSteps) {
+            navigateToStep(newStep);
         }
     }
 
-    function autoScrollToStep(stepNumber) {
-        const sectionsContainer = document.querySelector('.step-sections-container');
-        const targetSection = document.querySelector(`.step-section[data-step="${stepNumber}"]`);
+    function navigateToStep(stepNumber) {
+        if (stepNumber === currentStep) return; // Already on this step
         
-        if (sectionsContainer && targetSection) {
-            // Mark as auto-scrolling to prevent user scroll detection
-            sectionsContainer.dataset.autoScrolling = 'true';
+        currentStep = stepNumber;
+        activateStepInTracker(stepNumber);
+        updateNavigationButtons();
+        
+        console.log('Navigating to step:', stepNumber);
+    }
+
+    function updateNavigationButtons() {
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+        
+        console.log('Updating navigation buttons, currentStep:', currentStep);
+        console.log('Found buttons:', { prev: !!prevButton, next: !!nextButton });
+        
+        if (prevButton && nextButton) {
+            // Update button states
+            prevButton.disabled = currentStep === 1;
+            nextButton.disabled = currentStep === totalSteps;
             
-            // Calculate position within the sections container
-            const sectionTop = targetSection.offsetTop;
+            // Update button labels with step info
+            const prevLabel = prevButton.querySelector('.nav-label');
+            const nextLabel = nextButton.querySelector('.nav-label');
             
-            console.log('Auto-scrolling to step:', stepNumber, 'position:', sectionTop);
+            console.log('Found labels:', { prevLabel: !!prevLabel, nextLabel: !!nextLabel });
             
-            sectionsContainer.scrollTo({
-                top: sectionTop,
-                behavior: 'smooth'
-            });
+            if (prevLabel && currentStep > 1) {
+                prevLabel.textContent = `Step ${currentStep - 1}`;
+            } else if (prevLabel) {
+                prevLabel.textContent = 'Previous';
+            }
             
-            // Remove auto-scroll flag after animation completes
-            setTimeout(() => {
-                delete sectionsContainer.dataset.autoScrolling;
-            }, 1000);
+            if (nextLabel && currentStep < totalSteps) {
+                nextLabel.textContent = `Step ${currentStep + 1}`;
+            } else if (nextLabel) {
+                nextLabel.textContent = 'Next';
+            }
+            
+            console.log('Navigation buttons updated successfully');
+        } else {
+            console.log('Navigation buttons not found!');
         }
     }
 
     function activateStepInTracker(stepNumber) {
-        // Update tracker highlighting
-        const trackerSteps = document.querySelectorAll('.tracker-step');
-        const stepSections = document.querySelectorAll('.step-section');
-        
-        trackerSteps.forEach((step, index) => {
-            if (index + 1 === stepNumber) {
-                step.classList.add('active');
-            } else {
-                step.classList.remove('active');
-            }
-        });
-
-        // Update step section visibility
-        stepSections.forEach((section, index) => {
-            if (index + 1 === stepNumber) {
-                section.classList.add('active');
-            } else {
-                section.classList.remove('active');
-            }
-        });
-    }
-
-    function scrollToStepSection(stepNumber) {
-        const sectionsContainer = document.querySelector('.step-sections-container');
-        const targetSection = document.querySelector(`.step-section[data-step="${stepNumber}"]`);
-        
-        if (sectionsContainer && targetSection) {
-            // Calculate position within the sections container
-            const sectionTop = targetSection.offsetTop;
+        // Update tracker highlighting with requestAnimationFrame for smooth transitions
+        requestAnimationFrame(() => {
+            const trackerSteps = document.querySelectorAll('.tracker-step');
+            const stepSections = document.querySelectorAll('.step-section');
             
-            console.log('Clicking to step:', stepNumber, 'position:', sectionTop);
-            
-            sectionsContainer.scrollTo({
-                top: sectionTop,
-                behavior: 'smooth'
+            trackerSteps.forEach((step, index) => {
+                if (index + 1 === stepNumber) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
             });
-        }
+
+            // Update step section visibility
+            stepSections.forEach((section, index) => {
+                if (index + 1 === stepNumber) {
+                    section.classList.add('active');
+                } else {
+                    section.classList.remove('active');
+                }
+            });
+        });
     }
+
+
 
     // Initialize everything when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
