@@ -246,6 +246,32 @@
                 <div class="help-text">Any additional information about the tickets</div>
             </div>
 
+            <!-- Deadline Settings -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="ticket_deadline_hours">Time to Send Tickets</label>
+                    <select id="ticket_deadline_hours" name="ticket_deadline_hours">
+                        <option value="6">6 hours</option>
+                        <option value="12">12 hours</option>
+                        <option value="24" selected>24 hours (recommended)</option>
+                        <option value="48">48 hours</option>
+                        <option value="72">72 hours</option>
+                    </select>
+                    <div class="help-text">How long you have to send your tickets</div>
+                </div>
+                <div class="form-group">
+                    <label for="payment_deadline_hours">Time for Buyer to Pay</label>
+                    <select id="payment_deadline_hours" name="payment_deadline_hours">
+                        <option value="12">12 hours</option>
+                        <option value="24">24 hours</option>
+                        <option value="48" selected>48 hours (recommended)</option>
+                        <option value="72">72 hours</option>
+                        <option value="168">1 week</option>
+                    </select>
+                    <div class="help-text">How long buyer has to pay after you send tickets</div>
+                </div>
+            </div>
+
             <!-- Hidden fields -->
             <input type="hidden" name="seller_email" value="{{ logemail }}">
 

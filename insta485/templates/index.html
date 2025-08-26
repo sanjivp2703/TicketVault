@@ -742,7 +742,103 @@
             font-size: 16px;
             color: var(--text-secondary);
             font-weight: 500;
+        }
+
+        /* Tooltip Styles */
+        .tooltip-icon {
+            color: #64748b;
+            font-size: 14px;
+            margin-left: 8px;
+            cursor: help;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tooltip-icon:hover {
+            color: #3b82f6;
+            transform: scale(1.1);
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .tooltip-content {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 13px;
             line-height: 1.5;
+            width: 320px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            margin-bottom: 8px;
+        }
+
+        .tooltip-content::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: #1e293b;
+        }
+
+        .tooltip-content.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-8px);
+        }
+
+        .tooltip-content strong {
+            color: #60a5fa;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* Subtle Field Note */
+        .field-note {
+            margin-top: var(--space-xs);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            font-size: 12px;
+            color: var(--text-tertiary);
+            font-style: italic;
+        }
+
+        .field-note i {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        /* Subtle Info Banner */
+        .info-banner {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            border-radius: var(--radius-md);
+            padding: var(--space-sm) var(--space-md);
+            margin-bottom: var(--space-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .info-banner i {
+            color: #3b82f6;
+            font-size: 14px;
         }
 
         .listing-form {
@@ -892,10 +988,11 @@
             background: linear-gradient(145deg, #ffffff 0%, #fafbfc 100%);
             border-radius: 32px;
             padding: 40px 52px;
-            max-width: 1100px;
+            max-width: min(1100px, 95vw);
             width: 100%;
-            max-height: 90vh;
-            overflow: hidden;
+            max-height: min(90vh, calc(100vh - 40px));
+            overflow-y: auto;
+            overflow-x: hidden;
             text-align: center;
             box-shadow: 
                 0 40px 80px rgba(0, 0, 0, 0.15),
@@ -905,6 +1002,41 @@
             position: relative;
             animation: slideInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            /* Enhanced scrollbar styling */
+            scrollbar-width: thin;
+            scrollbar-color: rgba(100, 116, 139, 0.3) transparent;
+        }
+
+        /* Custom scrollbar for webkit browsers */
+        .welcome-modal::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .welcome-modal::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .welcome-modal::-webkit-scrollbar-thumb {
+            background: rgba(100, 116, 139, 0.3);
+            border-radius: 3px;
+        }
+
+        .welcome-modal::-webkit-scrollbar-thumb:hover {
+            background: rgba(100, 116, 139, 0.5);
+        }
+
+        /* Special handling for very small viewports or high zoom */
+        @media (max-height: 600px) {
+            .welcome-overlay {
+                padding: 8px;
+                align-items: flex-start;
+                padding-top: 20px;
+            }
+            
+            .welcome-modal {
+                max-height: calc(100vh - 40px);
+                animation: none;
+            }
         }
 
         .welcome-modal::before {
@@ -1391,6 +1523,20 @@
          }
 
         /* Enhanced Responsive Design */
+        @media (max-width: 1200px) {
+            .welcome-modal {
+                max-width: min(950px, 95vw);
+                padding: 36px 40px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .welcome-modal {
+                max-width: min(800px, 95vw);
+                padding: 32px 36px;
+            }
+        }
+
         @media (max-width: 768px) {
             .welcome-overlay {
                 padding: 16px;
@@ -1398,9 +1544,9 @@
             
             .welcome-modal {
                 margin: 0;
-                padding: 40px 28px;
+                padding: 32px 24px;
                 border-radius: 24px;
-                max-width: none;
+                max-width: min(100%, 95vw);
                 width: 100%;
             }
             
@@ -1524,7 +1670,8 @@
 
         @media (max-width: 480px) {
             .welcome-modal {
-                padding: 32px 20px;
+                padding: 24px 16px;
+                border-radius: 16px;
             }
             
             .welcome-heading {
@@ -2107,6 +2254,215 @@
         .empty-listings p {
             font-size: 16px;
             line-height: 1.5;
+        }
+
+        /* Modern Transaction Progress Styles */
+        .transaction-progress {
+            margin: var(--space-lg) 0;
+            padding: var(--space-lg);
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-md);
+        }
+
+        .current-step {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .transaction-id {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: var(--bg-tertiary);
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin-bottom: var(--space-lg);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            border-radius: var(--radius-full);
+            transition: width 0.5s ease;
+        }
+
+        .progress-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: var(--space-sm);
+            border-radius: var(--radius-md);
+            transition: all 0.3s ease;
+        }
+
+        .step i {
+            font-size: 18px;
+            margin-bottom: var(--space-xs);
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+
+        .step span {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+
+        .step.completed i,
+        .step.completed span {
+            color: #10b981;
+        }
+
+        .step.completed {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        /* Action Status Sections */
+        .action-required,
+        .action-waiting,
+        .action-success,
+        .action-complete {
+            margin: var(--space-md) 0;
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            border-left: 4px solid;
+        }
+
+        .action-required {
+            background: rgba(239, 68, 68, 0.1);
+            border-left-color: #ef4444;
+        }
+
+        .action-waiting {
+            background: rgba(245, 158, 11, 0.1);
+            border-left-color: #f59e0b;
+        }
+
+        .action-success {
+            background: rgba(16, 185, 129, 0.1);
+            border-left-color: #10b981;
+        }
+
+        .action-complete {
+            background: rgba(59, 130, 246, 0.1);
+            border-left-color: #3b82f6;
+        }
+
+        .action-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-xs);
+            font-size: 14px;
+        }
+
+        .action-required .action-header i { color: #ef4444; }
+        .action-waiting .action-header i { color: #f59e0b; }
+        .action-success .action-header i { color: #10b981; }
+        .action-complete .action-header i { color: #3b82f6; }
+
+        .deadline-info {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: var(--space-xs);
+        }
+
+        .listing-actions {
+            display: flex;
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+        }
+
+        .btn-details,
+        .btn-cancel {
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-md);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .btn-details {
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
+            color: white;
+        }
+
+        .btn-details:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-cancel {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .btn-cancel:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        code {
+            background: var(--bg-tertiary);
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #3b82f6;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .progress-steps {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--space-xs);
+            }
+            
+            .step {
+                padding: var(--space-xs);
+            }
+            
+            .step span {
+                font-size: 10px;
+            }
+            
+            .listing-actions {
+                flex-direction: column;
+            }
         }
 
         /* Ultra-Modern 3D Scroll Catalyst */
@@ -4471,12 +4827,21 @@
                         <div class="tracker-icon seller-type">
                             <i class="fas fa-plus-circle"></i>
                         </div>
-                        <div class="tracker-label">List Ticket</div>
+                        <div class="tracker-label">Create Listing</div>
                     </div>
                     
                     <div class="tracker-connector"></div>
                     
                     <div class="tracker-step" data-step="2">
+                        <div class="tracker-icon seller-type">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="tracker-label">Send Tickets</div>
+                    </div>
+                    
+                    <div class="tracker-connector"></div>
+                    
+                    <div class="tracker-step" data-step="3">
                         <div class="tracker-icon buyer-type">
                             <i class="fas fa-credit-card"></i>
                         </div>
@@ -4485,20 +4850,11 @@
                     
                     <div class="tracker-connector"></div>
                     
-                    <div class="tracker-step" data-step="3">
-                        <div class="tracker-icon seller-type">
+                    <div class="tracker-step" data-step="4">
+                        <div class="tracker-icon success-type">
                             <i class="fas fa-exchange-alt"></i>
                         </div>
-                        <div class="tracker-label">Transfer</div>
-                    </div>
-                    
-                    <div class="tracker-connector"></div>
-                    
-                    <div class="tracker-step" data-step="4">
-                        <div class="tracker-icon buyer-type">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <div class="tracker-label">Confirm</div>
+                        <div class="tracker-label">Auto Delivery</div>
                     </div>
                     
                     <div class="tracker-connector"></div>
@@ -4507,7 +4863,7 @@
                         <div class="tracker-icon success-type">
                             <i class="fas fa-money-bill-wave"></i>
                         </div>
-                        <div class="tracker-label">Get Paid</div>
+                        <div class="tracker-label">You Get Paid</div>
                     </div>
                     
                     <div class="tracker-connector"></div>
@@ -4516,7 +4872,7 @@
                         <div class="tracker-icon dispute-type">
                             <i class="fas fa-gavel"></i>
                         </div>
-                        <div class="tracker-label">If Disputed</div>
+                        <div class="tracker-label">If Issues</div>
                     </div>
                 </div>
             </div>
@@ -4543,19 +4899,23 @@
                                 <i class="fas fa-user-tie"></i>
                                 <span>You (Seller)</span>
                             </div>
-                            <h2 class="step-section-title">List Your Ticket</h2>
+                            <h2 class="step-section-title">Create Your Listing</h2>
                             <div class="step-bullets">
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">🔍</span>
-                                    <span>Search for your event</span>
-                                </div>
-                                <div class="bullet-item">
-                                    <span class="bullet-icon">💰</span>
-                                    <span>Set your ticket price</span>
+                                    <span class="bullet-icon">📝</span>
+                                    <span>Fill out event details and price</span>
                                 </div>
                                 <div class="bullet-item">
                                     <span class="bullet-icon">📧</span>
                                     <span>Enter buyer's email address</span>
+                                </div>
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">⏰</span>
+                                    <span>Set deadlines for tickets and payment</span>
+                                </div>
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">✅</span>
+                                    <span>Buyer gets notified automatically</span>
                                 </div>
                             </div>
                         </div>
@@ -4579,35 +4939,39 @@
                 <section class="step-section" data-step="2">
                     <div class="step-content-wrapper">
                         <div class="step-text-content">
-                            <div class="step-badge buyer-badge">
-                                <i class="fas fa-user"></i>
-                                <span>Buyer</span>
+                            <div class="step-badge seller-badge">
+                                <i class="fas fa-user-tie"></i>
+                                <span>You (Seller)</span>
                             </div>
-                            <h2 class="step-section-title">Buyer Reviews & Pays</h2>
+                            <h2 class="step-section-title">Send Your Tickets</h2>
                             <div class="step-bullets">
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">📬</span>
-                                    <span>Buyer receives email notification</span>
+                                    <span class="bullet-icon">📧</span>
+                                    <span>You get a secure email address</span>
                                 </div>
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">💳</span>
-                                    <span>Payment submitted securely</span>
+                                    <span class="bullet-icon">🎫</span>
+                                    <span>Forward your original ticket email</span>
                                 </div>
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">🏦</span>
-                                    <span>Funds held in escrow safely</span>
+                                    <span class="bullet-icon">🔒</span>
+                                    <span>We verify ticket authenticity</span>
+                                </div>
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">⚠️</span>
+                                    <span><strong>Never send directly to buyer!</strong></span>
                                 </div>
                             </div>
                         </div>
                         <div class="step-visual-content">
                             <div class="mockup-device">
                                 <div class="device-screen">
-                                    <div class="screen-header">Payment Secure</div>
+                                    <div class="screen-header">Secure Email Portal</div>
                                     <div class="payment-flow-visual">
-                                        <div class="payment-step-visual">💳 Payment Submitted</div>
-                                        <div class="payment-step-visual">🔒 Funds Secured</div>
-                                        <div class="payment-step-visual">📧 Seller Notified</div>
-                                        <div class="status-indicator success">Payment Complete</div>
+                                        <div class="payment-step-visual">📧 tx-000001@safetransaction.com</div>
+                                        <div class="payment-step-visual">🎫 Forward Ticket Email</div>
+                                        <div class="payment-step-visual">🔍 Auto-Verification</div>
+                                        <div class="status-indicator success">Tickets Secured</div>
                                     </div>
                                 </div>
                             </div>
@@ -4619,35 +4983,39 @@
                 <section class="step-section" data-step="3">
                     <div class="step-content-wrapper">
                         <div class="step-text-content">
-                            <div class="step-badge seller-badge">
-                                <i class="fas fa-user-tie"></i>
-                                <span>You (Seller)</span>
+                            <div class="step-badge buyer-badge">
+                                <i class="fas fa-user"></i>
+                                <span>Buyer</span>
                             </div>
-                            <h2 class="step-section-title">Transfer Your Ticket</h2>
+                            <h2 class="step-section-title">Buyer Pays Securely</h2>
                             <div class="step-bullets">
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">🎫</span>
-                                    <span>Use Mathletics transfer system</span>
+                                    <span class="bullet-icon">📬</span>
+                                    <span>Buyer receives payment notification</span>
                                 </div>
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">📧</span>
-                                    <span>Send to buyer's email address</span>
+                                    <span class="bullet-icon">💳</span>
+                                    <span>Payment submitted through secure portal</span>
                                 </div>
-                                <div class="bullet-item special-note">
-                                    <span class="bullet-icon">📝</span>
-                                    <span><strong>Note:</strong> Better directions will be added to the site</span>
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">🏦</span>
+                                    <span>Funds held safely in escrow</span>
+                                </div>
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">⏰</span>
+                                    <span>Payment deadline enforced automatically</span>
                                 </div>
                             </div>
                         </div>
                         <div class="step-visual-content">
                             <div class="mockup-device">
                                 <div class="device-screen">
-                                    <div class="screen-header">Transfer Options</div>
+                                    <div class="screen-header">Secure Payment</div>
                                     <div class="platform-options">
-                                        <div class="platform-option">📱 Ticketmaster</div>
-                                        <div class="platform-option">🎫 StubHub</div>
-                                        <div class="platform-option">💺 SeatGeek</div>
-                                        <div class="timer-visual">⏰ 23:45:12 remaining</div>
+                                        <div class="platform-option">💳 Card Payment</div>
+                                        <div class="platform-option">🏦 Bank Transfer</div>
+                                        <div class="platform-option">🔒 Escrow Protection</div>
+                                        <div class="timer-visual">⏰ 47:30:15 to pay</div>
                                     </div>
                                 </div>
                             </div>
@@ -4663,31 +5031,31 @@
                                 <i class="fas fa-user"></i>
                                 <span>Buyer</span>
                             </div>
-                            <h2 class="step-section-title">Buyer Confirms Receipt</h2>
+                            <h2 class="step-section-title">Automatic Ticket Delivery</h2>
                             <div class="step-bullets">
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">⏰</span>
-                                    <span>24-hour validation window</span>
+                                    <span class="bullet-icon">⚡</span>
+                                    <span>Instant delivery after payment confirmed</span>
                                 </div>
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">✅</span>
-                                    <span>Verify ticket matches listing</span>
+                                    <span class="bullet-icon">📧</span>
+                                    <span>Buyer receives original ticket email</span>
                                 </div>
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">🔍</span>
-                                    <span>Check event details are correct</span>
+                                    <span class="bullet-icon">🔒</span>
+                                    <span>Complete transaction security maintained</span>
                                 </div>
                             </div>
                         </div>
                         <div class="step-visual-content">
                             <div class="mockup-device">
                                 <div class="device-screen">
-                                    <div class="screen-header">Confirm Ticket</div>
+                                    <div class="screen-header">Auto Delivery</div>
                                     <div class="confirmation-checklist">
-                                        <div class="check-item completed">✓ Event matches listing</div>
-                                        <div class="check-item completed">✓ Seats are correct</div>
-                                        <div class="check-item completed">✓ Ticket is valid</div>
-                                        <div class="confirm-button">Confirm Receipt</div>
+                                        <div class="check-item completed">✓ Payment verified</div>
+                                        <div class="check-item completed">✓ Tickets authenticated</div>
+                                        <div class="check-item completed">✓ Email forwarded</div>
+                                        <div class="confirm-button">Delivered Instantly</div>
                                     </div>
                                 </div>
                             </div>
@@ -4703,15 +5071,19 @@
                                 <i class="fas fa-trophy"></i>
                                 <span>Success!</span>
                             </div>
-                            <h2 class="step-section-title">Get Paid + Bonus</h2>
+                            <h2 class="step-section-title">You Get Paid</h2>
                             <div class="step-bullets">
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">💸</span>
-                                    <span>Funds available for withdrawal</span>
+                                    <span class="bullet-icon">⏰</span>
+                                    <span>24-hour verification window</span>
                                 </div>
-                                <div class="bullet-item highlight">
-                                    <span class="bullet-icon">🎁</span>
-                                    <span>10% bonus from our platform</span>
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">✅</span>
+                                    <span>No issues reported by buyer</span>
+                                </div>
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">💸</span>
+                                    <span>Funds automatically released to you</span>
                                 </div>
                                 <div class="bullet-item">
                                     <span class="bullet-icon">⚡</span>
@@ -4869,7 +5241,13 @@
                     <p class="create-listing-subtitle">List your tickets for sale on our secure platform</p>
                 </div>
                 
-                <form action="{{ url_for('create_transaction') }}" method="post" class="listing-form">
+                <form action="{{ url_for('create_transaction') }}" method="post" class="listing-form" onsubmit="return validateDeadlines()">
+                    <!-- Subtle Info Banner -->
+                    <div class="info-banner">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Don't send tickets to the buyer's email - we'll provide a secure system address after listing creation</span>
+                    </div>
+
                     <!-- Event Information -->
                     <div class="form-group">
                         <label for="event_name">Event Name</label>
@@ -4916,8 +5294,27 @@
                             </div>
                             
                         <div class="form-group">
-                            <label for="buyer_email">Buyer Email</label>
+                            <label for="buyer_email">
+                                Buyer Email 
+                                <i class="fas fa-info-circle tooltip-icon" data-tooltip="buyer-email-info"></i>
+                            </label>
                             <input type="email" id="buyer_email" name="buyer_email" required placeholder="buyer@example.com">
+                            <div class="tooltip-content" id="buyer-email-info">
+                                <strong>Why we need the buyer's email:</strong>
+                                We'll send them a secure payment link to complete the purchase. They'll only pay if you successfully send valid tickets to our system first.
+                                <br><br>
+                                <strong>What the buyer receives:</strong>
+                                • Payment instructions with full protection details
+                                • Automatic ticket delivery after payment
+                                • 24-hour verification window
+                                • Full refund guarantee if tickets are invalid
+                            </div>
+                            
+                            <!-- Subtle note -->
+                            <small class="field-note">
+                                <i class="fas fa-shield-alt"></i>
+                                Never send tickets directly to this buyer email - use our secure system instead
+                            </small>
                             </div>
                         </div>
                         
@@ -4925,6 +5322,59 @@
                     <div class="form-group">
                             <label for="ticket_details">Ticket Details (Optional)</label>
                         <textarea id="ticket_details" name="ticket_details" rows="3" placeholder="Section, Row, Seat numbers, any special notes..."></textarea>
+                    </div>
+                    
+                    <!-- Deadline Settings -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ticket_deadline_hours">
+                                Time to Send Tickets
+                                <i class="fas fa-info-circle tooltip-icon" data-tooltip="ticket-deadline"></i>
+                            </label>
+                            <select id="ticket_deadline_hours" name="ticket_deadline_hours" onchange="validateDeadlines()">
+                                <option value="6">6 hours</option>
+                                <option value="12">12 hours</option>
+                                <option value="24" selected>24 hours (recommended)</option>
+                                <option value="48">48 hours</option>
+                                <option value="72">72 hours</option>
+                            </select>
+                            <div id="ticket-deadline" class="tooltip-content">
+                                <strong>Why this matters:</strong><br>
+                                • Sets how long you have to forward your tickets to us<br>
+                                • Prevents buyers from waiting indefinitely<br>
+                                • Creates urgency for quick transactions<br><br>
+                                <strong>⏰ If deadline expires:</strong><br>
+                                • Your listing automatically cancels<br>
+                                • Buyer is notified the listing is no longer available<br>
+                                • No money changes hands - clean closure
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="payment_deadline_hours">
+                                Time for Buyer to Pay
+                                <i class="fas fa-info-circle tooltip-icon" data-tooltip="payment-deadline"></i>
+                            </label>
+                            <select id="payment_deadline_hours" name="payment_deadline_hours" onchange="validateDeadlines()">
+                                <option value="12">12 hours</option>
+                                <option value="24">24 hours</option>
+                                <option value="48" selected>48 hours (recommended)</option>
+                                <option value="72">72 hours</option>
+                                <option value="168">1 week</option>
+                            </select>
+                            <div id="deadline-error" style="color: var(--accent-red); font-size: 0.875rem; margin-top: 8px; display: none;">
+                                ⚠️ Ticket deadline must be shorter than payment deadline
+                            </div>
+                            <div id="payment-deadline" class="tooltip-content">
+                                <strong>Why this matters:</strong><br>
+                                • Prevents your tickets from being tied up indefinitely<br>
+                                • Sets clear expectations for the buyer<br>
+                                • Protects you from non-serious buyers<br><br>
+                                <strong>💰 If deadline expires:</strong><br>
+                                • Your tickets are automatically returned to you<br>
+                                • Buyer loses the opportunity to purchase<br>
+                                • You keep your tickets and can relist them
+                            </div>
+                        </div>
                     </div>
                     
                     <!-- Hidden fields -->
@@ -4944,42 +5394,139 @@
                     </div>
                 
                 <div class="listings-container">
-                    {% if posts %}
-                        {% for post in posts %}
-                        <div class="listing-card">
+                    {% if transactions %}
+                        {% for transaction in transactions %}
+                        <div class="listing-card" data-transaction-id="{{ transaction.transaction_id }}">
                             <div class="listing-header">
-                                <h3 class="listing-event">{{ post.event_name }}</h3>
-                                <div class="listing-price">${{ post.price }}</div>
-                </div>
+                                <h3 class="listing-event">{{ transaction.ticket_description }}</h3>
+                                <div class="listing-price">${{ transaction.price }}</div>
+                            </div>
+                            
                             <div class="listing-details">
                                 <div class="listing-location">
                                     <i class="fas fa-map-marker-alt"></i>
-                                    {{ post.event_location }}
-            </div>
+                                    {{ transaction.location }}
+                                </div>
                                 <div class="listing-date">
                                     <i class="fas fa-calendar"></i>
-                                    {{ post.event_datetime }}
+                                    {{ transaction.event_datetime }}
                                 </div>
                                 <div class="listing-buyer">
                                     <i class="fas fa-user"></i>
-                                    {{ post.buyer_email }}
+                                    {{ transaction.buyer_email }}
                                 </div>
                             </div>
-                            <div class="listing-status">
-                                {% if post.status == 'pending' %}
-                                    <span class="status-badge status-pending">
-                                        <i class="fas fa-clock"></i> Pending Approval
+                            
+                            <!-- Modern Status Progress -->
+                            <div class="transaction-progress">
+                                <div class="progress-header">
+                                    <span class="current-step">
+                                        {% if post.status == 'waiting_for_ticket' %}
+                                            Step 1: Send Your Tickets
+                                        {% elif post.status == 'waiting_for_payment' %}
+                                            Step 2: Awaiting Payment
+                                        {% elif post.status == 'both_received_processing' %}
+                                            Step 3: Processing Payment
+                                        {% elif post.status == 'ticket_forwarded_funds_held' %}
+                                            Step 4: Tickets Delivered
+                                        {% elif post.status == 'completed' %}
+                                            ✅ Transaction Complete
+                                        {% elif post.status == 'expired_no_ticket' %}
+                                            ❌ Expired - No Tickets
+                                        {% elif post.status == 'expired_no_payment' %}
+                                            ❌ Expired - No Payment
+                                        {% else %}
+                                            {{ post.status|title }}
+                                        {% endif %}
                                     </span>
-                                {% elif post.status == 'approved' %}
-                                    <span class="status-badge status-approved">
-                                        <i class="fas fa-check-circle"></i> Approved
-                                    </span>
-                                {% elif post.status == 'completed' %}
-                                    <span class="status-badge status-completed">
-                                        <i class="fas fa-handshake"></i> Completed
-                                    </span>
-        {% endif %}
+                                    <span class="transaction-id">#{{ post.transaction_id }}</span>
+                                </div>
+                                
+                                <div class="progress-bar">
+                                    {% set progress = 0 %}
+                                    {% if post.status == 'waiting_for_ticket' %}{% set progress = 25 %}
+                                    {% elif post.status == 'waiting_for_payment' %}{% set progress = 50 %}
+                                    {% elif post.status == 'both_received_processing' %}{% set progress = 75 %}
+                                    {% elif post.status == 'ticket_forwarded_funds_held' %}{% set progress = 90 %}
+                                    {% elif post.status == 'completed' %}{% set progress = 100 %}
+                                    {% endif %}
+                                    <div class="progress-fill" style="width: {{ progress }}%"></div>
+                                </div>
+                                
+                                <div class="progress-steps">
+                                    <div class="step {% if progress >= 25 %}completed{% endif %}">
+                                        <i class="fas fa-envelope"></i>
+                                        <span>Send Tickets</span>
+                                    </div>
+                                    <div class="step {% if progress >= 50 %}completed{% endif %}">
+                                        <i class="fas fa-credit-card"></i>
+                                        <span>Buyer Pays</span>
+                                    </div>
+                                    <div class="step {% if progress >= 75 %}completed{% endif %}">
+                                        <i class="fas fa-forward"></i>
+                                        <span>Tickets Sent</span>
+                                    </div>
+                                    <div class="step {% if progress >= 100 %}completed{% endif %}">
+                                        <i class="fas fa-money-bill-wave"></i>
+                                        <span>You Get Paid</span>
+                                    </div>
+                                </div>
                             </div>
+                            
+                            <!-- Action Required Section -->
+                            {% if post.status == 'waiting_for_ticket' %}
+                            <div class="action-required">
+                                <div class="action-header">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <strong>Action Required</strong>
+                                </div>
+                                <p>Forward your ticket email to: <code>{{ post.ticket_email }}</code></p>
+                                <div class="deadline-info">
+                                    <i class="fas fa-clock"></i>
+                                    Deadline: {{ post.ticket_deadline.strftime('%m/%d %I:%M %p') if post.ticket_deadline else 'N/A' }}
+                                </div>
+                            </div>
+                            {% elif post.status == 'waiting_for_payment' %}
+                            <div class="action-waiting">
+                                <div class="action-header">
+                                    <i class="fas fa-hourglass-half"></i>
+                                    <strong>Waiting for Buyer</strong>
+                                </div>
+                                <p>Buyer has been notified to complete payment</p>
+                                <div class="deadline-info">
+                                    <i class="fas fa-clock"></i>
+                                    Payment due: {{ post.payment_deadline.strftime('%m/%d %I:%M %p') if post.payment_deadline else 'N/A' }}
+                                </div>
+                            </div>
+                            {% elif post.status == 'ticket_forwarded_funds_held' %}
+                            <div class="action-success">
+                                <div class="action-header">
+                                    <i class="fas fa-check-circle"></i>
+                                    <strong>Almost Done!</strong>
+                                </div>
+                                <p>Tickets delivered, payment will release automatically in 24 hours</p>
+                            </div>
+                            {% elif post.status == 'completed' %}
+                            <div class="action-complete">
+                                <div class="action-header">
+                                    <i class="fas fa-trophy"></i>
+                                    <strong>Transaction Complete</strong>
+                                </div>
+                                <p>Payment has been released to your account</p>
+                            </div>
+                            {% endif %}
+                            
+                            <div class="listing-actions">
+                                <button class="btn-details" onclick="showTransactionDetails({{ post.transaction_id }})">
+                                    <i class="fas fa-info-circle"></i> View Details
+                                </button>
+                                {% if post.status in ['waiting_for_ticket', 'waiting_for_payment'] %}
+                                <button class="btn-cancel" onclick="cancelTransaction({{ post.transaction_id }})">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                                {% endif %}
+                            </div>
+                            
                             {% if post.ticket_details %}
                             <div class="listing-notes">
                                 <i class="fas fa-sticky-note"></i>
@@ -5379,6 +5926,21 @@
     </div>
 
     <script>
+        // DEADLINE VALIDATION FUNCTION
+        function validateDeadlines() {
+            const ticketHours = parseInt(document.getElementById('ticket_deadline_hours').value);
+            const paymentHours = parseInt(document.getElementById('payment_deadline_hours').value);
+            const errorDiv = document.getElementById('deadline-error');
+            
+            if (ticketHours >= paymentHours) {
+                errorDiv.style.display = 'block';
+                return false;
+            } else {
+                errorDiv.style.display = 'none';
+                return true;
+            }
+        }
+        
         // SIMPLE GLOBAL SCROLL FUNCTION - GUARANTEED TO WORK
         function simpleScroll() {
             console.log('🚀 SIMPLE SCROLL TRIGGERED!');
@@ -6325,8 +6887,8 @@
         }, 5000);
     }
 
-    // Welcome Modal Functions
-    function closeWelcomeModal() {
+    // Welcome Modal Functions - Global scope for onclick handlers
+    window.closeWelcomeModal = function() {
         const overlay = document.getElementById('welcomeOverlay');
         if (overlay) {
             overlay.style.opacity = '0';
@@ -6339,25 +6901,39 @@
 
     // How It Works Modal Functions - Global scope for onclick handlers
     window.openHowItWorksModal = function() {
-        // First close the welcome modal
-        closeWelcomeModal();
-        
-        // Then open the how it works modal after a brief delay
-        setTimeout(() => {
-            const overlay = document.getElementById('howItWorksOverlay');
-            if (overlay) {
-                overlay.style.display = 'flex';
-                overlay.style.opacity = '1';
-                overlay.style.transform = 'scale(1)';
-                
-                // Reset to first step
-                const modal = overlay.querySelector('.how-it-works-modal');
-                if (modal) {
-                    currentStep = 1;
+        try {
+            console.log('Opening How It Works modal...');
+            
+            // First close the welcome modal
+            if (typeof window.closeWelcomeModal === 'function') {
+                window.closeWelcomeModal();
+            }
+            
+            // Then open the how it works modal after a brief delay
+            setTimeout(() => {
+                const overlay = document.getElementById('howItWorksOverlay');
+                if (overlay) {
+                    console.log('Found howItWorksOverlay, opening modal...');
+                    overlay.style.display = 'flex';
+                    overlay.style.opacity = '1';
+                    overlay.style.transform = 'scale(1)';
+                    
+                    // Reset to first step
+                    const modal = overlay.querySelector('.how-it-works-modal');
+                    if (modal) {
+                        currentStep = 1;
                     
                     // Initialize step navigation after modal is visible
                     setTimeout(() => {
                         console.log('Initializing modal navigation...');
+                        
+                        // Force show first step content
+                        const firstSection = document.querySelector('.step-section[data-step="1"]');
+                        if (firstSection) {
+                            firstSection.classList.add('active');
+                            console.log('First step section activated');
+                        }
+                        
                         activateStepInTracker(1);
                         updateNavigationButtons();
                         setupStepNavigation(); // Ensure navigation is set up
@@ -6366,6 +6942,9 @@
                 }
             }
         }, 400);
+        } catch (error) {
+            console.error('Error opening How It Works modal:', error);
+        }
     }
 
     window.closeHowItWorksModal = function() {
@@ -6399,7 +6978,7 @@
             // Close modal when clicking on overlay background
             overlay.addEventListener('click', function(e) {
                 if (e.target === overlay) {
-                    closeWelcomeModal();
+                    window.closeWelcomeModal();
                 }
             });
             
@@ -6407,6 +6986,18 @@
             modal.addEventListener('click', function(e) {
                 e.stopPropagation();
             });
+            
+            // Setup "See How It Works" button as backup
+            const howItWorksButton = modal.querySelector('.start-button');
+            if (howItWorksButton) {
+                howItWorksButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('How It Works button clicked via event listener');
+                    if (typeof window.openHowItWorksModal === 'function') {
+                        window.openHowItWorksModal();
+                    }
+                });
+            }
         }
     }
 
@@ -6418,7 +7009,7 @@
             // Close modal when clicking on overlay background
             overlay.addEventListener('click', function(e) {
                 if (e.target === overlay) {
-                    closeHowItWorksModal();
+                    window.closeHowItWorksModal();
                 }
             });
             
@@ -6434,8 +7025,7 @@
         }
     }
 
-    // Current step tracking
-    let currentStep = 1;
+    // Current step tracking (using existing currentStep variable)
     const totalSteps = 6;
 
     function setupStepNavigation() {
@@ -6888,6 +7478,94 @@
                 suggestionsContainer.style.display = 'none';
             }
         });
+    });
+
+    // Tooltip functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const tooltipIcons = document.querySelectorAll('.tooltip-icon');
+        
+        tooltipIcons.forEach(icon => {
+            let tooltipTimeout;
+            
+            icon.addEventListener('mouseenter', function() {
+                const tooltipId = this.getAttribute('data-tooltip');
+                const tooltipContent = document.getElementById(tooltipId);
+                
+                if (tooltipContent) {
+                    clearTimeout(tooltipTimeout);
+                    tooltipContent.classList.add('show');
+                }
+            });
+            
+            icon.addEventListener('mouseleave', function() {
+                const tooltipId = this.getAttribute('data-tooltip');
+                const tooltipContent = document.getElementById(tooltipId);
+                
+                if (tooltipContent) {
+                    tooltipTimeout = setTimeout(() => {
+                        tooltipContent.classList.remove('show');
+                    }, 150);
+                }
+            });
+            
+            // Mobile touch support
+            icon.addEventListener('click', function(e) {
+                e.preventDefault();
+                const tooltipId = this.getAttribute('data-tooltip');
+                const tooltipContent = document.getElementById(tooltipId);
+                
+                if (tooltipContent) {
+                    // Hide all other tooltips
+                    document.querySelectorAll('.tooltip-content').forEach(tooltip => {
+                        if (tooltip !== tooltipContent) {
+                            tooltip.classList.remove('show');
+                        }
+                    });
+                    
+                    // Toggle this tooltip
+                    tooltipContent.classList.toggle('show');
+                }
+            });
+        });
+        
+        // Hide tooltips when clicking elsewhere
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.tooltip-icon') && !e.target.closest('.tooltip-content')) {
+                document.querySelectorAll('.tooltip-content').forEach(tooltip => {
+                    tooltip.classList.remove('show');
+                });
+            }
+        });
+
+        // Transaction management functions
+        window.showTransactionDetails = function(transactionId) {
+            // You can implement a modal or redirect to a details page
+            window.open(`/ticket/${transactionId}`, '_blank');
+        };
+
+        window.cancelTransaction = function(transactionId) {
+            if (confirm('Are you sure you want to cancel this transaction? This action cannot be undone.')) {
+                fetch(`/api/transactions/${transactionId}/cancel`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Transaction cancelled successfully');
+                        location.reload();
+                    } else {
+                        alert('Error cancelling transaction: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error cancelling transaction');
+                });
+            }
+        };
     });
 </script>
 </body>

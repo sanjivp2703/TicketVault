@@ -1,0 +1,339 @@
+"""
+API endpoints for the automated transaction system
+"""
+import flask
+import json
+from datetime import datetime, timedelta
+import insta485
+from insta485.transaction_manager import TransactionManager
+# Email processing functionality will be added later
+
+
+@insta485.app.route('/api/transactions/create', methods=['POST'])
+def create_transaction_api():
+    """
+    Create new transaction listing
+    
+    POST /api/transactions/create
+    {
+        "buyer_email": "buyer@example.com",
+        "price": 150.00,
+        "event_name": "Taylor Swift Concert",
+        "event_location": "MetLife Stadium",
+        "event_datetime": "2024-07-15 20:00:00",
+        "ticket_deadline_hours": 24,
+        "payment_deadline_hours": 48
+    }
+    """
+    if 'email' not in flask.session:
+        return flask.jsonify({'error': 'Authentication required'}), 401
+    
+    seller_email = flask.session['email']
+    data = flask.request.get_json()
+    
+    # Validate required fields
+    required_fields = ['buyer_email', 'price', 'event_name', 'event_location', 'event_datetime']
+    for field in required_fields:
+        if field not in data:
+            return flask.jsonify({'error': f'Missing field: {field}'}), 400
+    
+    # Validate seller isn't creating transaction with themselves
+    if seller_email == data['buyer_email']:
+        return flask.jsonify({'error': 'Cannot create transaction with yourself'}), 400
+    
+    try:
+        transaction_manager = TransactionManager()
+        
+        event_details = {
+            'name': data['event_name'],
+            'location': data['event_location'],
+            'datetime': data['event_datetime']
+        }
+        
+        result = transaction_manager.create_listing(
+            seller_email=seller_email,
+            buyer_email=data['buyer_email'],
+            price=float(data['price']),
+            event_details=event_details,
+            ticket_deadline_hours=data.get('ticket_deadline_hours', 24),
+            payment_deadline_hours=data.get('payment_deadline_hours', 48)
+        )
+        
+        return flask.jsonify({
+            'success': True,
+            'transaction_id': result['transaction_id'],
+            'ticket_email': result['ticket_email'],
+            'ticket_deadline': result['ticket_deadline'].isoformat(),
+            'payment_deadline': result['payment_deadline'].isoformat(),
+            'instructions': f"Send your tickets to: {result['ticket_email']}"
+        })
+        
+    except Exception as e:
+        return flask.jsonify({'error': str(e)}), 500
+
+
+@insta485.app.route('/api/transactions/<int:transaction_id>/pay', methods=['POST'])
+def process_payment_api(transaction_id):
+    """
+    Process buyer payment
+    
+    POST /api/transactions/123/pay
+    {
+        "payment_method_id": "pm_1234567890"
+    }
+    """
+    data = flask.request.get_json()
+    
+    if 'payment_method_id' not in data:
+        return flask.jsonify({'error': 'Missing payment_method_id'}), 400
+    
+    try:
+        transaction_manager = TransactionManager()
+        result = transaction_manager.process_payment(
+            transaction_id=transaction_id,
+            payment_method_id=data['payment_method_id']
+        )
+        
+        if result['success']:
+            return flask.jsonify({
+                'success': True,
+                'payment_intent_id': result['payment_intent_id'],
+                'message': 'Payment processed successfully'
+            })
+        else:
+            return flask.jsonify({'error': result['error']}), 400
+            
+    except Exception as e:
+        return flask.jsonify({'error': str(e)}), 500
+
+
+@insta485.app.route('/api/transactions/<int:transaction_id>/confirm', methods=['POST'])
+def confirm_receipt_api(transaction_id):
+    """
+    Buyer confirms receipt of valid tickets
+    
+    POST /api/transactions/123/confirm
+    """
+    if 'email' not in flask.session:
+        return flask.jsonify({'error': 'Authentication required'}), 401
+    
+    buyer_email = flask.session['email']
+    
+    try:
+        transaction_manager = TransactionManager()
+        result = transaction_manager.confirm_buyer_receipt(
+            transaction_id=transaction_id,
+            buyer_email=buyer_email
+        )
+        
+        if result['success']:
+            return flask.jsonify({
+                'success': True,
+                'message': 'Receipt confirmed, funds released to seller'
+            })
+        else:
+            return flask.jsonify({'error': result['error']}), 400
+            
+    except Exception as e:
+        return flask.jsonify({'error': str(e)}), 500
+
+
+@insta485.app.route('/api/transactions/<int:transaction_id>/complaint', methods=['POST'])
+def file_complaint_api(transaction_id):
+    """
+    File complaint about transaction
+    
+    POST /api/transactions/123/complaint
+    {
+        "reason": "Fake tickets received"
+    }
+    """
+    if 'email' not in flask.session:
+        return flask.jsonify({'error': 'Authentication required'}), 401
+    
+    buyer_email = flask.session['email']
+    data = flask.request.get_json()
+    
+    if 'reason' not in data:
+        return flask.jsonify({'error': 'Missing complaint reason'}), 400
+    
+    try:
+        transaction_manager = TransactionManager()
+        result = transaction_manager.file_complaint(
+            transaction_id=transaction_id,
+            buyer_email=buyer_email,
+            complaint_reason=data['reason']
+        )
+        
+        if result['success']:
+            return flask.jsonify({
+                'success': True,
+                'message': 'Complaint filed, funds are now held for review'
+            })
+        else:
+            return flask.jsonify({'error': result['error']}), 400
+            
+    except Exception as e:
+        return flask.jsonify({'error': str(e)}), 500
+
+
+@insta485.app.route('/api/transactions/<int:transaction_id>/status', methods=['GET'])
+def get_transaction_status_api(transaction_id):
+    """
+    Get current transaction status
+    
+    GET /api/transactions/123/status
+    """
+    try:
+        connection = insta485.model.get_db()
+        transaction = connection.execute("""
+            SELECT t.*, e.name as event_name, e.location as event_location,
+                   e.event_datetime
+            FROM transactions t
+            JOIN events e ON t.event_id = e.event_id
+            WHERE t.transaction_id = ?
+        """, (transaction_id,)).fetchone()
+        
+        if not transaction:
+            return flask.jsonify({'error': 'Transaction not found'}), 404
+        
+        # Convert to dict and handle datetime serialization
+        result = dict(transaction)
+        for key, value in result.items():
+            if isinstance(value, datetime):
+                result[key] = value.isoformat()
+        
+        return flask.jsonify({
+            'success': True,
+            'transaction': result
+        })
+        
+    except Exception as e:
+        return flask.jsonify({'error': str(e)}), 500
+
+
+@insta485.app.route('/webhook/email/ticket/<int:transaction_id>', methods=['POST'])
+def receive_ticket_email(transaction_id):
+    """
+    Webhook endpoint for receiving ticket emails
+    Called by email service when email sent to ticket-{id}@safetransaction.com
+    """
+    try:
+        # Parse incoming email data
+        email_data = {
+            'sender': flask.request.form.get('sender'),
+            'subject': flask.request.form.get('subject'),
+            'body': flask.request.form.get('body-plain', ''),
+            'html_body': flask.request.form.get('body-html', ''),
+            'attachments': [],  # Handle attachments if needed
+            'received_time': datetime.now()
+        }
+        
+        # Process through transaction manager
+        transaction_manager = TransactionManager()
+        result = transaction_manager.process_incoming_ticket(
+            transaction_id=transaction_id,
+            email_data=email_data
+        )
+        
+        if result['success']:
+            return flask.jsonify({
+                'success': True,
+                'message': 'Ticket processed successfully',
+                'verification_score': result['verification_score']
+            })
+        else:
+            return flask.jsonify({'error': result['error']}), 400
+            
+    except Exception as e:
+        return flask.jsonify({'error': str(e)}), 500
+
+
+@insta485.app.route('/pay/<int:transaction_id>')
+def show_payment_page(transaction_id):
+    """
+    Show payment page for buyer
+    """
+    try:
+        connection = insta485.model.get_db()
+        transaction = connection.execute("""
+            SELECT t.*, e.name as event_name, e.location as event_location,
+                   e.event_datetime
+            FROM transactions t
+            JOIN events e ON t.event_id = e.event_id
+            WHERE t.transaction_id = ?
+        """, (transaction_id,)).fetchone()
+        
+        if not transaction:
+            flask.abort(404)
+        
+        # Check if transaction is in valid state for payment
+        if transaction['status'] not in ['waiting_for_payment', 'both_received_processing']:
+            return flask.render_template('payment_error.html', 
+                                       error='This transaction is no longer available for payment')
+        
+        # Check if payment deadline has passed
+        if datetime.now() > transaction['payment_deadline']:
+            return flask.render_template('payment_error.html',
+                                       error='Payment deadline has passed')
+        
+        context = {
+            'transaction': transaction,
+            'stripe_public_key': insta485.app.config.get('STRIPE_PUBLIC_KEY'),
+            'hours_remaining': (transaction['payment_deadline'] - datetime.now()).total_seconds() / 3600
+        }
+        
+        return flask.render_template('payment_page.html', **context)
+        
+    except Exception as e:
+        return flask.render_template('payment_error.html', error=str(e))
+
+
+@insta485.app.route('/ticket/<int:transaction_id>')
+def show_ticket_status(transaction_id):
+    """
+    Show ticket status page for buyer
+    """
+    try:
+        connection = insta485.model.get_db()
+        transaction = connection.execute("""
+            SELECT t.*, e.name as event_name, e.location as event_location,
+                   e.event_datetime
+            FROM transactions t
+            JOIN events e ON t.event_id = e.event_id
+            WHERE t.transaction_id = ?
+        """, (transaction_id,)).fetchone()
+        
+        if not transaction:
+            flask.abort(404)
+        
+        context = {
+            'transaction': transaction,
+            'can_pay': transaction['status'] in ['waiting_for_payment', 'both_received_processing'],
+            'can_confirm': transaction['status'] == 'ticket_forwarded_funds_held',
+            'can_complain': transaction['status'] in ['ticket_forwarded_funds_held', 'completed']
+        }
+        
+        return flask.render_template('ticket_status.html', **context)
+        
+    except Exception as e:
+        flask.abort(500)
+
+
+# Background job endpoint (for cron/scheduler)
+@insta485.app.route('/api/background/check-deadlines', methods=['POST'])
+def run_deadline_check():
+    """
+    Manually trigger deadline check (for cron jobs)
+    """
+    try:
+        transaction_manager = TransactionManager()
+        transaction_manager.check_scheduled_deadlines()
+        
+        return flask.jsonify({
+            'success': True,
+            'message': 'Deadline check completed'
+        })
+        
+    except Exception as e:
+        return flask.jsonify({'error': str(e)}), 500

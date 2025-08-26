@@ -372,29 +372,31 @@ def get_events():
     return flask.jsonify(results)
 
 
-@insta485.app.route('/create-listing', methods=['GET'])
-def create_listing():
-    """Display create listing page for sellers."""
-    if check_login():
-        return check_login()
-    
-    return flask.render_template("create_listing.html", 
-                               logemail=flask.session['email'])
+# Removed separate create_listing route - listing creation is now done directly on home page
 
 
 @insta485.app.route('/create-transaction', methods=['POST'])
 def create_transaction():
-    """Create a new transaction and send email to buyer."""
+    """Create a new transaction using the automated system."""
     if check_login():
         return check_login()
     
     seller_email = flask.session['email']
     buyer_email = flask.request.form['buyer_email']
-    price = int(flask.request.form['price'])
+    price = float(flask.request.form['price'])  # Changed to float for new system
     event_name = flask.request.form['event_name']
     event_location = flask.request.form['event_location']
     event_datetime_raw = flask.request.form['event_datetime']
     ticket_details = flask.request.form.get('ticket_details', '')
+    
+    # Get seller preferences for deadlines
+    ticket_deadline_hours = int(flask.request.form.get('ticket_deadline_hours', 24))
+    payment_deadline_hours = int(flask.request.form.get('payment_deadline_hours', 48))
+    
+    # Validate that ticket deadline must be shorter than payment deadline
+    if ticket_deadline_hours >= payment_deadline_hours:
+        flask.flash('Ticket deadline must be shorter than payment deadline. Sellers must send tickets before buyers pay.', 'error')
+        return flask.redirect(url_for('show_index', user_type='seller'))
     
     # Fix datetime format - convert from HTML5 datetime-local to SQLite format
     if 'T' in event_datetime_raw and len(event_datetime_raw) == 16:
@@ -406,7 +408,7 @@ def create_transaction():
     # Validate that seller isn't creating transaction with themselves
     if seller_email == buyer_email:
         flask.flash('You cannot create a transaction with yourself.', 'error')
-        return flask.redirect(url_for('create_listing'))
+        return flask.redirect(url_for('show_index', user_type='seller'))
     
     connection = insta485.model.get_db()
     
@@ -442,26 +444,42 @@ def create_transaction():
         )
         event_id = cursor.lastrowid
     
-    # Create transaction
+    # Use new automated transaction system
     try:
-        cursor = connection.execute(
-            """INSERT INTO transactions 
-               (buyer_email, seller_email, price, event_id, status) 
-               VALUES (?, ?, ?, ?, 'pending')""",
-            (buyer_email, seller_email, price, event_id)
+        from insta485.transaction_manager import TransactionManager
+        
+        transaction_manager = TransactionManager()
+        
+        event_details = {
+            'name': event_name,
+            'location': event_location,
+            'datetime': event_datetime
+        }
+        
+        result = transaction_manager.create_listing(
+            seller_email=seller_email,
+            buyer_email=buyer_email,
+            price=price,
+            event_details=event_details,
+            ticket_deadline_hours=ticket_deadline_hours,
+            payment_deadline_hours=payment_deadline_hours
         )
-        transaction_id = cursor.lastrowid
         
-        # Send email to buyer
-        send_buyer_email_1(transaction_id, buyer_email, event_name, price, seller_email)
-        
-        flask.flash(f'Listing created successfully! Email sent to {buyer_email}', 'success')
-        return flask.redirect(url_for('show_index', user_type='seller'))
+        # Show success page with instructions
+        return flask.render_template('listing_created.html',
+            transaction_id=result['transaction_id'],
+            ticket_email=result['ticket_email'],
+            ticket_deadline=result['ticket_deadline'],
+            payment_deadline=result['payment_deadline'],
+            buyer_email=buyer_email,
+            event_name=event_name,
+            price=price
+        )
         
     except Exception as e:
         print(f"Error creating transaction: {e}")
         flask.flash(f'Error creating listing: {str(e)}', 'error')
-        return flask.redirect(url_for('create_listing'))
+        return flask.redirect(url_for('show_index', user_type='seller'))
 
 
 def send_buyer_email_1(transaction_id, buyer_email, event_name, price, seller_email):

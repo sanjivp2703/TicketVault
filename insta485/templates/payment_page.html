@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment - Safe Transaction</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        .payment-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .payment-header {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 30px;
+        }
+        .event-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .price-display {
+            font-size: 28px;
+            font-weight: bold;
+            color: #28a745;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .security-notice {
+            background: #d4edda;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+            margin: 20px 0;
+        }
+        .deadline-notice {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+        }
+        #card-element {
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .payment-button {
+            background: #28a745;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            width: 100%;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+        .payment-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        .error-message {
+            color: #dc3545;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <div class="payment-header">
+            <h1>🔒 Secure Payment</h1>
+            <p>Protected by Safe Transaction</p>
+        </div>
+
+        <div class="event-details">
+            <h3>🎫 {{ transaction.event_name }}</h3>
+            <p><strong>📍 Location:</strong> {{ transaction.event_location }}</p>
+            <p><strong>📅 Date:</strong> {{ transaction.event_datetime }}</p>
+            <p><strong>👤 Seller:</strong> {{ transaction.seller_email }}</p>
+        </div>
+
+        <div class="price-display">
+            💰 ${{ "%.2f"|format(transaction.price) }}
+        </div>
+
+        <div class="security-notice">
+            <h4>🛡️ 100% Secure Payment</h4>
+            <ul>
+                <li>Your payment is held in escrow until you receive tickets</li>
+                <li>Seller has already sent tickets to our secure system</li>
+                <li>Tickets will be forwarded to you immediately after payment</li>
+                <li>Full refund if tickets are not as described</li>
+            </ul>
+        </div>
+
+        <div class="deadline-notice">
+            <h4>⏰ Payment Deadline</h4>
+            <p>Complete payment within <strong>{{ "%.1f"|format(hours_remaining) }} hours</strong></p>
+            <p>Deadline: {{ transaction.payment_deadline.strftime('%B %d, %Y at %I:%M %p') }}</p>
+        </div>
+
+        <form id="payment-form">
+            <h4>💳 Payment Information</h4>
+            <div id="card-element">
+                <!-- Stripe Elements will create form elements here -->
+            </div>
+            <div id="card-errors" class="error-message"></div>
+            
+            <button id="submit-payment" class="payment-button">
+                🔒 Pay ${{ "%.2f"|format(transaction.price) }} Securely
+            </button>
+        </form>
+
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: center;">
+            <small>
+                <strong>Powered by Stripe</strong> - Your payment information is encrypted and secure.<br>
+                Safe Transaction never stores your payment details.
+            </small>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Stripe
+        const stripe = Stripe('{{ stripe_public_key }}');
+        const elements = stripe.elements();
+
+        // Create card element
+        const cardElement = elements.create('card', {
+            style: {
+                base: {
+                    fontSize: '16px',
+                    color: '#424770',
+                    '::placeholder': {
+                        color: '#aab7c4',
+                    },
+                },
+            },
+        });
+
+        cardElement.mount('#card-element');
+
+        // Handle form submission
+        const form = document.getElementById('payment-form');
+        const submitButton = document.getElementById('submit-payment');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            
+            submitButton.disabled = true;
+            submitButton.textContent = 'Processing...';
+
+            const {paymentMethod, error} = await stripe.createPaymentMethod({
+                type: 'card',
+                card: cardElement,
+            });
+
+            if (error) {
+                showError(error.message);
+                submitButton.disabled = false;
+                submitButton.textContent = '🔒 Pay ${{ "%.2f"|format(transaction.price) }} Securely';
+            } else {
+                // Send payment method to server
+                processPayment(paymentMethod.id);
+            }
+        });
+
+        async function processPayment(paymentMethodId) {
+            try {
+                const response = await fetch('/api/transactions/{{ transaction.transaction_id }}/pay', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        payment_method_id: paymentMethodId
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Redirect to success page
+                    window.location.href = '/ticket/{{ transaction.transaction_id }}?payment=success';
+                } else {
+                    showError(result.error);
+                    submitButton.disabled = false;
+                    submitButton.textContent = '🔒 Pay ${{ "%.2f"|format(transaction.price) }} Securely';
+                }
+            } catch (error) {
+                showError('Payment failed. Please try again.');
+                submitButton.disabled = false;
+                submitButton.textContent = '🔒 Pay ${{ "%.2f"|format(transaction.price) }} Securely';
+            }
+        }
+
+        function showError(message) {
+            const errorElement = document.getElementById('card-errors');
+            errorElement.textContent = message;
+        }
+
+        // Handle card element changes
+        cardElement.on('change', ({error}) => {
+            const displayError = document.getElementById('card-errors');
+            if (error) {
+                displayError.textContent = error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+    </script>
+</body>
+</html>
