@@ -986,21 +986,21 @@
 
         .welcome-modal {
             background: linear-gradient(145deg, #ffffff 0%, #fafbfc 100%);
-            border-radius: 32px;
-            padding: 40px 52px;
-            max-width: min(1100px, 95vw);
+            border-radius: 24px;
+            padding: 24px 32px;
+            max-width: min(900px, 90vw);
             width: 100%;
-            max-height: min(90vh, calc(100vh - 40px));
+            max-height: min(85vh, calc(100vh - 60px));
             overflow-y: auto;
             overflow-x: hidden;
             text-align: center;
             box-shadow: 
-                0 40px 80px rgba(0, 0, 0, 0.15),
-                0 16px 32px rgba(0, 0, 0, 0.1),
+                0 20px 40px rgba(0, 0, 0, 0.12),
+                0 8px 16px rgba(0, 0, 0, 0.08),
                 0 0 0 1px rgba(255, 255, 255, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.8);
             position: relative;
-            animation: slideInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             /* Enhanced scrollbar styling */
             scrollbar-width: thin;
@@ -1052,10 +1052,10 @@
 
         .close-button {
             position: absolute;
-            top: 24px;
-            right: 24px;
-            width: 44px;
-            height: 44px;
+            top: 16px;
+            right: 16px;
+            width: 36px;
+            height: 36px;
             border: none;
             background: rgba(100, 116, 139, 0.08);
             border-radius: 50%;
@@ -1064,7 +1064,7 @@
             align-items: center;
             justify-content: center;
             color: #64748b;
-            font-size: 18px;
+            font-size: 16px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1;
             backdrop-filter: blur(8px);
@@ -1099,22 +1099,22 @@
         }
 
         .welcome-hero {
-            margin-bottom: 36px;
+            margin-bottom: 24px;
         }
 
         .brand-mark {
-            width: 88px;
-            height: 88px;
+            width: 64px;
+            height: 64px;
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 40%, #d946ef 100%);
-            border-radius: 24px;
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 32px auto;
+            margin: 0 auto 20px auto;
             box-shadow: 
-                0 20px 40px rgba(99, 102, 241, 0.35),
-                0 8px 16px rgba(99, 102, 241, 0.2),
-                inset 0 2px 0 rgba(255, 255, 255, 0.2);
+                0 12px 24px rgba(99, 102, 241, 0.25),
+                0 4px 8px rgba(99, 102, 241, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
             position: relative;
             border: 1px solid rgba(255, 255, 255, 0.15);
             animation: brandFloat 3s ease-in-out infinite;
@@ -1127,18 +1127,18 @@
 
         .brand-mark::after {
             content: '🛡️';
-            font-size: 36px;
+            font-size: 28px;
             position: absolute;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
         }
 
         .welcome-heading {
-            font-size: 3.2rem;
-            font-weight: 900;
+            font-size: 2.4rem;
+            font-weight: 800;
             color: #0f172a;
-            margin-bottom: 20px;
-            line-height: 1.1;
-            letter-spacing: -0.03em;
+            margin-bottom: 12px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
             background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -1157,7 +1157,7 @@
         
 
                          .fitin-section {
-            margin: 32px 0;
+            margin: 20px 0;
         }
 
         .process-flow {
@@ -1183,8 +1183,8 @@
         }
 
         .step-number {
-            width: 60px;
-            height: 60px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             color: white;
@@ -1212,8 +1212,8 @@
         }
 
         .step-content h3 {
-            margin: 0 0 8px 0;
-            font-size: 1.3rem;
+            margin: 0 0 6px 0;
+            font-size: 1.1rem;
             font-weight: 700;
             color: #1e293b;
             line-height: 1.2;
@@ -1221,9 +1221,9 @@
 
         .step-content p {
             margin: 0;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #64748b;
-            line-height: 1.5;
+            line-height: 1.4;
             font-weight: 500;
         }
 
@@ -1252,14 +1252,14 @@
         }
 
         .benefits-section {
-            margin: 32px 0;
+            margin: 20px 0;
         }
 
         .benefit-cards {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-bottom: 32px;
+            gap: 16px;
+            margin-bottom: 20px;
         }
 
         .benefit-card {
@@ -1460,35 +1460,35 @@
                  .disclaimer {
             background: linear-gradient(135deg, #fef9f3 0%, #fef3c7 100%);
             border: 1px solid #fbbf24;
-            border-radius: 16px;
-            padding: 16px 20px;
-            margin: 24px 0 20px 0;
-            box-shadow: 0 4px 12px rgba(251, 146, 60, 0.1);
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin: 8px 0 8px 0;
+            box-shadow: 0 2px 8px rgba(251, 146, 60, 0.1);
         }
 
         .disclaimer-text {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: #92400e;
             font-weight: 600;
             text-align: center;
-            line-height: 1.4;
+            line-height: 1.3;
         }
 
         .start-button {
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
             color: white;
             border: none;
-            padding: 20px 40px;
-            border-radius: 16px;
-            font-size: 1.2rem;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             width: 100%;
-            max-width: 400px;
+            max-width: 350px;
             box-shadow: 
-                0 12px 24px rgba(99, 102, 241, 0.3),
-                0 6px 12px rgba(99, 102, 241, 0.2);
+                0 8px 16px rgba(99, 102, 241, 0.3),
+                0 4px 8px rgba(99, 102, 241, 0.2);
             letter-spacing: -0.01em;
             border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
@@ -1525,34 +1525,38 @@
         /* Enhanced Responsive Design */
         @media (max-width: 1200px) {
             .welcome-modal {
-                max-width: min(950px, 95vw);
-                padding: 36px 40px;
+                max-width: min(800px, 92vw);
+                padding: 20px 28px;
             }
         }
 
         @media (max-width: 992px) {
             .welcome-modal {
-                max-width: min(800px, 95vw);
-                padding: 32px 36px;
+                max-width: min(720px, 88vw);
+                padding: 18px 24px;
+            }
+            
+            .welcome-heading {
+                font-size: 2rem;
             }
         }
 
         @media (max-width: 768px) {
             .welcome-overlay {
-                padding: 16px;
+                padding: 12px;
             }
             
             .welcome-modal {
                 margin: 0;
-                padding: 32px 24px;
-                border-radius: 24px;
-                max-width: min(100%, 95vw);
+                padding: 16px 20px;
+                border-radius: 20px;
+                max-width: min(100%, 92vw);
                 width: 100%;
             }
             
             .welcome-heading {
-                font-size: 2.4rem;
-                margin-bottom: 16px;
+                font-size: 1.8rem;
+                margin-bottom: 12px;
             }
             
             .welcome-tagline {
@@ -1653,9 +1657,9 @@
             }
             
             .start-button {
-                padding: 18px 36px;
-                font-size: 1.1rem;
-                border-radius: 14px;
+                padding: 12px 24px;
+                font-size: 1rem;
+                border-radius: 10px;
                 max-width: 100%;
             }
             
@@ -3730,12 +3734,16 @@
 
         /* How It Works Modal Specific Styles */
         .how-it-works-modal {
-            max-width: 1400px !important;
-            max-height: 95vh !important;
-            overflow: hidden !important; /* Prevent modal from scrolling */
-            padding: 32px 40px !important;
+            max-width: 1200px !important; /* Significantly increased width */
+            max-height: 95vh !important; /* Increased height to fit all content */
+            height: 95vh !important; /* Fixed height to ensure consistent sizing */
+            overflow: hidden !important; /* Prevent scrolling */
+            padding: 20px 30px !important; /* Optimized padding */
             display: flex;
             flex-direction: column;
+            transform: scale(1.0); /* No scaling - full size */
+            transform-origin: center;
+            box-sizing: border-box;
         }
 
         /* Sticky Step Tracker */
@@ -3744,7 +3752,7 @@
             top: 0;
             z-index: 20;
             background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-            padding: 24px 32px;
+            padding: 6px 14px; /* Reduced padding to save space */
             border-bottom: 1px solid #e2e8f0;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             backdrop-filter: blur(16px);
@@ -3777,8 +3785,8 @@
         }
 
         .tracker-icon {
-            width: 56px;
-            height: 56px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -3792,7 +3800,7 @@
         }
 
         .tracker-label {
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 600;
             color: #64748b;
             text-align: center;
@@ -3842,7 +3850,9 @@
         .step-sections-container {
             overflow: hidden; /* Disable scrolling */
             flex: 1; /* Take up remaining space */
-            height: 0; /* Allow flex to control height */
+            height: auto; /* Allow content to be visible */
+            min-height: 420px; /* Reduced to make room for button */
+            max-height: 460px; /* Reduced maximum height for button space */
             position: relative;
         }
 
@@ -3852,9 +3862,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            padding: 60px 40px;
+            min-height: 100%;
+            padding: 30px 50px;
             display: flex;
             align-items: center;
+            justify-content: center;
             opacity: 0;
             transform: translateX(100%);
             transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
@@ -3862,102 +3874,33 @@
         }
 
         .step-section.active {
-            opacity: 1;
-            transform: translateX(0);
-            pointer-events: auto;
+            opacity: 1 !important;
+            transform: translateX(0) !important;
+            pointer-events: auto !important;
+            z-index: 10;
+        }
+        
+        /* Ensure non-active steps are hidden */
+        .step-section:not(.active) {
+            opacity: 0 !important;
+            transform: translateX(100%) !important;
+            pointer-events: none !important;
+            z-index: 1;
         }
 
-        /* Step Navigation Arrows */
-        .step-navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 32px;
-            margin: 16px 0;
-            position: relative;
-            z-index: 15;
-        }
 
-        .nav-arrow {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px 24px;
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-            border: 2px solid #e2e8f0;
-            border-radius: 50px;
-            color: #475569;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            min-width: 120px;
-        }
-
-        .nav-arrow:hover {
-            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-            border-color: #cbd5e1;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-arrow:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-arrow:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
-        }
-
-        .nav-arrow:disabled:hover {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-            border-color: #e2e8f0;
-        }
-
-        .nav-prev {
-            justify-content: flex-start;
-        }
-
-        .nav-next {
-            justify-content: flex-end;
-            flex-direction: row-reverse;
-        }
-
-        .nav-arrow i {
-            font-size: 16px;
-            color: #6366f1;
-            transition: transform 0.3s ease;
-        }
-
-        .nav-arrow:hover i {
-            transform: scale(1.1);
-        }
-
-        .nav-prev:hover i {
-            transform: translateX(-2px) scale(1.1);
-        }
-
-        .nav-next:hover i {
-            transform: translateX(2px) scale(1.1);
-        }
-
-        .nav-label {
-            color: #475569;
-            font-weight: 600;
-        }
 
         .step-content-wrapper {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            max-width: 1200px;
+            gap: 35px;
+            max-width: 100%;
             margin: 0 auto;
+            padding: 25px 35px;
             align-items: center;
+            justify-content: center;
+            height: 100%;
+            min-height: 360px;
         }
 
         /* Text Content */
@@ -3968,12 +3911,12 @@
         .step-badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            border-radius: 24px;
-            font-size: 14px;
+            gap: 6px; /* Reduced by 30% (8 * 0.7) */
+            padding: 6px 11px; /* Reduced by 30% (8*0.7, 16*0.7) */
+            border-radius: 17px; /* Reduced by 30% (24 * 0.7) */
+            font-size: 10px; /* Reduced by 30% (14 * 0.7) */
             font-weight: 600;
-            margin-bottom: 24px;
+            margin-bottom: 17px; /* Reduced by 30% (24 * 0.7) */
             color: white;
         }
 
@@ -3994,36 +3937,36 @@
         }
 
         .step-section-title {
-            font-size: 3rem;
+            font-size: 1.6rem;
             font-weight: 800;
             color: #1e293b;
-            margin-bottom: 24px;
+            margin-bottom: 14px;
             line-height: 1.1;
         }
 
         .step-description {
-            font-size: 1.2rem;
+            font-size: 0.665rem; /* Reduced by 30% (0.95 * 0.7) */
             color: #475569;
-            line-height: 1.6;
-            margin-bottom: 32px;
+            line-height: 1.4;
+            margin-bottom: 11px; /* Reduced by 30% (16 * 0.7) */
         }
 
         /* Step Bullets Styling */
         .step-bullets {
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            margin-bottom: 32px;
+            gap: 14px;
+            margin-bottom: 16px;
         }
 
         .bullet-item {
             display: flex;
             align-items: center;
-            gap: 16px;
-            padding: 16px 20px;
+            gap: 12px;
+            padding: 12px 16px;
             background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
             border: 2px solid #e2e8f0;
-            border-radius: 16px;
+            border-radius: 10px;
             transition: all 0.3s ease;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
@@ -4035,8 +3978,8 @@
         }
 
         .bullet-icon {
-            font-size: 1.5rem;
-            min-width: 32px;
+            font-size: 1.2rem;
+            min-width: 24px;
             text-align: center;
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
@@ -4101,51 +4044,57 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex: 1;
+            max-height: 100%;
         }
 
         .mockup-device {
-            width: 320px;
-            height: 480px;
+            width: 250px; /* Reduced to fit in smaller container */
+            height: 340px; /* Reduced height to fit better */
             background: linear-gradient(145deg, #1e293b 0%, #334155 100%);
-            border-radius: 32px;
-            padding: 16px;
+            border-radius: 22px;
+            padding: 12px;
             box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.3),
-                0 8px 16px rgba(0, 0, 0, 0.2),
+                0 18px 36px rgba(0, 0, 0, 0.3),
+                0 7px 14px rgba(0, 0, 0, 0.2),
                 inset 0 2px 0 rgba(255, 255, 255, 0.1);
             position: relative;
+            margin: 0 auto;
+            max-width: 100%;
+            max-height: 100%;
         }
 
         .mockup-device::before {
             content: '';
             position: absolute;
-            top: 8px;
+            top: 10px;
             left: 50%;
             transform: translateX(-50%);
-            width: 60px;
-            height: 4px;
+            width: 70px;
+            height: 5px;
             background: #64748b;
-            border-radius: 2px;
+            border-radius: 3px;
         }
 
         .device-screen {
             width: 100%;
             height: 100%;
             background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
-            border-radius: 24px;
-            padding: 24px;
+            border-radius: 18px;
+            padding: 18px;
             display: flex;
             flex-direction: column;
             box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
         }
 
         .screen-header {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             color: #1e293b;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
             text-align: center;
-            padding-bottom: 16px;
+            padding-bottom: 12px;
             border-bottom: 2px solid #e2e8f0;
         }
 
@@ -4153,22 +4102,23 @@
         .form-mockup {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
             flex: 1;
         }
 
         .mock-input {
-            padding: 16px;
+            padding: 14px 16px;
             background: #f1f5f9;
             border: 2px solid #e2e8f0;
-            border-radius: 12px;
+            border-radius: 10px;
             font-size: 14px;
             color: #475569;
             font-weight: 500;
+            line-height: 1.2;
         }
 
         .mock-button {
-            padding: 16px;
+            padding: 16px 20px;
             background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
             color: white;
             border-radius: 12px;
@@ -4344,14 +4294,61 @@
             margin-top: auto;
         }
 
+        /* Bottom Section Styling */
+        .disclaimer {
+            padding: 12px 20px;
+            margin-top: 16px;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .disclaimer-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #92400e;
+            margin: 0;
+        }
+
+        .start-button {
+            width: 100%;
+            padding: 16px 32px;
+            margin-top: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+            flex-shrink: 0;
+        }
+
+        .start-button:hover {
+            background: linear-gradient(135deg, #5b60e8 0%, #8048e6 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(99, 102, 241, 0.4);
+        }
+
+        .start-button:active {
+            transform: translateY(0);
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .how-it-works-modal {
-                padding: 16px !important;
+                padding: 12px 16px !important;
+                max-width: 95vw !important;
+                max-height: 85vh !important;
             }
 
             .step-tracker-sticky {
-                padding: 16px;
+                padding: 6px 10px;
             }
 
             .step-tracker-container {
@@ -4394,8 +4391,14 @@
             }
 
             .mockup-device {
-                width: 280px;
-                height: 420px;
+                width: 200px;
+                height: 300px;
+            }
+            
+            .step-content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                padding: 8px;
             }
         }
 
@@ -4698,9 +4701,10 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             .how-it-works-modal {
-                padding: 24px 20px !important;
-                max-width: none !important;
+                padding: 12px 16px !important;
+                max-width: 95vw !important;
                 width: 95% !important;
+                max-height: 82vh !important;
             }
 
             .step-timeline {
@@ -4816,8 +4820,8 @@
             </button>
             
             <!-- Header -->
-            <div class="welcome-hero" style="flex-shrink: 0; margin-bottom: 16px;">
-                <h1 class="popup-title welcome-heading">How It Works</h1>
+            <div class="welcome-hero" style="flex-shrink: 0; margin-bottom: 8px;">
+                <h1 class="popup-title welcome-heading" style="font-size: 1.8rem; margin-bottom: 4px;">How It Works</h1>
             </div>
 
             <!-- Sticky Horizontal Step Tracker -->
@@ -4877,17 +4881,7 @@
                 </div>
             </div>
 
-            <!-- Step Navigation Arrows -->
-            <div class="step-navigation">
-                <button class="nav-arrow nav-prev" onclick="navigateStep(-1)" id="prevButton">
-                    <i class="fas fa-chevron-left"></i>
-                    <span class="nav-label">Previous</span>
-                </button>
-                <button class="nav-arrow nav-next" onclick="navigateStep(1)" id="nextButton">
-                    <span class="nav-label">Next</span>
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
+
 
             <!-- Step Sections Container -->
             <div class="step-sections-container">
@@ -5400,13 +5394,13 @@
                             <div class="listing-header">
                                 <h3 class="listing-event">{{ transaction.ticket_description }}</h3>
                                 <div class="listing-price">${{ transaction.price }}</div>
-                            </div>
+                </div>
                             
                             <div class="listing-details">
                                 <div class="listing-location">
                                     <i class="fas fa-map-marker-alt"></i>
                                     {{ transaction.location }}
-                                </div>
+            </div>
                                 <div class="listing-date">
                                     <i class="fas fa-calendar"></i>
                                     {{ transaction.event_datetime }}
@@ -5429,7 +5423,7 @@
                                             Step 3: Processing Payment
                                         {% elif post.status == 'ticket_forwarded_funds_held' %}
                                             Step 4: Tickets Delivered
-                                        {% elif post.status == 'completed' %}
+                                {% elif post.status == 'completed' %}
                                             ✅ Transaction Complete
                                         {% elif post.status == 'expired_no_ticket' %}
                                             ❌ Expired - No Tickets
@@ -5449,9 +5443,9 @@
                                     {% elif post.status == 'both_received_processing' %}{% set progress = 75 %}
                                     {% elif post.status == 'ticket_forwarded_funds_held' %}{% set progress = 90 %}
                                     {% elif post.status == 'completed' %}{% set progress = 100 %}
-                                    {% endif %}
+        {% endif %}
                                     <div class="progress-fill" style="width: {{ progress }}%"></div>
-                                </div>
+                            </div>
                                 
                                 <div class="progress-steps">
                                     <div class="step {% if progress >= 25 %}completed{% endif %}">
@@ -6927,12 +6921,16 @@
                     setTimeout(() => {
                         console.log('Initializing modal navigation...');
                         
-                        // Force show first step content
-                        const firstSection = document.querySelector('.step-section[data-step="1"]');
-                        if (firstSection) {
-                            firstSection.classList.add('active');
-                            console.log('First step section activated');
-                        }
+                                                 // Force show first step content and hide others
+                         const allSections = document.querySelectorAll('.step-section');
+                         allSections.forEach((section, index) => {
+                             if (index === 0) {
+                                 section.classList.add('active');
+                                 console.log('First step section activated');
+                             } else {
+                                 section.classList.remove('active');
+                             }
+                         });
                         
                         activateStepInTracker(1);
                         updateNavigationButtons();
@@ -7103,27 +7101,41 @@
     }
 
     function activateStepInTracker(stepNumber) {
+        console.log('Activating step:', stepNumber);
+        
         // Update tracker highlighting with requestAnimationFrame for smooth transitions
         requestAnimationFrame(() => {
             const trackerSteps = document.querySelectorAll('.tracker-step');
             const stepSections = document.querySelectorAll('.step-section');
             
+            console.log('Found', trackerSteps.length, 'tracker steps and', stepSections.length, 'step sections');
+            
+            // First, remove active class from ALL elements
+            trackerSteps.forEach(step => step.classList.remove('active'));
+            stepSections.forEach(section => section.classList.remove('active'));
+            
+            // Then add active class to the target elements
             trackerSteps.forEach((step, index) => {
                 if (index + 1 === stepNumber) {
                     step.classList.add('active');
-                } else {
-                    step.classList.remove('active');
+                    console.log('Activated tracker step', index + 1);
                 }
             });
 
-            // Update step section visibility
-            stepSections.forEach((section, index) => {
-                if (index + 1 === stepNumber) {
-                    section.classList.add('active');
-                } else {
-                    section.classList.remove('active');
-                }
-            });
+            // Update step section visibility - using data-step attribute for more reliable selection
+            const targetSection = document.querySelector(`.step-section[data-step="${stepNumber}"]`);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                console.log('Activated step section', stepNumber, targetSection);
+            } else {
+                // Fallback to index-based selection
+                stepSections.forEach((section, index) => {
+                    if (index + 1 === stepNumber) {
+                        section.classList.add('active');
+                        console.log('Activated step section by index', index + 1, section);
+                    }
+                });
+            }
         });
     }
 
@@ -7556,15 +7568,15 @@
                     if (data.success) {
                         alert('Transaction cancelled successfully');
                         location.reload();
-                    } else {
+        } else {
                         alert('Error cancelling transaction: ' + data.error);
-                    }
+        }
                 })
                 .catch(error => {
                     console.error('Error:', error);
                     alert('Error cancelling transaction');
                 });
-            }
+    }
         };
     });
 </script>
