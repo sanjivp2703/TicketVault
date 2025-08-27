@@ -986,13 +986,13 @@
 
         .welcome-modal {
             background: linear-gradient(145deg, #ffffff 0%, #fafbfc 100%);
-            border-radius: 24px;
-            padding: 24px 32px;
-            max-width: min(900px, 90vw);
+            border-radius: 20px;
+            padding: 16px 24px;
+            max-width: min(850px, 90vw);
             width: 100%;
-            max-height: min(85vh, calc(100vh - 60px));
-            overflow-y: auto;
-            overflow-x: hidden;
+            max-height: 90vh;
+            height: 90vh;
+            overflow: hidden;
             text-align: center;
             box-shadow: 
                 0 20px 40px rgba(0, 0, 0, 0.12),
@@ -1002,28 +1002,12 @@
             position: relative;
             animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            /* Enhanced scrollbar styling */
-            scrollbar-width: thin;
-            scrollbar-color: rgba(100, 116, 139, 0.3) transparent;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        /* Custom scrollbar for webkit browsers */
-        .welcome-modal::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .welcome-modal::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .welcome-modal::-webkit-scrollbar-thumb {
-            background: rgba(100, 116, 139, 0.3);
-            border-radius: 3px;
-        }
-
-        .welcome-modal::-webkit-scrollbar-thumb:hover {
-            background: rgba(100, 116, 139, 0.5);
-        }
+        /* Remove scrollbar styles since scrolling is disabled */
 
         /* Special handling for very small viewports or high zoom */
         @media (max-height: 600px) {
@@ -1099,14 +1083,15 @@
         }
 
         .welcome-hero {
-            margin-bottom: 24px;
+            margin-bottom: 16px;
+            flex-shrink: 0;
         }
 
         .brand-mark {
-            width: 64px;
-            height: 64px;
+            width: 48px;
+            height: 48px;
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 40%, #d946ef 100%);
-            border-radius: 18px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1127,16 +1112,16 @@
 
         .brand-mark::after {
             content: '🛡️';
-            font-size: 28px;
+            font-size: 22px;
             position: absolute;
             filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
         }
 
         .welcome-heading {
-            font-size: 2.4rem;
+            font-size: 1.8rem;
             font-weight: 800;
             color: #0f172a;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             line-height: 1.2;
             letter-spacing: -0.02em;
             background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
@@ -1146,7 +1131,7 @@
         }
 
         .welcome-tagline {
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             color: #dc2626;
             margin-bottom: 0;
             font-weight: 700;
@@ -1157,7 +1142,8 @@
         
 
                          .fitin-section {
-            margin: 20px 0;
+            margin: 12px 0;
+            flex: 1;
         }
 
         .process-flow {
@@ -1165,9 +1151,9 @@
             align-items: center;
             justify-content: center;
             gap: 32px;
-            padding: 40px 32px;
+            padding: 28px 32px;
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            border-radius: 24px;
+            border-radius: 20px;
             border: 2px solid #e2e8f0;
             box-shadow: 
                 0 8px 20px rgba(0, 0, 0, 0.08),
@@ -1177,21 +1163,21 @@
         .process-step {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 16px;
             flex: 1;
             max-width: 300px;
         }
 
         .step-number {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 800;
             box-shadow: 
                 0 8px 20px rgba(99, 102, 241, 0.3),
@@ -1213,7 +1199,7 @@
 
         .step-content h3 {
             margin: 0 0 6px 0;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-weight: 700;
             color: #1e293b;
             line-height: 1.2;
@@ -1252,19 +1238,20 @@
         }
 
         .benefits-section {
-            margin: 20px 0;
+            margin: 12px 0;
+            flex: 1;
         }
 
         .benefit-cards {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .benefit-card {
             text-align: left;
-            padding: 36px 32px;
+            padding: 24px 28px;
             background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
             border: 2px solid #bbf7d0;
             border-radius: 20px;
@@ -1314,10 +1301,10 @@
         }
 
         .benefit-card h2 {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 800;
             color: #166534;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             letter-spacing: -0.02em;
             line-height: 1.2;
         }
@@ -1327,9 +1314,9 @@
         }
 
         .benefit-card p {
-            font-size: 1.1rem;
+            font-size: 1.0rem;
             color: #374151;
-            line-height: 1.6;
+            line-height: 1.5;
             margin: 0;
             font-weight: 500;
         }
@@ -1461,13 +1448,14 @@
             background: linear-gradient(135deg, #fef9f3 0%, #fef3c7 100%);
             border: 1px solid #fbbf24;
             border-radius: 8px;
-            padding: 8px 12px;
-            margin: 8px 0 8px 0;
+            padding: 6px 10px;
+            margin: 6px 0 6px 0;
             box-shadow: 0 2px 8px rgba(251, 146, 60, 0.1);
+            flex-shrink: 0;
         }
 
         .disclaimer-text {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #92400e;
             font-weight: 600;
             text-align: center;
@@ -1478,14 +1466,14 @@
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
             color: white;
             border: none;
-            padding: 14px 32px;
-            border-radius: 12px;
-            font-size: 1.1rem;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             width: 100%;
-            max-width: 350px;
+            max-width: 300px;
             box-shadow: 
                 0 8px 16px rgba(99, 102, 241, 0.3),
                 0 4px 8px rgba(99, 102, 241, 0.2);
@@ -1493,6 +1481,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
+            flex-shrink: 0;
         }
 
         .start-button::before {
@@ -3863,10 +3852,13 @@
             width: 100%;
             height: 100%;
             min-height: 100%;
-            padding: 30px 50px;
+            padding: 0 50px;
             display: flex;
             align-items: center;
             justify-content: center;
+            /* Perfect vertical centering */
+            place-items: center;
+            place-content: center;
             opacity: 0;
             transform: translateX(100%);
             transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
@@ -3896,16 +3888,23 @@
             gap: 35px;
             max-width: 100%;
             margin: 0 auto;
-            padding: 25px 35px;
+            padding: 0 35px;
             align-items: center;
             justify-content: center;
             height: 100%;
             min-height: 360px;
+            /* Perfect vertical centering */
+            place-items: center;
+            place-content: center;
         }
 
         /* Text Content */
         .step-text-content {
             max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
         }
 
         .step-badge {
@@ -4044,8 +4043,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            flex: 1;
-            max-height: 100%;
         }
 
         .mockup-device {
@@ -4294,38 +4291,204 @@
             margin-top: auto;
         }
 
-        /* Bottom Section Styling */
-        .disclaimer {
-            padding: 12px 20px;
+        /* Modern Bottom Action Bar */
+        .bottom-action-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            padding: 16px 20px;
             margin-top: 16px;
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            border: 2px solid #f59e0b;
-            border-radius: 12px;
-            text-align: center;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            position: relative;
+            overflow: hidden;
             flex-shrink: 0;
         }
 
-        .disclaimer-text {
+        .bottom-action-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, #10b981, #8b5cf6);
+        }
+
+        .guarantee-section,
+        .terms-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .guarantee-icon,
+        .terms-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .guarantee-icon {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .terms-icon {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .guarantee-content,
+        .terms-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .guarantee-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1f2937;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .guarantee-subtitle {
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .terms-text {
             font-size: 14px;
             font-weight: 600;
             color: #92400e;
             margin: 0;
+            line-height: 1.3;
         }
 
-        .start-button {
-            width: 100%;
-            padding: 16px 32px;
-            margin-top: 16px;
+        .primary-action-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             color: white;
             border: none;
-            border-radius: 16px;
-            font-size: 18px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 14px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            position: relative;
+            overflow: hidden;
             flex-shrink: 0;
+            min-width: 160px;
+        }
+
+        .primary-action-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #5b5eef 0%, #7c3aed 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .primary-action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .primary-action-button:hover::before {
+            opacity: 1;
+        }
+
+        .primary-action-button:active {
+            transform: translateY(0);
+        }
+
+        .button-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        .button-icon {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            transition: transform 0.3s ease;
+        }
+
+        .primary-action-button:hover .button-icon {
+            transform: translateX(2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .bottom-action-bar {
+                flex-direction: column;
+                gap: 16px;
+                padding: 16px 20px;
+                text-align: center;
+            }
+
+            .guarantee-section {
+                justify-content: center;
+            }
+
+            .primary-action-button {
+                width: 100%;
+                justify-content: center;
+                min-width: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .bottom-action-bar {
+                padding: 12px 16px;
+                margin-top: 16px;
+            }
+
+            .guarantee-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+
+            .guarantee-title {
+                font-size: 14px;
+            }
+
+            .guarantee-subtitle {
+                font-size: 12px;
+            }
+
+            .primary-action-button {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
         }
 
         .start-button:hover {
@@ -4380,6 +4543,9 @@
                 grid-template-columns: 1fr;
                 gap: 40px;
                 text-align: center;
+                /* Perfect vertical centering on mobile */
+                place-items: center;
+                place-content: center;
             }
 
             .step-section-title {
@@ -4399,6 +4565,9 @@
                 grid-template-columns: 1fr;
                 gap: 12px;
                 padding: 8px;
+                /* Perfect vertical centering on small mobile */
+                place-items: center;
+                place-content: center;
             }
         }
 
@@ -4802,13 +4971,24 @@
                  </div>
              </div>
 
-             <div class="disclaimer">
-                 <div class="disclaimer-text">Terms apply. See website for details.</div>
+             <!-- Modern Bottom Action Bar (matching How It Works style) -->
+             <div class="bottom-action-bar">
+                 <div class="terms-section">
+                     <div class="terms-icon">
+                         <i class="fas fa-info-circle"></i>
+                     </div>
+                     <div class="terms-content">
+                         <div class="terms-text">Terms apply. See website for details.</div>
+                     </div>
+                 </div>
+                 
+                 <button class="primary-action-button" onclick="openHowItWorksModal()">
+                     <span class="button-text">See How It Works</span>
+                     <div class="button-icon">
+                         <i class="fas fa-arrow-right"></i>
+                     </div>
+                 </button>
              </div>
-
-                         <button class="start-button" onclick="openHowItWorksModal()">
-                See How It Works
-            </button>
          </div>
      </div>
 
@@ -5142,13 +5322,25 @@
                 </section>
             </div>
 
-            <div class="disclaimer">
-                <div class="disclaimer-text">🛡️ All transactions are fully protected by our guarantee system</div>
+            <!-- Modern Bottom Action Bar -->
+            <div class="bottom-action-bar">
+                <div class="guarantee-section">
+                    <div class="guarantee-icon">
+                        <i class="fas fa-shield-check"></i>
+                    </div>
+                    <div class="guarantee-content">
+                        <div class="guarantee-title">100% Protected</div>
+                        <div class="guarantee-subtitle">All transactions backed by our Full Guarantee Policy</div>
+                    </div>
+                </div>
+                
+                <button class="primary-action-button" onclick="closeHowItWorksModal()">
+                    <span class="button-text">Start Selling Now</span>
+                    <div class="button-icon">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </button>
             </div>
-
-            <button class="start-button" onclick="closeHowItWorksModal()">
-                Start Selling Now
-            </button>
         </div>
     </div>
 
@@ -6896,11 +7088,15 @@
     // How It Works Modal Functions - Global scope for onclick handlers
     window.openHowItWorksModal = function() {
         try {
-            console.log('Opening How It Works modal...');
+            console.log('🎯 Opening How It Works modal...');
+            console.log('Function called successfully!');
             
             // First close the welcome modal
             if (typeof window.closeWelcomeModal === 'function') {
+                console.log('Closing welcome modal first...');
                 window.closeWelcomeModal();
+            } else {
+                console.log('No welcome modal to close');
             }
             
             // Then open the how it works modal after a brief delay
@@ -6946,13 +7142,17 @@
     }
 
     window.closeHowItWorksModal = function() {
+        console.log('🔄 Closing How It Works modal...');
         const overlay = document.getElementById('howItWorksOverlay');
         if (overlay) {
             overlay.style.opacity = '0';
             overlay.style.transform = 'scale(0.9)';
             setTimeout(() => {
                 overlay.style.display = 'none';
+                console.log('✅ How It Works modal closed');
             }, 300);
+        } else {
+            console.error('❌ Could not find howItWorksOverlay element');
         }
         
         // Reset step navigation
@@ -7143,9 +7343,28 @@
 
     // Initialize everything when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
+        console.log('🚀 DOM Content Loaded - Setting up modals...');
+        
         // Setup modal events (close on outside click)
         setupWelcomeModalEvents();
         setupHowItWorksModalEvents();
+        
+        // Setup "See How It Works" button as backup event listener
+        const howItWorksButtons = document.querySelectorAll('button[onclick*="openHowItWorksModal"]');
+        console.log('Found', howItWorksButtons.length, 'How It Works buttons');
+        
+        howItWorksButtons.forEach((button, index) => {
+            console.log(`Setting up button ${index + 1}:`, button);
+            button.addEventListener('click', function(e) {
+                console.log('🎯 How It Works button clicked via event listener!');
+                e.preventDefault();
+                if (typeof window.openHowItWorksModal === 'function') {
+                    window.openHowItWorksModal();
+                } else {
+                    console.error('openHowItWorksModal function not found!');
+                }
+            });
+        });
         
         // Show welcome modal for first-time users
         showWelcomeModal();
