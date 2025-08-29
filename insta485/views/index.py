@@ -50,20 +50,18 @@ def show_index_orig():
         if user and user['is_admin']:
             return flask.redirect(url_for('admin_dashboard'))
         else:
-            return flask.redirect(url_for('show_index', user_type='buyer'))
+            return flask.redirect(url_for('show_index'))
     else:
         return flask.redirect(url_for('show_accounts', url='login'))
 
-@insta485.app.route('/<user_type>')
-def show_index(user_type):
+@insta485.app.route('/seller')
+@insta485.app.route('/index')
+def show_index():
     if check_login():
         return check_login()
 
     logemail = flask.session['email']
     connection = insta485.model.get_db()
-
-    if user_type not in ['buyer', 'seller']:
-        return flask.redirect(url_for('show_index', user_type='buyer'))
 
     # Get filter parameter (active, history, all)
     view_filter = flask.request.args.get('filter', 'active')
@@ -75,23 +73,14 @@ def show_index(user_type):
     ).fetchone()
     is_admin = user and user['is_admin']
 
-    if user_type == "buyer":
-        transactions = connection.execute(
-            "SELECT t.transaction_id, e.name AS ticket_description, t.seller_email, t.price, e.location, e.event_datetime, t.status, t.expected_ticket_send_time, t.complaint_reason, t.buyer_cancel_requested, t.seller_cancel_requested "
-            "FROM transactions t "
-            "JOIN events e ON t.event_id = e.event_id "
-            "WHERE t.buyer_email = ?",
-            (logemail,)
-        ).fetchall()
-
-    else:  # seller
-        transactions = connection.execute(
-            "SELECT t.transaction_id, e.name AS ticket_description, t.buyer_email, t.price, e.location, e.event_datetime, t.status, t.expected_ticket_send_time, t.complaint_reason, t.buyer_cancel_requested, t.seller_cancel_requested "
-            "FROM transactions t "
-            "JOIN events e ON t.event_id = e.event_id "
-            "WHERE t.seller_email = ?",
-            (logemail,)
-        ).fetchall()
+    # Get seller transactions only
+    transactions = connection.execute(
+        "SELECT t.transaction_id, e.name AS ticket_description, t.buyer_email, t.price, e.location, e.event_datetime, t.status, t.expected_ticket_send_time, t.complaint_reason, t.buyer_cancel_requested, t.seller_cancel_requested "
+        "FROM transactions t "
+        "JOIN events e ON t.event_id = e.event_id "
+        "WHERE t.seller_email = ?",
+        (logemail,)
+    ).fetchall()
 
     formatted_transactions = []
     now = datetime.datetime.now()
@@ -159,17 +148,14 @@ def show_index(user_type):
     active_count = len([t for t in formatted_transactions if t['status_category'] == 'active'])
     history_count = len([t for t in formatted_transactions if t['status_category'] == 'completed'])
 
-    # Get user balance for sellers
-    user_balance = 0
-    if user_type == 'seller':
-        from insta485.views.balance import get_user_balance
-        user_balance = get_user_balance(logemail)
+    # Get user balance (all users are sellers now)
+    from insta485.views.balance import get_user_balance
+    user_balance = get_user_balance(logemail)
 
     # Calculate real platform statistics
     stats = calculate_platform_stats(connection)
 
     context = {
-        'user_type': user_type,
         'logemail': logemail,
         'transactions': filtered_transactions,
         'is_admin': is_admin,
@@ -260,7 +246,7 @@ def login():
         if user and user['is_admin']:
             return flask.redirect(url_for('admin_dashboard'))
         else:
-            return flask.redirect(url_for('show_index', user_type='buyer'))
+            return flask.redirect(url_for('show_index'))
     return flask.render_template("login.html")
 
 
@@ -274,14 +260,10 @@ def skip_login(user_type):
         # Log in as admin
         flask.session['email'] = 'admin@gmail.com'
         return flask.redirect(url_for('admin_dashboard'))
-    elif user_type == 'buyer':
-        # Log in as regular user
-        flask.session['email'] = 'user1@gmail.com'
-        return flask.redirect(url_for('show_index', user_type='buyer'))
-    elif user_type == 'seller':
-        # Log in as another user for seller functionality
+    elif user_type in ['seller', 'user']:
+        # Log in as seller (all users are sellers now)
         flask.session['email'] = 'user2@gmail.com'
-        return flask.redirect(url_for('show_index', user_type='seller'))
+        return flask.redirect(url_for('show_index'))
     else:
         flask.flash('Invalid user type for skip login')
         return flask.redirect(url_for('show_accounts', url='login'))
@@ -387,16 +369,10 @@ def create_transaction():
     event_name = flask.request.form['event_name']
     event_location = flask.request.form['event_location']
     event_datetime_raw = flask.request.form['event_datetime']
-    ticket_details = flask.request.form.get('ticket_details', '')
     
-    # Get seller preferences for deadlines
-    ticket_deadline_hours = int(flask.request.form.get('ticket_deadline_hours', 24))
-    payment_deadline_hours = int(flask.request.form.get('payment_deadline_hours', 48))
-    
-    # Validate that ticket deadline must be shorter than payment deadline
-    if ticket_deadline_hours >= payment_deadline_hours:
-        flask.flash('Ticket deadline must be shorter than payment deadline. Sellers must send tickets before buyers pay.', 'error')
-        return flask.redirect(url_for('show_index', user_type='seller'))
+    # Use default deadlines
+    ticket_deadline_hours = 24  # 24 hours to send tickets
+    payment_deadline_hours = 48  # 48 hours for buyer to pay
     
     # Fix datetime format - convert from HTML5 datetime-local to SQLite format
     if 'T' in event_datetime_raw and len(event_datetime_raw) == 16:
@@ -408,7 +384,7 @@ def create_transaction():
     # Validate that seller isn't creating transaction with themselves
     if seller_email == buyer_email:
         flask.flash('You cannot create a transaction with yourself.', 'error')
-        return flask.redirect(url_for('show_index', user_type='seller'))
+        return flask.redirect(url_for('show_index'))
     
     connection = insta485.model.get_db()
     
@@ -479,7 +455,7 @@ def create_transaction():
     except Exception as e:
         print(f"Error creating transaction: {e}")
         flask.flash(f'Error creating listing: {str(e)}', 'error')
-        return flask.redirect(url_for('show_index', user_type='seller'))
+        return flask.redirect(url_for('show_index'))
 
 
 def send_buyer_email_1(transaction_id, buyer_email, event_name, price, seller_email):
@@ -924,75 +900,15 @@ def send_buyer_email_3(transaction_id, buyer_email):
         print(f"{'='*40}\n")
 
 
+# Legacy route - redirects to main index since we only support sellers now
 @insta485.app.route('/transactions/', methods=['POST'])
 def initiate_transaction():
-    """Initiate a new transaction."""
+    """Legacy route - redirect to main page."""
     if 'email' not in flask.session:
         return flask.redirect(url_for('show_accounts', url='login'))
-
-    logemail = flask.session['email']
-    user_type = flask.request.form.get('user_type', 'buyer')
-    connection = insta485.model.get_db()
-
-    if user_type == 'buyer':
-        # This logic is outdated due to schema changes and will likely fail.
-        seller_email = flask.request.form.get('seller_email')
-        if logemail == seller_email:
-            flask.abort(400, "You cannot create a transaction with yourself.")
-        price = flask.request.form.get('price')
-        ticket_description = flask.request.form.get('ticket_description')
-        connection.execute(
-            "INSERT INTO transactions (buyer_email, seller_email, price, ticket_description) "
-            "VALUES (?, ?, ?, ?)",
-            (logemail, seller_email, price, ticket_description)
-        )
-        flask.flash('Thank you for your purchase! The seller will transfer your ticket within 2 days of acceptance.', 'success')
-    elif user_type == 'seller':
-        # Logic for seller initiating a transaction
-        buyer_email = flask.request.form.get('buyer')
-        if logemail == buyer_email:
-            flask.abort(400, "You cannot create a transaction with yourself.")
-        price = flask.request.form.get('price')
-        event_name = flask.request.form.get('ticket_description')
-
-        event_row = connection.execute(
-            "SELECT event_id FROM events WHERE name = ?",
-            (event_name,)
-        ).fetchone()
-
-        if not event_row:
-            flask.abort(404, "Event not found")
-
-        event_id = event_row['event_id']
-
-        cursor = connection.execute(
-            "INSERT INTO transactions (seller_email, buyer_email, price, event_id) "
-            "VALUES (?, ?, ?, ?)",
-            (logemail, buyer_email, price, event_id)
-        )
-        transaction_id = cursor.lastrowid
-        # Send email notification to buyer with Accept/Reject buttons
-        from insta485.email_utils import send_email
-        subject = f"You have a new ticket offer for {event_name}!"
-        body = f"Hello,\n\nYou have received a new ticket offer for '{event_name}'.\nPrice: ${price}\nSeller: {logemail}\n\nPlease log in to Safe-Transaction to view and accept or reject the offer.\n\nBest,\nSafe-Transaction Team"
-        # Build Accept/Reject URLs
-        accept_url = flask.url_for('email_accept', transaction_id=transaction_id, _external=True)
-        reject_url = flask.url_for('update_transaction_status', transaction_id=transaction_id, _external=True)
-        html = f'''
-            <p>Hello,</p>
-            <p>You have received a new ticket offer for <b>{event_name}</b>.<br>
-            Price: <b>${price}</b><br>
-            Seller: <b>{logemail}</b></p>
-            <a href="{accept_url}" style="background:#28a745;color:white;padding:10px 18px;text-decoration:none;border-radius:4px;font-weight:bold;display:inline-block;">Accept</a>
-            <form action="{reject_url}" method="post" style="display:inline;margin-left:10px;">
-                <input type="hidden" name="status" value="rejected">
-                <button style="background:#dc3545;color:white;padding:8px 16px;border:none;border-radius:4px;cursor:pointer;">Reject</button>
-            </form>
-            <p style="margin-top:24px;">Best,<br>Safe-Transaction Team</p>
-        '''
-        send_email(buyer_email, subject, body, html=html)
-
-    return flask.redirect(url_for('show_index', user_type=user_type))
+    
+    flask.flash('Please use the new listing creation form on the main page.', 'info')
+    return flask.redirect(url_for('show_index'))
 
 @insta485.app.route('/update_transaction_status/<int:transaction_id>', methods=['POST'])
 def update_transaction_status(transaction_id):
@@ -1112,10 +1028,9 @@ def payment_cancel():
     connection = insta485.model.get_db()
     if flask.request.method == 'POST':
         transaction_id = flask.request.form.get('transaction_id')
-        user_type = flask.request.form.get('user_type')
-        if not transaction_id or not user_type:
-            flask.flash('Missing transaction or user info')
-            return flask.redirect(url_for('show_index', user_type='buyer'))
+        if not transaction_id:
+            flask.flash('Missing transaction info')
+            return flask.redirect(url_for('show_index'))
         # Fetch transaction
         transaction = connection.execute(
             "SELECT buyer_cancel_requested, seller_cancel_requested FROM transactions WHERE transaction_id = ?",
@@ -1123,18 +1038,13 @@ def payment_cancel():
         ).fetchone()
         if not transaction:
             flask.flash('Transaction not found')
-            return flask.redirect(url_for('show_index', user_type='buyer'))
-        # Mark cancel requested
-        if user_type == 'buyer':
-            connection.execute(
-                "UPDATE transactions SET buyer_cancel_requested = 1 WHERE transaction_id = ?",
-                (transaction_id,)
-            )
-        elif user_type == 'seller':
-            connection.execute(
-                "UPDATE transactions SET seller_cancel_requested = 1 WHERE transaction_id = ?",
-                (transaction_id,)
-            )
+            return flask.redirect(url_for('show_index'))
+        
+        # Since platform is seller-only now, assume user is seller for cancellation
+        connection.execute(
+            "UPDATE transactions SET seller_cancel_requested = 1 WHERE transaction_id = ?",
+            (transaction_id,)
+        )
         # Check if both requested
         transaction = connection.execute(
             "SELECT buyer_cancel_requested, seller_cancel_requested FROM transactions WHERE transaction_id = ?",
@@ -1172,9 +1082,9 @@ def payment_cancel():
             print(f"[PAYMENT] Safe-Transaction refunded buyer for transaction {transaction_id} (double cancellation).")
         connection.commit()
         flask.flash('Cancellation request submitted.')
-        return flask.redirect(url_for('show_index', user_type=user_type))
+        return flask.redirect(url_for('show_index'))
     # GET fallback
-    return flask.redirect(url_for('show_index', user_type='buyer'))
+    return flask.redirect(url_for('show_index'))
 
 @insta485.app.route('/ticket_status/<int:transaction_id>', methods=['GET', 'POST'])
 def update_ticket_status(transaction_id):
@@ -1259,7 +1169,7 @@ def update_ticket_status(transaction_id):
         
         if logemail:
             flask.flash("✅ Ticket marked as sent! The buyer has been notified.", "success")
-            return flask.redirect(flask.url_for('show_index', user_type='seller'))
+            return flask.redirect(flask.url_for('show_index'))
         else:
             return "<html><body><h2>✅ Thank you! The buyer has been notified that the ticket was sent. You may now close this tab.</h2></body></html>"
     # Buyer or anyone with the link confirms ticket received
@@ -1381,7 +1291,7 @@ def report_problem(transaction_id):
     
     if logemail:
         flash("✅ Your complaint has been filed. The seller has been notified to provide proof.", "success")
-        return flask.redirect(flask.url_for('show_index', user_type='buyer'))
+        return flask.redirect(flask.url_for('show_index'))
     else:
         return "<html><body><h2>✅ Your complaint has been filed. The seller has been notified to provide proof. You may close this tab.</h2></body></html>"
 

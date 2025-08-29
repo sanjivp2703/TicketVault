@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if user_type == 'buyer' %}Buy Tickets{% else %}Sell Tickets{% endif %} • Safe Transaction</title>
+    <title>Sell Tickets Safely • Safe Transaction</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -63,6 +63,27 @@
             font-size: 16px;
             line-height: 1.6;
             overflow-x: hidden;
+            /* Subtle scrollbar styling */
+            scrollbar-width: thin;
+            scrollbar-color: rgba(148, 163, 184, 0.2) transparent;
+        }
+
+        /* Global subtle scrollbar for webkit browsers */
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.15);
+            border-radius: 4px;
+        }
+
+        body::-webkit-scrollbar-thumb:hover {
+            background: rgba(148, 163, 184, 0.25);
         }
 
         /* Modern App Header */
@@ -85,6 +106,12 @@
             justify-content: space-between;
         }
 
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+        }
+
         .brand {
             display: flex;
             align-items: center;
@@ -105,6 +132,31 @@
             justify-content: center;
             color: white;
             font-size: 18px;
+        }
+
+        /* Header Navigation */
+        .header-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .how-it-works-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.2s ease;
+        }
+
+        .how-it-works-link:hover {
+            color: var(--text-primary);
+            text-decoration: underline;
+        }
+
+        .how-it-works-link:focus {
+            outline: 2px solid #6366f1;
+            outline-offset: 2px;
+            border-radius: 2px;
         }
 
         .user-profile {
@@ -223,9 +275,10 @@
         .hero-stats {
             display: flex;
             justify-content: center;
-            gap: var(--space-xl);
+            gap: var(--space-lg);
             margin-bottom: var(--space-xl);
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
+            align-items: stretch;
         }
 
         .hero-stat {
@@ -235,7 +288,9 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: var(--radius-lg);
             padding: var(--space-lg);
-            min-width: 140px;
+            flex: 1;
+            min-width: 180px;
+            max-width: 260px;
             transition: all 0.3s ease;
         }
 
@@ -245,20 +300,26 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
-        .hero-stat-number {
+        .hero-stat-icon {
             font-size: 32px;
-            font-weight: 800;
+            margin-bottom: var(--space-sm);
+            display: block;
+        }
+
+        .hero-stat-label {
+            font-size: 16px;
             color: white;
+            font-weight: 700;
             margin-bottom: var(--space-xs);
             text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
         }
 
-        .hero-stat-label {
+        .hero-stat-description {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.8);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+            line-height: 1.4;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
         }
 
         .hero-features {
@@ -429,101 +490,11 @@
             font-weight: 600;
         }
 
-        /* Professional Verification Container - Smooth */
-        .maze-container {
-            width: 100%;
-            height: 140px;
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: var(--radius-md);
-            position: relative;
-            overflow: hidden;
-            margin-bottom: var(--space-md);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-        }
 
-        .maze-container:hover {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
 
-        .maze-orb {
-            width: 12px;
-            height: 12px;
-            background: #3b82f6;
-            border-radius: 50%;
-            position: absolute;
-            z-index: 10;
-            box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 2px solid rgba(255, 255, 255, 0.9);
-            cursor: grab;
-        }
 
-        .maze-orb:active {
-            cursor: grabbing;
-            transform: scale(1.1);
-            box-shadow: 0 0 16px rgba(59, 130, 246, 0.6);
-        }
 
-        .maze-orb.dragging {
-            transition: none;
-            z-index: 15;
-        }
 
-        .maze-difficulty-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            padding: var(--space-xs) var(--space-sm);
-            border-radius: var(--radius-sm);
-            font-size: 11px;
-            font-weight: 600;
-            z-index: 15;
-            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
-        }
-
-        .maze-instructions {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: var(--space-xs) var(--space-md);
-            border-radius: var(--radius-sm);
-            font-size: 12px;
-            font-weight: 500;
-            z-index: 15;
-            animation: instructionPulse 2s infinite;
-        }
-
-        @keyframes instructionPulse {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 1; }
-        }
-
-        /* Simple Maze Styles */
-        #homeCanvas {
-            width: 100%;
-            height: 100%;
-            cursor: crosshair;
-        }
-
-        .maze-orb:hover {
-            transform: scale(1.1);
-            box-shadow: 
-                0 0 25px rgba(96, 165, 250, 0.8),
-                0 0 50px rgba(96, 165, 250, 0.4),
-                inset 0 1px 1px rgba(255, 255, 255, 0.4);
-            border-color: rgba(31, 41, 55, 0.5);
-        }
-
-        .maze-status {
-            text-align: center;
-        }
 
         .progress-bar {
             width: 100%;
@@ -533,6 +504,40 @@
             overflow: hidden;
             margin-bottom: var(--space-sm);
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Withdrawal Actions */
+        .withdrawal-actions {
+            padding: 20px 32px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .withdraw-btn {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 16px rgba(34, 197, 94, 0.2);
+            outline: none;
+        }
+
+        .withdraw-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 24px rgba(34, 197, 94, 0.3);
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+        }
+
+        .withdraw-btn:active {
+            transform: translateY(0) scale(0.98);
         }
 
         .progress-fill {
@@ -949,12 +954,19 @@
                 font-size: 36px;
             }
             
-            .create-listing-title {
-                font-size: 24px;
+            .hero-stats {
+                flex-wrap: wrap;
+                gap: var(--space-md);
             }
             
-            .maze-container {
-                height: 120px;
+            .hero-stat {
+                min-width: 150px;
+                max-width: 100%;
+                flex: 1 1 calc(50% - var(--space-md));
+            }
+            
+            .create-listing-title {
+                font-size: 24px;
             }
         }
 
@@ -3880,7 +3892,116 @@
             z-index: 1;
         }
 
+        /* Step Navigation Buttons */
+        .step-nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(148, 163, 184, 0.3);
+            background: rgba(255, 255, 255, 0.95);
+            color: #64748b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            backdrop-filter: blur(8px);
+            outline: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
 
+        .step-nav-button:hover {
+            border-color: #6366f1;
+            color: #6366f1;
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.15);
+        }
+
+        .step-nav-button:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .step-nav-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            border-color: rgba(148, 163, 184, 0.2);
+            color: rgba(148, 163, 184, 0.5);
+        }
+
+        .step-nav-button:disabled:hover {
+            transform: translateY(-50%);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-color: rgba(148, 163, 184, 0.2);
+            color: rgba(148, 163, 184, 0.5);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .step-nav-prev {
+            left: 16px;
+        }
+
+        .step-nav-next {
+            right: 16px;
+        }
+
+        /* Step Progress Dots */
+        .step-progress-dots {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px 0;
+            background: var(--bg-primary);
+        }
+
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(148, 163, 184, 0.3);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+        }
+
+        .progress-dot:hover {
+            background: rgba(99, 102, 241, 0.5);
+            transform: scale(1.2);
+        }
+
+        .progress-dot.active {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            transform: scale(1.3);
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+        }
+
+
+
+        /* Dark theme support */
+        [data-theme="dark"] .step-nav-button {
+            background: rgba(15, 23, 42, 0.95);
+            border-color: rgba(148, 163, 184, 0.2);
+            color: #cbd5e1;
+        }
+
+        [data-theme="dark"] .step-nav-button:hover {
+            background: rgba(15, 23, 42, 1);
+            border-color: #6366f1;
+            color: #6366f1;
+        }
+
+        [data-theme="dark"] .progress-dot {
+            background: rgba(148, 163, 184, 0.2);
+        }
+
+        [data-theme="dark"] .progress-dot:hover {
+            background: rgba(99, 102, 241, 0.4);
+        }
 
         .step-content-wrapper {
             display: grid;
@@ -4046,8 +4167,8 @@
         }
 
         .mockup-device {
-            width: 250px; /* Reduced to fit in smaller container */
-            height: 340px; /* Reduced height to fit better */
+            width: 250px;
+            height: 400px;
             background: linear-gradient(145deg, #1e293b 0%, #334155 100%);
             border-radius: 22px;
             padding: 12px;
@@ -4058,7 +4179,6 @@
             position: relative;
             margin: 0 auto;
             max-width: 100%;
-            max-height: 100%;
         }
 
         .mockup-device::before {
@@ -4078,7 +4198,7 @@
             height: 100%;
             background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
             border-radius: 18px;
-            padding: 18px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
             box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -4089,58 +4209,175 @@
             font-size: 16px;
             font-weight: 700;
             color: #1e293b;
-            margin-bottom: 16px;
             text-align: center;
+            margin-bottom: 16px;
             padding-bottom: 12px;
             border-bottom: 2px solid #e2e8f0;
         }
 
-        /* Form Mockup */
+        /* Uniform Card Items */
         .form-mockup {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            flex: 1;
-        }
-
-        .mock-input {
-            padding: 14px 16px;
-            background: #f1f5f9;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 14px;
-            color: #475569;
-            font-weight: 500;
-            line-height: 1.2;
-        }
-
-        .mock-button {
-            padding: 16px 20px;
-            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-            color: white;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            text-align: center;
-            margin-top: auto;
-        }
-
-        /* Payment Flow Visual */
-        .payment-flow-visual {
             display: flex;
             flex-direction: column;
             gap: 12px;
             flex: 1;
         }
 
-        .payment-step-visual {
-            padding: 12px 16px;
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
             background: #f1f5f9;
             border: 1px solid #e2e8f0;
-            border-radius: 8px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+        
+        .checklist-item:hover {
+            background: #e2e8f0;
+        }
+        
+        .checklist-icon {
+            font-size: 18px;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .checklist-content {
+            flex: 1;
+        }
+        
+        .checklist-text {
             font-size: 14px;
+            font-weight: 600;
+            color: #475569;
+            margin: 0;
+            line-height: 1.2;
+        }
+        
+        .checklist-text.event-name {
+            color: #1e293b;
+            font-weight: 700;
+        }
+        
+        .checklist-text.price-text {
+            color: #16a34a;
+            font-weight: 700;
+        }
+
+        .mock-input {
+            display: none;
+        }
+
+        .mock-button {
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            width: 100%;
+            margin-top: 8px;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+        }
+
+        /* Tab-specific color schemes */
+        .email-step {
+            background: #eff6ff;
+            border-color: #3b82f6;
+        }
+        
+        .email-button {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+        
+        .payment-option {
+            background: #fef3c7;
+            border-color: #f59e0b;
+        }
+        
+        .payment-timer {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
+        
+        .delivery-check {
+            background: #ecfdf5;
+            border-color: #10b981;
+        }
+        
+        .delivery-check .checklist-icon {
+            color: #10b981;
+        }
+        
+        .delivery-button {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        }
+        
+        .breakdown-item {
+            background: #f1f5f9;
+            border-color: #64748b;
+        }
+        
+        .breakdown-bonus {
+            background: #ecfdf5;
+            border-color: #22c55e;
+        }
+        
+        .bonus-text {
+            color: #16a34a !important;
+            font-weight: 700 !important;
+        }
+        
+        .breakdown-total {
+            background: #f1f5f9;
+            border-color: #64748b;
+        }
+        
+        .total-text {
+            color: #475569 !important;
+            font-weight: 700 !important;
+        }
+        
+        .payment-complete {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+            width: 100%;
+            margin: 8px 0 16px 0;
+            padding: 12px 20px;
+        }
+        
+        .dispute-step {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+        
+        .dispute-resolution {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+        }
+
+        /* Payment Flow Visual */
+        .payment-flow-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+        }
+
+        .payment-step-visual {
+            padding: 6px 8px;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            font-size: 8px;
             color: #475569;
             font-weight: 500;
+            margin-bottom: 4px;
         }
 
         .status-indicator {
@@ -4161,26 +4398,27 @@
         .platform-options {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 4px;
             flex: 1;
         }
 
         .platform-option {
-            padding: 12px 16px;
+            padding: 6px 8px;
             background: #f1f5f9;
             border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 14px;
+            border-radius: 4px;
+            font-size: 8px;
             color: #475569;
             font-weight: 500;
+            margin-bottom: 4px;
         }
 
         .timer-visual {
-            padding: 16px;
+            padding: 6px 8px;
             background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
             color: white;
-            border-radius: 12px;
-            font-size: 16px;
+            border-radius: 4px;
+            font-size: 8px;
             font-weight: 700;
             text-align: center;
             margin-top: auto;
@@ -4190,25 +4428,26 @@
         .confirmation-checklist {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 4px;
             flex: 1;
         }
 
         .check-item {
-            padding: 12px 16px;
+            padding: 6px 8px;
             border: 1px solid #22c55e;
-            border-radius: 8px;
-            font-size: 14px;
+            border-radius: 4px;
+            font-size: 8px;
             color: #059669;
             font-weight: 600;
+            margin-bottom: 3px;
         }
 
         .confirm-button {
-            padding: 16px;
+            padding: 6px 8px;
             background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             color: white;
-            border-radius: 12px;
-            font-size: 16px;
+            border-radius: 4px;
+            font-size: 8px;
             font-weight: 700;
             text-align: center;
             margin-top: auto;
@@ -4218,20 +4457,21 @@
         .payment-breakdown-visual {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 3px;
             flex: 1;
         }
 
         .breakdown-line {
-            padding: 10px 16px;
+            padding: 6px 8px;
             background: #f1f5f9;
             border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 14px;
+            border-radius: 4px;
+            font-size: 8px;
             color: #475569;
             font-weight: 500;
             display: flex;
             justify-content: space-between;
+            margin-bottom: 3px;
         }
 
         .breakdown-line.bonus {
@@ -4240,26 +4480,27 @@
             font-weight: 600;
         }
 
-        .breakdown-total {
-            padding: 16px;
+        .breakdown-total-old {
+            padding: 6px 8px;
             background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
             color: white;
-            border-radius: 12px;
-            font-size: 16px;
+            border-radius: 4px;
+            font-size: 8px;
             font-weight: 700;
             text-align: center;
-            margin-top: 8px;
+            margin-top: 4px;
         }
 
         .payment-status-visual {
-            padding: 12px 16px;
+            padding: 6px 8px;
             background: #f1f5f9;
-            border: 2px solid #22c55e;
-            border-radius: 8px;
-            font-size: 14px;
+            border: 1px solid #22c55e;
+            border-radius: 4px;
+            font-size: 8px;
             color: #059669;
             font-weight: 600;
             text-align: center;
+            margin-top: 4px;
         }
 
         /* Dispute Process Visual */
@@ -4489,6 +4730,74 @@
                 padding: 12px 20px;
                 font-size: 14px;
             }
+            
+            /* Extra small devices - further reduce phone text */
+            .mockup-device {
+                width: 180px;
+                height: 280px;
+                padding: 8px;
+            }
+            
+            .device-screen {
+                padding: 10px;
+            }
+            
+            .screen-header {
+                font-size: 12px;
+                margin-bottom: 10px;
+                padding-bottom: 6px;
+            }
+            
+            .checklist-item {
+                padding: 8px;
+                gap: 6px;
+            }
+            
+            .checklist-icon {
+                font-size: 12px;
+            }
+            
+            .checklist-text {
+                font-size: 10px;
+            }
+            
+            .mock-button {
+                font-size: 10px;
+                padding: 8px 12px;
+            }
+            
+            .payment-step-visual,
+            .platform-option,
+            .timer-visual {
+                font-size: 7px;
+                padding: 4px 6px;
+                margin-bottom: 4px;
+            }
+            
+            .check-item {
+                font-size: 7px;
+                margin-bottom: 3px;
+            }
+            
+            .confirm-button {
+                font-size: 7px;
+                padding: 4px 8px;
+            }
+            
+            .breakdown-line {
+                font-size: 7px;
+                margin-bottom: 3px;
+            }
+            
+            .breakdown-total {
+                font-size: 8px;
+                font-weight: 600;
+            }
+            
+            .payment-status-visual {
+                font-size: 7px;
+                padding: 4px;
+            }
         }
 
         .start-button:hover {
@@ -4539,6 +4848,36 @@
                 min-height: auto;
             }
 
+            /* Mobile navigation controls */
+            .step-nav-button {
+                width: 40px;
+                height: 40px;
+                left: 8px;
+                right: 8px;
+            }
+
+            .step-nav-prev {
+                left: 8px;
+            }
+
+            .step-nav-next {
+                right: 8px;
+            }
+
+            .step-progress-dots {
+                padding: 12px 0;
+                gap: 6px;
+            }
+
+            .progress-dot {
+                width: 6px;
+                height: 6px;
+            }
+
+            .progress-dot.active {
+                transform: scale(1.2);
+            }
+
             .step-content-wrapper {
                 grid-template-columns: 1fr;
                 gap: 40px;
@@ -4557,8 +4896,72 @@
             }
 
             .mockup-device {
-                width: 200px;
-                height: 300px;
+                width: 220px;
+                height: 350px;
+                padding: 10px;
+            }
+            
+            .device-screen {
+                padding: 12px;
+            }
+            
+            /* Scale down text elements for smaller mobile devices */
+            .screen-header {
+                font-size: 14px;
+                margin-bottom: 12px;
+                padding-bottom: 8px;
+            }
+            
+            .checklist-item {
+                padding: 10px;
+                gap: 8px;
+            }
+            
+            .checklist-icon {
+                font-size: 14px;
+            }
+            
+            .checklist-text {
+                font-size: 12px;
+            }
+            
+            .mock-button {
+                font-size: 12px;
+                padding: 10px 16px;
+            }
+            
+            /* Other phone mockup text elements */
+            .payment-step-visual,
+            .platform-option,
+            .timer-visual {
+                font-size: 9px;
+                padding: 6px 8px;
+                margin-bottom: 6px;
+            }
+            
+            .check-item {
+                font-size: 9px;
+                margin-bottom: 4px;
+            }
+            
+            .confirm-button {
+                font-size: 9px;
+                padding: 6px 10px;
+            }
+            
+            .breakdown-line {
+                font-size: 9px;
+                margin-bottom: 4px;
+            }
+            
+            .breakdown-total {
+                font-size: 10px;
+                font-weight: 600;
+            }
+            
+            .payment-status-visual {
+                font-size: 9px;
+                padding: 6px;
             }
             
             .step-content-wrapper {
@@ -4961,8 +5364,8 @@
              <div class="benefits-section">
                  <div class="benefit-cards">
                      <div class="benefit-card">
-                         <h2>100% Payment Guaranteed</h2>
-                         <p>We make sure you receive the full ticket price before it's released to the buyer.</p>
+                         <h2>Full Protection Guarantee</h2>
+                         <p>We ensure correct payments and valid tickets are exchanged, or your ticket or money back.</p>
                      </div>
                      <div class="benefit-card">
                          <h2>Extra 10% Bonus</h2>
@@ -5065,6 +5468,18 @@
 
             <!-- Step Sections Container -->
             <div class="step-sections-container">
+                <!-- Navigation Arrow Buttons -->
+                <button class="step-nav-button step-nav-prev" id="stepNavPrev" onclick="previousStep()" aria-label="Previous step">
+                    <svg width="21" height="21" viewBox="0 0 12 12" fill="none">
+                        <path d="M7.5 2.5L4 6L7.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                
+                <button class="step-nav-button step-nav-next" id="stepNavNext" onclick="nextStep()" aria-label="Next step">
+                    <svg width="21" height="21" viewBox="0 0 12 12" fill="none">
+                        <path d="M4.5 2.5L8 6L4.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
                 <!-- Step 1 Section -->
                 <section class="step-section" data-step="1">
                     <div class="step-content-wrapper">
@@ -5098,10 +5513,25 @@
                                 <div class="device-screen">
                                     <div class="screen-header">Create Listing</div>
                                     <div class="form-mockup">
-                                        <div class="mock-input">Event: Michigan vs Ohio State</div>
-                                        <div class="mock-input">Price: $150.00</div>
-                                        <div class="mock-input">Section: 12, Row: A, Seat: 15</div>
-                                        <div class="mock-button">List Ticket</div>
+                                        <div class="checklist-item">
+                                            <div class="checklist-icon">📅</div>
+                                            <div class="checklist-content">
+                                                <div class="checklist-text event-name">Michigan vs Ohio State</div>
+                                            </div>
+                                        </div>
+                                        <div class="checklist-item">
+                                            <div class="checklist-icon">💵</div>
+                                            <div class="checklist-content">
+                                                <div class="checklist-text price-text">$150.00</div>
+                                            </div>
+                                        </div>
+                                        <div class="checklist-item">
+                                            <div class="checklist-icon">🎟️</div>
+                                            <div class="checklist-content">
+                                                <div class="checklist-text">Section: 12, Row: A, Seat: 15</div>
+                                            </div>
+                                        </div>
+                                        <div class="mock-button">Submit Listing</div>
                                     </div>
                                 </div>
                             </div>
@@ -5141,11 +5571,26 @@
                             <div class="mockup-device">
                                 <div class="device-screen">
                                     <div class="screen-header">Secure Email Portal</div>
-                                    <div class="payment-flow-visual">
-                                        <div class="payment-step-visual">📧 tx-000001@safetransaction.com</div>
-                                        <div class="payment-step-visual">🎫 Forward Ticket Email</div>
-                                        <div class="payment-step-visual">🔍 Auto-Verification</div>
-                                        <div class="status-indicator success">Tickets Secured</div>
+                                    <div class="form-mockup">
+                                        <div class="checklist-item email-step">
+                                            <div class="checklist-icon">📧</div>
+                                            <div class="checklist-content">
+                                                <div class="checklist-text">tx-000001@safetransaction.com</div>
+                                            </div>
+                                        </div>
+                                        <div class="checklist-item email-step">
+                                            <div class="checklist-icon">🎫</div>
+                                            <div class="checklist-content">
+                                                <div class="checklist-text">Forward Ticket Email</div>
+                                            </div>
+                                        </div>
+                                        <div class="checklist-item email-step">
+                                            <div class="checklist-icon">🔍</div>
+                                            <div class="checklist-content">
+                                                <div class="checklist-text">Auto-Verification</div>
+                                            </div>
+                                        </div>
+                                        <div class="mock-button email-button">Tickets Secured</div>
                                     </div>
                                 </div>
                             </div>
@@ -5185,11 +5630,26 @@
                             <div class="mockup-device">
                                 <div class="device-screen">
                                     <div class="screen-header">Secure Payment</div>
-                                    <div class="platform-options">
-                                        <div class="platform-option">💳 Card Payment</div>
-                                        <div class="platform-option">🏦 Bank Transfer</div>
-                                        <div class="platform-option">🔒 Escrow Protection</div>
-                                        <div class="timer-visual">⏰ 47:30:15 to pay</div>
+                                    <div class="form-mockup">
+                                        <div class="checklist-item payment-option">
+                                            <div class="checklist-icon">💳</div>
+                                            <div class="checklist-content">
+                                                <div class="checklist-text">Card Payment</div>
+                                            </div>
+                                        </div>
+                                        <div class="checklist-item payment-option">
+                                            <div class="checklist-icon">🏦</div>
+                                            <div class="checklist-content">
+                                                <div class="checklist-text">Bank Transfer</div>
+                                            </div>
+                                        </div>
+                                        <div class="checklist-item payment-option">
+                                            <div class="checklist-icon">🔒</div>
+                                            <div class="checklist-content">
+                                                <div class="checklist-text">Escrow Protection</div>
+                                            </div>
+                                        </div>
+                                        <div class="mock-button payment-timer">⏰ 47:30:15 to pay</div>
                                     </div>
                                 </div>
                             </div>
@@ -5225,11 +5685,26 @@
                             <div class="mockup-device">
                                 <div class="device-screen">
                                     <div class="screen-header">Auto Delivery</div>
-                                    <div class="confirmation-checklist">
-                                        <div class="check-item completed">✓ Payment verified</div>
-                                        <div class="check-item completed">✓ Tickets authenticated</div>
-                                        <div class="check-item completed">✓ Email forwarded</div>
-                                        <div class="confirm-button">Delivered Instantly</div>
+                                    <div class="form-mockup">
+                                        <div class="checklist-item delivery-check">
+                                            <div class="checklist-icon">✓</div>
+                                            <div class="checklist-content">
+                                                <div class="checklist-text">Payment verified</div>
+                                            </div>
+                                        </div>
+                                        <div class="checklist-item delivery-check">
+                                            <div class="checklist-icon">✓</div>
+                                            <div class="checklist-content">
+                                                <div class="checklist-text">Tickets authenticated</div>
+                                            </div>
+                                        </div>
+                                        <div class="checklist-item delivery-check">
+                                            <div class="checklist-icon">✓</div>
+                                            <div class="checklist-content">
+                                                <div class="checklist-text">Email forwarded</div>
+                                            </div>
+                                        </div>
+                                        <div class="mock-button delivery-button">Delivered Instantly</div>
                                     </div>
                                 </div>
                             </div>
@@ -5269,11 +5744,26 @@
                             <div class="mockup-device">
                                 <div class="device-screen">
                                     <div class="screen-header">Payment Complete</div>
-                                    <div class="payment-breakdown-visual">
-                                        <div class="breakdown-line">Ticket Price: $150.00</div>
-                                        <div class="breakdown-line bonus">Success Bonus: +$15.00</div>
-                                        <div class="breakdown-total">Total Earned: $165.00</div>
-                                        <div class="payment-status-visual">💸 Transferred to Account</div>
+                                    <div class="form-mockup">
+                                        <div class="checklist-item breakdown-item">
+                                            <div class="checklist-icon">💰</div>
+                                            <div class="checklist-content">
+                                                <div class="checklist-text">Ticket Price: $150.00</div>
+                                            </div>
+                                        </div>
+                                        <div class="checklist-item breakdown-bonus">
+                                            <div class="checklist-icon">🎉</div>
+                                            <div class="checklist-content">
+                                                <div class="checklist-text bonus-text">Success Bonus: +$15.00</div>
+                                            </div>
+                                        </div>
+                                        <div class="checklist-item breakdown-total">
+                                            <div class="checklist-icon">💵</div>
+                                            <div class="checklist-content">
+                                                <div class="checklist-text total-text">Total Earned: $165.00</div>
+                                            </div>
+                                        </div>
+                                        <div class="mock-button payment-complete">💸 Transferred to Account</div>
                                     </div>
                                 </div>
                             </div>
@@ -5309,17 +5799,42 @@
                             <div class="mockup-device">
                                 <div class="device-screen">
                                     <div class="screen-header">Dispute Resolution</div>
-                                    <div class="dispute-process-visual">
-                                        <div class="dispute-step-visual">📄 Collect Evidence</div>
-                                        <div class="dispute-step-visual">🔍 Review Details</div>
-                                        <div class="dispute-step-visual">⚖️ Fair Decision</div>
-                                        <div class="resolution-indicator">✅ Money to Rightful Party</div>
+                                    <div class="form-mockup">
+                                        <div class="checklist-item dispute-step">
+                                            <div class="checklist-icon">📄</div>
+                                            <div class="checklist-content">
+                                                <div class="checklist-text">Collect Evidence</div>
+                                            </div>
+                                        </div>
+                                        <div class="checklist-item dispute-step">
+                                            <div class="checklist-icon">🔍</div>
+                                            <div class="checklist-content">
+                                                <div class="checklist-text">Review Details</div>
+                                            </div>
+                                        </div>
+                                        <div class="checklist-item dispute-step">
+                                            <div class="checklist-icon">⚖️</div>
+                                            <div class="checklist-content">
+                                                <div class="checklist-text">Fair Decision</div>
+                                            </div>
+                                        </div>
+                                        <div class="mock-button dispute-resolution">✅ Money to Rightful Party</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
+            </div>
+
+            <!-- Step Progress Dots -->
+            <div class="step-progress-dots">
+                <div class="progress-dot active" data-step="1"></div>
+                <div class="progress-dot" data-step="2"></div>
+                <div class="progress-dot" data-step="3"></div>
+                <div class="progress-dot" data-step="4"></div>
+                <div class="progress-dot" data-step="5"></div>
+                <div class="progress-dot" data-step="6"></div>
             </div>
 
             <!-- Modern Bottom Action Bar -->
@@ -5329,8 +5844,8 @@
                         <i class="fas fa-shield-check"></i>
                     </div>
                     <div class="guarantee-content">
-                        <div class="guarantee-title">100% Protected</div>
-                        <div class="guarantee-subtitle">All transactions backed by our Full Guarantee Policy</div>
+                        <div class="guarantee-title">Full Protection Guarantee</div>
+                        <div class="guarantee-subtitle">We ensure correct payments and valid tickets, or your ticket or money back</div>
                     </div>
                 </div>
                 
@@ -5347,17 +5862,22 @@
     <!-- App Header -->
     <header class="app-header">
         <div class="header-content">
+            <div class="header-left">
             <a href="/" class="brand">
                 <div class="brand-icon">
                     <i class="fas fa-shield-check"></i>
                 </div>
                 Safe Transaction
             </a>
+                <nav class="header-nav">
+                    <a href="/how-it-works" class="how-it-works-link">How it Works</a>
+                </nav>
+            </div>
             
             <div class="user-profile">
                 <div class="user-info">
                     <div class="user-email">{{ logemail }}</div>
-                    <div class="user-type">{{ user_type }}</div>
+                    <div class="user-type">seller</div>
                 </div>
                 <div class="user-avatar">
                     {{ logemail[0].upper() }}
@@ -5371,26 +5891,24 @@
         <!-- Hero Section -->
         <div class="hero-section">
             <div class="hero-content">
-        {% if user_type == 'buyer' %}
-                <h1 class="hero-title">Buy Tickets Safely</h1>
-                <p class="hero-subtitle">The only platform that guarantees 100% secure ticket transactions with instant refunds and verified sellers</p>
-        {% else %}
-                <h1 class="hero-title">Sell Tickets Easily</h1>
-                <p class="hero-subtitle">Turn your tickets into cash instantly with our trusted platform - over 50,000 successful transactions</p>
-        {% endif %}
+                <h1 class="hero-title">Sell Tickets Safely — Zero Risk, Guaranteed</h1>
+                <p class="hero-subtitle">We securely hold your money, verify tickets, and guarantee you get paid or your ticket back.</p>
                 
                 <div class="hero-stats">
                     <div class="hero-stat">
-                        <div class="hero-stat-number">{{ stats.total_value }}</div>
-                        <div class="hero-stat-label">Protected Value</div>
+                        <div class="hero-stat-icon">🔒</div>
+                        <div class="hero-stat-label">Secure Escrow</div>
+                        <div class="hero-stat-description">Funds protected until the ticket is verified.</div>
                     </div>
                     <div class="hero-stat">
-                        <div class="hero-stat-number">{{ stats.total_transactions }}</div>
-                        <div class="hero-stat-label">Safe Transactions</div>
+                        <div class="hero-stat-icon">🎟️</div>
+                        <div class="hero-stat-label">Ticket Verification</div>
+                        <div class="hero-stat-description">Every ticket reviewed for authenticity.</div>
                     </div>
                     <div class="hero-stat">
-                        <div class="hero-stat-number">{{ stats.success_rate }}</div>
-                        <div class="hero-stat-label">Success Rate</div>
+                        <div class="hero-stat-icon">✅</div>
+                        <div class="hero-stat-label">Full Protection Guarantee</div>
+                        <div class="hero-stat-description">If the transaction fails, you're fully covered with either ticket or payment.</div>
                     </div>
         </div>
 
@@ -5404,12 +5922,12 @@
                         <span>Instant Payments</span>
                     </div>
                     <div class="hero-feature">
-                        <i class="fas fa-award"></i>
-                        <span>Verified Platform</span>
-                    </div>
-                    <div class="hero-feature">
                         <i class="fas fa-headset"></i>
                         <span>24/7 Support</span>
+                    </div>
+                    <div class="hero-feature">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Earn More on Every Sale</span>
                     </div>
                 </div>
                 
@@ -5418,7 +5936,6 @@
             </div>
             
         <!-- Main Content Area -->
-        {% if user_type == 'seller' %}
         <div class="main-content">
             <!-- Create Listing Section -->
             <div class="create-listing-section">
@@ -5427,12 +5944,8 @@
                     <p class="create-listing-subtitle">List your tickets for sale on our secure platform</p>
                 </div>
                 
-                <form action="{{ url_for('create_transaction') }}" method="post" class="listing-form" onsubmit="return validateDeadlines()">
-                    <!-- Subtle Info Banner -->
-                    <div class="info-banner">
-                        <i class="fas fa-info-circle"></i>
-                        <span>Don't send tickets to the buyer's email - we'll provide a secure system address after listing creation</span>
-                    </div>
+                <form action="{{ url_for('create_transaction') }}" method="post" class="listing-form">
+
 
                     <!-- Event Information -->
                     <div class="form-group">
@@ -5496,72 +6009,13 @@
                                 • Full refund guarantee if tickets are invalid
                             </div>
                             
-                            <!-- Subtle note -->
-                            <small class="field-note">
-                                <i class="fas fa-shield-alt"></i>
-                                Never send tickets directly to this buyer email - use our secure system instead
-                            </small>
+
                             </div>
                         </div>
                         
-                    <!-- Additional Details -->
-                    <div class="form-group">
-                            <label for="ticket_details">Ticket Details (Optional)</label>
-                        <textarea id="ticket_details" name="ticket_details" rows="3" placeholder="Section, Row, Seat numbers, any special notes..."></textarea>
-                    </div>
+
                     
-                    <!-- Deadline Settings -->
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="ticket_deadline_hours">
-                                Time to Send Tickets
-                                <i class="fas fa-info-circle tooltip-icon" data-tooltip="ticket-deadline"></i>
-                            </label>
-                            <select id="ticket_deadline_hours" name="ticket_deadline_hours" onchange="validateDeadlines()">
-                                <option value="6">6 hours</option>
-                                <option value="12">12 hours</option>
-                                <option value="24" selected>24 hours (recommended)</option>
-                                <option value="48">48 hours</option>
-                                <option value="72">72 hours</option>
-                            </select>
-                            <div id="ticket-deadline" class="tooltip-content">
-                                <strong>Why this matters:</strong><br>
-                                • Sets how long you have to forward your tickets to us<br>
-                                • Prevents buyers from waiting indefinitely<br>
-                                • Creates urgency for quick transactions<br><br>
-                                <strong>⏰ If deadline expires:</strong><br>
-                                • Your listing automatically cancels<br>
-                                • Buyer is notified the listing is no longer available<br>
-                                • No money changes hands - clean closure
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="payment_deadline_hours">
-                                Time for Buyer to Pay
-                                <i class="fas fa-info-circle tooltip-icon" data-tooltip="payment-deadline"></i>
-                            </label>
-                            <select id="payment_deadline_hours" name="payment_deadline_hours" onchange="validateDeadlines()">
-                                <option value="12">12 hours</option>
-                                <option value="24">24 hours</option>
-                                <option value="48" selected>48 hours (recommended)</option>
-                                <option value="72">72 hours</option>
-                                <option value="168">1 week</option>
-                            </select>
-                            <div id="deadline-error" style="color: var(--accent-red); font-size: 0.875rem; margin-top: 8px; display: none;">
-                                ⚠️ Ticket deadline must be shorter than payment deadline
-                            </div>
-                            <div id="payment-deadline" class="tooltip-content">
-                                <strong>Why this matters:</strong><br>
-                                • Prevents your tickets from being tied up indefinitely<br>
-                                • Sets clear expectations for the buyer<br>
-                                • Protects you from non-serious buyers<br><br>
-                                <strong>💰 If deadline expires:</strong><br>
-                                • Your tickets are automatically returned to you<br>
-                                • Buyer loses the opportunity to purchase<br>
-                                • You keep your tickets and can relist them
-                            </div>
-                        </div>
-                    </div>
+
                     
                     <!-- Hidden fields -->
                     <input type="hidden" name="seller_email" value="{{ logemail }}">
@@ -5713,12 +6167,7 @@
                                 {% endif %}
                             </div>
                             
-                            {% if post.ticket_details %}
-                            <div class="listing-notes">
-                                <i class="fas fa-sticky-note"></i>
-                                {{ post.ticket_details }}
-                            </div>
-                            {% endif %}
+
                         </div>
                         {% endfor %}
                                 {% else %}
@@ -5752,30 +6201,19 @@
                         Withdraw Funds
                     </h3>
                     <p class="withdrawal-subtitle">
-                        Security verification required - Complete the path to authorize your ${{ user_balance }} withdrawal
+                        Withdraw your available balance of ${{ user_balance }}
                     </p>
         </div>
                 
-                <div class="instruction-text">
-                    <i class="fas fa-shield-alt"></i>
-                    Security Check: Navigate the verification path to confirm your identity
+                <div class="withdrawal-actions">
+                    <button class="withdraw-btn" onclick="openBankModal()">
+                        <i class="fas fa-university"></i>
+                        Withdraw Now
+                    </button>
             </div>
                 
-                <div class="maze-container" id="homePageMaze">
-                    <canvas id="homeCanvas"></canvas>
-                    <div class="maze-orb" id="homeOrb"></div>
         </div>
-
-                <div class="maze-status" id="mazeStatus">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="homeProgress"></div>
                                 </div>
-                    <div class="status-text">Follow the secure path to complete verification</div>
-                </div>
-                
-                                </div>
-                            </div>
-                        {% endif %}
     </div>
 
     <!-- Ultra-Modern Creative Scroll Catalyst -->
@@ -6112,20 +6550,7 @@
     </div>
 
     <script>
-        // DEADLINE VALIDATION FUNCTION
-        function validateDeadlines() {
-            const ticketHours = parseInt(document.getElementById('ticket_deadline_hours').value);
-            const paymentHours = parseInt(document.getElementById('payment_deadline_hours').value);
-            const errorDiv = document.getElementById('deadline-error');
-            
-            if (ticketHours >= paymentHours) {
-                errorDiv.style.display = 'block';
-                return false;
-            } else {
-                errorDiv.style.display = 'none';
-                return true;
-            }
-        }
+
         
         // SIMPLE GLOBAL SCROLL FUNCTION - GUARANTEED TO WORK
         function simpleScroll() {
@@ -6157,56 +6582,14 @@
             console.log('📍 Scrolled by:', scrollDistance, 'pixels');
         }
 
-        // Initialize the maze system
-        function initializeMaze() {
-            if (typeof SimpleMazeWithdrawal !== 'undefined') {
-                window.mazeInstance = new SimpleMazeWithdrawal();
-            }
-        }
 
-        class SimpleMazeWithdrawal {
-            constructor() {
-                this.canvas = document.getElementById('homeCanvas');
-                if (!this.canvas) {
-                    return;
-                }
-                
-                this.ctx = this.canvas.getContext('2d');
-                this.orb = document.getElementById('homeOrb');
-                this.container = document.getElementById('homePageMaze');
-                this.progressFill = document.getElementById('homeProgress');
-                this.statusText = document.querySelector('.status-text');
-                this.canvas.width = 350;
-                this.canvas.height = 140;
-                this.cellSize = 20; // Smaller cells for compact sidebar
-                this.rows = Math.floor(this.canvas.height / this.cellSize);
-                this.cols = Math.floor(this.canvas.width / this.cellSize);
-                console.log(`📊 Maze grid: ${this.cols} x ${this.rows} (cell size: ${this.cellSize}px)`);
-                
-                // Ensure odd dimensions for proper maze
-                if (this.cols % 2 === 0) this.cols--;
-                if (this.rows % 2 === 0) this.rows--;
-                
-                this.maze = [];
-                this.startPosition = { x: 1, y: 1 };
-                this.endPosition = { x: this.cols - 2, y: this.rows - 2 };
-                this.orbPosition = { ...this.startPosition }; // Start at valid position
-                this.isDragging = false;
-                this.isCompleted = false;
-                this.userBalance = 150;
-                
-                this.initializeCanvas();
-                this.generateClearMaze();
-                this.setupEventListeners();
-                this.positionOrb(); // Position orb at start
-                this.animateTargetGlow();
-            }
 
-            initializeCanvas() {
-                const rect = this.container.getBoundingClientRect();
-                this.canvas.width = rect.width;
-                this.canvas.height = rect.height;
-                
+
+
+
+        // Maze system completely removed
+        /*
+        // Commented out maze code to prevent syntax errors
                 this.cols = Math.floor(this.canvas.width / this.cellSize);
                 this.rows = Math.floor(this.canvas.height / this.cellSize);
                 
@@ -6719,7 +7102,8 @@
             animateTargetGlow() {
                 // This will be handled by the CSS animation and drawMaze loop
             }
-        }
+        */
+        // End of commented out maze code
 
         function openBankModal() {
                 // Reset to step 1 and clear any previous data
@@ -7265,6 +7649,25 @@
     }
 
     function updateNavigationButtons() {
+        // Update step navigation arrow buttons
+        const stepPrevButton = document.getElementById('stepNavPrev');
+        const stepNextButton = document.getElementById('stepNavNext');
+        
+        if (stepPrevButton && stepNextButton) {
+            stepPrevButton.disabled = currentStep === 1;
+            stepNextButton.disabled = currentStep === totalSteps;
+        }
+        
+        // Update progress dots
+        const progressDots = document.querySelectorAll('.progress-dot');
+        progressDots.forEach((dot, index) => {
+            dot.classList.remove('active');
+            if (index + 1 === currentStep) {
+                dot.classList.add('active');
+            }
+        });
+        
+        // Legacy navigation buttons (if they exist)
         const prevButton = document.getElementById('prevButton');
         const nextButton = document.getElementById('nextButton');
         
@@ -7297,6 +7700,25 @@
             console.log('Navigation buttons updated successfully');
         } else {
             console.log('Navigation buttons not found!');
+        }
+    }
+
+    // New step navigation functions
+    window.previousStep = function() {
+        if (currentStep > 1) {
+            navigateToStep(currentStep - 1);
+        }
+    }
+
+    window.nextStep = function() {
+        if (currentStep < totalSteps) {
+            navigateToStep(currentStep + 1);
+        }
+    }
+
+    window.goToStepDot = function(stepNumber) {
+        if (stepNumber >= 1 && stepNumber <= totalSteps) {
+            navigateToStep(stepNumber);
         }
     }
 
@@ -7369,10 +7791,7 @@
         // Show welcome modal for first-time users
         showWelcomeModal();
         
-        // Initialize maze if present
-        if (document.getElementById('homeCanvas')) {
-            initializeMaze();
-        }
+
         
         // Simple initialization - just visual effects, no click handlers
         const catalyst = document.getElementById('scrollCatalyst');
@@ -7388,6 +7807,33 @@
                 catalyst.style.transform = '';
             });
         }
+        
+        // Setup step navigation progress dots click handlers
+        const progressDots = document.querySelectorAll('.progress-dot');
+        progressDots.forEach((dot, index) => {
+            dot.addEventListener('click', function() {
+                const stepNumber = parseInt(this.getAttribute('data-step'));
+                if (stepNumber && stepNumber >= 1 && stepNumber <= totalSteps) {
+                    navigateToStep(stepNumber);
+                }
+            });
+        });
+        
+        // Setup keyboard navigation for step cards
+        document.addEventListener('keydown', function(e) {
+            // Only handle keyboard navigation when the How It Works modal is open
+            const howItWorksModal = document.getElementById('howItWorksOverlay');
+            if (howItWorksModal && howItWorksModal.style.display !== 'none') {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    if (e.key === 'ArrowLeft' && currentStep > 1) {
+                        previousStep();
+                    } else if (e.key === 'ArrowRight' && currentStep < totalSteps) {
+                        nextStep();
+                    }
+                }
+            }
+        });
     });
 
 
@@ -7801,5 +8247,6 @@
 </script>
 </body>
 </html>
+
 
 

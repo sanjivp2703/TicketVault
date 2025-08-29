@@ -6,3 +6,4 @@ import insta485.views.admin_actions
 import insta485.views.balance
 import insta485.views.manage
 import insta485.views.ticket
+import insta485.views.how_it_works
