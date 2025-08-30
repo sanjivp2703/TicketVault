@@ -81,6 +81,10 @@ def show_index():
         "WHERE t.seller_email = ?",
         (logemail,)
     ).fetchall()
+    
+
+    
+
 
     formatted_transactions = []
     now = datetime.datetime.now()
@@ -88,35 +92,30 @@ def show_index():
 
     for trans in transactions:
         trans_dict = dict(trans)
-        # --- AUTO-UPDATE STATUS TO 'event_occurred' IF EVENT TIME PASSED ---
+        # --- AUTO-UPDATE STATUS TO 'completed' IF EVENT TIME PASSED ---
         event_dt = datetime.datetime.strptime(trans['event_datetime'], '%Y-%m-%d %H:%M:%S')
-        # 1. Promote to event_occurred if event time passed
-        if trans['status'] in ('waiting_for_ticket_transfer', 'ticket_sent') and now >= event_dt:
+        # 1. Promote to completed if event time passed and tickets were sent
+        if trans['status'] in ('waiting_for_ticket', 'ticket_forwarded_funds_held') and now >= event_dt:
             connection.execute(
-                "UPDATE transactions SET status = 'event_occurred' WHERE transaction_id = ?",
+                "UPDATE transactions SET status = 'completed' WHERE transaction_id = ?",
                 (trans['transaction_id'],)
             )
-            trans_dict['status'] = 'event_occurred'
-        # 2. Promote to success if 1 min after event time and status is event_occurred
-        elif trans['status'] == 'event_occurred' and now > (event_dt + datetime.timedelta(minutes=1)):
-            connection.execute(
-                "UPDATE transactions SET status = 'success' WHERE transaction_id = ?",
-                (trans['transaction_id'],)
-            )
-            trans_dict['status'] = 'success'
+            trans_dict['status'] = 'completed'
             send_payment_seller(trans['transaction_id'])
-        # Convert expected_ticket_send_time to datetime if present
-        if trans_dict.get('expected_ticket_send_time'):
-            trans_dict['expected_ticket_send_time'] = datetime.datetime.strptime(
-                trans_dict['expected_ticket_send_time'], '%Y-%m-%d %H:%M:%S'
+        # Convert ticket_deadline to datetime if present
+        if trans_dict.get('ticket_deadline'):
+            trans_dict['ticket_deadline'] = datetime.datetime.strptime(
+                trans_dict['ticket_deadline'], '%Y-%m-%d %H:%M:%S'
             )
-        if trans_dict.get('status') == 'waiting_for_ticket_transfer' and trans_dict.get('expected_ticket_send_time'):
-            deadline = trans_dict['expected_ticket_send_time']
-            trans_dict['transfer_deadline_passed'] = now > deadline
-            # Pass the deadline as a formatted string
-            trans_dict['transfer_deadline'] = deadline.strftime('%Y-%m-%d %I:%M %p')
-        else:
-            trans_dict['transfer_deadline_passed'] = False
+        
+        # Convert payment_deadline to datetime if present
+        if trans_dict.get('payment_deadline'):
+            trans_dict['payment_deadline'] = datetime.datetime.strptime(
+                trans_dict['payment_deadline'], '%Y-%m-%d %H:%M:%S'
+            )
+        
+        # Add ticket_email for template compatibility
+        trans_dict['ticket_email'] = 'system@safe-transaction.com'
 
         # Pass the event datetime as a formatted string
         event_dt = datetime.datetime.strptime(trans_dict['event_datetime'], '%Y-%m-%d %H:%M:%S')
@@ -129,7 +128,7 @@ def show_index():
         trans_dict['problem_report_deadline_str'] = problem_report_deadline.strftime('%Y-%m-%d %I:%M %p')
 
         # Add status category for filtering
-        if trans_dict['status'] in ['pending', 'waiting_for_payment_processing', 'waiting_for_ticket_transfer', 'ticket_sent', 'event_occurred', 'complaint_filed']:
+        if trans_dict['status'] in ['waiting_for_ticket', 'waiting_for_payment', 'both_received_processing', 'ticket_forwarded_funds_held', 'complaint_filed']:
             trans_dict['status_category'] = 'active'
         else:
             trans_dict['status_category'] = 'completed'
@@ -143,6 +142,8 @@ def show_index():
         filtered_transactions = [t for t in formatted_transactions if t['status_category'] == 'completed']
     else:  # 'all'
         filtered_transactions = formatted_transactions
+    
+
 
     # Count transactions for tabs
     active_count = len([t for t in formatted_transactions if t['status_category'] == 'active'])
@@ -166,6 +167,9 @@ def show_index():
         'user_balance': user_balance,
         'stats': stats
     }
+    
+
+    
     return flask.render_template("index.html", **context)
 
 
@@ -183,7 +187,7 @@ def calculate_platform_stats(connection):
     
     # Success rate calculation
     total_completed = connection.execute(
-        "SELECT COUNT(*) as count FROM transactions WHERE status IN ('success', 'event_occurred')"
+        "SELECT COUNT(*) as count FROM transactions WHERE status IN ('completed')"
     ).fetchone()['count']
     
     success_rate = 100.0 if total_transactions == 0 else (total_completed / total_transactions) * 100
@@ -601,7 +605,7 @@ def simulate_payment(transaction_id):
     
     # Update transaction status to payment processing
     connection.execute(
-        "UPDATE transactions SET status = 'waiting_for_payment_processing', payment_processed_time = CURRENT_TIMESTAMP WHERE transaction_id = ?",
+        "UPDATE transactions SET status = 'waiting_for_payment', payment_processed_time = CURRENT_TIMESTAMP WHERE transaction_id = ?",
         (transaction_id,)
     )
     
@@ -615,9 +619,9 @@ def simulate_payment(transaction_id):
     import time
     time.sleep(1)
     
-    # Update to waiting for ticket transfer
+    # Update to waiting for ticket
     connection.execute(
-        "UPDATE transactions SET status = 'waiting_for_ticket_transfer' WHERE transaction_id = ?",
+        "UPDATE transactions SET status = 'waiting_for_ticket' WHERE transaction_id = ?",
         (transaction_id,)
     )
     
@@ -642,12 +646,12 @@ def validate_ticket(transaction_id):
     if not transaction:
         return "<html><body><h2>❌ Transaction not found.</h2></body></html>"
     
-    if transaction['status'] != 'ticket_sent':
+    if transaction['status'] != 'ticket_forwarded_funds_held':
         return f"<html><body><h2>❌ Invalid action. Transaction status is: {transaction['status']}</h2></body></html>"
     
-    # Update transaction status to success
+    # Update transaction status to completed
     connection.execute(
-        "UPDATE transactions SET status = 'success' WHERE transaction_id = ?",
+        "UPDATE transactions SET status = 'completed' WHERE transaction_id = ?",
         (transaction_id,)
     )
     connection.commit()
@@ -934,7 +938,7 @@ def update_transaction_status(transaction_id):
     if new_status == 'rejected':
         if row['status'] == 'rejected':
             return "<html><body><h2>You have already rejected this offer.</h2></body></html>"
-        elif row['status'] in ('waiting_for_ticket_transfer', 'success', 'complete'):
+        elif row['status'] in ('waiting_for_ticket', 'completed'):
             return "<html><body><h2>You have already accepted this offer. You may close this tab.</h2></body></html>"
         # Allow rejection if still waiting for payment
         connection.execute(
@@ -946,7 +950,7 @@ def update_transaction_status(transaction_id):
             send_reject_confirmation_email(row['buyer_email'], event_name, row['seller_email'])
         return "<html><body><h2>The offer has been rejected. You may now close this tab and return to your email.</h2></body></html>"
     # Accept logic
-    if row['status'] in ('waiting_for_payment_processing', 'waiting_for_ticket_transfer', 'success', 'complete'):
+    if row['status'] in ('waiting_for_payment', 'waiting_for_ticket', 'completed'):
         return "<html><body><h2>You have already accepted this offer. You may close this tab and return to your email.</h2></body></html>"
     elif row['status'] == 'rejected':
         return "<html><body><h2>You have already rejected this offer.</h2></body></html>"
@@ -968,7 +972,7 @@ def email_accept(transaction_id):
     ).fetchone()
     if not row:
         return "<html><body><h2>Transaction not found.</h2></body></html>"
-    if row['status'] in ('waiting_for_payment_processing', 'waiting_for_ticket_transfer', 'success', 'complete'):
+    if row['status'] in ('waiting_for_payment', 'waiting_for_ticket', 'completed'):
         return "<html><body><h2>You have already accepted this offer. You may close this tab and return to your email.</h2></body></html>"
     elif row['status'] == 'rejected':
         return "<html><body><h2>You have already rejected this offer.</h2></body></html>"
@@ -1006,7 +1010,7 @@ def payment_success():
     connection.execute(
         """
         UPDATE transactions 
-        SET status = 'waiting_for_ticket_transfer', 
+        SET status = 'waiting_for_ticket', 
             expected_ticket_send_time = ? 
         WHERE transaction_id = ?
         """,
@@ -1017,7 +1021,7 @@ def payment_success():
         send_accept_confirmation_email(row['buyer_email'], row['event_name'], row['price'], row['seller_email'], transaction_id=transaction_id)
     else:
         connection.execute(
-            "UPDATE transactions SET status = 'waiting_for_ticket_transfer' WHERE transaction_id = ?",
+            "UPDATE transactions SET status = 'waiting_for_ticket' WHERE transaction_id = ?",
             (transaction_id,)
         )
     return "<html><body><h2>Thank you! Your payment was successful. You may now close this tab and return to your email.</h2></body></html>"
@@ -1123,13 +1127,13 @@ def update_ticket_status(transaction_id):
     
     # Seller confirms ticket sent
     if action == 'sent' and user_type == 'seller':
-        # Only allow if status is waiting_for_ticket_transfer
-        if transaction['status'] != 'waiting_for_ticket_transfer':
+        # Only allow if status is waiting_for_ticket
+        if transaction['status'] != 'waiting_for_ticket':
             return "<html><body><h2>Invalid action for current transaction status.</h2></body></html>"
         
-        # Update status to ticket_sent
+        # Update status to ticket_forwarded_funds_held
         connection.execute(
-            "UPDATE transactions SET status = 'ticket_sent' WHERE transaction_id = ?",
+            "UPDATE transactions SET status = 'ticket_forwarded_funds_held' WHERE transaction_id = ?",
             (transaction_id,)
         )
         connection.commit()
@@ -1176,7 +1180,7 @@ def update_ticket_status(transaction_id):
     elif action in ['confirm', 'received']:
         # Only check transaction_id, update status
         connection.execute(
-            "UPDATE transactions SET status = 'ticket_sent' WHERE transaction_id = ?",
+            "UPDATE transactions SET status = 'ticket_forwarded_funds_held' WHERE transaction_id = ?",
             (transaction_id,)
         )
         # Fetch transaction details for email
@@ -1437,16 +1441,16 @@ def schedule_auto_validation(transaction_id):
         try:
             connection = insta485.model.get_db()
             
-            # Check if transaction is still in ticket_sent status
+            # Check if transaction is still in ticket_forwarded_funds_held status
             transaction = connection.execute(
                 "SELECT status, buyer_email, seller_email FROM transactions WHERE transaction_id = ?",
                 (transaction_id,)
             ).fetchone()
             
-            if transaction and transaction['status'] == 'ticket_sent':
+            if transaction and transaction['status'] == 'ticket_forwarded_funds_held':
                 # Auto-complete the transaction
                 connection.execute(
-                    "UPDATE transactions SET status = 'success' WHERE transaction_id = ?",
+                    "UPDATE transactions SET status = 'completed' WHERE transaction_id = ?",
                     (transaction_id,)
                 )
                 connection.commit()

@@ -18,14 +18,14 @@ def main():
     cursor = conn.cursor()
 
     # Find transactions eligible for auto-payout:
-    # - status is 'event_occurred'
+    # - status is 'ticket_forwarded_funds_held'
     # - No complaint filed
     # - Event time + 1 min < now
     cursor.execute('''
         SELECT t.transaction_id, e.event_datetime, t.status, t.complaint_reason
         FROM transactions t
         JOIN events e ON t.event_id = e.event_id
-        WHERE t.status = 'event_occurred' AND (t.complaint_reason IS NULL OR t.complaint_reason = '')
+        WHERE t.status = 'ticket_forwarded_funds_held' AND (t.complaint_reason IS NULL OR t.complaint_reason = '')
     ''')
     for row in cursor.fetchall():
         event_dt = datetime.datetime.strptime(row['event_datetime'], "%Y-%m-%d %H:%M:%S")

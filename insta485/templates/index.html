@@ -5944,8 +5944,7 @@
                     <p class="create-listing-subtitle">List your tickets for sale on our secure platform</p>
                 </div>
                 
-                <form action="{{ url_for('create_transaction') }}" method="post" class="listing-form">
-
+                                 <form action="{{ url_for('create_transaction') }}" method="post" class="listing-form">
 
                     <!-- Event Information -->
                     <div class="form-group">
@@ -6008,8 +6007,6 @@
                                 • 24-hour verification window
                                 • Full refund guarantee if tickets are invalid
                             </div>
-                            
-
                             </div>
                         </div>
                         
@@ -6026,6 +6023,7 @@
                 </form>
             </div>
             
+            {% if transactions %}
             <!-- Your Listings Section -->
             <div class="listings-section">
                 <div class="listings-header">
@@ -6034,7 +6032,6 @@
                     </div>
                 
                 <div class="listings-container">
-                    {% if transactions %}
                         {% for transaction in transactions %}
                         <div class="listing-card" data-transaction-id="{{ transaction.transaction_id }}">
                             <div class="listing-header">
@@ -6049,7 +6046,7 @@
             </div>
                                 <div class="listing-date">
                                     <i class="fas fa-calendar"></i>
-                                    {{ transaction.event_datetime }}
+                                    {{ transaction.event_datetime_str }}
                                 </div>
                                 <div class="listing-buyer">
                                     <i class="fas fa-user"></i>
@@ -6061,35 +6058,35 @@
                             <div class="transaction-progress">
                                 <div class="progress-header">
                                     <span class="current-step">
-                                        {% if post.status == 'waiting_for_ticket' %}
+                                        {% if transaction.status == 'waiting_for_ticket' %}
                                             Step 1: Send Your Tickets
-                                        {% elif post.status == 'waiting_for_payment' %}
+                                        {% elif transaction.status == 'waiting_for_payment' %}
                                             Step 2: Awaiting Payment
-                                        {% elif post.status == 'both_received_processing' %}
+                                        {% elif transaction.status == 'both_received_processing' %}
                                             Step 3: Processing Payment
-                                        {% elif post.status == 'ticket_forwarded_funds_held' %}
+                                        {% elif transaction.status == 'ticket_forwarded_funds_held' %}
                                             Step 4: Tickets Delivered
-                                {% elif post.status == 'completed' %}
+                                        {% elif transaction.status == 'completed' %}
                                             ✅ Transaction Complete
-                                        {% elif post.status == 'expired_no_ticket' %}
+                                        {% elif transaction.status == 'expired_no_ticket' %}
                                             ❌ Expired - No Tickets
-                                        {% elif post.status == 'expired_no_payment' %}
+                                        {% elif transaction.status == 'expired_no_payment' %}
                                             ❌ Expired - No Payment
                                         {% else %}
-                                            {{ post.status|title }}
+                                            {{ transaction.status|title }}
                                         {% endif %}
                                     </span>
-                                    <span class="transaction-id">#{{ post.transaction_id }}</span>
+                                    <span class="transaction-id">#{{ transaction.transaction_id }}</span>
                                 </div>
                                 
                                 <div class="progress-bar">
                                     {% set progress = 0 %}
-                                    {% if post.status == 'waiting_for_ticket' %}{% set progress = 25 %}
-                                    {% elif post.status == 'waiting_for_payment' %}{% set progress = 50 %}
-                                    {% elif post.status == 'both_received_processing' %}{% set progress = 75 %}
-                                    {% elif post.status == 'ticket_forwarded_funds_held' %}{% set progress = 90 %}
-                                    {% elif post.status == 'completed' %}{% set progress = 100 %}
-        {% endif %}
+                                    {% if transaction.status == 'waiting_for_ticket' %}{% set progress = 25 %}
+                                    {% elif transaction.status == 'waiting_for_payment' %}{% set progress = 50 %}
+                                    {% elif transaction.status == 'both_received_processing' %}{% set progress = 75 %}
+                                    {% elif transaction.status == 'ticket_forwarded_funds_held' %}{% set progress = 90 %}
+                                    {% elif transaction.status == 'completed' %}{% set progress = 100 %}
+                                    {% endif %}
                                     <div class="progress-fill" style="width: {{ progress }}%"></div>
                             </div>
                                 
@@ -6114,19 +6111,19 @@
                             </div>
                             
                             <!-- Action Required Section -->
-                            {% if post.status == 'waiting_for_ticket' %}
+                            {% if transaction.status == 'waiting_for_ticket' %}
                             <div class="action-required">
                                 <div class="action-header">
                                     <i class="fas fa-exclamation-triangle"></i>
                                     <strong>Action Required</strong>
                                 </div>
-                                <p>Forward your ticket email to: <code>{{ post.ticket_email }}</code></p>
+                                <p>Forward your ticket email to: <code>{{ transaction.ticket_email }}</code></p>
                                 <div class="deadline-info">
                                     <i class="fas fa-clock"></i>
-                                    Deadline: {{ post.ticket_deadline.strftime('%m/%d %I:%M %p') if post.ticket_deadline else 'N/A' }}
+                                    Deadline: {{ transaction.ticket_deadline.strftime('%m/%d %I:%M %p') if transaction.ticket_deadline else 'N/A' }}
                                 </div>
                             </div>
-                            {% elif post.status == 'waiting_for_payment' %}
+                            {% elif transaction.status == 'waiting_for_payment' %}
                             <div class="action-waiting">
                                 <div class="action-header">
                                     <i class="fas fa-hourglass-half"></i>
@@ -6135,10 +6132,10 @@
                                 <p>Buyer has been notified to complete payment</p>
                                 <div class="deadline-info">
                                     <i class="fas fa-clock"></i>
-                                    Payment due: {{ post.payment_deadline.strftime('%m/%d %I:%M %p') if post.payment_deadline else 'N/A' }}
+                                    Payment due: {{ transaction.payment_deadline if transaction.payment_deadline else 'N/A' }}
                                 </div>
                             </div>
-                            {% elif post.status == 'ticket_forwarded_funds_held' %}
+                            {% elif transaction.status == 'ticket_forwarded_funds_held' %}
                             <div class="action-success">
                                 <div class="action-header">
                                     <i class="fas fa-check-circle"></i>
@@ -6146,7 +6143,7 @@
                                 </div>
                                 <p>Tickets delivered, payment will release automatically in 24 hours</p>
                             </div>
-                            {% elif post.status == 'completed' %}
+                            {% elif transaction.status == 'completed' %}
                             <div class="action-complete">
                                 <div class="action-header">
                                     <i class="fas fa-trophy"></i>
@@ -6157,28 +6154,22 @@
                             {% endif %}
                             
                             <div class="listing-actions">
-                                <button class="btn-details" onclick="showTransactionDetails({{ post.transaction_id }})">
+                                <button class="btn-details" onclick="showTransactionDetails({{ transaction.transaction_id }})">
                                     <i class="fas fa-info-circle"></i> View Details
                                 </button>
-                                {% if post.status in ['waiting_for_ticket', 'waiting_for_payment'] %}
-                                <button class="btn-cancel" onclick="cancelTransaction({{ post.transaction_id }})">
+                                {% if transaction.status in ['waiting_for_ticket', 'waiting_for_payment'] %}
+                                <button class="btn-cancel" onclick="cancelTransaction({{ transaction.transaction_id }})">
                                     <i class="fas fa-times"></i> Cancel
                                 </button>
                                 {% endif %}
                             </div>
                             
-
+                            
                         </div>
                         {% endfor %}
-                                {% else %}
-                        <div class="empty-listings">
-                            <i class="fas fa-ticket-alt"></i>
-                            <h3>No active listings</h3>
-                            <p>Create your first listing above to start selling tickets securely</p>
-                        </div>
-                {% endif %}
                 </div>
             </div>
+            {% endif %}
         </div>
 
         <!-- Sidebar -->

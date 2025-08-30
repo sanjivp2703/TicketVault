@@ -27,18 +27,18 @@ def send_payment_seller(transaction_id):
             print(f"[ERROR] Transaction {transaction_id} not found")
             return
         
-        if transaction['status'] != 'waiting_for_payment_processing':
+        if transaction['status'] != 'waiting_for_payment':
             print(f"[ERROR] Transaction {transaction_id} not in correct status: {transaction['status']}")
             return
         
         try:
             # Update transaction status to indicate payment processing started
             connection.execute(
-                "UPDATE transactions SET status = 'waiting_for_ticket_transfer', payment_processed_time = CURRENT_TIMESTAMP WHERE transaction_id = ?",
+                "UPDATE transactions SET status = 'waiting_for_ticket', payment_processed_time = CURRENT_TIMESTAMP WHERE transaction_id = ?",
                 (transaction_id,)
             )
             connection.commit()
-            print(f"[PAYMENT] Updated transaction {transaction_id} to waiting_for_ticket_transfer")
+            print(f"[PAYMENT] Updated transaction {transaction_id} to waiting_for_ticket")
             
             # Send email to seller notifying them to send the ticket
             from insta485.email_utils import send_seller_notification

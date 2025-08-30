@@ -231,7 +231,7 @@ def send_payment_seller(transaction_id):
                 import insta485.model
                 connection2 = insta485.model.get_db()
                 connection2.execute(
-                    "UPDATE transactions SET status = 'success' WHERE transaction_id = ?",
+                    "UPDATE transactions SET status = 'completed' WHERE transaction_id = ?",
                     (transaction_id,)
                 )
                 connection2.commit()
