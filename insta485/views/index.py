@@ -73,12 +73,22 @@ def show_index():
     ).fetchone()
     is_admin = user and user['is_admin']
 
-    # Get seller transactions only
+    # Get seller transactions (including pending ones)
     transactions = connection.execute(
-        "SELECT t.transaction_id, e.name AS ticket_description, t.buyer_email, t.price, e.location, e.event_datetime, t.status, t.expected_ticket_send_time, t.complaint_reason, t.buyer_cancel_requested, t.seller_cancel_requested "
-        "FROM transactions t "
-        "JOIN events e ON t.event_id = e.event_id "
-        "WHERE t.seller_email = ?",
+        """SELECT t.transaction_id, e.name AS ticket_description, t.buyer_email, t.price, 
+                  e.location, e.event_datetime, t.status, t.ticket_deadline, t.complaint_reason, 
+                  t.buyer_cancel_requested, t.seller_cancel_requested, t.awaiting_ticket_email,
+                  t.listing_created_time, t.payment_deadline
+           FROM transactions t 
+           JOIN events e ON t.event_id = e.event_id 
+           WHERE t.seller_email = ?
+           ORDER BY 
+               CASE t.status 
+                   WHEN 'pending_ticket_submission' THEN 1
+                   WHEN 'waiting_for_payment' THEN 2
+                   ELSE 3
+               END,
+               COALESCE(t.listing_created_time, t.created_time) DESC""",
         (logemail,)
     ).fetchall()
     
@@ -150,8 +160,8 @@ def show_index():
     history_count = len([t for t in formatted_transactions if t['status_category'] == 'completed'])
 
     # Get user balance (all users are sellers now)
-    from insta485.views.balance import get_user_balance
-    user_balance = get_user_balance(logemail)
+        from insta485.views.balance import get_user_balance
+        user_balance = get_user_balance(logemail)
 
     # Calculate real platform statistics
     stats = calculate_platform_stats(connection)
@@ -440,26 +450,24 @@ def create_transaction():
             seller_email=seller_email,
             buyer_email=buyer_email,
             price=price,
-            event_details=event_details,
-            ticket_deadline_hours=ticket_deadline_hours,
-            payment_deadline_hours=payment_deadline_hours
+            event_details=event_details
         )
         
-        # Show success page with instructions
-        return flask.render_template('listing_created.html',
-            transaction_id=result['transaction_id'],
-            ticket_email=result['ticket_email'],
-            ticket_deadline=result['ticket_deadline'],
-            payment_deadline=result['payment_deadline'],
-            buyer_email=buyer_email,
-            event_name=event_name,
-            price=price
-        )
+        # Return success response for AJAX request to show popup
+        return flask.jsonify({
+            'success': True,
+            'transaction_id': result['transaction_id'],
+            'ticket_email': result['ticket_email'],
+            'status': result['status'],
+            'message': result['message']
+        })
         
     except Exception as e:
         print(f"Error creating transaction: {e}")
-        flask.flash(f'Error creating listing: {str(e)}', 'error')
-        return flask.redirect(url_for('show_index'))
+        return flask.jsonify({
+            'success': False,
+            'error': str(e)
+        })
 
 
 def send_buyer_email_1(transaction_id, buyer_email, event_name, price, seller_email):
@@ -910,7 +918,7 @@ def initiate_transaction():
     """Legacy route - redirect to main page."""
     if 'email' not in flask.session:
         return flask.redirect(url_for('show_accounts', url='login'))
-    
+
     flask.flash('Please use the new listing creation form on the main page.', 'info')
     return flask.redirect(url_for('show_index'))
 
@@ -984,7 +992,7 @@ def email_accept(transaction_id):
 
 @insta485.app.route('/success')
 def payment_success():
-    """Handle successful payment by updating status and expected_ticket_send_time."""
+    """Handle successful payment by updating status."""
     if 'transaction_id' not in flask.session:
         return "<html><body><h2>Thank you! Your payment was successful. You may now close this tab and return to your email.</h2></body></html>"
     transaction_id = flask.session.pop('transaction_id', None)
@@ -1007,14 +1015,17 @@ def payment_success():
     else:
         payment_dt = datetime.datetime.now()
     expected_send = payment_dt + datetime.timedelta(minutes=1)
+    # In the new automated system, payment triggers automatic ticket forwarding
+    # So we update to indicate payment received
     connection.execute(
         """
         UPDATE transactions 
-        SET status = 'waiting_for_ticket', 
-            expected_ticket_send_time = ? 
+        SET status = 'waiting_for_payment', 
+            payment_received = 1,
+            payment_received_time = CURRENT_TIMESTAMP
         WHERE transaction_id = ?
         """,
-        (expected_send.strftime('%Y-%m-%d %H:%M:%S'), transaction_id)
+        (transaction_id,)
     )
     # Send acceptance confirmation email
     if row['buyer_email'] and row['event_name'] and row['price'] and row['seller_email']:
@@ -1045,10 +1056,10 @@ def payment_cancel():
             return flask.redirect(url_for('show_index'))
         
         # Since platform is seller-only now, assume user is seller for cancellation
-        connection.execute(
-            "UPDATE transactions SET seller_cancel_requested = 1 WHERE transaction_id = ?",
-            (transaction_id,)
-        )
+            connection.execute(
+                "UPDATE transactions SET seller_cancel_requested = 1 WHERE transaction_id = ?",
+                (transaction_id,)
+            )
         # Check if both requested
         transaction = connection.execute(
             "SELECT buyer_cancel_requested, seller_cancel_requested FROM transactions WHERE transaction_id = ?",

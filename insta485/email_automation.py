@@ -765,6 +765,139 @@ def send_buyer_notification(transaction_id, buyer_email, seller_email, price, ev
     send_email(buyer_email, subject, html_body)
 
 
+def send_buyer_waiting_notification(transaction_id, buyer_email, seller_email, price, event_details, ticket_deadline):
+    """Send notification to buyer that seller is preparing tickets"""
+    from datetime import datetime
+    
+    # Calculate time remaining for seller
+    if isinstance(ticket_deadline, str):
+        ticket_deadline = datetime.fromisoformat(ticket_deadline.replace('Z', '+00:00'))
+    
+    minutes_remaining = max(0, (ticket_deadline - datetime.now()).total_seconds() / 60)
+    
+    subject = f"🎫 Tickets Being Prepared - {event_details['name']}"
+    
+    html_body = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+            
+            * {{
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }}
+            
+            body {{
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+                color: #f1f5f9;
+                min-height: 100vh;
+                line-height: 1.6;
+            }}
+            
+            .email-container {{
+                max-width: 650px;
+                margin: 40px auto;
+                background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+                border-radius: 24px;
+                overflow: hidden;
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+                border: 1px solid rgba(59, 130, 246, 0.2);
+            }}
+            
+            .header {{
+                background: linear-gradient(135deg, #f59e0b, #d97706);
+                padding: 40px;
+                text-align: center;
+                color: white;
+            }}
+            
+            .content {{
+                padding: 40px;
+            }}
+            
+            .status-card {{
+                background: rgba(245, 158, 11, 0.1);
+                border: 1px solid rgba(245, 158, 11, 0.2);
+                border-radius: 16px;
+                padding: 32px;
+                margin: 24px 0;
+                text-align: center;
+            }}
+            
+            .countdown-display {{
+                background: linear-gradient(135deg, #f59e0b, #d97706);
+                color: white;
+                padding: 24px;
+                border-radius: 16px;
+                font-size: 1.5rem;
+                font-weight: 800;
+                margin: 24px 0;
+            }}
+            
+            .footer {{
+                background: rgba(15, 23, 42, 0.8);
+                padding: 32px;
+                text-align: center;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="email-container">
+            <div class="header">
+                <h1>🛡️ Safe Transaction</h1>
+                <p>Secure Ticket Protection</p>
+            </div>
+            
+            <div class="content">
+                <h2 style="color: #f1f5f9; margin-bottom: 16px;">🎫 Tickets Being Prepared</h2>
+                <p style="color: #cbd5e1; margin-bottom: 24px;">
+                    Great news! <strong style="color: #f59e0b;">{seller_email}</strong> is preparing your tickets.
+                </p>
+                
+                <div class="status-card">
+                    <h3 style="color: #f1f5f9; margin-bottom: 16px;">📋 {event_details['name']}</h3>
+                    <p style="color: #cbd5e1; margin-bottom: 8px;"><strong>📍 Location:</strong> {event_details['location']}</p>
+                    <p style="color: #cbd5e1; margin-bottom: 16px;"><strong>📅 Date:</strong> {event_details['datetime']}</p>
+                    <div class="countdown-display">${price}</div>
+                </div>
+                
+                <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 16px; padding: 24px; margin: 24px 0; text-align: center;">
+                    <h3 style="color: #3b82f6; margin-bottom: 12px;">⏰ Seller Has</h3>
+                    <p style="font-size: 1.25rem; font-weight: 700; color: #f1f5f9;">{int(minutes_remaining)} minutes remaining</p>
+                    <p style="color: #cbd5e1; font-size: 0.875rem; margin-top: 8px;">to send tickets to our secure system</p>
+                </div>
+                
+                <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 16px; padding: 24px; margin: 32px 0;">
+                    <h3 style="color: #10b981; margin-bottom: 16px;">📬 What Happens Next</h3>
+                    <ul style="color: #cbd5e1; text-align: left; padding-left: 20px;">
+                        <li>Seller sends tickets to our secure system</li>
+                        <li>We verify tickets are authentic</li>
+                        <li>You'll get a payment link (5 minutes to pay)</li>
+                        <li>Tickets delivered instantly after payment</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <p style="color: #94a3b8;">Transaction #{transaction_id}</p>
+                <p style="color: #94a3b8; margin-top: 8px;">We'll notify you when tickets are ready!</p>
+                <p style="font-weight: 700; color: #3b82f6; margin-top: 16px;">Safe Transaction</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+    
+    send_email(buyer_email, subject, html_body)
+
+
 def send_ticket_deadline_reminder(transaction_id, seller_email, hours_remaining, ticket_email, event_name):
     """Modern ticket deadline reminder"""
     details = {"ticket_email": ticket_email, "event_name": event_name}

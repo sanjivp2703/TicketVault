@@ -38,6 +38,9 @@ app.scheduler = scheduler
 import insta485.model  # noqa: E402  pylint: disable=wrong-import-position
 import insta485.views  # noqa: E402  pylint: disable=wrong-import-position
 import insta485.api  # noqa: E402  pylint: disable=wrong-import-position
+import insta485.email_webhook  # noqa: E402  pylint: disable=wrong-import-position
+import insta485.deadline_manager  # noqa: E402  pylint: disable=wrong-import-position
+import insta485.email_monitor  # noqa: E402  pylint: disable=wrong-import-position
 
 # Add custom template filter for datetime formatting
 from datetime import datetime

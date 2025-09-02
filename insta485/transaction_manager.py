@@ -21,104 +21,205 @@ class TransactionManager:
     def __init__(self):
         self.connection = insta485.model.get_db()
     
-    def create_listing(self, seller_email, buyer_email, price, event_details, 
-                      ticket_deadline_hours=24, payment_deadline_hours=48):
+    def create_listing(self, seller_email, buyer_email, price, event_details):
         """
-        Create new listing with automatic deadlines
+        Create new listing in PENDING state until seller sends ticket
         
         Args:
             seller_email: Seller's email
             buyer_email: Buyer's email  
             price: Ticket price
-            event_details: Event information
-            ticket_deadline_hours: Hours seller has to send ticket (default 24)
-            payment_deadline_hours: Hours buyer has to pay after ticket sent (default 48)
+            event_details: Event information (name, location, datetime)
         """
         # Create event if doesn't exist
         event_id = self._get_or_create_event(event_details)
         
-        # Calculate deadlines
-        now = datetime.datetime.now()
-        ticket_deadline = now + timedelta(hours=ticket_deadline_hours)
-        payment_deadline = now + timedelta(hours=payment_deadline_hours)
+        # Store original event details for verification later
+        original_details = {
+            'event_name': event_details.get('name', ''),
+            'location': event_details.get('location', ''),
+            'event_datetime': event_details.get('datetime', ''),
+            'price': price
+        }
         
-        # Create transaction
+        # Create transaction in PENDING state
+        now = datetime.datetime.now()
         cursor = self.connection.execute("""
             INSERT INTO transactions (
                 seller_email, buyer_email, price, event_id,
-                ticket_deadline, payment_deadline, status
-            ) VALUES (?, ?, ?, ?, ?, ?, 'waiting_for_ticket')
+                listing_created_time, original_event_details, 
+                status
+            ) VALUES (?, ?, ?, ?, ?, ?, 'pending_ticket_submission')
         """, (seller_email, buyer_email, price, event_id, 
-              ticket_deadline, payment_deadline))
+              now.isoformat(), json.dumps(original_details)))
         
         transaction_id = cursor.lastrowid
+        
+        # Generate unique email for ticket submission
+        ticket_email = f"tx-{transaction_id:06d}@safetransaction.com"
+        
+        # Update with the ticket email
+        self.connection.execute(
+            "UPDATE transactions SET awaiting_ticket_email = ? WHERE transaction_id = ?",
+            (ticket_email, transaction_id)
+        )
         self.connection.commit()
         
-        # Generate unique email for this transaction
-        ticket_email = f"ticket-{transaction_id}@safetransaction.com"
-        
-        # Send instructions to seller
-        send_seller_instructions(transaction_id, seller_email, ticket_email, 
-                                ticket_deadline, event_details)
-        
-        # Send notification to buyer
-        send_buyer_notification(transaction_id, buyer_email, seller_email, 
-                               price, event_details, payment_deadline)
-        
-        # Schedule deadline checks
-        self._schedule_deadline_check(transaction_id, 'ticket', ticket_deadline)
+        print(f"✅ Created PENDING listing {transaction_id} - awaiting ticket submission to {ticket_email}")
         
         return {
             'transaction_id': transaction_id,
             'ticket_email': ticket_email,
-            'ticket_deadline': ticket_deadline,
-            'payment_deadline': payment_deadline,
-            'status': 'waiting_for_ticket'
+            'status': 'pending_ticket_submission',
+            'message': f'Send your ticket to {ticket_email} to activate this listing'
         }
     
     def process_incoming_ticket(self, transaction_id, email_data):
         """
-        Process ticket email sent to ticket-{id}@safetransaction.com
+        Process ticket email sent to tx-{id}@safetransaction.com
+        Activates pending listing if ticket details match original listing
         """
         # Get transaction details
         transaction = self._get_transaction(transaction_id)
         if not transaction:
             return {'success': False, 'error': 'Transaction not found'}
         
+        # Must be in pending state
+        if transaction['status'] != 'pending_ticket_submission':
+            return {'success': False, 'error': f'Transaction in wrong state: {transaction["status"]}'}
+        
         # Verify sender is the seller
         if email_data['sender'] != transaction['seller_email']:
-            return {'success': False, 'error': 'Unauthorized sender'}
+            return {'success': False, 'error': 'Unauthorized sender - must be from seller email'}
         
-        # Check if already received ticket
-        if transaction['ticket_email_received']:
-            return {'success': False, 'error': 'Ticket already received'}
+        # Verify ticket details match original listing
+        verification_result = self._verify_ticket_details_match(email_data, transaction)
         
-        # Check if past deadline
-        if datetime.datetime.now() > transaction['ticket_deadline']:
-            self._expire_transaction(transaction_id, 'ticket_deadline_passed')
-            return {'success': False, 'error': 'Ticket deadline has passed'}
-        
-        # Verify ticket authenticity
-        verification_result = self._verify_ticket_authenticity(transaction_id, email_data)
-        
-        if verification_result['score'] < 70:  # Minimum verification threshold
-            self._flag_suspicious_ticket(transaction_id, verification_result)
-            return {'success': False, 'error': 'Ticket verification failed'}
-        
-        # Store ticket data
+        # Store ticket email data
         self.connection.execute("""
-            UPDATE transactions SET 
-                ticket_email_received = 1,
+            UPDATE transactions 
+            SET ticket_email_received = 1,
                 ticket_received_time = CURRENT_TIMESTAMP,
                 ticket_email_data = ?,
-                ticket_verification_score = ?
+                ticket_verification_score = ?,
+                ticket_details_match = ?,
+                verification_notes = ?
             WHERE transaction_id = ?
-        """, (json.dumps(email_data), verification_result['score'], transaction_id))
+        """, (json.dumps(email_data), 
+              verification_result['score'], 
+              1 if verification_result['details_match'] else 0,
+              verification_result['notes'],
+              transaction_id))
         
-        # Update status and check next steps
-        self._advance_transaction_state(transaction_id)
+        if verification_result['details_match']:
+            # ACTIVATE listing and set 1-hour payment window
+            payment_deadline = datetime.datetime.now() + timedelta(hours=1)
+            
+            # Update status - listing is now ACTIVE
+            self.connection.execute("""
+                UPDATE transactions 
+                SET status = 'waiting_for_payment',
+                    created_time = CURRENT_TIMESTAMP,
+                    payment_deadline = ?
+                WHERE transaction_id = ?
+            """, (payment_deadline.isoformat(), transaction_id))
+            
+            self.connection.commit()
+            
+            # Send buyer notification with 1-hour payment window
+            original_details = json.loads(transaction['original_event_details'])
+            send_buyer_notification(
+                transaction_id,
+                transaction['buyer_email'],
+                payment_deadline,
+                transaction['price'],
+                f"http://localhost:8000/pay/{transaction_id}",
+                original_details['event_name']
+            )
+            
+            print(f"✅ Listing {transaction_id} ACTIVATED - buyer has 1 hour to pay")
+            
+            return {
+                'success': True, 
+                'status': 'listing_activated',
+                'payment_deadline': payment_deadline.isoformat(),
+                'verification_score': verification_result['score']
+            }
+        else:
+            # Ticket verification failed - keep in pending state
+            self.connection.commit()
+            return {
+                'success': False, 
+                'error': f'Ticket verification failed: {verification_result["reason"]}',
+                'notes': verification_result['notes']
+            }
+    
+    def _verify_ticket_details_match(self, email_data, transaction):
+        """
+        Verify that ticket email details match the original listing details
+        Returns whether details match and verification notes
+        """
+        score = 0
+        notes = []
+        details_match = False
         
-        return {'success': True, 'verification_score': verification_result['score']}
+        # Get original listing details
+        original_details = json.loads(transaction['original_event_details'])
+        
+        # Extract content from email
+        email_content = (
+            email_data.get('subject', '') + ' ' + 
+            email_data.get('body', '')
+        ).lower()
+        
+        # Check event name match
+        event_name = original_details['event_name'].lower()
+        if event_name in email_content:
+            score += 40
+            notes.append(f"✅ Event name '{event_name}' found in ticket")
+        else:
+            notes.append(f"❌ Event name '{event_name}' NOT found in ticket")
+        
+        # Check location/venue match
+        location = original_details['location'].lower()
+        if location in email_content:
+            score += 30
+            notes.append(f"✅ Venue '{location}' found in ticket")
+        else:
+            notes.append(f"❌ Venue '{location}' NOT found in ticket")
+        
+        # Check for ticket-related keywords
+        ticket_keywords = ['ticket', 'receipt', 'confirmation', 'order', 'seat', 'row', 'section']
+        found_keywords = [kw for kw in ticket_keywords if kw in email_content]
+        
+        if len(found_keywords) >= 3:
+            score += 20
+            notes.append(f"✅ Found ticket keywords: {', '.join(found_keywords)}")
+        else:
+            notes.append(f"❌ Not enough ticket keywords found: {', '.join(found_keywords)}")
+        
+        # Check sender domain reliability
+        sender_domain = email_data.get('sender', '').split('@')[-1].lower()
+        trusted_domains = ['ticketmaster.com', 'stubhub.com', 'seatgeek.com', 'vivid-seats.com', 'eventbrite.com']
+        
+        if any(domain in sender_domain for domain in trusted_domains):
+            score += 10
+            notes.append(f"✅ Trusted sender domain: {sender_domain}")
+        else:
+            notes.append(f"⚠️ Unknown sender domain: {sender_domain}")
+        
+        # Determine if details match (need at least 70% score)
+        details_match = score >= 70
+        
+        reason = "Details verified successfully" if details_match else "Details do not match listing"
+        
+        return {
+            'score': score,
+            'details_match': details_match,
+            'reason': reason,
+            'notes': '\n'.join(notes),
+            'max_score': 100
+        }
     
     def process_payment(self, transaction_id, payment_method_id):
         """

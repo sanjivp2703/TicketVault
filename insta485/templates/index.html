@@ -5383,14 +5383,14 @@
                      <div class="terms-content">
                          <div class="terms-text">Terms apply. See website for details.</div>
                      </div>
-                 </div>
-                 
+             </div>
+
                  <button class="primary-action-button" onclick="openHowItWorksModal()">
                      <span class="button-text">See How It Works</span>
                      <div class="button-icon">
                          <i class="fas fa-arrow-right"></i>
                      </div>
-                 </button>
+            </button>
              </div>
          </div>
      </div>
@@ -5517,8 +5517,8 @@
                                             <div class="checklist-icon">📅</div>
                                             <div class="checklist-content">
                                                 <div class="checklist-text event-name">Michigan vs Ohio State</div>
-                                            </div>
-                                        </div>
+                                    </div>
+                                </div>
                                         <div class="checklist-item">
                                             <div class="checklist-icon">💵</div>
                                             <div class="checklist-content">
@@ -5576,8 +5576,8 @@
                                             <div class="checklist-icon">📧</div>
                                             <div class="checklist-content">
                                                 <div class="checklist-text">tx-000001@safetransaction.com</div>
-                                            </div>
-                                        </div>
+                                    </div>
+                                </div>
                                         <div class="checklist-item email-step">
                                             <div class="checklist-icon">🎫</div>
                                             <div class="checklist-content">
@@ -5635,8 +5635,8 @@
                                             <div class="checklist-icon">💳</div>
                                             <div class="checklist-content">
                                                 <div class="checklist-text">Card Payment</div>
-                                            </div>
-                                        </div>
+                                    </div>
+                                </div>
                                         <div class="checklist-item payment-option">
                                             <div class="checklist-icon">🏦</div>
                                             <div class="checklist-content">
@@ -5690,8 +5690,8 @@
                                             <div class="checklist-icon">✓</div>
                                             <div class="checklist-content">
                                                 <div class="checklist-text">Payment verified</div>
-                                            </div>
-                                        </div>
+                                    </div>
+                                </div>
                                         <div class="checklist-item delivery-check">
                                             <div class="checklist-icon">✓</div>
                                             <div class="checklist-content">
@@ -5749,8 +5749,8 @@
                                             <div class="checklist-icon">💰</div>
                                             <div class="checklist-content">
                                                 <div class="checklist-text">Ticket Price: $150.00</div>
-                                            </div>
-                                        </div>
+                                    </div>
+                                </div>
                                         <div class="checklist-item breakdown-bonus">
                                             <div class="checklist-icon">🎉</div>
                                             <div class="checklist-content">
@@ -5804,8 +5804,8 @@
                                             <div class="checklist-icon">📄</div>
                                             <div class="checklist-content">
                                                 <div class="checklist-text">Collect Evidence</div>
-                                            </div>
-                                        </div>
+                                    </div>
+                                </div>
                                         <div class="checklist-item dispute-step">
                                             <div class="checklist-icon">🔍</div>
                                             <div class="checklist-content">
@@ -5854,7 +5854,7 @@
                     <div class="button-icon">
                         <i class="fas fa-arrow-right"></i>
                     </div>
-                </button>
+            </button>
             </div>
         </div>
     </div>
@@ -5944,7 +5944,7 @@
                     <p class="create-listing-subtitle">List your tickets for sale on our secure platform</p>
                 </div>
                 
-                                 <form action="{{ url_for('create_transaction') }}" method="post" class="listing-form">
+                <form id="createListingForm" action="{{ url_for('create_transaction') }}" method="post" class="listing-form" onsubmit="return handleCreateListing(event)">
 
                     <!-- Event Information -->
                     <div class="form-group">
@@ -6007,8 +6007,8 @@
                                 • 24-hour verification window
                                 • Full refund guarantee if tickets are invalid
                             </div>
-                            </div>
                         </div>
+                    </div>
                         
 
                     
@@ -6086,7 +6086,7 @@
                                     {% elif transaction.status == 'both_received_processing' %}{% set progress = 75 %}
                                     {% elif transaction.status == 'ticket_forwarded_funds_held' %}{% set progress = 90 %}
                                     {% elif transaction.status == 'completed' %}{% set progress = 100 %}
-                                    {% endif %}
+        {% endif %}
                                     <div class="progress-fill" style="width: {{ progress }}%"></div>
                             </div>
                                 
@@ -6094,11 +6094,11 @@
                                     <div class="step {% if progress >= 25 %}completed{% endif %}">
                                         <i class="fas fa-envelope"></i>
                                         <span>Send Tickets</span>
-                                    </div>
+                            </div>
                                     <div class="step {% if progress >= 50 %}completed{% endif %}">
                                         <i class="fas fa-credit-card"></i>
                                         <span>Buyer Pays</span>
-                                    </div>
+                        </div>
                                     <div class="step {% if progress >= 75 %}completed{% endif %}">
                                         <i class="fas fa-forward"></i>
                                         <span>Tickets Sent</span>
@@ -6150,7 +6150,7 @@
                                     <strong>Transaction Complete</strong>
                                 </div>
                                 <p>Payment has been released to your account</p>
-                            </div>
+                        </div>
                             {% endif %}
                             
                             <div class="listing-actions">
@@ -6161,11 +6161,11 @@
                                 <button class="btn-cancel" onclick="cancelTransaction({{ transaction.transaction_id }})">
                                     <i class="fas fa-times"></i> Cancel
                                 </button>
-                                {% endif %}
-                            </div>
+                {% endif %}
+                </div>
                             
                             
-                        </div>
+            </div>
                         {% endfor %}
                 </div>
             </div>
@@ -7492,16 +7492,23 @@
                     setTimeout(() => {
                         console.log('Initializing modal navigation...');
                         
-                                                 // Force show first step content and hide others
-                         const allSections = document.querySelectorAll('.step-section');
-                         allSections.forEach((section, index) => {
-                             if (index === 0) {
-                                 section.classList.add('active');
-                                 console.log('First step section activated');
-                             } else {
-                                 section.classList.remove('active');
-                             }
-                         });
+                        // Force show first step content and hide others
+                        const modal = document.getElementById('howItWorksOverlay');
+                        const allSections = modal ? modal.querySelectorAll('.step-section') : document.querySelectorAll('.step-section');
+                        console.log('Found step sections:', allSections.length);
+                        
+                        allSections.forEach((section, index) => {
+                            if (index === 0) {
+                                section.classList.add('active');
+                                section.style.opacity = '1';
+                                section.style.transform = 'translateX(0)';
+                                section.style.pointerEvents = 'auto';
+                                section.style.zIndex = '10';
+                                console.log('First step section activated with inline styles');
+                            } else {
+                                section.classList.remove('active');
+                            }
+                        });
                         
                         activateStepInTracker(1);
                         updateNavigationButtons();
@@ -7742,12 +7749,12 @@
                 console.log('Activated step section', stepNumber, targetSection);
             } else {
                 // Fallback to index-based selection
-                stepSections.forEach((section, index) => {
-                    if (index + 1 === stepNumber) {
-                        section.classList.add('active');
+            stepSections.forEach((section, index) => {
+                if (index + 1 === stepNumber) {
+                    section.classList.add('active');
                         console.log('Activated step section by index', index + 1, section);
-                    }
-                });
+                }
+            });
             }
         });
     }
@@ -8235,7 +8242,54 @@
     }
         };
     });
+
+    // AJAX Form Handling for Create Listing
+    function handleCreateListing(event) {
+        event.preventDefault();
+        
+        const form = event.target;
+        const formData = new FormData(form);
+        const submitButton = form.querySelector('button[type="submit"]');
+        
+        // Disable submit button and show loading
+        submitButton.disabled = true;
+        const originalText = submitButton.innerHTML;
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Listing...';
+        
+        // Send AJAX request
+        fetch(form.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Show popup with ticket email
+                showPendingListingPopup(data.ticket_email, data.transaction_id);
+                
+                // Reset form
+                form.reset();
+            } else {
+                alert('Error creating listing: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error creating listing. Please try again.');
+        })
+        .finally(() => {
+            // Re-enable submit button
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalText;
+        });
+        
+        return false;
+    }
 </script>
+
+<!-- Include Pending Listing Popup -->
+{% include 'pending_listing_popup.html' %}
+
 </body>
 </html>
 
