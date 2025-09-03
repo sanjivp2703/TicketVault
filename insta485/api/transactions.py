@@ -337,3 +337,40 @@ def run_deadline_check():
         
     except Exception as e:
         return flask.jsonify({'error': str(e)}), 500
+
+
+# Testing endpoint for simulation
+@insta485.app.route('/api/transactions/<int:transaction_id>/simulate-verification', methods=['POST'])
+def simulate_verification(transaction_id):
+    """
+    Testing endpoint: Simulate ticket email verification process
+    This bypasses the email monitoring and directly processes a fake ticket email
+    """
+    try:
+        email_data = flask.request.get_json()
+        
+        if not email_data:
+            return flask.jsonify({'success': False, 'error': 'No email data provided'})
+        
+        # Use TransactionManager to process the simulated ticket
+        transaction_manager = TransactionManager()
+        result = transaction_manager.process_incoming_ticket(transaction_id, email_data)
+        
+        if result['success']:
+            print(f"🧪 SIMULATION: Transaction {transaction_id} activated successfully")
+            print(f"📧 SIMULATION: Buyer notification would be sent")
+            print(f"⏰ SIMULATION: Payment deadline set to {result.get('payment_deadline', 'N/A')}")
+            print(f"🔍 SIMULATION: Verification score: {result.get('verification_score', 'N/A')}")
+            
+            return flask.jsonify({
+                'success': True,
+                'status': result.get('status', 'listing_activated'),
+                'payment_deadline': result.get('payment_deadline'),
+                'verification_score': result.get('verification_score')
+            })
+        else:
+            return flask.jsonify({'success': False, 'error': result.get('error', 'Unknown error')})
+            
+    except Exception as e:
+        print(f"❌ SIMULATION ERROR: {e}")
+        return flask.jsonify({'success': False, 'error': str(e)})

@@ -19,7 +19,7 @@ class TransactionManager:
     """Manages all transaction states and automated processes"""
     
     def __init__(self):
-        self.connection = insta485.model.get_db()
+        pass
     
     def create_listing(self, seller_email, buyer_email, price, event_details):
         """
@@ -31,8 +31,10 @@ class TransactionManager:
             price: Ticket price
             event_details: Event information (name, location, datetime)
         """
+        connection = insta485.model.get_db()
+        
         # Create event if doesn't exist
-        event_id = self._get_or_create_event(event_details)
+        event_id = self._get_or_create_event(event_details, connection)
         
         # Store original event details for verification later
         original_details = {
@@ -44,7 +46,7 @@ class TransactionManager:
         
         # Create transaction in PENDING state
         now = datetime.datetime.now()
-        cursor = self.connection.execute("""
+        cursor = connection.execute("""
             INSERT INTO transactions (
                 seller_email, buyer_email, price, event_id,
                 listing_created_time, original_event_details, 
@@ -59,11 +61,11 @@ class TransactionManager:
         ticket_email = f"tx-{transaction_id:06d}@safetransaction.com"
         
         # Update with the ticket email
-        self.connection.execute(
+        connection.execute(
             "UPDATE transactions SET awaiting_ticket_email = ? WHERE transaction_id = ?",
             (ticket_email, transaction_id)
         )
-        self.connection.commit()
+        connection.commit()
         
         print(f"✅ Created PENDING listing {transaction_id} - awaiting ticket submission to {ticket_email}")
         
@@ -79,8 +81,10 @@ class TransactionManager:
         Process ticket email sent to tx-{id}@safetransaction.com
         Activates pending listing if ticket details match original listing
         """
+        connection = insta485.model.get_db()
+        
         # Get transaction details
-        transaction = self._get_transaction(transaction_id)
+        transaction = self._get_transaction(transaction_id, connection)
         if not transaction:
             return {'success': False, 'error': 'Transaction not found'}
         
@@ -96,7 +100,7 @@ class TransactionManager:
         verification_result = self._verify_ticket_details_match(email_data, transaction)
         
         # Store ticket email data
-        self.connection.execute("""
+        connection.execute("""
             UPDATE transactions 
             SET ticket_email_received = 1,
                 ticket_received_time = CURRENT_TIMESTAMP,
@@ -116,7 +120,7 @@ class TransactionManager:
             payment_deadline = datetime.datetime.now() + timedelta(hours=1)
             
             # Update status - listing is now ACTIVE
-            self.connection.execute("""
+            connection.execute("""
                 UPDATE transactions 
                 SET status = 'waiting_for_payment',
                     created_time = CURRENT_TIMESTAMP,
@@ -124,7 +128,7 @@ class TransactionManager:
                 WHERE transaction_id = ?
             """, (payment_deadline.isoformat(), transaction_id))
             
-            self.connection.commit()
+            connection.commit()
             
             # Send buyer notification with 1-hour payment window
             original_details = json.loads(transaction['original_event_details'])
@@ -147,7 +151,7 @@ class TransactionManager:
             }
         else:
             # Ticket verification failed - keep in pending state
-            self.connection.commit()
+            connection.commit()
             return {
                 'success': False, 
                 'error': f'Ticket verification failed: {verification_result["reason"]}',
@@ -486,9 +490,9 @@ class TransactionManager:
         self.connection.commit()
     
     # Helper methods
-    def _get_transaction(self, transaction_id):
+    def _get_transaction(self, transaction_id, connection):
         """Get transaction details"""
-        return self.connection.execute("""
+        return connection.execute("""
             SELECT * FROM transactions WHERE transaction_id = ?
         """, (transaction_id,)).fetchone()
     
@@ -532,9 +536,9 @@ class TransactionManager:
             SELECT * FROM events WHERE event_id = ?
         """, (event_id,)).fetchone()
     
-    def _get_or_create_event(self, event_details):
+    def _get_or_create_event(self, event_details, connection):
         """Get or create event entry"""
-        existing = self.connection.execute("""
+        existing = connection.execute("""
             SELECT event_id FROM events 
             WHERE name = ? AND location = ? AND event_datetime = ?
         """, (event_details['name'], event_details['location'], event_details['datetime'])).fetchone()
@@ -542,11 +546,12 @@ class TransactionManager:
         if existing:
             return existing['event_id']
         
-        cursor = self.connection.execute("""
+        cursor = connection.execute("""
             INSERT INTO events (name, location, event_datetime)
             VALUES (?, ?, ?)
         """, (event_details['name'], event_details['location'], event_details['datetime']))
         
+        connection.commit()
         return cursor.lastrowid
     
     # Notification methods (basic implementations)

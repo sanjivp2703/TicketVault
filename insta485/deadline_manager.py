@@ -101,7 +101,7 @@ class DeadlineManager:
             WHERE t.status = 'waiting_for_ticket' 
             AND t.ticket_deadline > ?
             AND t.ticket_deadline <= ?
-            AND t.reminder_sent_ticket IS NULL
+            AND t.ticket_reminder_sent_2h = 0
             """,
             (now.isoformat(), (now + timedelta(minutes=2)).isoformat())
         ).fetchall()
@@ -120,7 +120,7 @@ class DeadlineManager:
             
             # Mark reminder as sent
             connection.execute(
-                "UPDATE transactions SET reminder_sent_ticket = 1 WHERE transaction_id = ?",
+                "UPDATE transactions SET ticket_reminder_sent_2h = 1 WHERE transaction_id = ?",
                 (reminder['transaction_id'],)
             )
             connection.commit()
@@ -134,7 +134,7 @@ class DeadlineManager:
             WHERE t.status = 'waiting_for_payment' 
             AND t.payment_deadline > ?
             AND t.payment_deadline <= ?
-            AND t.reminder_sent_payment IS NULL
+            AND t.payment_reminder_sent_1h = 0
             """,
             (now.isoformat(), (now + timedelta(minutes=1)).isoformat())
         ).fetchall()
@@ -152,7 +152,7 @@ class DeadlineManager:
             
             # Mark reminder as sent
             connection.execute(
-                "UPDATE transactions SET reminder_sent_payment = 1 WHERE transaction_id = ?",
+                "UPDATE transactions SET payment_reminder_sent_1h = 1 WHERE transaction_id = ?",
                 (reminder['transaction_id'],)
             )
             connection.commit()

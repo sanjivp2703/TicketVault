@@ -76,9 +76,8 @@ def show_index():
     # Get seller transactions (including pending ones)
     transactions = connection.execute(
         """SELECT t.transaction_id, e.name AS ticket_description, t.buyer_email, t.price, 
-                  e.location, e.event_datetime, t.status, t.ticket_deadline, t.complaint_reason, 
-                  t.buyer_cancel_requested, t.seller_cancel_requested, t.awaiting_ticket_email,
-                  t.listing_created_time, t.payment_deadline
+                  e.location, e.event_datetime, t.status, t.ticket_deadline,
+                  t.awaiting_ticket_email, t.listing_created_time, t.payment_deadline
            FROM transactions t 
            JOIN events e ON t.event_id = e.event_id 
            WHERE t.seller_email = ?
@@ -160,8 +159,8 @@ def show_index():
     history_count = len([t for t in formatted_transactions if t['status_category'] == 'completed'])
 
     # Get user balance (all users are sellers now)
-        from insta485.views.balance import get_user_balance
-        user_balance = get_user_balance(logemail)
+    from insta485.views.balance import get_user_balance
+    user_balance = get_user_balance(logemail)
 
     # Calculate real platform statistics
     stats = calculate_platform_stats(connection)

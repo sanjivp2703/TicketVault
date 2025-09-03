@@ -8264,6 +8264,9 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                // Set seller email for simulation
+                window.currentSellerEmail = '{{ logemail }}';
+                
                 // Show popup with ticket email
                 showPendingListingPopup(data.ticket_email, data.transaction_id);
                 

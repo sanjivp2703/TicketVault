@@ -18,7 +18,6 @@ class EmailMonitor:
     def __init__(self):
         self.running = False
         self.thread = None
-        self.transaction_manager = TransactionManager()
     
     def start(self):
         """Start email monitoring in background thread"""
@@ -102,7 +101,8 @@ class EmailMonitor:
             print(f"📧 Found test email for transaction {transaction_id}")
             
             # Process the email
-            result = self.transaction_manager.process_incoming_ticket(transaction_id, email_data)
+            transaction_manager = TransactionManager()
+            result = transaction_manager.process_incoming_ticket(transaction_id, email_data)
             
             if result['success']:
                 print(f"✅ Successfully activated listing {transaction_id}")
