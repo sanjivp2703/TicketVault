@@ -2026,6 +2026,30 @@
             gap: var(--space-xl);
         }
 
+
+        /* Action sections within progress container */
+        .transaction-progress .action-required,
+        .transaction-progress .action-waiting,
+        .transaction-progress .action-success,
+        .transaction-progress .action-complete {
+            margin-top: var(--space-lg);
+            padding-top: var(--space-lg);
+            border-top: 1px solid var(--border-light);
+        }
+
+        /* Disclaimer Text */
+        .disclaimer-text {
+            margin-top: var(--space-md);
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+            text-align: left;
+        }
+
+        .disclaimer-text strong {
+            color: var(--text-primary);
+        }
+
         /* Responsive adjustments for full width section */
         @media (max-width: 1200px) {
             .listings-section-fullwidth {
@@ -2047,6 +2071,10 @@
             
             .listings-section-fullwidth .listings-title {
                 font-size: 24px;
+            }
+
+            .disclaimer-text {
+                font-size: 13px;
             }
         }
 
@@ -6035,7 +6063,7 @@
                         </div>
                     </div>
                     
-                    <!-- Modern Status Progress -->
+                    <!-- Modern Status Progress with Actions -->
                     <div class="transaction-progress">
                         <div class="progress-header">
                             <span class="current-step">
@@ -6044,7 +6072,7 @@
                                 {% elif transaction.status == 'waiting_for_ticket' %}
                                     Step 1: Send Your Tickets
                                 {% elif transaction.status == 'waiting_for_payment' %}
-                                    Step 2: Awaiting Payment
+                                    Step 2: Awaiting for buyer payment
                                 {% elif transaction.status == 'both_received_processing' %}
                                     Step 3: Processing Payment
                                 {% elif transaction.status == 'ticket_forwarded_funds_held' %}
@@ -6092,62 +6120,64 @@
                                 <span>You Get Paid</span>
                             </div>
                         </div>
+                        
+                        <!-- Action Required Section -->
+                        {% if transaction.status == 'pending_ticket_submission' %}
+                        <div class="action-required">
+                            <div class="action-header">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <strong>Action Required</strong>
+                            </div>
+                            <p>Send your tickets to: <code>{{ transaction.awaiting_ticket_email }}</code></p>
+                            <div class="deadline-info">
+                                <i class="fas fa-clock"></i>
+                                Deadline: {{ transaction.ticket_deadline.strftime('%m/%d %I:%M %p') if transaction.ticket_deadline else 'N/A' }}
+                            </div>
+                        </div>
+                        {% elif transaction.status == 'waiting_for_ticket' %}
+                        <div class="action-required">
+                            <div class="action-header">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <strong>Action Required</strong>
+                            </div>
+                            <p>Forward your ticket email to: <code>{{ transaction.ticket_email }}</code></p>
+                            <div class="deadline-info">
+                                <i class="fas fa-clock"></i>
+                                Deadline: {{ transaction.ticket_deadline.strftime('%m/%d %I:%M %p') if transaction.ticket_deadline else 'N/A' }}
+                            </div>
+                        </div>
+                        {% elif transaction.status == 'waiting_for_payment' %}
+                        <div class="action-waiting">
+                            <p>Buyer has received email to submit payment by 
+                            {% if transaction.payment_deadline %}
+                                {{ transaction.payment_deadline.strftime('%I:%M %p') }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                            </p>
+                            
+                            <p class="disclaimer-text">
+                                <strong>Important:</strong> We'll only send the ticket after your balance is paid. If not, we'll send the ticket back to you.
+                            </p>
+                        </div>
+                        {% elif transaction.status == 'ticket_forwarded_funds_held' %}
+                        <div class="action-success">
+                            <div class="action-header">
+                                <i class="fas fa-check-circle"></i>
+                                <strong>Almost Done!</strong>
+                            </div>
+                            <p>Tickets delivered, payment will release automatically in 24 hours</p>
+                        </div>
+                        {% elif transaction.status == 'completed' %}
+                        <div class="action-complete">
+                            <div class="action-header">
+                                <i class="fas fa-trophy"></i>
+                                <strong>Transaction Complete</strong>
+                            </div>
+                            <p>Payment has been released to your account</p>
+                        </div>
+                        {% endif %}
                     </div>
-                    
-                    <!-- Action Required Section -->
-                    {% if transaction.status == 'pending_ticket_submission' %}
-                    <div class="action-required">
-                        <div class="action-header">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <strong>Action Required</strong>
-                        </div>
-                        <p>Send your tickets to: <code>{{ transaction.awaiting_ticket_email }}</code></p>
-                        <div class="deadline-info">
-                            <i class="fas fa-clock"></i>
-                            Deadline: {{ transaction.ticket_deadline.strftime('%m/%d %I:%M %p') if transaction.ticket_deadline else 'N/A' }}
-                        </div>
-                    </div>
-                    {% elif transaction.status == 'waiting_for_ticket' %}
-                    <div class="action-required">
-                        <div class="action-header">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <strong>Action Required</strong>
-                        </div>
-                        <p>Forward your ticket email to: <code>{{ transaction.ticket_email }}</code></p>
-                        <div class="deadline-info">
-                            <i class="fas fa-clock"></i>
-                            Deadline: {{ transaction.ticket_deadline.strftime('%m/%d %I:%M %p') if transaction.ticket_deadline else 'N/A' }}
-                        </div>
-                    </div>
-                    {% elif transaction.status == 'waiting_for_payment' %}
-                    <div class="action-waiting">
-                        <div class="action-header">
-                            <i class="fas fa-hourglass-half"></i>
-                            <strong>Waiting for Buyer</strong>
-                        </div>
-                        <p>Buyer has been notified to complete payment</p>
-                        <div class="deadline-info">
-                            <i class="fas fa-clock"></i>
-                            Payment due: {{ transaction.payment_deadline if transaction.payment_deadline else 'N/A' }}
-                        </div>
-                    </div>
-                    {% elif transaction.status == 'ticket_forwarded_funds_held' %}
-                    <div class="action-success">
-                        <div class="action-header">
-                            <i class="fas fa-check-circle"></i>
-                            <strong>Almost Done!</strong>
-                        </div>
-                        <p>Tickets delivered, payment will release automatically in 24 hours</p>
-                    </div>
-                    {% elif transaction.status == 'completed' %}
-                    <div class="action-complete">
-                        <div class="action-header">
-                            <i class="fas fa-trophy"></i>
-                            <strong>Transaction Complete</strong>
-                        </div>
-                        <p>Payment has been released to your account</p>
-                    </div>
-                    {% endif %}
                     
                     <div class="listing-actions">
                         <button class="btn-details" onclick="showTransactionDetails({{ transaction.transaction_id }})">
