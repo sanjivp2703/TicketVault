@@ -32,6 +32,13 @@ CREATE TABLE transactions(
   payment_deadline DATETIME, -- When buyer must pay by
   release_deadline DATETIME, -- When funds auto-release
   
+  -- Pending flow columns
+  listing_created_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  awaiting_ticket_email TEXT, -- The email address seller should send to
+  original_event_details TEXT, -- JSON of what seller entered
+  ticket_details_match INTEGER DEFAULT 0, -- 1 if verified details match
+  verification_notes TEXT, -- Details about verification
+  
   -- Ticket handling
   ticket_email_received BOOLEAN DEFAULT 0,
   ticket_received_time DATETIME,
@@ -53,6 +60,13 @@ CREATE TABLE transactions(
   complaint_reason VARCHAR(256),
   buyer_cancel_requested INTEGER DEFAULT 0,
   seller_cancel_requested INTEGER DEFAULT 0,
+  
+  -- Reminder tracking
+  ticket_reminder_sent_2h INTEGER DEFAULT 0,
+  ticket_reminder_sent_30m INTEGER DEFAULT 0,
+  ticket_reminder_sent_5m INTEGER DEFAULT 0,
+  payment_reminder_sent_4h INTEGER DEFAULT 0,
+  payment_reminder_sent_1h INTEGER DEFAULT 0,
 
   FOREIGN KEY (buyer_email) REFERENCES users(email),
   FOREIGN KEY (seller_email) REFERENCES users(email),
@@ -70,7 +84,14 @@ CREATE TABLE transactions(
     'ticket_returned',
     'complaint_filed',
     'complaint_resolved_buyer',
-    'complaint_resolved_seller'
+    'complaint_resolved_seller',
+    'validated',
+    'rejected',
+    'waiting_for_payment_processing',
+    'cancelled',
+    'complaint - refunded buyer',
+    'complaint - paid seller',
+    'pending_ticket_submission'
   ))
 );
 

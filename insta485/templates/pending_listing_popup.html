@@ -79,14 +79,20 @@
                 </button>
             </div>
             
-            <!-- Testing Button -->
+            <!-- Testing Buttons -->
             <div style="margin-bottom: 12px;">
                 <button onclick="simulateVerification()" 
-                        style="width: 100%; background-color: #7C3AED; color: white; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; transition: background-color 0.2s; font-size: 14px; font-weight: 600;">
+                        style="width: 100%; background-color: #7C3AED; color: white; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; transition: background-color 0.2s; font-size: 14px; font-weight: 600; margin-bottom: 8px;">
                     🧪 TEST: Simulate Ticket Sent & Verified
                 </button>
+                
+                <button onclick="markAsVerified()" 
+                        style="width: 100%; background-color: #DC2626; color: white; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; transition: background-color 0.2s; font-size: 14px; font-weight: 600;">
+                    ⚡ TEST: Mark as Verified
+                </button>
+                
                 <p style="font-size: 12px; color: #6B7280; text-align: center; margin: 4px 0 0 0;">
-                    Testing only - triggers full verification & buyer notification flow
+                    Testing only - Purple: simulates email verification | Red: instant verification
                 </p>
             </div>
             
@@ -201,37 +207,129 @@ function simulateVerification() {
     // Show loading state
     const button = event.target;
     const originalText = button.textContent;
-    button.textContent = '🔄 Simulating verification...';
+    button.textContent = '🔄 Fetching event details...';
     button.disabled = true;
     
-    // Create fake email data that would pass verification
-    const fakeEmailData = {
-        sender: window.currentSellerEmail || 'seller@test.com', // Use actual seller email
-        recipient: currentTicketEmail,
-        subject: 'Your Test Event Tickets - Order Confirmation',
-        body: 'Thank you for your ticket purchase! Event: Test Event Venue: Test Venue Order Number: TM-123456789 Seat: Section 101, Row A, Seats 5-6 Your tickets are attached as PDF files.',
-        attachments: ['tickets.pdf'],
-        timestamp: new Date().toISOString()
-    };
+    // First, fetch the actual transaction details to get real event info
+    fetch(`/api/transactions/${transactionId}/status`)
+        .then(response => response.json())
+        .then(statusData => {
+            if (!statusData.success) {
+                throw new Error('Could not fetch transaction details');
+            }
+            
+            const transaction = statusData.transaction;
+            const eventName = transaction.event_name || 'Unknown Event';
+            const eventLocation = transaction.event_location || 'Unknown Venue';
+            
+            button.textContent = '🔄 Simulating verification...';
+            
+            // Create fake email data that matches the ACTUAL event details
+            const fakeEmailData = {
+                sender: window.currentSellerEmail || transaction.seller_email || 'seller@test.com',
+                recipient: currentTicketEmail,
+                subject: `Your ${eventName} Tickets - Order Confirmation`,
+                body: `Thank you for your ticket purchase! Event: ${eventName} Venue: ${eventLocation} Order Number: TM-123456789 Seat: Section 101, Row A, Seats 5-6 Your tickets are attached as PDF files. This is a ticket confirmation receipt order for your purchase.`,
+                attachments: ['tickets.pdf'],
+                timestamp: new Date().toISOString()
+            };
+            
+            console.log('🧪 SIMULATION: Using real event details:', {
+                eventName,
+                eventLocation,
+                fakeEmailData
+            });
+            
+            // Send AJAX request to simulate ticket processing
+            return fetch(`/api/transactions/${transactionId}/simulate-verification`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(fakeEmailData)
+            });
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Show success message
+                alert(`✅ Simulation successful!\n\nListing activated: ${data.status}\nBuyer notification sent!\nPayment deadline: ${data.payment_deadline}\nVerification score: ${data.verification_score}/100`);
+                
+                // Update popup to show activation
+                document.getElementById('sentStatus').innerHTML = `
+                    <p style="color: #065F46; font-size: 14px; margin: 0; font-weight: 600;">
+                        🎉 SIMULATION: Listing activated! Buyer notified with 1-hour payment window!
+                    </p>
+                    <p style="color: #047857; font-size: 12px; margin: 4px 0 0 0;">
+                        Check your console/server logs to see the buyer notification email.
+                    </p>
+                `;
+                document.getElementById('sentStatus').style.display = 'block';
+                
+                // Hide all buttons except close
+                const buttonContainer = document.querySelector('[style*="display: flex; gap: 8px"]');
+                if (buttonContainer) {
+                    buttonContainer.style.display = 'none';
+                }
+                const testContainer = document.querySelector('button[onclick="simulateVerification()"]').parentElement;
+                if (testContainer) {
+                    testContainer.style.display = 'none';
+                }
+                
+                // Change close button
+                const laterButton = document.querySelector('button[onclick="closePendingPopup()"]');
+                if (laterButton) {
+                    laterButton.textContent = 'Close & View Active Listing';
+                    laterButton.style.backgroundColor = '#059669';
+                    laterButton.style.color = 'white';
+                    laterButton.style.fontWeight = '600';
+                }
+            } else {
+                alert(`❌ Simulation failed: ${data.error}`);
+                button.textContent = originalText;
+                button.disabled = false;
+            }
+        })
+        .catch(error => {
+            console.error('Simulation error:', error);
+            alert(`❌ Simulation failed: ${error.message || 'Unknown error'}`);
+            button.textContent = originalText;
+            button.disabled = false;
+        });
+}
+
+function markAsVerified() {
+    // Get current transaction ID from the popup context
+    const transactionId = getCurrentTransactionId();
     
-    // Send AJAX request to simulate ticket processing
-    fetch(`/api/transactions/${transactionId}/simulate-verification`, {
+    if (!transactionId) {
+        alert('Error: Could not get transaction ID');
+        return;
+    }
+    
+    // Show loading state
+    const button = event.target;
+    const originalText = button.textContent;
+    button.textContent = '⚡ Marking as verified...';
+    button.disabled = true;
+    
+    // Send AJAX request to mark as verified
+    fetch(`/api/transactions/${transactionId}/mark-verified`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(fakeEmailData)
+        }
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
             // Show success message
-            alert(`✅ Simulation successful!\n\nListing activated: ${data.status}\nBuyer notification sent!\nPayment deadline: ${data.payment_deadline}\nVerification score: ${data.verification_score}/100`);
+            alert(`✅ Marked as verified!\n\nListing activated: ${data.status}\nBuyer notification sent!\nPayment deadline: ${data.payment_deadline}\nVerification score: ${data.verification_score}/100`);
             
             // Update popup to show activation
             document.getElementById('sentStatus').innerHTML = `
                 <p style="color: #065F46; font-size: 14px; margin: 0; font-weight: 600;">
-                    🎉 SIMULATION: Listing activated! Buyer notified with 1-hour payment window!
+                    ⚡ TEST: Listing instantly verified and activated! Buyer notified with 1-hour payment window!
                 </p>
                 <p style="color: #047857; font-size: 12px; margin: 4px 0 0 0;">
                     Check your console/server logs to see the buyer notification email.
@@ -244,7 +342,7 @@ function simulateVerification() {
             if (buttonContainer) {
                 buttonContainer.style.display = 'none';
             }
-            const testContainer = document.querySelector('button[onclick="simulateVerification()"]').parentElement;
+            const testContainer = document.querySelector('button[onclick="markAsVerified()"]').parentElement;
             if (testContainer) {
                 testContainer.style.display = 'none';
             }
@@ -258,14 +356,14 @@ function simulateVerification() {
                 laterButton.style.fontWeight = '600';
             }
         } else {
-            alert(`❌ Simulation failed: ${data.error}`);
+            alert(`❌ Mark as verified failed: ${data.error}`);
             button.textContent = originalText;
             button.disabled = false;
         }
     })
     .catch(error => {
-        console.error('Simulation error:', error);
-        alert('❌ Simulation failed - check console');
+        console.error('Mark as verified error:', error);
+        alert(`❌ Mark as verified failed: ${error.message || 'Unknown error'}`);
         button.textContent = originalText;
         button.disabled = false;
     });

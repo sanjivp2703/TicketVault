@@ -207,6 +207,11 @@
             align-items: start;
         }
 
+        /* Hero section spans full width */
+        .hero-section {
+            grid-column: 1 / -1;
+        }
+
         .main-content {
             display: flex;
             flex-direction: column;
@@ -924,12 +929,13 @@
             .sidebar {
                 position: static;
                 order: 2;
-            display: grid;
+                display: grid;
                 grid-template-columns: 1fr 1fr;
-            gap: var(--space-lg);
-        }
+                gap: var(--space-lg);
+            }
 
-            .hero-section {
+            .hero-section,
+            .listings-section-fullwidth {
                 grid-column: 1;
             }
         }
@@ -1978,6 +1984,69 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        /* Full Width Listings Section */
+        .listings-section-fullwidth {
+            grid-column: 1 / -1; /* Span across all columns */
+            margin: var(--space-2xl) 0;
+            padding: var(--space-xl);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-light);
+        }
+
+        .listings-section-fullwidth .listings-header {
+            text-align: center;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .listings-section-fullwidth .listings-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-md);
+        }
+
+        .listings-section-fullwidth .listings-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .listings-section-fullwidth .listings-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: var(--space-xl);
+        }
+
+        /* Responsive adjustments for full width section */
+        @media (max-width: 1200px) {
+            .listings-section-fullwidth {
+                margin: var(--space-xl) 0;
+                padding: var(--space-lg);
+            }
+            
+            .listings-section-fullwidth .listings-container {
+                grid-template-columns: 1fr;
+                gap: var(--space-lg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .listings-section-fullwidth {
+                margin: var(--space-lg) 0;
+                padding: var(--space-md);
+            }
+            
+            .listings-section-fullwidth .listings-title {
+                font-size: 24px;
             }
         }
 
@@ -5935,6 +6004,167 @@
                 </div>
             </div>
             
+        {% if transactions %}
+        <!-- Your Listings Section - Full Width -->
+        <div class="listings-section-fullwidth">
+            <div class="listings-header">
+                <h2 class="listings-title"><i class="fas fa-list"></i> Your Active Listings</h2>
+                <p class="listings-subtitle">Manage your ticket listings and track transaction status</p>
+            </div>
+        
+            <div class="listings-container">
+                {% for transaction in transactions %}
+                <div class="listing-card" data-transaction-id="{{ transaction.transaction_id }}">
+                    <div class="listing-header">
+                        <h3 class="listing-event">{{ transaction.ticket_description }}</h3>
+                        <div class="listing-price">${{ transaction.price }}</div>
+                    </div>
+                    
+                    <div class="listing-details">
+                        <div class="listing-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            {{ transaction.location }}
+                        </div>
+                        <div class="listing-date">
+                            <i class="fas fa-calendar"></i>
+                            {{ transaction.event_datetime_str }}
+                        </div>
+                        <div class="listing-buyer">
+                            <i class="fas fa-user"></i>
+                            {{ transaction.buyer_email }}
+                        </div>
+                    </div>
+                    
+                    <!-- Modern Status Progress -->
+                    <div class="transaction-progress">
+                        <div class="progress-header">
+                            <span class="current-step">
+                                {% if transaction.status == 'pending_ticket_submission' %}
+                                    ⚡ Waiting for You to Send Tickets
+                                {% elif transaction.status == 'waiting_for_ticket' %}
+                                    Step 1: Send Your Tickets
+                                {% elif transaction.status == 'waiting_for_payment' %}
+                                    Step 2: Awaiting Payment
+                                {% elif transaction.status == 'both_received_processing' %}
+                                    Step 3: Processing Payment
+                                {% elif transaction.status == 'ticket_forwarded_funds_held' %}
+                                    Step 4: Tickets Delivered
+                                {% elif transaction.status == 'completed' %}
+                                    ✅ Transaction Complete
+                                {% elif transaction.status == 'expired_no_ticket' %}
+                                    ❌ Expired - No Tickets
+                                {% elif transaction.status == 'expired_no_payment' %}
+                                    ❌ Expired - No Payment
+                                {% else %}
+                                    {{ transaction.status|title }}
+                                {% endif %}
+                            </span>
+                            <span class="transaction-id">#{{ transaction.transaction_id }}</span>
+                        </div>
+                        
+                        <div class="progress-bar">
+                            {% set progress = 0 %}
+                            {% if transaction.status == 'pending_ticket_submission' %}{% set progress = 15 %}
+                            {% elif transaction.status == 'waiting_for_ticket' %}{% set progress = 25 %}
+                            {% elif transaction.status == 'waiting_for_payment' %}{% set progress = 50 %}
+                            {% elif transaction.status == 'both_received_processing' %}{% set progress = 75 %}
+                            {% elif transaction.status == 'ticket_forwarded_funds_held' %}{% set progress = 90 %}
+                            {% elif transaction.status == 'completed' %}{% set progress = 100 %}
+                            {% endif %}
+                            <div class="progress-fill" style="width: {{ progress }}%"></div>
+                        </div>
+                        
+                        <div class="progress-steps">
+                            <div class="step {% if progress >= 25 %}completed{% endif %}">
+                                <i class="fas fa-envelope"></i>
+                                <span>Send Tickets</span>
+                            </div>
+                            <div class="step {% if progress >= 50 %}completed{% endif %}">
+                                <i class="fas fa-credit-card"></i>
+                                <span>Buyer Pays</span>
+                            </div>
+                            <div class="step {% if progress >= 75 %}completed{% endif %}">
+                                <i class="fas fa-forward"></i>
+                                <span>Tickets Sent</span>
+                            </div>
+                            <div class="step {% if progress >= 100 %}completed{% endif %}">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span>You Get Paid</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Required Section -->
+                    {% if transaction.status == 'pending_ticket_submission' %}
+                    <div class="action-required">
+                        <div class="action-header">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <strong>Action Required</strong>
+                        </div>
+                        <p>Send your tickets to: <code>{{ transaction.awaiting_ticket_email }}</code></p>
+                        <div class="deadline-info">
+                            <i class="fas fa-clock"></i>
+                            Deadline: {{ transaction.ticket_deadline.strftime('%m/%d %I:%M %p') if transaction.ticket_deadline else 'N/A' }}
+                        </div>
+                    </div>
+                    {% elif transaction.status == 'waiting_for_ticket' %}
+                    <div class="action-required">
+                        <div class="action-header">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <strong>Action Required</strong>
+                        </div>
+                        <p>Forward your ticket email to: <code>{{ transaction.ticket_email }}</code></p>
+                        <div class="deadline-info">
+                            <i class="fas fa-clock"></i>
+                            Deadline: {{ transaction.ticket_deadline.strftime('%m/%d %I:%M %p') if transaction.ticket_deadline else 'N/A' }}
+                        </div>
+                    </div>
+                    {% elif transaction.status == 'waiting_for_payment' %}
+                    <div class="action-waiting">
+                        <div class="action-header">
+                            <i class="fas fa-hourglass-half"></i>
+                            <strong>Waiting for Buyer</strong>
+                        </div>
+                        <p>Buyer has been notified to complete payment</p>
+                        <div class="deadline-info">
+                            <i class="fas fa-clock"></i>
+                            Payment due: {{ transaction.payment_deadline if transaction.payment_deadline else 'N/A' }}
+                        </div>
+                    </div>
+                    {% elif transaction.status == 'ticket_forwarded_funds_held' %}
+                    <div class="action-success">
+                        <div class="action-header">
+                            <i class="fas fa-check-circle"></i>
+                            <strong>Almost Done!</strong>
+                        </div>
+                        <p>Tickets delivered, payment will release automatically in 24 hours</p>
+                    </div>
+                    {% elif transaction.status == 'completed' %}
+                    <div class="action-complete">
+                        <div class="action-header">
+                            <i class="fas fa-trophy"></i>
+                            <strong>Transaction Complete</strong>
+                        </div>
+                        <p>Payment has been released to your account</p>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="listing-actions">
+                        <button class="btn-details" onclick="showTransactionDetails({{ transaction.transaction_id }})">
+                            <i class="fas fa-info-circle"></i> View Details
+                        </button>
+                        {% if transaction.status in ['waiting_for_ticket', 'waiting_for_payment'] %}
+                        <button class="btn-cancel" onclick="cancelTransaction({{ transaction.transaction_id }})">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+            
         <!-- Main Content Area -->
         <div class="main-content">
             <!-- Create Listing Section -->
@@ -6022,154 +6252,7 @@
                     </button>
                 </form>
             </div>
-            
-            {% if transactions %}
-            <!-- Your Listings Section -->
-            <div class="listings-section">
-                <div class="listings-header">
-                    <h2 class="listings-title"><i class="fas fa-list"></i> Your Active Listings</h2>
-                    <p class="listings-subtitle">Manage your ticket listings and track transaction status</p>
-                    </div>
-                
-                <div class="listings-container">
-                        {% for transaction in transactions %}
-                        <div class="listing-card" data-transaction-id="{{ transaction.transaction_id }}">
-                            <div class="listing-header">
-                                <h3 class="listing-event">{{ transaction.ticket_description }}</h3>
-                                <div class="listing-price">${{ transaction.price }}</div>
-                </div>
-                            
-                            <div class="listing-details">
-                                <div class="listing-location">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    {{ transaction.location }}
-            </div>
-                                <div class="listing-date">
-                                    <i class="fas fa-calendar"></i>
-                                    {{ transaction.event_datetime_str }}
-                                </div>
-                                <div class="listing-buyer">
-                                    <i class="fas fa-user"></i>
-                                    {{ transaction.buyer_email }}
-                                </div>
-                            </div>
-                            
-                            <!-- Modern Status Progress -->
-                            <div class="transaction-progress">
-                                <div class="progress-header">
-                                    <span class="current-step">
-                                        {% if transaction.status == 'waiting_for_ticket' %}
-                                            Step 1: Send Your Tickets
-                                        {% elif transaction.status == 'waiting_for_payment' %}
-                                            Step 2: Awaiting Payment
-                                        {% elif transaction.status == 'both_received_processing' %}
-                                            Step 3: Processing Payment
-                                        {% elif transaction.status == 'ticket_forwarded_funds_held' %}
-                                            Step 4: Tickets Delivered
-                                        {% elif transaction.status == 'completed' %}
-                                            ✅ Transaction Complete
-                                        {% elif transaction.status == 'expired_no_ticket' %}
-                                            ❌ Expired - No Tickets
-                                        {% elif transaction.status == 'expired_no_payment' %}
-                                            ❌ Expired - No Payment
-                                        {% else %}
-                                            {{ transaction.status|title }}
-                                        {% endif %}
-                                    </span>
-                                    <span class="transaction-id">#{{ transaction.transaction_id }}</span>
-                                </div>
-                                
-                                <div class="progress-bar">
-                                    {% set progress = 0 %}
-                                    {% if transaction.status == 'waiting_for_ticket' %}{% set progress = 25 %}
-                                    {% elif transaction.status == 'waiting_for_payment' %}{% set progress = 50 %}
-                                    {% elif transaction.status == 'both_received_processing' %}{% set progress = 75 %}
-                                    {% elif transaction.status == 'ticket_forwarded_funds_held' %}{% set progress = 90 %}
-                                    {% elif transaction.status == 'completed' %}{% set progress = 100 %}
-        {% endif %}
-                                    <div class="progress-fill" style="width: {{ progress }}%"></div>
-                            </div>
-                                
-                                <div class="progress-steps">
-                                    <div class="step {% if progress >= 25 %}completed{% endif %}">
-                                        <i class="fas fa-envelope"></i>
-                                        <span>Send Tickets</span>
-                            </div>
-                                    <div class="step {% if progress >= 50 %}completed{% endif %}">
-                                        <i class="fas fa-credit-card"></i>
-                                        <span>Buyer Pays</span>
-                        </div>
-                                    <div class="step {% if progress >= 75 %}completed{% endif %}">
-                                        <i class="fas fa-forward"></i>
-                                        <span>Tickets Sent</span>
-                                    </div>
-                                    <div class="step {% if progress >= 100 %}completed{% endif %}">
-                                        <i class="fas fa-money-bill-wave"></i>
-                                        <span>You Get Paid</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Action Required Section -->
-                            {% if transaction.status == 'waiting_for_ticket' %}
-                            <div class="action-required">
-                                <div class="action-header">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                    <strong>Action Required</strong>
-                                </div>
-                                <p>Forward your ticket email to: <code>{{ transaction.ticket_email }}</code></p>
-                                <div class="deadline-info">
-                                    <i class="fas fa-clock"></i>
-                                    Deadline: {{ transaction.ticket_deadline.strftime('%m/%d %I:%M %p') if transaction.ticket_deadline else 'N/A' }}
-                                </div>
-                            </div>
-                            {% elif transaction.status == 'waiting_for_payment' %}
-                            <div class="action-waiting">
-                                <div class="action-header">
-                                    <i class="fas fa-hourglass-half"></i>
-                                    <strong>Waiting for Buyer</strong>
-                                </div>
-                                <p>Buyer has been notified to complete payment</p>
-                                <div class="deadline-info">
-                                    <i class="fas fa-clock"></i>
-                                    Payment due: {{ transaction.payment_deadline if transaction.payment_deadline else 'N/A' }}
-                                </div>
-                            </div>
-                            {% elif transaction.status == 'ticket_forwarded_funds_held' %}
-                            <div class="action-success">
-                                <div class="action-header">
-                                    <i class="fas fa-check-circle"></i>
-                                    <strong>Almost Done!</strong>
-                                </div>
-                                <p>Tickets delivered, payment will release automatically in 24 hours</p>
-                            </div>
-                            {% elif transaction.status == 'completed' %}
-                            <div class="action-complete">
-                                <div class="action-header">
-                                    <i class="fas fa-trophy"></i>
-                                    <strong>Transaction Complete</strong>
-                                </div>
-                                <p>Payment has been released to your account</p>
-                        </div>
-                            {% endif %}
-                            
-                            <div class="listing-actions">
-                                <button class="btn-details" onclick="showTransactionDetails({{ transaction.transaction_id }})">
-                                    <i class="fas fa-info-circle"></i> View Details
-                                </button>
-                                {% if transaction.status in ['waiting_for_ticket', 'waiting_for_payment'] %}
-                                <button class="btn-cancel" onclick="cancelTransaction({{ transaction.transaction_id }})">
-                                    <i class="fas fa-times"></i> Cancel
-                                </button>
-                {% endif %}
-                </div>
-                            
-                            
-            </div>
-                        {% endfor %}
-                </div>
-            </div>
-            {% endif %}
+
         </div>
 
         <!-- Sidebar -->

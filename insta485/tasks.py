@@ -34,7 +34,7 @@ def send_payment_seller(transaction_id):
                 transfer_group=str(transaction_id),
             )
             connection.execute(
-                "UPDATE transactions SET status = 'complete' WHERE transaction_id = ?",
+                "UPDATE transactions SET status = 'completed' WHERE transaction_id = ?",
                 (transaction_id,)
             )
         except stripe.error.StripeError as e:

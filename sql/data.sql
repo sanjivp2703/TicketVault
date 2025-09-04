@@ -17,9 +17,9 @@ VALUES
 INSERT INTO events (name, location, event_datetime) VALUES
 ('10min Test Event', 'Test Venue', '2025-07-23 22:36:00');
 
--- Add a transaction in pending status for this event
-INSERT INTO transactions (buyer_email, seller_email, price, event_id, status)
+-- Add a transaction in pending_ticket_submission status for this event
+INSERT INTO transactions (buyer_email, seller_email, price, event_id, status, awaiting_ticket_email)
 VALUES ('user2@gmail.com', 'user1@gmail.com', 100,
     (SELECT event_id FROM events WHERE name='10min Test Event'),
-    'pending');
+    'pending_ticket_submission', 'tx-000001@safetransaction.com');
 

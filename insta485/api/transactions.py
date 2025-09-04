@@ -374,3 +374,80 @@ def simulate_verification(transaction_id):
     except Exception as e:
         print(f"❌ SIMULATION ERROR: {e}")
         return flask.jsonify({'success': False, 'error': str(e)})
+
+
+# Testing endpoint for direct verification
+@insta485.app.route('/api/transactions/<int:transaction_id>/mark-verified', methods=['POST'])
+def mark_as_verified(transaction_id):
+    """
+    Testing endpoint: Directly mark transaction as verified and activate listing
+    This bypasses both email sending and verification, directly setting status to waiting_for_payment
+    """
+    try:
+        connection = insta485.model.get_db()
+        
+        # Get transaction details
+        transaction = connection.execute(
+            "SELECT * FROM transactions WHERE transaction_id = ?",
+            (transaction_id,)
+        ).fetchone()
+        
+        if not transaction:
+            return flask.jsonify({'success': False, 'error': 'Transaction not found'})
+        
+        # Must be in pending state
+        if transaction['status'] != 'pending_ticket_submission':
+            return flask.jsonify({'success': False, 'error': f'Transaction in wrong state: {transaction["status"]}'})
+        
+        # Set 1-hour payment deadline
+        payment_deadline = datetime.now() + timedelta(hours=1)
+        
+        # Format payment deadline for SQLite (no microseconds, space instead of T)
+        payment_deadline_str = payment_deadline.strftime('%Y-%m-%d %H:%M:%S')
+        
+        # Mark as verified and activate listing
+        connection.execute("""
+            UPDATE transactions 
+            SET status = 'waiting_for_payment',
+                ticket_email_received = 1,
+                ticket_received_time = CURRENT_TIMESTAMP,
+                ticket_verification_score = 100,
+                ticket_details_match = 1,
+                verification_notes = 'TEST: Manually marked as verified',
+                created_time = CURRENT_TIMESTAMP,
+                payment_deadline = ?
+            WHERE transaction_id = ?
+        """, (payment_deadline_str, transaction_id))
+        
+        connection.commit()
+        
+        # Send buyer notification (same as in verification flow)
+        try:
+            from insta485.email_automation import send_buyer_notification
+            original_details = json.loads(transaction['original_event_details'])
+            send_buyer_notification(
+                transaction_id,
+                transaction['buyer_email'],
+                payment_deadline,
+                transaction['price'],
+                f"http://localhost:8000/pay/{transaction_id}",
+                original_details['event_name']
+            )
+            print(f"📧 TEST: Buyer notification sent to {transaction['buyer_email']}")
+        except Exception as e:
+            print(f"📧 TEST: Failed to send buyer notification: {e}")
+        
+        print(f"✅ TEST: Transaction {transaction_id} manually marked as verified and activated")
+        print(f"⏰ TEST: Payment deadline set to {payment_deadline}")
+        
+        return flask.jsonify({
+            'success': True,
+            'status': 'waiting_for_payment',
+            'payment_deadline': payment_deadline_str,
+            'verification_score': 100,
+            'message': 'Listing manually verified and activated'
+        })
+        
+    except Exception as e:
+        print(f"❌ TEST ERROR: {e}")
+        return flask.jsonify({'success': False, 'error': str(e)})
