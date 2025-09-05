@@ -102,15 +102,16 @@ def show_index():
     for trans in transactions:
         trans_dict = dict(trans)
         # --- AUTO-UPDATE STATUS TO 'completed' IF EVENT TIME PASSED ---
-        event_dt = datetime.datetime.strptime(trans['event_datetime'], '%Y-%m-%d %H:%M:%S')
-        # 1. Promote to completed if event time passed and tickets were sent
-        if trans['status'] in ('waiting_for_ticket', 'ticket_forwarded_funds_held') and now >= event_dt:
-            connection.execute(
-                "UPDATE transactions SET status = 'completed' WHERE transaction_id = ?",
-                (trans['transaction_id'],)
-            )
-            trans_dict['status'] = 'completed'
-            send_payment_seller(trans['transaction_id'])
+        if trans['event_datetime'] and trans['event_datetime'].strip():
+            event_dt = datetime.datetime.strptime(trans['event_datetime'], '%Y-%m-%d %H:%M:%S')
+            # 1. Promote to completed if event time passed and tickets were sent
+            if trans['status'] in ('waiting_for_ticket', 'ticket_forwarded_funds_held') and now >= event_dt:
+                connection.execute(
+                    "UPDATE transactions SET status = 'completed' WHERE transaction_id = ?",
+                    (trans['transaction_id'],)
+                )
+                trans_dict['status'] = 'completed'
+                send_payment_seller(trans['transaction_id'])
         # Convert ticket_deadline to datetime if present
         if trans_dict.get('ticket_deadline'):
             trans_dict['ticket_deadline'] = datetime.datetime.strptime(

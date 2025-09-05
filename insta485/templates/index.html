@@ -2000,22 +2000,22 @@
 
         .listings-section-fullwidth .listings-header {
             text-align: center;
-            margin-bottom: var(--space-2xl);
+            margin-bottom: var(--space-lg); /* Reduced from var(--space-2xl) */
         }
 
         .listings-section-fullwidth .listings-title {
-            font-size: 28px;
-            font-weight: 700;
+            font-size: 24px; /* Reduced from 28px */
+            font-weight: 600; /* Reduced from 700 */
             color: var(--text-primary);
-            margin-bottom: var(--space-sm);
+            margin-bottom: var(--space-xs); /* Reduced from var(--space-sm) */
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: var(--space-md);
+            gap: var(--space-sm); /* Reduced from var(--space-md) */
         }
 
         .listings-section-fullwidth .listings-subtitle {
-            font-size: 16px;
+            font-size: 14px; /* Reduced from 16px */
             color: var(--text-secondary);
             margin: 0;
         }
@@ -2023,7 +2023,103 @@
         .listings-section-fullwidth .listings-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: var(--space-xl);
+            gap: var(--space-lg); /* Reduced from var(--space-xl) */
+        }
+
+        /* Smaller sizing for listing cards within full-width section */
+        .listings-section-fullwidth .listing-card {
+            padding: var(--space-md); /* Reduced internal padding */
+        }
+
+        .listings-section-fullwidth .listing-event {
+            font-size: 18px; /* Reduced from 20px */
+            font-weight: 600; /* Reduced from 700 */
+            margin-bottom: var(--space-xs); /* Reduced spacing */
+        }
+
+        .listings-section-fullwidth .listing-price {
+            font-size: 20px; /* Reduced from 24px */
+            font-weight: 700; /* Reduced from 800 */
+        }
+
+        .listings-section-fullwidth .listing-details {
+            margin-bottom: var(--space-sm); /* Reduced from default */
+            gap: var(--space-xs); /* Reduced gap between details */
+        }
+
+        .listings-section-fullwidth .listing-details > div {
+            font-size: 13px; /* Smaller detail text */
+        }
+
+        .listings-section-fullwidth .progress-header {
+            margin-bottom: var(--space-xs); /* Reduced spacing */
+        }
+
+        .listings-section-fullwidth .current-step {
+            font-size: 14px; /* Reduced from default */
+            font-weight: 600; /* Reduced weight */
+        }
+
+        .listings-section-fullwidth .transaction-id {
+            font-size: 12px; /* Smaller transaction ID */
+        }
+
+        .listings-section-fullwidth .progress-steps {
+            margin: var(--space-sm) 0; /* Reduced vertical margins */
+        }
+
+        .listings-section-fullwidth .step span {
+            font-size: 12px; /* Smaller step labels */
+        }
+
+        .listings-section-fullwidth .action-required,
+        .listings-section-fullwidth .action-waiting,
+        .listings-section-fullwidth .action-success,
+        .listings-section-fullwidth .action-complete {
+            padding: var(--space-sm); /* Reduced action section padding */
+            margin-top: var(--space-sm); /* Reduced top margin */
+        }
+
+        .listings-section-fullwidth .action-header {
+            font-size: 14px; /* Smaller action headers */
+            margin-bottom: var(--space-xs);
+        }
+
+        .listings-section-fullwidth .payment-info,
+        .listings-section-fullwidth .disclaimer-text {
+            font-size: 13px; /* Smaller text in action sections */
+            line-height: 1.4; /* Tighter line height */
+        }
+
+        .listings-section-fullwidth .listing-actions {
+            margin-top: var(--space-sm); /* Reduced top margin */
+            gap: var(--space-sm); /* Reduced gap between buttons */
+        }
+
+        .listings-section-fullwidth .btn-details,
+        .listings-section-fullwidth .btn-cancel {
+            padding: var(--space-xs) var(--space-sm); /* Smaller button padding */
+            font-size: 13px; /* Smaller button text */
+        }
+
+        /* Ensure Create Listing section at bottom has normal styling */
+        .main-content > .create-listing-section:last-child {
+            /* Reset any inherited styles and ensure normal Create Listing appearance */
+            margin-top: var(--space-2xl);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            border: 1px solid var(--border-light);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .main-content > .create-listing-section:last-child .create-listing-title {
+            font-size: 32px; /* Ensure normal title size */
+            font-weight: 800; /* Ensure normal title weight */
+        }
+
+        .main-content > .create-listing-section:last-child .create-listing-subtitle {
+            font-size: 16px; /* Ensure normal subtitle size */
         }
 
 
@@ -2088,7 +2184,15 @@
             }
             
             .listings-section-fullwidth .listings-title {
-                font-size: 24px;
+                font-size: 20px; /* Even smaller on mobile */
+            }
+            
+            .listings-section-fullwidth .listing-event {
+                font-size: 16px; /* Smaller on mobile */
+            }
+            
+            .listings-section-fullwidth .listing-price {
+                font-size: 18px; /* Smaller on mobile */
             }
 
             .disclaimer-text {
@@ -6050,9 +6154,11 @@
                 </div>
             </div>
             
-        {% if transactions %}
-        <!-- Your Listings Section - Full Width -->
-        <div class="listings-section-fullwidth">
+        <!-- Main Content Area -->
+        <div class="main-content">
+            {% if transactions %}
+            <!-- When there ARE active listings: Put them here (where Create Listing normally is) -->
+            <div class="listings-section-fullwidth" style="margin: 0; grid-column: auto;">
             <div class="listings-header">
                 <h2 class="listings-title"><i class="fas fa-list"></i> Your Active Listings</h2>
                 <p class="listings-subtitle">Manage your ticket listings and track transaction status</p>
@@ -6211,12 +6317,11 @@
                 </div>
                 {% endfor %}
             </div>
-        </div>
-        {% endif %}
+            </div>
+            {% endif %}
             
-        <!-- Main Content Area -->
-        <div class="main-content">
-            <!-- Create Listing Section -->
+            {% if not transactions %}
+            <!-- When there are NO active listings: Create Listing stays in its normal position -->
             <div class="create-listing-section">
                 <div class="create-listing-header">
                     <h2 class="create-listing-title"><i class="fas fa-ticket-alt"></i> Create New Listing</h2>
@@ -6301,6 +6406,91 @@
                     </button>
                 </form>
             </div>
+            {% endif %}
+            
+            {% if transactions %}
+            <!-- When there ARE active listings: Create Listing goes to the bottom -->
+            <div class="create-listing-section" style="margin-top: var(--space-2xl); /* Ensure proper spacing from active listings above */">
+                <div class="create-listing-header">
+                    <h2 class="create-listing-title"><i class="fas fa-ticket-alt"></i> Create New Listing</h2>
+                    <p class="create-listing-subtitle">List your tickets for sale on our secure platform</p>
+                </div>
+                
+                <form id="createListingFormBottom" action="{{ url_for('create_transaction') }}" method="post" class="listing-form" onsubmit="return handleCreateListing(event)">
+
+                    <!-- Event Information -->
+                    <div class="form-group">
+                        <label for="event_name_bottom">Event Name</label>
+                        <div class="event-search">
+                            <input type="text" id="event_name_bottom" name="event_name" required placeholder="e.g., Taylor Swift Concert" autocomplete="off">
+                            <div id="event_suggestions_bottom" class="event-suggestions"></div>
+                        </div>
+                </div>
+                
+                    <!-- Event Details Display (Hidden until event selected) -->
+                    <div id="event_details_container_bottom" class="event-details-container" style="display: none;">
+                        <div class="event-details-grid">
+                            <div class="event-detail-card venue-card">
+                                <div class="detail-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <label class="detail-label">Venue/Location</label>
+                                    <div id="event_location_display_bottom" class="detail-value">Select an event to see venue</div>
+                                </div>
+                            </div>
+                        
+                            <div class="event-detail-card datetime-card">
+                                <div class="detail-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <label class="detail-label">Event Date & Time</label>
+                                    <div id="event_datetime_display_bottom" class="detail-value">Select an event to see date</div>
+                                </div>
+                            </div>
+                                </div>
+                        </div>
+                    
+                    <!-- Hidden inputs for form submission -->
+                    <input type="hidden" id="event_location_bottom" name="event_location" required>
+                    <input type="hidden" id="event_datetime_bottom" name="event_datetime" required>
+                        
+                    <!-- Transaction Details -->
+                        <div class="form-row">
+                        <div class="form-group">
+                            <label for="price_bottom">Ticket Price ($)</label>
+                            <input type="number" id="price_bottom" name="price" step="0.01" min="1" max="10000" required placeholder="100.00">
+                            </div>
+                            
+                        <div class="form-group">
+                            <label for="buyer_email_bottom">
+                                Buyer Email 
+                                <i class="fas fa-info-circle tooltip-icon" data-tooltip="buyer-email-info-bottom"></i>
+                            </label>
+                            <input type="email" id="buyer_email_bottom" name="buyer_email" required placeholder="buyer@example.com">
+                            <div class="tooltip-content" id="buyer-email-info-bottom">
+                                <strong>Why we need the buyer's email:</strong>
+                                We'll send them a secure payment link to complete the purchase. They'll only pay if you successfully send valid tickets to our system first.
+                                <br><br>
+                                <strong>What the buyer receives:</strong>
+                                • Payment instructions with full protection details
+                                • Automatic ticket delivery after payment
+                                • 24-hour verification window
+                                • Full refund guarantee if tickets are invalid
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add the seller email as a hidden field for backend processing -->
+                    <input type="hidden" name="seller_email" value="{{ logemail }}">
+                    
+                    <button type="submit" class="create-listing-btn">
+                        <i class="fas fa-plus"></i> Create Listing & Send to Buyer
+                    </button>
+                </form>
+            </div>
+            {% endif %}
 
         </div>
 
@@ -8162,17 +8352,33 @@
 
 
 
-    // Event Search Autocomplete
-    document.addEventListener('DOMContentLoaded', function() {
-        const eventNameInput = document.getElementById('event_name');
-        const eventLocationInput = document.getElementById('event_location');
-        const eventDatetimeInput = document.getElementById('event_datetime');
-        const suggestionsContainer = document.getElementById('event_suggestions');
-        const eventDetailsContainer = document.getElementById('event_details_container');
-        const eventLocationDisplay = document.getElementById('event_location_display');
-        const eventDatetimeDisplay = document.getElementById('event_datetime_display');
-        const venueCard = document.querySelector('.venue-card');
-        const datetimeCard = document.querySelector('.datetime-card');
+    // Event Search Autocomplete - Reusable function
+    function initializeEventAutocomplete(suffix = '') {
+        const eventNameInput = document.getElementById('event_name' + suffix);
+        const eventLocationInput = document.getElementById('event_location' + suffix);
+        const eventDatetimeInput = document.getElementById('event_datetime' + suffix);
+        const suggestionsContainer = document.getElementById('event_suggestions' + suffix);
+        const eventDetailsContainer = document.getElementById('event_details_container' + suffix);
+        const eventLocationDisplay = document.getElementById('event_location_display' + suffix);
+        const eventDatetimeDisplay = document.getElementById('event_datetime_display' + suffix);
+        
+        // Find venue and datetime cards within the appropriate form
+        let venueCard, datetimeCard;
+        if (suffix) {
+            // For bottom form, find cards within that specific form
+            const bottomForm = document.getElementById('createListingFormBottom');
+            if (bottomForm) {
+                venueCard = bottomForm.querySelector('.venue-card');
+                datetimeCard = bottomForm.querySelector('.datetime-card');
+            }
+        } else {
+            // For top form, find cards within that specific form
+            const topForm = document.getElementById('createListingForm');
+            if (topForm) {
+                venueCard = topForm.querySelector('.venue-card');
+                datetimeCard = topForm.querySelector('.datetime-card');
+            }
+        }
 
         if (!eventNameInput || !suggestionsContainer) return;
 
@@ -8209,7 +8415,7 @@
                     .then(events => {
                         if (events.length > 0) {
                             showSuggestions(events);
-        } else {
+                        } else {
                             suggestionsContainer.style.display = 'none';
                         }
                     })
@@ -8285,6 +8491,15 @@
                 suggestionsContainer.style.display = 'none';
             }
         });
+    }
+
+    // Initialize autocomplete for both forms
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize for normal position form (no suffix)
+        initializeEventAutocomplete();
+        
+        // Initialize for bottom position form (_bottom suffix)
+        initializeEventAutocomplete('_bottom');
     });
 
     // Tooltip functionality

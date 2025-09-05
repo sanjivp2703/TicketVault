@@ -129,6 +129,7 @@ function showPendingListingPopup(ticketEmail, transactionId) {
 }
 
 function closePendingPopup() {
+    console.log(`🔄 CLOSING POPUP at ${new Date().toLocaleTimeString()} - NO EMAIL SENT NOW (emails are sent during verification, not during popup close)`);
     document.getElementById('pendingListingPopup').style.display = 'none';
     // Refresh the page to show updated listings
     window.location.reload();
@@ -314,25 +315,33 @@ function markAsVerified() {
     button.disabled = true;
     
     // Send AJAX request to mark as verified
+    console.log(`🚀 SENDING VERIFICATION REQUEST at ${new Date().toLocaleTimeString()} - BUYER EMAIL WILL BE SENT NOW!`);
     fetch(`/api/transactions/${transactionId}/mark-verified`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         }
     })
-    .then(response => response.json())
+    .then(response => {
+        console.log(`📧 VERIFICATION API CALL COMPLETED at ${new Date().toLocaleTimeString()} - EMAIL ALREADY SENT!`);
+        return response.json();
+    })
     .then(data => {
         if (data.success) {
-            // Show success message
-            alert(`✅ Marked as verified!\n\nListing activated: ${data.status}\nBuyer notification sent!\nPayment deadline: ${data.payment_deadline}\nVerification score: ${data.verification_score}/100`);
+            // Show immediate success message with timestamp
+            const currentTime = new Date().toLocaleTimeString();
+            alert(`✅ Marked as verified at ${currentTime}!\n\n📧 BUYER EMAIL SENT IMMEDIATELY!\n\nListing activated: ${data.status}\nPayment deadline: ${data.payment_deadline}\nVerification score: ${data.verification_score}/100`);
             
-            // Update popup to show activation
+            // Update popup to show activation with clear email timing
             document.getElementById('sentStatus').innerHTML = `
                 <p style="color: #065F46; font-size: 14px; margin: 0; font-weight: 600;">
-                    ⚡ TEST: Listing instantly verified and activated! Buyer notified with 1-hour payment window!
+                    ✅ Listing verified at ${currentTime}
+                </p>
+                <p style="color: #059669; font-size: 14px; margin: 4px 0; font-weight: 600;">
+                    📧 Buyer email sent IMMEDIATELY (not when closing popup)
                 </p>
                 <p style="color: #047857; font-size: 12px; margin: 4px 0 0 0;">
-                    Check your console/server logs to see the buyer notification email.
+                    The email was sent the moment you clicked "Mark as Verified", not when you close this popup.
                 </p>
             `;
             document.getElementById('sentStatus').style.display = 'block';
