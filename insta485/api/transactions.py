@@ -425,17 +425,27 @@ def mark_as_verified(transaction_id):
         try:
             from insta485.email_automation import send_buyer_notification
             original_details = json.loads(transaction['original_event_details'])
+            
+            # Create event_details dictionary
+            event_details = {
+                'name': original_details['event_name'],
+                'location': original_details['event_location'],
+                'datetime': original_details['event_datetime']
+            }
+            
             send_buyer_notification(
                 transaction_id,
                 transaction['buyer_email'],
-                payment_deadline,
+                transaction['seller_email'],
                 transaction['price'],
-                f"http://localhost:8000/pay/{transaction_id}",
-                original_details['event_name']
+                event_details,
+                payment_deadline
             )
             print(f"📧 TEST: Buyer notification sent to {transaction['buyer_email']}")
         except Exception as e:
             print(f"📧 TEST: Failed to send buyer notification: {e}")
+            import traceback
+            print(f"Full error: {traceback.format_exc()}")
         
         print(f"✅ TEST: Transaction {transaction_id} manually marked as verified and activated")
         print(f"⏰ TEST: Payment deadline set to {payment_deadline}")

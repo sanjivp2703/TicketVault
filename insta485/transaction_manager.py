@@ -132,13 +132,21 @@ class TransactionManager:
             
             # Send buyer notification with 1-hour payment window
             original_details = json.loads(transaction['original_event_details'])
+            
+            # Create event_details dictionary
+            event_details = {
+                'name': original_details['event_name'],
+                'location': original_details['event_location'],
+                'datetime': original_details['event_datetime']
+            }
+            
             send_buyer_notification(
                 transaction_id,
                 transaction['buyer_email'],
-                payment_deadline,
+                transaction['seller_email'],
                 transaction['price'],
-                f"http://localhost:8000/pay/{transaction_id}",
-                original_details['event_name']
+                event_details,
+                payment_deadline
             )
             
             print(f"✅ Listing {transaction_id} ACTIVATED - buyer has 1 hour to pay")

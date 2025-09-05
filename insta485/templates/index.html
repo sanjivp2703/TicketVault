@@ -2037,17 +2037,35 @@
             border-top: 1px solid var(--border-light);
         }
 
+        /* Payment Info */
+        .payment-info {
+            margin-bottom: var(--space-sm);
+            color: var(--text-primary);
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .payment-info strong {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+
         /* Disclaimer Text */
         .disclaimer-text {
-            margin-top: var(--space-md);
+            margin-top: var(--space-lg);
+            padding-top: var(--space-md);
+            border-top: 1px solid rgba(203, 213, 225, 0.5);
             color: var(--text-secondary);
             font-size: 14px;
-            line-height: 1.5;
+            line-height: 1.6;
             text-align: left;
+            font-style: italic;
         }
 
         .disclaimer-text strong {
             color: var(--text-primary);
+            font-style: normal;
+            font-weight: 600;
         }
 
         /* Responsive adjustments for full width section */
@@ -2462,8 +2480,8 @@
         }
 
         .action-waiting {
-            background: rgba(245, 158, 11, 0.1);
-            border-left-color: #f59e0b;
+            background: transparent;
+            border-left: none;
         }
 
         .action-success {
@@ -2485,7 +2503,7 @@
         }
 
         .action-required .action-header i { color: #ef4444; }
-        .action-waiting .action-header i { color: #f59e0b; }
+        .action-waiting .action-header i { color: var(--text-secondary); }
         .action-success .action-header i { color: #10b981; }
         .action-complete .action-header i { color: #3b82f6; }
 
@@ -6148,16 +6166,17 @@
                         </div>
                         {% elif transaction.status == 'waiting_for_payment' %}
                         <div class="action-waiting">
-                            <p>Buyer has received email to submit payment by 
+                            <p class="payment-info">✉️ We have emailed the buyer a payment link and they have until 
                             {% if transaction.payment_deadline %}
-                                {{ transaction.payment_deadline.strftime('%I:%M %p') }}
+                                <strong>{{ transaction.payment_deadline.strftime('%I:%M %p') }}</strong>
                             {% else %}
-                                N/A
+                                <strong>N/A</strong>
                             {% endif %}
+                            to complete payment
                             </p>
                             
                             <p class="disclaimer-text">
-                                <strong>Important:</strong> We'll only send the ticket after your balance is paid. If not, we'll send the ticket back to you.
+                                <strong>Just a heads up:</strong> We'll only send the tickets to your buyer after you receive payment. If they don't pay, don't worry—we'll send the tickets right back to you.
                             </p>
                         </div>
                         {% elif transaction.status == 'ticket_forwarded_funds_held' %}
