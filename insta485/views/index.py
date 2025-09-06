@@ -1098,12 +1098,12 @@ def payment_success():
     # Format payment time for display
     payment_time_display = payment_dt.strftime('%a, %b %d, %I:%M %p')
     
-    # In the new automated system, payment triggers automatic ticket forwarding
-    # So we update to indicate payment received
+    # Payment received, advance to ticket processing stage
+    # Will stay here until ticket sending is confirmed (to be implemented later)
     connection.execute(
         """
         UPDATE transactions 
-        SET status = 'waiting_for_payment', 
+        SET status = 'both_received_processing', 
             payment_received = 1,
             payment_received_time = CURRENT_TIMESTAMP
         WHERE transaction_id = ?

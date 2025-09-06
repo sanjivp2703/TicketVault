@@ -311,7 +311,7 @@ def payment_complete(transaction_id):
             UPDATE transactions 
             SET payment_received = 1,
                 payment_received_time = CURRENT_TIMESTAMP,
-                status = 'ticket_forwarded_funds_held'
+                status = 'both_received_processing'
             WHERE transaction_id = ?
         """, (transaction_id,))
         connection.commit()

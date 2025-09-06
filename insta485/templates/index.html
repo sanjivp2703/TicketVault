@@ -2637,6 +2637,16 @@
             background: rgba(16, 185, 129, 0.1);
         }
 
+        .step.current i,
+        .step.current span {
+            color: #f59e0b;
+        }
+
+        .step.current {
+            background: rgba(245, 158, 11, 0.1);
+            position: relative;
+        }
+
         /* Action Status Sections */
         .action-required,
         .action-waiting,
@@ -6356,22 +6366,42 @@
                             </div>
                                 
                                 <div class="progress-steps">
-                                    <div class="step {% if progress >= 25 %}completed{% endif %}">
+                                    <div class="step {% if progress > 25 %}completed{% elif progress == 25 %}current{% endif %}">
                                         <i class="fas fa-envelope"></i>
                                         <span>Send Tickets</span>
+                                        {% if progress == 25 %}
+                                        <div class="progress-bar-mini" style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 80%; height: 4px; background: rgba(245, 158, 11, 0.3); border-radius: 2px;">
+                                            <div class="progress-fill-mini" style="width: 100%; height: 100%; background: #f59e0b; border-radius: 2px; transition: width 0.3s ease;"></div>
+                                        </div>
+                                        {% endif %}
                                     </div>
-                                    <div class="step {% if progress >= 50 %}completed{% endif %}">
+                                    <div class="step {% if progress > 50 %}completed{% elif progress == 50 %}current{% endif %}">
                                         <i class="fas fa-credit-card"></i>
                                         <span>Buyer Pays</span>
+                                        {% if progress == 50 %}
+                                        <div class="progress-bar-mini" style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 80%; height: 4px; background: rgba(245, 158, 11, 0.3); border-radius: 2px;">
+                                            <div class="progress-fill-mini" style="width: 100%; height: 100%; background: #f59e0b; border-radius: 2px; transition: width 0.3s ease;"></div>
+                                        </div>
+                                        {% endif %}
                                     </div>
-                                    <div class="step {% if progress >= 75 %}completed{% endif %}">
+                                    <div class="step {% if progress > 75 %}completed{% elif progress == 75 %}current{% endif %}">
                                         <i class="fas fa-forward"></i>
                                         <span>Tickets Sent</span>
+                                        {% if progress == 75 %}
+                                        <div class="progress-bar-mini" style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 80%; height: 4px; background: rgba(245, 158, 11, 0.3); border-radius: 2px;">
+                                            <div class="progress-fill-mini" style="width: 100%; height: 100%; background: #f59e0b; border-radius: 2px; transition: width 0.3s ease;"></div>
+                                        </div>
+                                        {% endif %}
                                     </div>
-                                    <div class="step {% if progress >= 100 %}completed{% endif %}">
+                                    <div class="step {% if progress >= 100 %}completed{% elif progress >= 90 %}current{% endif %}">
                                         <i class="fas fa-money-bill-wave"></i>
                                         <span>You Get Paid</span>
-                                </div>
+                                        {% if progress >= 90 and progress < 100 %}
+                                        <div class="progress-bar-mini" style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 80%; height: 4px; background: rgba(245, 158, 11, 0.3); border-radius: 2px;">
+                                            <div class="progress-fill-mini" style="width: 100%; height: 100%; background: #f59e0b; border-radius: 2px; transition: width 0.3s ease;"></div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
                             </div>
                             
                             <!-- Action Required Section -->
