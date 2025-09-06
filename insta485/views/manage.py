@@ -8,6 +8,12 @@ import flask
 import stripe
 import insta485
 import time
+import random
+import string
+import os
+from urllib.parse import urlencode
+import requests
+from werkzeug.exceptions import HTTPException
 
 # This is a test key. In a real application, this should be stored securely.
 stripe.api_key = "sk_test_51QrpdQC07BpFIQPX9s25iHN5nA78PYrurooQeTqtiEUhqBhzC8qcl3BHd6ZDFYCNLM6fGS1ynqwHY0uKtZ19zSDe00OalrifSw"
@@ -66,52 +72,202 @@ def verify_pw(stored, provided):
     password_hash = hash_obj2.hexdigest()
     return password_hash == hash_obj
 
+def generate_verification_code(length=6):
+    """Generate a random verification code."""
+    return ''.join(random.choices(string.digits, k=length))
+
+def send_verification_email(email, code):
+    """Send verification email (placeholder implementation)."""
+    # In a real application, you would use a service like SendGrid, AWS SES, etc.
+    print(f"[EMAIL] Sending verification code {code} to {email}")
+    # For development, we'll just print to console
+    return True
+
+def send_verification_sms(phone_number, code):
+    """Send verification SMS using Textbelt API (free for testing)."""
+    # Use Textbelt for SMS sending - it's free for testing
+    try:
+        # Format phone number - ensure it starts with +1 for US numbers
+        if not phone_number.startswith('+'):
+            if not phone_number.startswith('1'):
+                phone_number = '1' + phone_number
+            phone_number = '+' + phone_number
+        
+        # For development, we'll print to console instead of sending real SMS
+        print(f"[SMS] Sending verification code {code} to {phone_number}")
+        print(f"[SMS] Message: Your Safe Transaction verification code is: {code}")
+        
+        # Uncomment the following lines to send real SMS in production:
+        # payload = {
+        #     'phone': phone_number,
+        #     'message': f'Your Safe Transaction verification code is: {code}',
+        #     'key': 'textbelt'  # Use 'textbelt' for free quota
+        # }
+        # response = requests.post('https://textbelt.com/text', data=payload)
+        # return response.json().get('success', False)
+        
+        return True  # Return True for development
+    except Exception as e:
+        print(f"[SMS ERROR] Failed to send SMS: {e}")
+        return False
+
+def create_verification_code(email, code_type, connection):
+    """Create and store a verification code."""
+    code = generate_verification_code()
+    expires_at = datetime.datetime.now() + datetime.timedelta(minutes=10)  # 10 minute expiry
+    
+    connection.execute(
+        "INSERT INTO verification_codes (email, code, code_type, expires_at) VALUES (?, ?, ?, ?)",
+        (email, code, code_type, expires_at)
+    )
+    
+    if code_type == 'email_verification':
+        send_verification_email(email, code)
+    elif code_type == 'phone_verification':
+        # Get user's phone number for SMS
+        try:
+            user = connection.execute(
+                "SELECT phone_number FROM users WHERE email = ?",
+                (email,)
+            ).fetchone()
+            if user and user['phone_number']:
+                send_verification_sms(user['phone_number'], code)
+        except Exception:
+            print(f"[SMS] Could not send SMS - phone number not available for {email}")
+    
+    return code
+
+def verify_code(email, provided_code, code_type, connection):
+    """Verify a provided code against stored codes."""
+    current_time = datetime.datetime.now()
+    
+    # Get the most recent unused code of the specified type
+    code_record = connection.execute(
+        """SELECT id, code FROM verification_codes 
+           WHERE email = ? AND code_type = ? AND used = 0 AND expires_at > ?
+           ORDER BY created_at DESC LIMIT 1""",
+        (email, code_type, current_time)
+    ).fetchone()
+    
+    if not code_record:
+        return False
+    
+    if code_record['code'] == provided_code:
+        # Mark code as used
+        connection.execute(
+            "UPDATE verification_codes SET used = 1 WHERE id = ?",
+            (code_record['id'],)
+        )
+        
+        # Update user verification status
+        if code_type == 'email_verification':
+            connection.execute(
+                "UPDATE users SET email_verified = 1 WHERE email = ?",
+                (email,)
+            )
+        elif code_type == 'phone_verification':
+            connection.execute(
+                "UPDATE users SET phone_verified = 1 WHERE email = ?",
+                (email,)
+            )
+        
+        return True
+    
+    return False
+
 def manage_create(target, connection):
     """Create a user."""
-    firstname = flask.request.form['firstname']
-    lastname = flask.request.form['lastname']
-    email = flask.request.form['email']
-    password = flask.request.form['password']
-    if not all([password, email, firstname, lastname]):
-        flask.abort(400)
-
+    # Get form data
+    firstname = flask.request.form.get('firstname', '').strip()
+    email = flask.request.form.get('email', '').strip().lower()
+    password = flask.request.form.get('password', '')
+    
+    print(f"[DEBUG] Signup attempt: {firstname} <{email}>")
+    
+    # Simple validation
+    if not firstname or not email or not password:
+        print("[ERROR] Missing required fields")
+        return flask.render_template("create.html", error="All fields are required.")
+    
     # Check if user exists
-    row = connection.execute(
-        "SELECT * FROM users WHERE email == ?",
-        (email,)
-    ).fetchone()
-    if row:
-        flask.abort(409)
-
-    # Insert new user
-    connection.execute(
-        "INSERT INTO users "
-        "(firstname, lastname, email, password) "
-        "VALUES (?, ?, ?, ?)",
-        (firstname, lastname, email, hash_password(password))
-    )
-    flask.session['email'] = email
-    return seller_onboarding()
+    try:
+        existing_user = connection.execute(
+            "SELECT email FROM users WHERE email = ?", (email,)
+        ).fetchone()
+        
+        if existing_user:
+            print(f"[ERROR] User already exists: {email}")
+            return flask.render_template("create.html", error="User with that email already exists.")
+    except Exception as e:
+        print(f"[ERROR] Database check failed: {e}")
+        return flask.render_template("create.html", error="Database error. Please try again.")
+    
+    # Split name into first/last
+    if ' ' in firstname:
+        name_parts = firstname.split(' ', 1)
+        actual_firstname = name_parts[0]
+        actual_lastname = name_parts[1]
+    else:
+        actual_firstname = firstname
+        actual_lastname = ''
+    
+    # Create user
+    try:
+        connection.execute(
+            "INSERT INTO users (firstname, lastname, email, password) VALUES (?, ?, ?, ?)",
+            (actual_firstname, actual_lastname, email, hash_password(password))
+        )
+        connection.commit()
+        print(f"[SUCCESS] User created: {email}")
+        
+        # Set session
+        flask.session['email'] = email
+        print(f"[SUCCESS] Session set for: {email}")
+        
+        # Redirect to main page
+        redirect_url = flask.url_for('show_index')
+        print(f"[DEBUG] Redirecting to: {redirect_url}")
+        return flask.redirect(redirect_url)
+        
+    except Exception as e:
+        print(f"[ERROR] Failed to create user: {e}")
+        return flask.render_template("create.html", error="Failed to create account. Please try again.")
 
 
 def manage_login(connection, target):
     """Login a user."""
-    email = flask.request.form['email']
-    password = flask.request.form['password']
-    if email == "" or password == "":
-        return flask.abort(400)
-    curr = connection.execute(
-        "SELECT password FROM users WHERE email == ?",
-        (email,)
-    )
-    row = curr.fetchone()
-    valid = False
-    if row:
-        valid = verify_pw(row['password'], password)
-    if valid:
-        flask.session['email'] = email
-        return flask.redirect(target)
-    return flask.abort(403)
+    email = flask.request.form.get('email', '').strip().lower()
+    password = flask.request.form.get('password', '')
+    
+    print(f"[DEBUG] Login attempt for: {email}")
+    
+    if not email or not password:
+        print("[ERROR] Missing email or password")
+        return flask.render_template("login.html", error="Email and password are required.")
+        
+    try:
+        # Get user from database
+        row = connection.execute(
+            "SELECT password FROM users WHERE email = ?",
+            (email,)
+        ).fetchone()
+        
+        if not row:
+            print(f"[ERROR] User not found: {email}")
+            return flask.render_template("login.html", error="Invalid email or password.")
+        
+        # Verify password
+        if verify_pw(row['password'], password):
+            flask.session['email'] = email
+            print(f"[SUCCESS] Login successful for: {email}")
+            return flask.redirect(target if target else flask.url_for('show_index'))
+        else:
+            print(f"[ERROR] Invalid password for: {email}")
+            return flask.render_template("login.html", error="Invalid email or password.")
+            
+    except Exception as e:
+        print(f"[ERROR] Login failed: {e}")
+        return flask.render_template("login.html", error="Login failed. Please try again.")
 
 def manage_edit(connection, target):
     """Handle account editing. (Placeholder)"""
@@ -121,20 +277,29 @@ def manage_edit(connection, target):
 
 def seller_onboarding():
     """Handle seller onboarding with Stripe."""
-    if 'email' not in flask.session:
-        return flask.redirect(flask.url_for('manage_accounts'))
+    try:
+        if 'email' not in flask.session:
+            print("[DEBUG] No email in session, redirecting to login")
+            return flask.redirect(flask.url_for('show_accounts', url='login'))
 
-    email = flask.session['email']
-    connection = insta485.model.get_db()
-    user = connection.execute(
-        "SELECT firstname, lastname "
-        "FROM users "
-        "WHERE email = ? ",
-        (email, )
-    ).fetchone()
+        email = flask.session['email']
+        print(f"[DEBUG] Starting seller onboarding for: {email}")
+        
+        connection = insta485.model.get_db()
+        user = connection.execute(
+            "SELECT firstname, lastname FROM users WHERE email = ?",
+            (email,)
+        ).fetchone()
 
-    if not user:
-        flask.abort(404)
+        if not user:
+            print(f"[ERROR] User not found in database: {email}")
+            flask.abort(404)
+            
+        print(f"[DEBUG] Found user: {user['firstname']} {user['lastname']}")
+
+    except Exception as e:
+        print(f"[ERROR] Error in seller_onboarding: {e}")
+        return flask.redirect(flask.url_for('show_index'))
 
     account = stripe.Account.create(
         type="express",
@@ -243,54 +408,4 @@ def send_payment_seller(transaction_id):
         except stripe.error.StripeError as e:
             print(f"Scheduler: Stripe Error for transaction {transaction_id}: {e}")
 
-@insta485.app.route('/accounts/', methods=["POST", "GET"])
-def manage_accounts():
-    """Manage accounts."""
-    connection = insta485.model.get_db()
-    target = flask.request.args.get('target')
-    operation = flask.request.form['operation']
-    if target is None or target == "":
-        target = "/"
-    if operation == "login":
-        return manage_login(connection, target)
-    if operation == "edit_account":
-        return manage_edit(connection, target)
-    if operation == "create":
-        return manage_create(target, connection)
-    if operation == "delete":
-        pfp_file = connection.execute(
-            "SELECT filename "
-            "FROM users "
-            "WHERE email == ? ",
-            (flask.session['email'], )
-        ).fetchone()
-        os.remove(insta485.app.config['UPLOAD_FOLDER']/pfp_file['filename'])
-        connection.execute(
-            "DELETE FROM users "
-            "WHERE email = ? ",
-            (flask.session['email'], )
-        )
-        flask.session.clear()
-    if operation == "update_password":
-        old_pw = flask.request.form['password']
-        new_pw1 = flask.request.form['new_password1']
-        new_pw2 = flask.request.form['new_password2']
-        status = -1
-        if not old_pw or not new_pw1 or not new_pw2:
-            status = 400
-        elif new_pw1 != new_pw2:
-            status = 401
-        if status != -1:
-            return flask.abort(status)
-        row = connection.execute(
-            "SELECT password FROM users WHERE email == ?",
-            (flask.session['email'], )).fetchone()
-        if not verify_pw(row['password'], old_pw):
-            return flask.abort(403)
-        connection.execute(
-            "UPDATE users "
-            "SET password = ? "
-            "WHERE email == ? ",
-            (hash_password(new_pw1), flask.session['email'])
-        )
-    return flask.redirect(target)
+# Removed the complex manage_accounts route - using simplified individual routes instead

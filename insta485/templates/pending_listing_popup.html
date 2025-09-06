@@ -79,20 +79,20 @@
                 </button>
             </div>
             
-            <!-- Testing Buttons -->
-            <div style="margin-bottom: 12px;">
-                <button onclick="simulateVerification()" 
-                        style="width: 100%; background-color: #7C3AED; color: white; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; transition: background-color 0.2s; font-size: 14px; font-weight: 600; margin-bottom: 8px;">
-                    🧪 TEST: Simulate Ticket Sent & Verified
-                </button>
-                
-                <button onclick="markAsVerified()" 
-                        style="width: 100%; background-color: #DC2626; color: white; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; transition: background-color 0.2s; font-size: 14px; font-weight: 600;">
-                    ⚡ TEST: Mark as Verified
-                </button>
-                
-                <p style="font-size: 12px; color: #6B7280; text-align: center; margin: 4px 0 0 0;">
-                    Testing only - Purple: simulates email verification | Red: instant verification
+            <!-- Test Mode Toggle -->
+            <div style="margin-bottom: 12px; padding: 16px; background-color: #F8FAFC; border-radius: 8px; border: 1px solid #E2E8F0;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                    <label style="font-size: 14px; font-weight: 600; color: #374151;">
+                        🧪 Test Mode
+                    </label>
+                    <div style="position: relative;">
+                        <input type="checkbox" id="testModeToggle" onchange="toggleTestMode()" 
+                               style="width: 44px; height: 24px; appearance: none; background-color: #D1D5DB; border-radius: 12px; cursor: pointer; transition: background-color 0.2s;">
+                        <div id="toggleSlider" style="position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background-color: white; border-radius: 50%; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"></div>
+                    </div>
+                </div>
+                <p id="testModeDescription" style="font-size: 12px; color: #6B7280; margin: 0; line-height: 1.4;">
+                    Enable test mode to use simplified email verification (event name matching only)
                 </p>
             </div>
             
@@ -196,186 +196,43 @@ function markAsSent() {
     console.log('🚀 User marked email as sent - monitoring for faster detection');
 }
 
-function simulateVerification() {
-    // Get current transaction ID from the popup context
-    const transactionId = getCurrentTransactionId();
+function toggleTestMode() {
+    const toggle = document.getElementById('testModeToggle');
+    const slider = document.getElementById('toggleSlider');
+    const description = document.getElementById('testModeDescription');
     
-    if (!transactionId) {
-        alert('Error: Could not get transaction ID');
-        return;
+    if (toggle.checked) {
+        // Enable test mode
+        toggle.style.backgroundColor = '#3B82F6';
+        slider.style.transform = 'translateX(20px)';
+        description.textContent = 'Test mode enabled: Send email with matching event name for automatic verification';
+        description.style.color = '#3B82F6';
+        
+        // Store test mode state and update hidden inputs
+        window.testModeEnabled = true;
+        updateTestModeInputs('1');
+        console.log('🧪 Test mode enabled - email verification will use simplified matching');
+    } else {
+        // Disable test mode
+        toggle.style.backgroundColor = '#D1D5DB';
+        slider.style.transform = 'translateX(0px)';
+        description.textContent = 'Enable test mode to use simplified email verification (event name matching only)';
+        description.style.color = '#6B7280';
+        
+        // Store test mode state and update hidden inputs
+        window.testModeEnabled = false;
+        updateTestModeInputs('0');
+        console.log('📧 Test mode disabled - email verification will use full verification');
     }
-    
-    // Show loading state
-    const button = event.target;
-    const originalText = button.textContent;
-    button.textContent = '🔄 Fetching event details...';
-    button.disabled = true;
-    
-    // First, fetch the actual transaction details to get real event info
-    fetch(`/api/transactions/${transactionId}/status`)
-        .then(response => response.json())
-        .then(statusData => {
-            if (!statusData.success) {
-                throw new Error('Could not fetch transaction details');
-            }
-            
-            const transaction = statusData.transaction;
-            const eventName = transaction.event_name || 'Unknown Event';
-            const eventLocation = transaction.event_location || 'Unknown Venue';
-            
-            button.textContent = '🔄 Simulating verification...';
-            
-            // Create fake email data that matches the ACTUAL event details
-            const fakeEmailData = {
-                sender: window.currentSellerEmail || transaction.seller_email || 'seller@test.com',
-                recipient: currentTicketEmail,
-                subject: `Your ${eventName} Tickets - Order Confirmation`,
-                body: `Thank you for your ticket purchase! Event: ${eventName} Venue: ${eventLocation} Order Number: TM-123456789 Seat: Section 101, Row A, Seats 5-6 Your tickets are attached as PDF files. This is a ticket confirmation receipt order for your purchase.`,
-                attachments: ['tickets.pdf'],
-                timestamp: new Date().toISOString()
-            };
-            
-            console.log('🧪 SIMULATION: Using real event details:', {
-                eventName,
-                eventLocation,
-                fakeEmailData
-            });
-            
-            // Send AJAX request to simulate ticket processing
-            return fetch(`/api/transactions/${transactionId}/simulate-verification`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(fakeEmailData)
-            });
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Show success message
-                alert(`✅ Simulation successful!\n\nListing activated: ${data.status}\nBuyer notification sent!\nPayment deadline: ${data.payment_deadline}\nVerification score: ${data.verification_score}/100`);
-                
-                // Update popup to show activation
-                document.getElementById('sentStatus').innerHTML = `
-                    <p style="color: #065F46; font-size: 14px; margin: 0; font-weight: 600;">
-                        🎉 SIMULATION: Listing activated! Buyer notified with 1-hour payment window!
-                    </p>
-                    <p style="color: #047857; font-size: 12px; margin: 4px 0 0 0;">
-                        Check your console/server logs to see the buyer notification email.
-                    </p>
-                `;
-                document.getElementById('sentStatus').style.display = 'block';
-                
-                // Hide all buttons except close
-                const buttonContainer = document.querySelector('[style*="display: flex; gap: 8px"]');
-                if (buttonContainer) {
-                    buttonContainer.style.display = 'none';
-                }
-                const testContainer = document.querySelector('button[onclick="simulateVerification()"]').parentElement;
-                if (testContainer) {
-                    testContainer.style.display = 'none';
-                }
-                
-                // Change close button
-                const laterButton = document.querySelector('button[onclick="closePendingPopup()"]');
-                if (laterButton) {
-                    laterButton.textContent = 'Close & View Active Listing';
-                    laterButton.style.backgroundColor = '#059669';
-                    laterButton.style.color = 'white';
-                    laterButton.style.fontWeight = '600';
-                }
-            } else {
-                alert(`❌ Simulation failed: ${data.error}`);
-                button.textContent = originalText;
-                button.disabled = false;
-            }
-        })
-        .catch(error => {
-            console.error('Simulation error:', error);
-            alert(`❌ Simulation failed: ${error.message || 'Unknown error'}`);
-            button.textContent = originalText;
-            button.disabled = false;
-        });
 }
 
-function markAsVerified() {
-    // Get current transaction ID from the popup context
-    const transactionId = getCurrentTransactionId();
+function updateTestModeInputs(value) {
+    // Update both form inputs
+    const input1 = document.getElementById('testModeInput');
+    const input2 = document.getElementById('testModeInputBottom');
     
-    if (!transactionId) {
-        alert('Error: Could not get transaction ID');
-        return;
-    }
-    
-    // Show loading state
-    const button = event.target;
-    const originalText = button.textContent;
-    button.textContent = '⚡ Marking as verified...';
-    button.disabled = true;
-    
-    // Send AJAX request to mark as verified
-    console.log(`🚀 SENDING VERIFICATION REQUEST at ${new Date().toLocaleTimeString()} - BUYER EMAIL WILL BE SENT NOW!`);
-    fetch(`/api/transactions/${transactionId}/mark-verified`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-    .then(response => {
-        console.log(`📧 VERIFICATION API CALL COMPLETED at ${new Date().toLocaleTimeString()} - EMAIL ALREADY SENT!`);
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            // Show immediate success message with timestamp
-            const currentTime = new Date().toLocaleTimeString();
-            alert(`✅ Marked as verified at ${currentTime}!\n\n📧 BUYER EMAIL SENT IMMEDIATELY!\n\nListing activated: ${data.status}\nPayment deadline: ${data.payment_deadline}\nVerification score: ${data.verification_score}/100`);
-            
-            // Update popup to show activation with clear email timing
-            document.getElementById('sentStatus').innerHTML = `
-                <p style="color: #065F46; font-size: 14px; margin: 0; font-weight: 600;">
-                    ✅ Listing verified at ${currentTime}
-                </p>
-                <p style="color: #059669; font-size: 14px; margin: 4px 0; font-weight: 600;">
-                    📧 Buyer email sent IMMEDIATELY (not when closing popup)
-                </p>
-                <p style="color: #047857; font-size: 12px; margin: 4px 0 0 0;">
-                    The email was sent the moment you clicked "Mark as Verified", not when you close this popup.
-                </p>
-            `;
-            document.getElementById('sentStatus').style.display = 'block';
-            
-            // Hide all buttons except close
-            const buttonContainer = document.querySelector('[style*="display: flex; gap: 8px"]');
-            if (buttonContainer) {
-                buttonContainer.style.display = 'none';
-            }
-            const testContainer = document.querySelector('button[onclick="markAsVerified()"]').parentElement;
-            if (testContainer) {
-                testContainer.style.display = 'none';
-            }
-            
-            // Change close button
-            const laterButton = document.querySelector('button[onclick="closePendingPopup()"]');
-            if (laterButton) {
-                laterButton.textContent = 'Close & View Active Listing';
-                laterButton.style.backgroundColor = '#059669';
-                laterButton.style.color = 'white';
-                laterButton.style.fontWeight = '600';
-            }
-        } else {
-            alert(`❌ Mark as verified failed: ${data.error}`);
-            button.textContent = originalText;
-            button.disabled = false;
-        }
-    })
-    .catch(error => {
-        console.error('Mark as verified error:', error);
-        alert(`❌ Mark as verified failed: ${error.message || 'Unknown error'}`);
-        button.textContent = originalText;
-        button.disabled = false;
-    });
+    if (input1) input1.value = value;
+    if (input2) input2.value = value;
 }
 
 function getCurrentTransactionId() {

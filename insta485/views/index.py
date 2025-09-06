@@ -13,6 +13,7 @@ import uuid
 import datetime
 from insta485.email_utils import send_accept_confirmation_email, send_reject_confirmation_email
 from insta485.payment_utils import send_payment_seller
+from werkzeug.exceptions import HTTPException
 
 # Custom Jinja2 filter for datetime conversion
 @insta485.app.template_filter('datetime')
@@ -120,9 +121,22 @@ def show_index():
         
         # Convert payment_deadline to datetime if present
         if trans_dict.get('payment_deadline'):
-            trans_dict['payment_deadline'] = datetime.datetime.strptime(
-                trans_dict['payment_deadline'], '%Y-%m-%d %H:%M:%S'
-            )
+            # Handle both ISO format (from API) and SQLite format
+            payment_deadline_str = trans_dict['payment_deadline']
+            try:
+                # Try ISO format first (from API)
+                if 'T' in payment_deadline_str:
+                    trans_dict['payment_deadline'] = datetime.datetime.fromisoformat(
+                        payment_deadline_str.replace('Z', '+00:00')
+                    )
+                else:
+                    # SQLite format
+                    trans_dict['payment_deadline'] = datetime.datetime.strptime(
+                        payment_deadline_str, '%Y-%m-%d %H:%M:%S'
+                    )
+            except ValueError:
+                # If parsing fails, set to None
+                trans_dict['payment_deadline'] = None
         
         # Add ticket_email for template compatibility
         trans_dict['ticket_email'] = 'system@safe-transaction.com'
@@ -250,6 +264,11 @@ def show_accounts(url):
 @insta485.app.route('/accounts/login', methods=['GET', 'POST'])
 def login():
     """Display /accounts/login route."""
+    if flask.request.method == 'POST':
+        connection = insta485.model.get_db()
+        target = flask.request.args.get('target', flask.url_for('show_index'))
+        return insta485.views.manage.manage_login(connection, target)
+    
     if 'email' in flask.session:
         # Check if admin
         connection = insta485.model.get_db()
@@ -283,19 +302,16 @@ def skip_login(user_type):
         return flask.redirect(url_for('show_accounts', url='login'))
 
 
+@insta485.app.route('/accounts/create', methods=['GET', 'POST'])
 def create():
     """Display /accounts/create route and handle POST requests."""
     if flask.request.method == 'POST':
-        try:
-            insta485.views.manage.manage_create()
-        except flask.helpers.HTTPException as e:
-            if e.code == 409:
-                return flask.render_template("create.html", error="User with that email already exists."), 409
-            return flask.render_template("create.html", error="All fields are required."), 400
-        return flask.redirect(url_for('show_index_orig'))
+        connection = insta485.model.get_db()
+        target = flask.request.args.get('target', '/')
+        return insta485.views.manage.manage_create(target, connection)
 
     if 'email' in flask.session:
-        return flask.redirect(url_for('show_accounts', url='edit'))
+        return flask.redirect(url_for('show_index'))
     return flask.render_template("create.html")
 
 
@@ -335,6 +351,56 @@ def logout():
     """Log out user."""
     flask.session.clear()
     return flask.redirect(url_for('show_accounts', url='login'))
+
+
+@insta485.app.route('/accounts/verify/', methods=['GET', 'POST'])
+def verify_code():
+    """Display and handle email/phone verification."""
+    if 'email' not in flask.session:
+        return flask.redirect(url_for('show_accounts', url='login'))
+    
+    if flask.request.method == 'POST':
+        # Combine the 4 individual code inputs
+        code_parts = [
+            flask.request.form.get('code1', ''),
+            flask.request.form.get('code2', ''),
+            flask.request.form.get('code3', ''),
+            flask.request.form.get('code4', '')
+        ]
+        provided_code = ''.join(code_parts)
+        
+        if len(provided_code) != 4:
+            return flask.render_template("verify.html", error="Please enter a complete 4-digit code.")
+        
+        email = flask.session['email']
+        connection = insta485.model.get_db()
+        
+        # Try to verify the code
+        from insta485.views.manage import verify_code as verify_user_code
+        if verify_user_code(email, provided_code, 'email_verification', connection):
+            # Verification successful, now redirect to Stripe onboarding
+            from insta485.views.manage import seller_onboarding
+            return seller_onboarding()
+        else:
+            return flask.render_template("verify.html", error="Invalid or expired verification code.")
+    
+    return flask.render_template("verify.html")
+
+
+@insta485.app.route('/accounts/resend/')
+def resend_code():
+    """Resend verification code."""
+    if 'email' not in flask.session:
+        return flask.redirect(url_for('show_accounts', url='login'))
+    
+    email = flask.session['email']
+    connection = insta485.model.get_db()
+    
+    from insta485.views.manage import create_verification_code
+    create_verification_code(email, 'email_verification', connection)
+    
+    flask.flash('Verification code sent!')
+    return flask.redirect(url_for('verify_code'))
 
 
 @insta485.app.route('/api/events', methods=['GET'])
@@ -383,6 +449,7 @@ def create_transaction():
     event_name = flask.request.form['event_name']
     event_location = flask.request.form['event_location']
     event_datetime_raw = flask.request.form['event_datetime']
+    test_mode = flask.request.form.get('test_mode', '0') == '1'
     
     # Use default deadlines
     ticket_deadline_hours = 24  # 24 hours to send tickets
@@ -450,7 +517,8 @@ def create_transaction():
             seller_email=seller_email,
             buyer_email=buyer_email,
             price=price,
-            event_details=event_details
+            event_details=event_details,
+            test_mode=test_mode
         )
         
         # Return success response for AJAX request to show popup

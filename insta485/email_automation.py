@@ -578,7 +578,7 @@ def forward_ticket_email(to_email, original_email_data, transaction_id, return_m
 
 # Wrapper functions for compatibility
 def send_buyer_notification(transaction_id, buyer_email, seller_email, price, event_details, payment_deadline=None):
-    """Send simple, accurate buyer notification"""
+    """Send modern, minimalistic buyer notification"""
     from datetime import datetime
     
     # Calculate payment deadline if provided
@@ -587,15 +587,23 @@ def send_buyer_notification(transaction_id, buyer_email, seller_email, price, ev
         # Ensure payment_deadline is a datetime object
         if isinstance(payment_deadline, str):
             from datetime import datetime
-            payment_deadline = datetime.fromisoformat(payment_deadline.replace('Z', '+00:00'))
-        payment_hours = max(0, (payment_deadline - datetime.now()).total_seconds() / 3600)
+            try:
+                if 'T' in payment_deadline:
+                    payment_deadline = datetime.fromisoformat(payment_deadline.replace('Z', '+00:00'))
+                else:
+                    payment_deadline = datetime.strptime(payment_deadline, '%Y-%m-%d %H:%M:%S')
+            except ValueError:
+                payment_deadline = None
+                
+        if payment_deadline:
+            payment_hours = max(0, (payment_deadline - datetime.now()).total_seconds() / 3600)
     
     # Format deadline text
     deadline_text = ""
     if payment_deadline:
         deadline_text = payment_deadline.strftime('%I:%M %p on %B %d')
     
-    subject = f"🎫 Verified Ticket Available - {event_details['name']}"
+    subject = f"✅ Your {event_details['name']} Tickets Are Ready"
     
     html_body = f"""
     <!DOCTYPE html>
@@ -979,6 +987,288 @@ def send_buyer_notification(transaction_id, buyer_email, seller_email, price, ev
                     Need help? <a href="mailto:support@safetransaction.com" class="footer-link">Contact Support</a>
                 </div>
                 <div class="footer-brand">Safe Transaction</div>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+    
+    send_email(buyer_email, subject, html_body)
+
+
+def send_modern_buyer_notification(transaction_id, buyer_email, seller_email, price, event_details, payment_deadline=None):
+    """Send clean, modern buyer notification email"""
+    from datetime import datetime
+    
+    # Calculate payment deadline if provided
+    payment_hours = None
+    if payment_deadline:
+        # Ensure payment_deadline is a datetime object
+        if isinstance(payment_deadline, str):
+            try:
+                if 'T' in payment_deadline:
+                    payment_deadline = datetime.fromisoformat(payment_deadline.replace('Z', '+00:00'))
+                else:
+                    payment_deadline = datetime.strptime(payment_deadline, '%Y-%m-%d %H:%M:%S')
+            except ValueError:
+                payment_deadline = None
+                
+        if payment_deadline:
+            payment_hours = max(0, (payment_deadline - datetime.now()).total_seconds() / 3600)
+    
+    # Format deadline text
+    deadline_text = ""
+    if payment_deadline:
+        deadline_text = payment_deadline.strftime('%I:%M %p on %B %d')
+    
+    subject = f"✅ Your {event_details['name']} Tickets Are Ready"
+    
+    html_body = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            * {{
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }}
+            
+            body {{
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                background-color: #f8fafc;
+                color: #1f2937;
+                line-height: 1.5;
+            }}
+            
+            .container {{
+                max-width: 600px;
+                margin: 0 auto;
+                background: white;
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            }}
+            
+            .header {{
+                background: linear-gradient(135deg, #3b82f6, #1e40af);
+                color: white;
+                padding: 32px 24px;
+                text-align: center;
+            }}
+            
+            .header h1 {{
+                font-size: 24px;
+                font-weight: 700;
+                margin-bottom: 8px;
+            }}
+            
+            .header p {{
+                opacity: 0.9;
+                font-size: 16px;
+            }}
+            
+            .content {{
+                padding: 32px 24px;
+            }}
+            
+            .event-card {{
+                background: #f8fafc;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 24px 0;
+                border-left: 4px solid #3b82f6;
+            }}
+            
+            .event-name {{
+                font-size: 20px;
+                font-weight: 700;
+                color: #1f2937;
+                margin-bottom: 8px;
+            }}
+            
+            .event-details {{
+                color: #6b7280;
+                font-size: 14px;
+                line-height: 1.4;
+            }}
+            
+            .price {{
+                font-size: 32px;
+                font-weight: 800;
+                color: #059669;
+                text-align: center;
+                margin: 24px 0;
+            }}
+            
+            {"" if not payment_deadline else f'''
+            .countdown-box {{
+                background: linear-gradient(135deg, #dc2626, #991b1b);
+                color: white;
+                padding: 20px;
+                border-radius: 8px;
+                text-align: center;
+                margin: 24px 0;
+            }}
+            
+            .countdown-label {{
+                font-size: 14px;
+                opacity: 0.9;
+                margin-bottom: 8px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }}
+            
+            .countdown-time {{
+                font-size: 28px;
+                font-weight: 700;
+                font-family: 'Courier New', monospace;
+                margin-bottom: 4px;
+            }}
+            
+            .countdown-text {{
+                font-size: 12px;
+                opacity: 0.8;
+            }}
+            '''}
+            
+            .pay-button {{
+                display: block;
+                background: linear-gradient(135deg, #059669, #047857);
+                color: white;
+                text-decoration: none;
+                padding: 16px 32px;
+                border-radius: 8px;
+                text-align: center;
+                font-weight: 700;
+                font-size: 18px;
+                margin: 32px 0;
+                transition: transform 0.2s ease;
+            }}
+            
+            .pay-button:hover {{
+                transform: translateY(-2px);
+            }}
+            
+            .security-note {{
+                background: #f0f9ff;
+                border: 1px solid #bfdbfe;
+                border-radius: 8px;
+                padding: 16px;
+                margin: 24px 0;
+                font-size: 14px;
+                color: #1e40af;
+            }}
+            
+            .footer {{
+                background: #f8fafc;
+                padding: 24px;
+                text-align: center;
+                border-top: 1px solid #e5e7eb;
+                font-size: 12px;
+                color: #6b7280;
+            }}
+            
+            @media (max-width: 600px) {{
+                .container {{
+                    margin: 16px;
+                    border-radius: 8px;
+                }}
+                
+                .header, .content, .footer {{
+                    padding-left: 16px;
+                    padding-right: 16px;
+                }}
+                
+                .countdown-time {{
+                    font-size: 24px;
+                }}
+                
+                .pay-button {{
+                    font-size: 16px;
+                    padding: 14px 24px;
+                }}
+            }}
+        </style>
+        {"" if not payment_deadline else f'''
+        <script>
+            function startCountdown() {{
+                const hoursRemaining = {payment_hours or 0};
+                const totalSeconds = Math.max(0, hoursRemaining * 3600);
+                const countdownElement = document.getElementById('countdown');
+                
+                if (!countdownElement || totalSeconds <= 0) return;
+                
+                let secondsLeft = totalSeconds;
+                
+                function updateDisplay() {{
+                    const hours = Math.floor(secondsLeft / 3600);
+                    const minutes = Math.floor((secondsLeft % 3600) / 60);
+                    const seconds = secondsLeft % 60;
+                    
+                    countdownElement.innerHTML = 
+                        String(hours).padStart(2, '0') + ':' +
+                        String(minutes).padStart(2, '0') + ':' +
+                        String(seconds).padStart(2, '0');
+                    
+                    if (secondsLeft <= 0) {{
+                        countdownElement.innerHTML = 'EXPIRED';
+                        return;
+                    }}
+                    
+                    secondsLeft--;
+                    setTimeout(updateDisplay, 1000);
+                }}
+                
+                updateDisplay();
+            }}
+            
+            window.onload = startCountdown;
+        </script>
+        '''}
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>✅ Tickets Verified</h1>
+                <p>Your {event_details['name']} tickets are ready for purchase</p>
+            </div>
+            
+            <div class="content">
+                <div class="event-card">
+                    <div class="event-name">{event_details['name']}</div>
+                    <div class="event-details">
+                        📍 {event_details.get('location', 'Venue TBD')}<br>
+                        📅 {event_details.get('datetime', 'Date TBD')}<br>
+                        ✅ Tickets verified and secured in escrow
+                    </div>
+                </div>
+                
+                <div class="price">${price}</div>
+                
+                {"" if not payment_deadline else f'''
+                <div class="countdown-box">
+                    <div class="countdown-label">Payment Window Closes In</div>
+                    <div class="countdown-time" id="countdown">--:--:--</div>
+                    <div class="countdown-text">Complete payment before {deadline_text}</div>
+                </div>
+                '''}
+                
+                <a href="http://localhost:8000/pay/{transaction_id}" class="pay-button">
+                    💳 Pay Now - ${price}
+                </a>
+                
+                <div class="security-note">
+                    🛡️ <strong>Protected Transaction:</strong> Your payment is held securely until tickets are delivered. 
+                    Full refund guaranteed if tickets are not as described.
+                </div>
+            </div>
+            
+            <div class="footer">
+                Transaction #{transaction_id} • <a href="mailto:support@safetransaction.com">Support</a><br>
+                Safe Transaction - Secure Ticket Marketplace
             </div>
         </div>
     </body>

@@ -177,8 +177,7 @@ class DeadlineManager:
         connection.execute(
             """
             UPDATE transactions 
-            SET status = 'expired_no_ticket',
-                expired_time = CURRENT_TIMESTAMP
+            SET status = 'expired_no_ticket'
             WHERE transaction_id = ?
             """,
             (transaction_id,)
@@ -220,8 +219,7 @@ class DeadlineManager:
         connection.execute(
             """
             UPDATE transactions 
-            SET status = 'expired_no_payment',
-                expired_time = CURRENT_TIMESTAMP
+            SET status = 'expired_no_payment'
             WHERE transaction_id = ?
             """,
             (transaction_id,)

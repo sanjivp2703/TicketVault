@@ -273,14 +273,32 @@ def show_payment_page(transaction_id):
                                        error='This transaction is no longer available for payment')
         
         # Check if payment deadline has passed
-        if datetime.now() > transaction['payment_deadline']:
+        payment_deadline = transaction['payment_deadline']
+        if isinstance(payment_deadline, str):
+            # Convert string to datetime
+            try:
+                if 'T' in payment_deadline:
+                    # ISO format
+                    payment_deadline = datetime.fromisoformat(payment_deadline.replace('Z', '+00:00'))
+                else:
+                    # SQLite format
+                    payment_deadline = datetime.strptime(payment_deadline, '%Y-%m-%d %H:%M:%S')
+            except ValueError:
+                return flask.render_template('payment_error.html',
+                                           error='Invalid payment deadline format')
+        
+        if datetime.now() > payment_deadline:
             return flask.render_template('payment_error.html',
                                        error='Payment deadline has passed')
         
+        # Update the transaction dict with the parsed datetime
+        transaction_dict = dict(transaction)
+        transaction_dict['payment_deadline'] = payment_deadline
+        
         context = {
-            'transaction': transaction,
+            'transaction': transaction_dict,
             'stripe_public_key': insta485.app.config.get('STRIPE_PUBLIC_KEY'),
-            'hours_remaining': (transaction['payment_deadline'] - datetime.now()).total_seconds() / 3600
+            'hours_remaining': (payment_deadline - datetime.now()).total_seconds() / 3600
         }
         
         return flask.render_template('payment_page.html', **context)
@@ -423,7 +441,7 @@ def mark_as_verified(transaction_id):
         
         # Send buyer notification (same as in verification flow)
         try:
-            from insta485.email_automation import send_buyer_notification
+            from insta485.email_automation import send_modern_buyer_notification
             original_details = json.loads(transaction['original_event_details'])
             
             # Prepare event details for email
@@ -433,7 +451,7 @@ def mark_as_verified(transaction_id):
                 'datetime': original_details.get('datetime', 'TBD')
             }
             
-            send_buyer_notification(
+            send_modern_buyer_notification(
                 transaction_id=transaction_id,
                 buyer_email=transaction['buyer_email'],
                 seller_email=transaction['seller_email'],
@@ -460,4 +478,40 @@ def mark_as_verified(transaction_id):
         
     except Exception as e:
         print(f"❌ TEST ERROR: {e}")
+        return flask.jsonify({'success': False, 'error': str(e)})
+
+
+# API endpoint to get transaction status
+@insta485.app.route('/api/transactions/<int:transaction_id>/status', methods=['GET'])
+def get_transaction_status(transaction_id):
+    """
+    Get current transaction status and details
+    """
+    try:
+        connection = insta485.model.get_db()
+        
+        # Get transaction details with event info
+        transaction = connection.execute(
+            """
+            SELECT t.*, e.name as event_name, e.location as event_location
+            FROM transactions t
+            LEFT JOIN events e ON t.event_id = e.event_id
+            WHERE t.transaction_id = ?
+            """,
+            (transaction_id,)
+        ).fetchone()
+        
+        if not transaction:
+            return flask.jsonify({'success': False, 'error': 'Transaction not found'})
+        
+        # Convert row to dict for JSON serialization
+        transaction_dict = dict(transaction)
+        
+        return flask.jsonify({
+            'success': True,
+            'transaction': transaction_dict
+        })
+        
+    except Exception as e:
+        print(f"❌ STATUS API ERROR: {e}")
         return flask.jsonify({'success': False, 'error': str(e)})

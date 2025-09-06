@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In | Safe Transaction</title>
+    <title>Verify Code | Safe Transaction</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
@@ -38,12 +38,7 @@
             z-index: 0;
         }
 
-        .login-container {
-            position: relative;
-            z-index: 1;
-        }
-
-        .login-container {
+        .verify-container {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -55,6 +50,8 @@
             max-width: 420px;
             padding: 48px 36px;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         .header {
@@ -74,59 +71,30 @@
             font-weight: 400;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #2d3748;
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        .input-wrapper {
-            position: relative;
+        .code-input-container {
             display: flex;
-            align-items: center;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
         }
 
-        .input-wrapper input {
-            width: 100%;
-            padding: 16px 20px;
+        .code-input {
+            width: 50px;
+            height: 50px;
             border: 2px solid #e2e8f0;
             border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            color: #2d3748;
             background: white;
+            transition: all 0.3s ease;
         }
 
-        .input-wrapper input:focus {
+        .code-input:focus {
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .input-wrapper input::placeholder {
-            color: #a0aec0;
-        }
-
-        .forgot-password {
-            text-align: right;
-            margin-bottom: 25px;
-        }
-
-        .forgot-password a {
-            color: #667eea;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .forgot-password a:hover {
-            text-decoration: underline;
         }
 
         .submit-btn {
@@ -169,6 +137,33 @@
 
         .submit-btn:active {
             transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .resend-container {
+            margin-top: 25px;
+        }
+
+        .resend-text {
+            color: #718096;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .resend-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .resend-link:hover {
+            text-decoration: underline;
         }
 
         .divider {
@@ -239,63 +234,35 @@
             text-decoration: underline;
         }
 
-        /* Skip Login Development Buttons */
-        .dev-buttons {
-            margin-top: 30px;
-            padding: 20px;
-            border-top: 2px dashed #ffc107;
-            background: #fff9c4;
-            border-radius: 12px;
-        }
-
-        .dev-buttons h3 {
-            color: #856404;
-            font-size: 14px;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .skip-btn {
-            display: inline-block;
-            padding: 10px 16px;
-            margin: 5px;
-            background: #ffc107;
-            color: #212529;
-            text-decoration: none;
+        .error {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 12px;
             border-radius: 8px;
+            margin-bottom: 20px;
             font-size: 14px;
-            font-weight: 600;
-            transition: all 0.2s;
-            border: 2px solid #ffc107;
-        }
-
-        .skip-btn:hover {
-            background: #e0a800;
-            border-color: #e0a800;
-            transform: translateY(-1px);
-        }
-
-        .skip-btn.admin {
-            background: #dc3545;
-            border-color: #dc3545;
-            color: white;
-        }
-
-        .skip-btn.admin:hover {
-            background: #c82333;
-            border-color: #c82333;
+            border: 1px solid #feb2b2;
         }
 
         /* Mobile responsiveness */
         @media (max-width: 480px) {
-            .login-container {
+            .verify-container {
                 padding: 30px 20px;
                 margin: 10px;
             }
             
             .header h1 {
                 font-size: 24px;
+            }
+            
+            .code-input-container {
+                gap: 10px;
+            }
+            
+            .code-input {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
             }
             
             .social-buttons {
@@ -306,44 +273,35 @@
                 width: 45px;
                 height: 45px;
             }
-            
-            .skip-btn {
-                display: block;
-                margin: 8px 0;
-                text-align: center;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
+    <div class="verify-container">
         <div class="header">
-            <h1>Sign In</h1>
-            <p>Hi welcome back</p>
+            <h1>Verify Code</h1>
+            <p>Please enter the verification code sent to your email and phone</p>
         </div>
 
-        <form action="{{ url_for('login') }}" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="email">Email</label>
-                <div class="input-wrapper">
-                    <input type="email" name="email" placeholder="example@gmail.com" required>
-                </div>
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form action="{{ url_for('verify_code') }}" method="post">
+            <div class="code-input-container">
+                <input type="text" class="code-input" maxlength="1" name="code1" required>
+                <input type="text" class="code-input" maxlength="1" name="code2" required>
+                <input type="text" class="code-input" maxlength="1" name="code3" required>
+                <input type="text" class="code-input" maxlength="1" name="code4" required>
             </div>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <div class="input-wrapper">
-                    <input type="password" name="password" placeholder="••••••••••••" required>
-                </div>
-            </div>
-
-            <div class="forgot-password">
-                <a href="#">Forget Password?</a>
-            </div>
-
-            <button type="submit" class="submit-btn">Sign In</button>
-            <input type="hidden" name="operation" value="login">
+            <button type="submit" class="submit-btn">Verify</button>
         </form>
+
+        <div class="resend-container">
+            <p class="resend-text">Didn't receive OTP?</p>
+            <a href="{{ url_for('resend_code') }}" class="resend-link">Resend code</a>
+        </div>
 
         <div class="divider">
             <span>Or sign in with</span>
@@ -364,20 +322,23 @@
         <div class="signup-link">
             Don't have an account? <a href="{{ url_for('show_accounts', url='create') }}">Sign Up</a>
         </div>
-
-        <!-- TEMPORARY: Development Skip Login Buttons -->
-        <div class="dev-buttons">
-            <h3>🚧 Development Mode - Skip Login</h3>
-            <a href="{{ url_for('skip_login', user_type='buyer') }}" class="skip-btn">
-                👤 Login as Buyer
-            </a>
-            <a href="{{ url_for('skip_login', user_type='seller') }}" class="skip-btn">
-                🛒 Login as Seller
-            </a>
-            <a href="{{ url_for('skip_login', user_type='admin') }}" class="skip-btn admin">
-                👑 Login as Admin
-            </a>
-        </div>
     </div>
+
+    <script>
+        // Auto-advance to next input
+        document.querySelectorAll('.code-input').forEach((input, index, inputs) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+            
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+    </script>
 </body>
 </html>

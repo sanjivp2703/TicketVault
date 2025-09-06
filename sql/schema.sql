@@ -5,9 +5,15 @@ CREATE TABLE users(
   firstname VARCHAR(20) NOT NULL,
   lastname VARCHAR(20) NOT NULL,
   password VARCHAR(256) NOT NULL,
+  phone_number VARCHAR(20),
   stripe_id VARCHAR(64),
   is_admin BOOLEAN DEFAULT 0,
   balance INTEGER DEFAULT 0,
+  email_verified BOOLEAN DEFAULT 0,
+  phone_verified BOOLEAN DEFAULT 0,
+  verification_code VARCHAR(6),
+  verification_code_expires DATETIME,
+  last_login DATETIME,
   created DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(email)
 );
@@ -93,6 +99,17 @@ CREATE TABLE transactions(
     'complaint - paid seller',
     'pending_ticket_submission'
   ))
+);
+
+CREATE TABLE verification_codes(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  email VARCHAR(40) NOT NULL,
+  code VARCHAR(6) NOT NULL,
+  code_type VARCHAR(20) NOT NULL, -- 'email_verification', 'phone_verification', 'password_reset'
+  expires_at DATETIME NOT NULL,
+  used BOOLEAN DEFAULT 0,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (email) REFERENCES users(email)
 );
 
 CREATE TABLE monetary_transactions(
