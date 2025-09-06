@@ -1,127 +1,189 @@
 <!-- Pending Listing Popup -->
-<div id="pendingListingPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; align-items: center;">
-    <div style="background: white; border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); max-width: 500px; width: 90%; margin: auto; padding: 32px; position: relative; max-height: 90vh; overflow-y: auto;">
+<div id="pendingListingPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.8); backdrop-filter: blur(16px); z-index: 9999; justify-content: center; align-items: center; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">
+    <div style="background: #ffffff; border-radius: 20px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15); max-width: 480px; width: 90%; margin: auto; position: relative; max-height: 90vh; overflow-y: auto; border: 1px solid #e2e8f0;">
+        
         <!-- Close Button -->
-        <button onclick="closePendingPopup()" style="position: absolute; top: 16px; right: 16px; color: #9CA3AF; background: none; border: none; cursor: pointer; padding: 4px;">
-            <svg style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button onclick="closePendingPopup()" style="position: absolute; top: 20px; right: 20px; color: #64748b; background: #f8fafc; border: none; cursor: pointer; padding: 10px; border-radius: 12px; transition: all 0.2s ease; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;">
+            <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
         </button>
         
-        <!-- Icon -->
-        <div style="text-align: center; margin-bottom: 24px;">
-            <div style="margin: 0 auto 16px auto; width: 64px; height: 64px; background-color: #FEF3C7; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                <svg style="width: 32px; height: 32px; color: #D97706;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-            </div>
-            <h3 style="font-size: 20px; font-weight: bold; color: #111827; margin: 0;">Almost There!</h3>
-            <p style="color: #6B7280; margin: 8px 0 0 0;">Just one email forward away from auto-activation</p>
+        <!-- Header -->
+        <div style="padding: 40px 32px 20px 32px; text-align: center;">
+            <h2 style="font-size: 28px; font-weight: 800; color: #0f172a; margin: 0 0 8px 0; letter-spacing: -0.02em;">
+                Safe Transfer Instructions
+            </h2>
+            <p style="color: #475569; font-size: 16px; margin: 0; font-weight: 500;">
+                Follow these steps to securely transfer your ticket
+            </p>
         </div>
         
-        <!-- Instructions -->
-        <div style="margin-bottom: 16px;">
-            <div style="background-color: #FEFCBF; border: 1px solid #FCD34D; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
-                <h4 style="font-weight: 600; color: #92400E; margin: 0 0 8px 0;">📧 One Email Forward = Instant Auto-Activation</h4>
-                <p style="color: #A16207; font-size: 14px; margin: 0;">
-                    Forward your ticket email to trigger autonomous verification & buyer notification:
-                </p>
-            </div>
+        <!-- Content -->
+        <div style="padding: 0 32px 32px 32px;">
             
-            <!-- Email Address (with copy button) -->
-            <div style="background-color: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
-                <label style="display: block; font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 8px;">Send your ticket to:</label>
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <input id="ticketEmail" type="text" readonly 
-                           style="flex: 1; background: white; border: 1px solid #D1D5DB; border-radius: 6px; padding: 8px 12px; font-size: 14px; font-family: monospace;"
-                           value="">
-                    <button onclick="copyTicketEmail()" 
-                            style="background-color: #2563EB; color: white; padding: 8px 12px; border-radius: 6px; font-size: 14px; border: none; cursor: pointer; transition: background-color 0.2s;">
-                        Copy
-                    </button>
+            <!-- Step 1 -->
+            <div style="margin-bottom: 24px;">
+                <div style="display: flex; align-items: center; gap:16px; margin-bottom: 20px;">
+                    <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0;">1</div>
+                    <h3 style="font-size: 20px; font-weight: 700; color: #0f172a; margin: 0; letter-spacing: -0.01em;">Transfer Your Ticket</h3>
+                </div>
+                
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px;">
+                    <p style="color: #475569; font-size: 15px; margin: 0 0 20px 0; font-weight: 500;">
+                        Go to <a href="https://mgoblue.evenue.net/myaccount/transfers/seasons" target="_blank" style="color: #667eea; font-weight: 600; text-decoration: none; border-bottom: 1px solid #667eea;">Michigan Athletics Ticket Transfer Page</a> and enter these details:
+                    </p>
+                    
+                    <!-- Input Fields -->
+                    <div style="margin-bottom: 16px;">
+                        <!-- First Name and Last Name Row -->
+                        <div style="display: flex; align-items: end; margin-bottom: 16px;">
+                            <!-- First Name -->
+                            <div style="width: 185px;">
+                                <label style="display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 8px;">First Name</label>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="text" readonly value="Ticket" 
+                                           style="width: 105px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 12px 14px; font-size: 14px; font-weight: 500; color: #0f172a; text-align: left;">
+                                    <button onclick="copyToClipboard('Ticket', this)" 
+                                            style="background: #667eea; color: white; padding: 12px 12px; border-radius: 12px; font-size: 12px; border: none; cursor: pointer; transition: all 0.2s; font-weight: 600; width: 54px;">
+                                        Copy
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- 16px Gap -->
+                            <div style="width: 16px;"></div>
+                            
+                            <!-- Last Name -->
+                            <div style="width: 185px;">
+                                <label style="display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 8px;">Last Name</label>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="text" readonly value="Swap" 
+                                           style="width: 105px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 12px 14px; font-size: 14px; font-weight: 500; color: #0f172a; text-align: left;">
+                                    <button onclick="copyToClipboard('Swap', this)" 
+                                            style="background: #667eea; color: white; padding: 12px 12px; border-radius: 12px; font-size: 12px; border: none; cursor: pointer; transition: all 0.2s; font-weight: 600; width: 54px;">
+                                        Copy
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- Email - Full Width -->
+                    <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 8px;">Email Address</label>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <input id="ticketEmail" type="text" readonly value="ticketswap@gmail.com" 
+                                   style="flex: 1; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 12px 14px; font-size: 14px; font-weight: 500; color: #0f172a; font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;">
+                            <button onclick="copyToClipboard(document.getElementById('ticketEmail').value, this)" 
+                                    style="background: #667eea; color: white; padding: 12px 14px; border-radius: 12px; font-size: 12px; border: none; cursor: pointer; transition: all 0.2s; font-weight: 600;">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <!-- How it works -->
-            <div style="background-color: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
-                <h4 style="font-weight: 600; color: #1E40AF; margin: 0 0 8px 0;">⚡ Autonomous Process - No More Steps for You!</h4>
-                <ol style="color: #1D4ED8; font-size: 14px; margin: 0; padding-left: 16px;">
-                    <li style="margin-bottom: 4px;">Forward your ticket email to the address above</li>
-                    <li style="margin-bottom: 4px;"><strong>🤖 Instant auto-verification</strong> - We detect & verify within seconds</li>
-                    <li style="margin-bottom: 4px;"><strong>🚀 Auto-activation</strong> - Buyer gets notified immediately with 1-hour payment window</li>
-                    <li style="margin-bottom: 4px;"><strong>✅ Auto-forwarding</strong> - Once paid, ticket automatically goes to buyer</li>
-                </ol>
-                <p style="color: #059669; font-size: 13px; margin: 8px 0 0 0; font-weight: 600;">
-                    💡 You're done after sending! The rest happens automatically in seconds.
-                </p>
+            <!-- Step 2 -->
+            <div style="margin-bottom: 24px;">
+                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+                    <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0;">2</div>
+                    <h3 style="font-size: 20px; font-weight: 700; color: #0f172a; margin: 0; letter-spacing: -0.01em;">What Happens Next</h3>
+                </div>
+                
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px;">
+                    <div style="space-y: 16px;">
+                        <div style="display: flex; align-items: start; gap: 12px; margin-bottom: 16px;">
+                            <div style="width: 24px; height: 24px; background: #00d4aa; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-top: 2px; flex-shrink: 0;">
+                                <svg style="width: 14px; height: 14px; color: white;" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <p style="color: #475569; font-size: 15px; margin: 0; font-weight: 500; line-height: 1.5;">
+                                We verify the ticket for authenticity
+                            </p>
+                        </div>
+                        <div style="display: flex; align-items: start; gap: 12px; margin-bottom: 16px;">
+                            <div style="width: 24px; height: 24px; background: #00d4aa; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-top: 2px; flex-shrink: 0;">
+                                <svg style="width: 14px; height: 14px; color: white;" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <p style="color: #475569; font-size: 15px; margin: 0; font-weight: 500; line-height: 1.5;">
+                                We notify you and send the buyer a payment link
+                            </p>
+                        </div>
+                        <div style="display: flex; align-items: start; gap: 12px; margin-bottom: 0;">
+                            <div style="width: 24px; height: 24px; background: #00d4aa; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-top: 2px; flex-shrink: 0;">
+                                <svg style="width: 14px; height: 14px; color: white;" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <p style="color: #475569; font-size: 15px; margin: 0; font-weight: 500; line-height: 1.5;">
+                                Once payment completes, we transfer the ticket and you get paid
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
             
-            <!-- Warning -->
-            <div style="background-color: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px; padding: 12px;">
-                <p style="color: #B91C1C; font-size: 14px; margin: 0;">
-                    ⚠️ <strong>Important:</strong> Do NOT send the ticket directly to the buyer. 
-                    Only send to our secure email address above.
-                </p>
+            <!-- Reassurance Box -->
+            <div style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 16px; padding: 20px; margin-bottom: 32px;">
+                <div style="display: flex; align-items: start; gap: 12px;">
+                    <div style="width: 24px; height: 24px; background: #64748b; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-top: 1px; flex-shrink: 0;">
+                        <svg style="width: 14px; height: 14px; color: white;" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <p style="color: #475569; font-size: 15px; margin: 0; font-weight: 500; line-height: 1.5;">
+                        Don't worry — if the buyer doesn't pay within 1 hour, we'll automatically send your ticket back to you.
+                    </p>
+                </div>
             </div>
         </div>
         
         <!-- Action Buttons -->
-        <div style="margin-top: 24px;">
-            <!-- Primary Actions -->
-            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-                <button onclick="openEmailApp()" 
-                        style="flex: 1; background-color: #2563EB; color: white; padding: 10px 16px; border-radius: 6px; border: none; cursor: pointer; transition: background-color 0.2s; font-weight: 600;">
-                    📧 Open Email App
+        <div style="padding: 0 32px 32px 32px;">
+            <div style="space-y: 12px;">
+                <button onclick="openMichiganAthletics()" 
+                        style="width: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 16px 24px; border-radius: 16px; border: none; cursor: pointer; transition: all 0.2s; font-weight: 700; font-size: 16px; box-shadow: 0 4px 6px -1px rgba(102, 126, 234, 0.3);">
+                    Go to Transfer Page
                 </button>
-                <button onclick="markAsSent()" 
-                        style="flex: 1; background-color: #059669; color: white; padding: 10px 16px; border-radius: 6px; border: none; cursor: pointer; transition: background-color 0.2s; font-weight: 600;">
-                    ✅ I Sent It!
-                </button>
-            </div>
-            
-            <!-- Test Mode Toggle -->
-            <div style="margin-bottom: 12px; padding: 16px; background-color: #F8FAFC; border-radius: 8px; border: 1px solid #E2E8F0;">
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                    <label style="font-size: 14px; font-weight: 600; color: #374151;">
-                        🧪 Test Mode
-                    </label>
-                    <div style="position: relative;">
-                        <input type="checkbox" id="testModeToggle" onchange="toggleTestMode()" 
-                               style="width: 44px; height: 24px; appearance: none; background-color: #D1D5DB; border-radius: 12px; cursor: pointer; transition: background-color 0.2s;">
-                        <div id="toggleSlider" style="position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background-color: white; border-radius: 50%; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"></div>
-                    </div>
-                </div>
-                <p id="testModeDescription" style="font-size: 12px; color: #6B7280; margin: 0 0 12px 0; line-height: 1.4;">
-                    Enable test mode to use simplified email verification (event name matching only)
-                </p>
                 
-                <!-- Test Verify Button -->
-                <div style="border-top: 1px solid #E5E7EB; padding-top: 12px;">
+                <button onclick="markAsTransferred()" 
+                        style="width: 100%; background: #ffffff; color: #475569; padding: 14px 24px; border-radius: 16px; border: 1px solid #cbd5e1; cursor: pointer; transition: all 0.2s; font-weight: 600; font-size: 15px; margin-top: 12px;">
+                    I've completed the transfer
+                </button>
+                
+                <!-- Test Verify Button (Minimal) -->
+                <div style="border-top: 1px solid #e2e8f0; padding-top: 16px; margin-top: 16px;">
                     <button id="testVerifyButton" onclick="testVerifyFromPopup()" 
-                            style="width: 100%; background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); color: white; padding: 12px 16px; border-radius: 8px; border: none; cursor: pointer; transition: all 0.2s ease; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);">
-                        <span style="font-size: 16px;">⚡</span>
-                        <span>TEST: Mark as Verified</span>
+                            style="width: 100%; background: #64748b; color: white; padding: 12px 20px; border-radius: 12px; border: none; cursor: pointer; transition: all 0.2s; font-weight: 600; font-size: 14px;">
+                        TEST: Instant Verify
                     </button>
-                    <p style="font-size: 11px; color: #9CA3AF; margin: 8px 0 0 0; text-align: center; line-height: 1.3;">
-                        Instantly verifies listing, sends buyer notification, and sets 1-hour payment deadline
+                    <p style="font-size: 12px; color: #94a3b8; margin: 8px 0 0 0; text-align: center;">
+                        Development tool - instantly verifies listing
                     </p>
                 </div>
             </div>
             
-            <!-- Secondary Action -->
-            <button onclick="closePendingPopup()" 
-                    style="width: 100%; background-color: #F3F4F6; color: #6B7280; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; transition: background-color 0.2s; font-size: 14px;">
-                I'll send it later
-            </button>
-            
             <!-- Status Message -->
-            <div id="sentStatus" style="display: none; background-color: #D1FAE5; border: 1px solid #A7F3D0; border-radius: 6px; padding: 12px; margin-top: 12px; text-align: center;">
-                <p style="color: #065F46; font-size: 14px; margin: 0; font-weight: 600;">
-                    🚀 Great! We're monitoring for your email. Auto-verification will happen within seconds!
-                </p>
-                <p style="color: #047857; font-size: 12px; margin: 4px 0 0 0;">
-                    You can close this popup - we'll handle everything automatically.
-                </p>
+            <div id="sentStatus" style="display: none; background: #f0f9ff; border: 1px solid #cbd5e1; border-radius: 16px; padding: 20px; margin: 16px 32px 0 32px;">
+                <div style="display: flex; align-items: start; gap: 12px;">
+                    <div style="width: 24px; height: 24px; background: #00d4aa; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-top: 1px; flex-shrink: 0;">
+                        <svg style="width: 14px; height: 14px; color: white;" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <p style="color: #0f172a; font-size: 15px; margin: 0 0 4px 0; font-weight: 600;">
+                            Transfer submitted successfully
+                        </p>
+                        <p style="color: #475569; font-size: 13px; margin: 0;">
+                            We're monitoring for verification. You can close this window.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -147,104 +209,76 @@ function closePendingPopup() {
     window.location.reload();
 }
 
-function copyTicketEmail() {
-    const emailInput = document.getElementById('ticketEmail');
-    emailInput.select();
-    emailInput.setSelectionRange(0, 99999); // For mobile devices
-    document.execCommand('copy');
+function copyToClipboard(text, button) {
+    // Use the modern clipboard API if available
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+            showCopyFeedback(button);
+        }).catch(err => {
+            // Fallback for clipboard API failure
+            fallbackCopyToClipboard(text, button);
+        });
+    } else {
+        // Fallback for older browsers or non-secure contexts
+        fallbackCopyToClipboard(text, button);
+    }
+}
+
+function fallbackCopyToClipboard(text, button) {
+    // Create a temporary textarea element
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
     
-    // Show feedback
-    const button = event.target;
+    try {
+    document.execCommand('copy');
+        showCopyFeedback(button);
+    } catch (err) {
+        console.error('Fallback: Could not copy text: ', err);
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+function showCopyFeedback(button) {
     const originalText = button.textContent;
     button.textContent = 'Copied!';
-    button.style.backgroundColor = '#059669'; // Green color
+    button.style.background = '#00d4aa';
+    button.style.color = 'white';
     
     setTimeout(() => {
         button.textContent = originalText;
-        button.style.backgroundColor = '#2563EB'; // Blue color
+        button.style.background = '#667eea';
+        button.style.color = 'white';
     }, 2000);
 }
 
-function openEmailApp() {
-    // Try to open default email app with pre-filled recipient
-    const subject = encodeURIComponent('Ticket for Safe Transaction');
-    const body = encodeURIComponent('Please find attached my ticket for the event listed on Safe Transaction.');
+function openMichiganAthletics() {
+    // Open Michigan Athletics ticket transfer page
+    window.open('https://mgoblue.evenue.net/account/login', '_blank');
     
-    const mailtoLink = `mailto:${currentTicketEmail}?subject=${subject}&body=${body}`;
-    
-    // Try to open email app
-    window.location.href = mailtoLink;
-    
-    // Don't auto-close, let user click "I Sent It" when done
+    // Show a helpful message
+    setTimeout(() => {
+        alert('🎟️ Michigan Athletics page opened!\n\nUse the transfer details from this popup to complete your ticket transfer.');
+    }, 500);
 }
 
-function markAsSent() {
+function markAsTransferred() {
     // Show confirmation message
     document.getElementById('sentStatus').style.display = 'block';
     
     // Hide the action buttons
-    const buttonContainer = document.querySelector('[style*="display: flex; gap: 8px"]');
-    if (buttonContainer) {
-        buttonContainer.style.display = 'none';
-    }
+    const actionButtons = document.querySelectorAll('button[onclick*="Michigan"], button[onclick*="markAsTransferred"]');
+    actionButtons.forEach(button => {
+        button.style.display = 'none';
+    });
     
-    // Hide testing button
-    const testContainer = buttonContainer.nextElementSibling;
-    if (testContainer) {
-        testContainer.style.display = 'none';
-    }
-    
-    // Change the "I'll send it later" button to "Close"
-    const laterButton = document.querySelector('button[onclick="closePendingPopup()"]');
-    if (laterButton) {
-        laterButton.textContent = 'Close';
-        laterButton.style.backgroundColor = '#059669';
-        laterButton.style.color = 'white';
-        laterButton.style.fontWeight = '600';
-    }
-    
-    // Optional: Start monitoring more frequently for faster detection
-    // This could trigger a more frequent check on the backend
-    console.log('🚀 User marked email as sent - monitoring for faster detection');
-}
-
-function toggleTestMode() {
-    const toggle = document.getElementById('testModeToggle');
-    const slider = document.getElementById('toggleSlider');
-    const description = document.getElementById('testModeDescription');
-    
-    if (toggle.checked) {
-        // Enable test mode
-        toggle.style.backgroundColor = '#3B82F6';
-        slider.style.transform = 'translateX(20px)';
-        description.textContent = 'Test mode enabled: Send email with matching event name for automatic verification';
-        description.style.color = '#3B82F6';
-        
-        // Store test mode state and update hidden inputs
-        window.testModeEnabled = true;
-        updateTestModeInputs('1');
-        console.log('🧪 Test mode enabled - email verification will use simplified matching');
-    } else {
-        // Disable test mode
-        toggle.style.backgroundColor = '#D1D5DB';
-        slider.style.transform = 'translateX(0px)';
-        description.textContent = 'Enable test mode to use simplified email verification (event name matching only)';
-        description.style.color = '#6B7280';
-        
-        // Store test mode state and update hidden inputs
-        window.testModeEnabled = false;
-        updateTestModeInputs('0');
-        console.log('📧 Test mode disabled - email verification will use full verification');
-    }
-}
-
-function updateTestModeInputs(value) {
-    // Update both form inputs
-    const input1 = document.getElementById('testModeInput');
-    const input2 = document.getElementById('testModeInputBottom');
-    
-    if (input1) input1.value = value;
-    if (input2) input2.value = value;
+    console.log('🚀 User marked transfer as complete - monitoring for verification');
 }
 
 function getCurrentTransactionId() {
@@ -265,7 +299,7 @@ function testVerifyFromPopup() {
         const button = document.getElementById('testVerifyButton');
         if (button) {
             button.disabled = true;
-            button.innerHTML = '<span style="font-size: 16px;">⚡</span><span>Verifying...</span>';
+            button.innerHTML = 'Verifying...';
             button.style.opacity = '0.6';
         }
 
@@ -283,10 +317,10 @@ function testVerifyFromPopup() {
         .then(data => {
             if (data.success) {
                 alert('✅ TEST VERIFICATION COMPLETE!\n\n' + 
-                      '• Listing instantly verified (100%)\n' + 
+                      '• Listing instantly verified\n' + 
                       '• Buyer notification email sent\n' + 
-                      '• 1-hour payment deadline set\n' + 
-                      '• Status: pending_ticket_submission → waiting_for_payment');
+                      '• Payment deadline set\n' + 
+                      '• Status updated to waiting for payment');
                 
                 // Close popup and refresh page to show updated status
                 closePendingPopup();
@@ -295,7 +329,7 @@ function testVerifyFromPopup() {
                 // Reset button state
                 if (button) {
                     button.disabled = false;
-                    button.innerHTML = '<span style="font-size: 16px;">⚡</span><span>TEST: Mark as Verified</span>';
+                    button.innerHTML = 'TEST: Instant Verify';
                     button.style.opacity = '1';
                 }
             }
@@ -306,7 +340,7 @@ function testVerifyFromPopup() {
             // Reset button state
             if (button) {
                 button.disabled = false;
-                button.innerHTML = '<span style="font-size: 16px;">⚡</span><span>TEST: Mark as Verified</span>';
+                button.innerHTML = 'TEST: Instant Verify';
                 button.style.opacity = '1';
             }
         });
@@ -317,6 +351,22 @@ function testVerifyFromPopup() {
 document.getElementById('pendingListingPopup').addEventListener('click', function(e) {
     if (e.target === this) {
         closePendingPopup();
+    }
+});
+
+// Add hover effects for buttons
+document.addEventListener('DOMContentLoaded', function() {
+    // Add hover effect to primary button
+    const primaryButton = document.querySelector('button[onclick="openMichiganAthletics()"]');
+    if (primaryButton) {
+        primaryButton.addEventListener('mouseenter', function() {
+            this.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+            this.style.transform = 'translateY(-1px)';
+        });
+        primaryButton.addEventListener('mouseleave', function() {
+            this.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1)';
+            this.style.transform = 'translateY(0)';
+        });
     }
 });
 </script>

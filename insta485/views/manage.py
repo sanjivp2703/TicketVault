@@ -33,7 +33,7 @@ def send_payment_buyer(transaction_id):
 
     amount = transaction['price'] * 100  # Convert to cents
 
-    session = print(f"[PAYMENT] Stripe checkout session created for buyer payment on transaction {transaction_id}.")
+    print(f"[PAYMENT] Stripe checkout session created for buyer payment on transaction {transaction_id}.")
     session = stripe.checkout.Session.create(
         payment_method_types=['card'],
         line_items=[{
