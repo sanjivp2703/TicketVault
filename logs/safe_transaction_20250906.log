@@ -1,0 +1,71 @@
+2025-09-06 15:08:32 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-06 15:08:32 - werkzeug - INFO - _log:187 -  * Debugger PIN: 100-651-201
+2025-09-06 15:08:37 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage.py', reloading
+2025-09-06 15:08:46 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-06 15:08:46 - werkzeug - INFO - _log:187 -  * Debugger PIN: 100-651-201
+2025-09-06 15:08:51 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage.py', reloading
+2025-09-06 15:08:52 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-06 15:08:52 - werkzeug - INFO - _log:187 -  * Debugger PIN: 100-651-201
+2025-09-06 15:09:00 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage.py', reloading
+2025-09-06 15:09:00 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage.py', reloading
+2025-09-06 15:09:03 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-06 15:09:03 - werkzeug - INFO - _log:187 -  * Debugger PIN: 100-651-201
+2025-09-06 15:09:06 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage.py', reloading
+2025-09-06 15:09:06 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage.py', reloading
+2025-09-06 15:09:08 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-06 15:09:08 - werkzeug - INFO - _log:187 -  * Debugger PIN: 100-651-201
+2025-09-06 15:09:12 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage.py', reloading
+2025-09-06 15:09:12 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage.py', reloading
+2025-09-06 15:09:41 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-06 15:09:41 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-06 15:09:41 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-06 15:09:42 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-06 15:09:42 - werkzeug - INFO - _log:187 -  * Debugger PIN: 100-651-201
+2025-09-06 15:19:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:19:47] "GET /index HTTP/1.1" 200 -
+2025-09-06 15:19:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:19:47] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-06 15:20:06 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:20:06] "GET /index HTTP/1.1" 200 -
+2025-09-06 15:20:06 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:20:06] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-06 15:20:23 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-06 15:20:23 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-06 15:20:23 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-06 15:20:23 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-06 15:20:23 - werkzeug - INFO - _log:187 -  * Debugger PIN: 100-651-201
+2025-09-06 15:20:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:20:26] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-06 15:20:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:20:26] "GET /index HTTP/1.1" 200 -
+2025-09-06 15:20:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:20:26] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-06 15:20:50 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:20:50] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-06 15:20:50 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:20:50] "GET /index HTTP/1.1" 200 -
+2025-09-06 15:20:50 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:20:50] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-06 15:21:01 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:21:01] "GET /index HTTP/1.1" 200 -
+2025-09-06 15:21:01 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:21:01] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-06 15:25:48 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:25:48] "GET /index HTTP/1.1" 200 -
+2025-09-06 15:25:48 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:25:48] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-06 15:26:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:26:26] "GET /index HTTP/1.1" 200 -
+2025-09-06 15:26:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:26:26] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-06 15:26:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:26:34] "GET /index HTTP/1.1" 200 -
+2025-09-06 15:26:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:26:35] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-06 15:29:40 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:29:40] "GET /index HTTP/1.1" 200 -
+2025-09-06 15:29:41 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:29:41] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-06 15:30:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:30:37] "GET /index HTTP/1.1" 200 -
+2025-09-06 15:30:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:30:37] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-06 15:32:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:32:37] "GET /index HTTP/1.1" 200 -
+2025-09-06 15:32:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:32:37] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-06 15:32:50 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:32:50] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-09-06 15:53:10 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-06 15:53:10 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-06 15:53:10 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-06 15:53:11 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-06 15:53:11 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-06 15:53:11 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:53:11] "GET /index HTTP/1.1" 200 -
+2025-09-06 15:53:11 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:53:11] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-06 15:55:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:55:17] "GET /index HTTP/1.1" 200 -
+2025-09-06 15:55:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:55:17] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -

@@ -14,13 +14,20 @@ import os
 from urllib.parse import urlencode
 import requests
 from werkzeug.exceptions import HTTPException
+from insta485.logger_config import get_logger
+
+# Initialize loggers
+logger = get_logger(__name__)
+payment_logger = get_logger('payment')
+email_logger = get_logger('email')
 
 # This is a test key. In a real application, this should be stored securely.
 stripe.api_key = "sk_test_51QrpdQC07BpFIQPX9s25iHN5nA78PYrurooQeTqtiEUhqBhzC8qcl3BHd6ZDFYCNLM6fGS1ynqwHY0uKtZ19zSDe00OalrifSw"
 
 def send_payment_buyer(transaction_id):
-    print(f"[PAYMENT] Buyer is paying Safe-Transaction for transaction {transaction_id}.")
     """Create a stripe checkout session for the buyer and store tid in session."""
+    payment_logger.info(f"Buyer initiating payment for transaction {transaction_id}")
+    
     flask.session['transaction_id'] = transaction_id
     connection = insta485.model.get_db()
     transaction = connection.execute(
@@ -29,28 +36,37 @@ def send_payment_buyer(transaction_id):
     ).fetchone()
 
     if not transaction:
+        payment_logger.error(f"Transaction {transaction_id} not found for payment")
         flask.abort(404)
 
     amount = transaction['price'] * 100  # Convert to cents
-
-    print(f"[PAYMENT] Stripe checkout session created for buyer payment on transaction {transaction_id}.")
-    session = stripe.checkout.Session.create(
-        payment_method_types=['card'],
-        line_items=[{
-            'price_data': {
-                'currency': 'usd',
-                'product_data': {
-                    'name': f'Payment for Transaction #{transaction_id}',
+    payment_logger.info(f"Creating Stripe checkout session for transaction {transaction_id}, amount: ${transaction['price']}")
+    
+    try:
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': f'Payment for Transaction #{transaction_id}',
+                    },
+                    'unit_amount': amount,
                 },
-                'unit_amount': amount,
-            },
-            'quantity': 1,
-        }],
-        mode='payment',
-        success_url=flask.url_for('payment_success', _external=True),
-        cancel_url=flask.url_for('payment_cancel', _external=True),
-    )
-    return flask.redirect(session.url, code=303)
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url=flask.url_for('payment_success', _external=True),
+            cancel_url=flask.url_for('payment_cancel', _external=True),
+        )
+        payment_logger.info(f"Stripe checkout session created successfully for transaction {transaction_id}, session_id: {session.id}")
+        return flask.redirect(session.url, code=303)
+    except stripe.error.StripeError as e:
+        payment_logger.error(f"Stripe error creating checkout session for transaction {transaction_id}: {str(e)}")
+        flask.abort(500)
+    except Exception as e:
+        payment_logger.error(f"Unexpected error creating checkout session for transaction {transaction_id}: {str(e)}")
+        flask.abort(500)
 
 def hash_password(password):
     """Hash a password for storing."""
@@ -79,8 +95,9 @@ def generate_verification_code(length=6):
 def send_verification_email(email, code):
     """Send verification email (placeholder implementation)."""
     # In a real application, you would use a service like SendGrid, AWS SES, etc.
-    print(f"[EMAIL] Sending verification code {code} to {email}")
-    # For development, we'll just print to console
+    email_logger.info(f"Sending verification code to {email}")
+    logger.debug(f"Verification code for {email}: {code}")
+    # For development, we'll just log to console
     return True
 
 def send_verification_sms(phone_number, code):
@@ -93,9 +110,9 @@ def send_verification_sms(phone_number, code):
                 phone_number = '1' + phone_number
             phone_number = '+' + phone_number
         
-        # For development, we'll print to console instead of sending real SMS
-        print(f"[SMS] Sending verification code {code} to {phone_number}")
-        print(f"[SMS] Message: Your Safe Transaction verification code is: {code}")
+        # For development, we'll log to console instead of sending real SMS
+        email_logger.info(f"Sending SMS verification code to {phone_number}")
+        logger.debug(f"SMS verification code for {phone_number}: {code}")
         
         # Uncomment the following lines to send real SMS in production:
         # payload = {
@@ -108,7 +125,7 @@ def send_verification_sms(phone_number, code):
         
         return True  # Return True for development
     except Exception as e:
-        print(f"[SMS ERROR] Failed to send SMS: {e}")
+        email_logger.error(f"Failed to send SMS to {phone_number}: {str(e)}")
         return False
 
 def create_verification_code(email, code_type, connection):
@@ -182,11 +199,11 @@ def manage_create(target, connection):
     email = flask.request.form.get('email', '').strip().lower()
     password = flask.request.form.get('password', '')
     
-    print(f"[DEBUG] Signup attempt: {firstname} <{email}>")
+    logger.info(f"Signup attempt: {firstname} <{email}>")
     
     # Simple validation
     if not firstname or not email or not password:
-        print("[ERROR] Missing required fields")
+        logger.warning("Signup failed: Missing required fields")
         return flask.render_template("create.html", error="All fields are required.")
     
     # Check if user exists
@@ -196,10 +213,10 @@ def manage_create(target, connection):
         ).fetchone()
         
         if existing_user:
-            print(f"[ERROR] User already exists: {email}")
+            logger.warning(f"Signup failed: User already exists: {email}")
             return flask.render_template("create.html", error="User with that email already exists.")
     except Exception as e:
-        print(f"[ERROR] Database check failed: {e}")
+        logger.error(f"Database check failed during signup: {str(e)}")
         return flask.render_template("create.html", error="Database error. Please try again.")
     
     # Split name into first/last
