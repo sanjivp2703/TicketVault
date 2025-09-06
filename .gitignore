@@ -1,0 +1,7 @@
+
+# Ignore DB and cache
+*.sqlite3
+var/*.sqlite3
+__pycache__/
+*.pyc
+
