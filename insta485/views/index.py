@@ -445,7 +445,7 @@ def create_transaction():
     
     seller_email = flask.session['email']
     buyer_email = flask.request.form['buyer_email']
-    price = float(flask.request.form['price'])  # Changed to float for new system
+    price = float(flask.request.form['ticket_price'])  # Changed to float for new system
     event_name = flask.request.form['event_name']
     event_location = flask.request.form['event_location']
     event_datetime_raw = flask.request.form['event_datetime']
@@ -1098,12 +1098,11 @@ def payment_success():
     # Format payment time for display
     payment_time_display = payment_dt.strftime('%a, %b %d, %I:%M %p')
     
-    # Payment received, advance to ticket processing stage
-    # Will stay here until ticket sending is confirmed (to be implemented later)
+    # Payment received - AUTOMATICALLY complete the transaction
     connection.execute(
         """
         UPDATE transactions 
-        SET status = 'both_received_processing', 
+        SET status = 'completed', 
             payment_received = 1,
             payment_received_time = CURRENT_TIMESTAMP
         WHERE transaction_id = ?
@@ -1111,14 +1110,63 @@ def payment_success():
         (transaction_id,)
     )
     
-    # Send acceptance confirmation email
+    # AUTOMATIC TICKET TRANSFER - Send ticket to buyer
+    try:
+        from insta485.mailgun_sender import mailgun_sender
+        
+        # Get original ticket details from database
+        ticket_data = connection.execute(
+            "SELECT ticket_email_data, original_event_details FROM transactions WHERE transaction_id = ?",
+            (transaction_id,)
+        ).fetchone()
+        
+        # Send ticket to buyer
+        mailgun_sender.send_ticket_to_buyer(
+            buyer_email=row['buyer_email'],
+            transaction_id=transaction_id,
+            event_name=row['event_name'],
+            seller_email=row['seller_email']
+        )
+        
+        print(f"🎫 AUTO-TRANSFER: Ticket sent to buyer {row['buyer_email']}")
+        
+    except Exception as e:
+        print(f"❌ AUTO-TRANSFER ERROR: {e}")
+    
+    # AUTOMATIC FUND RELEASE - Add funds to seller balance
+    try:
+        # Calculate seller amount (minus platform fee)
+        platform_fee_rate = 0.03  # 3% platform fee
+        seller_amount = float(row['price']) * (1 - platform_fee_rate)
+        
+        # Add to seller balance
+        connection.execute("""
+            INSERT OR IGNORE INTO user_balances (email, balance) VALUES (?, 0)
+        """, (row['seller_email'],))
+        
+        connection.execute("""
+            UPDATE user_balances 
+            SET balance = balance + ?
+            WHERE email = ?
+        """, (seller_amount, row['seller_email']))
+        
+        # Send fund notification to seller
+        mailgun_sender.send_seller_payment_received(
+            seller_email=row['seller_email'],
+            transaction_id=transaction_id,
+            event_name=row['event_name'],
+            amount=seller_amount,
+            buyer_email=row['buyer_email']
+        )
+        
+        print(f"💰 AUTO-RELEASE: ${seller_amount:.2f} added to seller {row['seller_email']} balance")
+        
+    except Exception as e:
+        print(f"❌ AUTO-RELEASE ERROR: {e}")
+    
+    # Send confirmation emails to both parties
     if row['buyer_email'] and row['event_name'] and row['price'] and row['seller_email']:
         send_accept_confirmation_email(row['buyer_email'], row['event_name'], row['price'], row['seller_email'], transaction_id=transaction_id)
-    else:
-        connection.execute(
-            "UPDATE transactions SET status = 'waiting_for_ticket' WHERE transaction_id = ?",
-            (transaction_id,)
-        )
     
     # Render the new success page
     context = {

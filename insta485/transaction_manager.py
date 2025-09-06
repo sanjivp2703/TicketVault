@@ -67,6 +67,25 @@ class TransactionManager:
         )
         connection.commit()
         
+        # Send seller instructions email
+        try:
+            from insta485.mailgun_sender import mailgun_sender
+            
+            # Calculate deadline (24 hours from now)
+            deadline = datetime.datetime.now() + timedelta(hours=24)
+            
+            mailgun_sender.send_seller_instructions(
+                seller_email=seller_email,
+                transaction_id=transaction_id,
+                ticket_email=ticket_email,
+                event_name=event_details['name'],
+                deadline=deadline
+            )
+            
+            print(f"📧 Seller instructions sent to {seller_email}")
+        except Exception as e:
+            print(f"📧 Failed to send seller instructions: {e}")
+        
         print(f"✅ Created PENDING listing {transaction_id} - awaiting ticket submission to {ticket_email}")
         
         return {
@@ -130,23 +149,41 @@ class TransactionManager:
             
             connection.commit()
             
-            # Send buyer notification with 1-hour payment window
+            # Send notifications to both seller and buyer
             original_details = json.loads(transaction['original_event_details'])
             
-            # Prepare event details for email
-            event_details = {
-                'name': original_details['event_name'],
-                'location': original_details.get('location', 'TBD'),
-                'datetime': original_details.get('datetime', 'TBD')
-            }
+            # Import our new email sender
+            from insta485.mailgun_sender import mailgun_sender
             
-            send_buyer_notification(
-                transaction_id=transaction_id,
-                buyer_email=transaction['buyer_email'],
+            # 1. Send SUCCESS notification to SELLER
+            mailgun_sender.send_seller_verification_success(
                 seller_email=transaction['seller_email'],
-                price=transaction['price'],
-                event_details=event_details,
+                transaction_id=transaction_id,
+                event_name=original_details['event_name'],
+                buyer_email=transaction['buyer_email'],
                 payment_deadline=payment_deadline
+            )
+            
+            # 2. Send PAYMENT notification to BUYER
+            payment_url = f"http://localhost:8000/pay/{transaction_id}"  # Update with your domain
+            
+            # Parse datetime if it's a string
+            event_datetime = original_details.get('datetime', 'TBD')
+            if isinstance(event_datetime, str) and event_datetime != 'TBD':
+                try:
+                    event_datetime = datetime.datetime.strptime(event_datetime, '%Y-%m-%d %H:%M:%S')
+                except:
+                    pass
+            
+            mailgun_sender.send_buyer_payment_notification(
+                buyer_email=transaction['buyer_email'],
+                transaction_id=transaction_id,
+                event_name=original_details['event_name'],
+                event_location=original_details.get('location', 'TBD'),
+                event_datetime=event_datetime,
+                price=float(transaction['price']),
+                payment_deadline=payment_deadline,
+                payment_url=payment_url
             )
             
             print(f"✅ Listing {transaction_id} ACTIVATED - buyer has 1 hour to pay")
@@ -158,8 +195,31 @@ class TransactionManager:
                 'verification_score': verification_result['score']
             }
         else:
-            # Ticket verification failed - keep in pending state
+            # Ticket verification failed - notify seller and cancel listing
+            original_details = json.loads(transaction['original_event_details'])
+            
+            # Import our email sender
+            from insta485.mailgun_sender import mailgun_sender
+            
+            # Send FAILURE notification to SELLER
+            mailgun_sender.send_seller_verification_failed(
+                seller_email=transaction['seller_email'],
+                transaction_id=transaction_id,
+                event_name=original_details['event_name'],
+                reason=verification_result['reason']
+            )
+            
+            # Update status to cancelled due to verification failure
+            connection.execute("""
+                UPDATE transactions 
+                SET status = 'cancelled'
+                WHERE transaction_id = ?
+            """, (transaction_id,))
+            
             connection.commit()
+            
+            print(f"❌ Listing {transaction_id} CANCELLED - verification failed: {verification_result['reason']}")
+            
             return {
                 'success': False, 
                 'error': f'Ticket verification failed: {verification_result["reason"]}',
@@ -168,7 +228,7 @@ class TransactionManager:
     
     def _verify_ticket_details_match(self, email_data, transaction):
         """
-        Verify that ticket email details match the original listing details
+        Advanced ticket email verification system
         Returns whether details match and verification notes
         """
         score = 0
@@ -181,31 +241,62 @@ class TransactionManager:
         # Extract content from email
         email_content = (
             email_data.get('subject', '') + ' ' + 
-            email_data.get('body', '')
+            email_data.get('body', '') + ' ' +
+            email_data.get('body_text', '')
         ).lower()
         
-        # Perform ticket verification
+        # 1. Event name verification (40 points)
         event_name = original_details['event_name'].lower()
-        if event_name in email_content:
-            score = 100
-            notes.append("Event name found in email content")
-            details_match = True
+        event_words = [word for word in event_name.split() if len(word) > 2]
+        
+        event_matches = sum(1 for word in event_words if word in email_content)
+        if event_matches >= len(event_words) * 0.7:  # 70% of event words must match
+            score += 40
+            notes.append(f"Event name match: {event_matches}/{len(event_words)} words")
         else:
-            score = 0
-            notes.append("Event name not found in email content")
-            details_match = False
+            notes.append(f"Event name mismatch: {event_matches}/{len(event_words)} words")
+        
+        # 2. Venue/location verification (20 points)
+        location = original_details.get('location', '').lower()
+        if location and any(word in email_content for word in location.split() if len(word) > 3):
+            score += 20
+            notes.append("Venue/location found in email")
+        
+        # 3. Ticket keywords verification (20 points)
+        ticket_keywords = ['ticket', 'seat', 'section', 'row', 'barcode', 'qr', 'entry', 'admission', 'gate']
+        keyword_matches = sum(1 for keyword in ticket_keywords if keyword in email_content)
+        if keyword_matches >= 3:
+            score += 20
+            notes.append(f"Found {keyword_matches} ticket keywords")
+        
+        # 4. Sender domain verification (10 points)
+        sender_domain = email_data.get('sender', '').split('@')[-1].lower()
+        trusted_domains = ['ticketmaster.com', 'stubhub.com', 'seatgeek.com', 'vivid-seats.com']
+        if any(domain in sender_domain for domain in trusted_domains):
+            score += 10
+            notes.append(f"Trusted sender domain: {sender_domain}")
+        
+        # 5. Email structure verification (10 points)
+        if len(email_content) > 50 and 'noreply' not in email_data.get('sender', ''):
+            score += 10
+            notes.append("Email has substantial content")
+        
+        # Determine if verification passes
+        details_match = score >= 70  # Require 70+ points for verification
         
         return {
             'details_match': details_match,
-            'verification_score': score,
-            'notes': '; '.join(notes)
+            'score': score,
+            'notes': '; '.join(notes),
+            'reason': f'Verification score: {score}/100' if not details_match else 'Verification passed'
         }
     
     def process_payment(self, transaction_id, payment_method_id):
         """
-        Process buyer payment
+        Process buyer payment and immediately forward tickets
         """
-        transaction = self._get_transaction(transaction_id)
+        connection = insta485.model.get_db()
+        transaction = self._get_transaction(transaction_id, connection)
         if not transaction:
             return {'success': False, 'error': 'Transaction not found'}
         
@@ -214,35 +305,63 @@ class TransactionManager:
             return {'success': False, 'error': 'Payment already processed'}
         
         # Check if past payment deadline
-        if datetime.datetime.now() > transaction['payment_deadline']:
+        payment_deadline_str = transaction['payment_deadline']
+        if isinstance(payment_deadline_str, str):
+            try:
+                if 'T' in payment_deadline_str:
+                    payment_deadline = datetime.datetime.fromisoformat(payment_deadline_str.replace('Z', '+00:00'))
+                else:
+                    payment_deadline = datetime.datetime.strptime(payment_deadline_str, '%Y-%m-%d %H:%M:%S')
+            except ValueError:
+                return {'success': False, 'error': 'Invalid payment deadline format'}
+        else:
+            payment_deadline = payment_deadline_str
+            
+        if datetime.datetime.now() > payment_deadline:
             self._expire_transaction(transaction_id, 'payment_deadline_passed')
             return {'success': False, 'error': 'Payment deadline has passed'}
         
         try:
-            # Create payment intent (hold funds, don't capture yet)
+            # Create payment intent (capture immediately for instant processing)
             payment_intent = stripe.PaymentIntent.create(
                 amount=int(transaction['price'] * 100),
                 currency='usd',
                 payment_method=payment_method_id,
                 confirmation_method='manual',
                 confirm=True,
-                capture_method='manual',  # Hold funds in escrow
+                capture_method='automatic',  # Capture immediately
                 metadata={'transaction_id': transaction_id}
             )
             
-            # Update transaction
-            self.connection.execute("""
+            # Update transaction with payment info
+            connection.execute("""
                 UPDATE transactions SET 
                     payment_received = 1,
                     payment_received_time = CURRENT_TIMESTAMP,
-                    payment_intent_id = ?
+                    payment_intent_id = ?,
+                    status = 'both_received_processing'
                 WHERE transaction_id = ?
             """, (payment_intent.id, transaction_id))
             
-            # Advance transaction state
-            self._advance_transaction_state(transaction_id)
+            connection.commit()
             
-            return {'success': True, 'payment_intent_id': payment_intent.id}
+            # Immediately forward tickets to buyer
+            self._forward_ticket_to_buyer(transaction_id, connection)
+            
+            # Set up automatic fund release (24 hours from now)
+            release_deadline = datetime.datetime.now() + timedelta(hours=24)
+            connection.execute("""
+                UPDATE transactions SET 
+                    status = 'ticket_forwarded_funds_held',
+                    release_deadline = ?
+                WHERE transaction_id = ?
+            """, (release_deadline.strftime('%Y-%m-%d %H:%M:%S'), transaction_id))
+            
+            connection.commit()
+            
+            print(f"✅ Payment processed and tickets forwarded for transaction {transaction_id}")
+            
+            return {'success': True, 'payment_intent_id': payment_intent.id, 'status': 'tickets_forwarded'}
             
         except stripe.error.StripeError as e:
             return {'success': False, 'error': f'Payment failed: {str(e)}'}
@@ -280,30 +399,49 @@ class TransactionManager:
         
         self.connection.commit()
     
-    def _forward_ticket_to_buyer(self, transaction_id):
+    def _forward_ticket_to_buyer(self, transaction_id, connection):
         """
-        Forward ticket email to buyer
+        Forward ticket email to buyer immediately after payment
         """
-        transaction = self._get_transaction(transaction_id)
+        transaction = self._get_transaction(transaction_id, connection)
+        if not transaction or not transaction['ticket_email_data']:
+            print(f"❌ No ticket data found for transaction {transaction_id}")
+            return False
+            
         ticket_data = json.loads(transaction['ticket_email_data'])
         
-        # Forward the email
-        success = forward_ticket_email(
-            to_email=transaction['buyer_email'],
-            original_email_data=ticket_data,
-            transaction_id=transaction_id
-        )
-        
-        if success:
-            self.connection.execute("""
-                UPDATE transactions SET 
-                    ticket_forwarded = 1,
-                    ticket_forwarded_time = CURRENT_TIMESTAMP
-                WHERE transaction_id = ?
-            """, (transaction_id,))
+        # Forward the email using the email automation system
+        try:
+            from insta485.email_automation import forward_ticket_email
             
-            # Notify both parties
-            self._notify_ticket_forwarded(transaction_id)
+            success = forward_ticket_email(
+                to_email=transaction['buyer_email'],
+                original_email_data=ticket_data,
+                transaction_id=transaction_id
+            )
+            
+            if success:
+                connection.execute("""
+                    UPDATE transactions SET 
+                        ticket_forwarded = 1,
+                        ticket_forwarded_time = CURRENT_TIMESTAMP
+                    WHERE transaction_id = ?
+                """, (transaction_id,))
+                
+                connection.commit()
+                
+                print(f"📧 Tickets forwarded to buyer: {transaction['buyer_email']}")
+                
+                # Send confirmation emails to both parties
+                self._notify_ticket_forwarded(transaction_id, connection)
+                return True
+            else:
+                print(f"❌ Failed to forward tickets for transaction {transaction_id}")
+                return False
+                
+        except Exception as e:
+            print(f"❌ Error forwarding tickets: {e}")
+            return False
     
     def confirm_buyer_receipt(self, transaction_id, buyer_email):
         """
@@ -531,13 +669,85 @@ class TransactionManager:
         return cursor.lastrowid
     
     # Notification methods (basic implementations)
-    def _notify_ticket_forwarded(self, transaction_id):
+    def _notify_ticket_forwarded(self, transaction_id, connection):
         """Notify both parties that ticket was forwarded"""
-        print(f"📧 Ticket forwarded for transaction {transaction_id}")
+        try:
+            from insta485.email_automation import send_email
+            
+            transaction = self._get_transaction(transaction_id, connection)
+            if not transaction:
+                return
+                
+            # Get event details
+            original_details = json.loads(transaction['original_event_details'])
+            event_name = original_details['event_name']
+            
+            # Notify buyer
+            buyer_subject = f"🎫 Your {event_name} Tickets Have Been Delivered!"
+            buyer_html = f"""
+            <h2>🎉 Tickets Delivered Successfully!</h2>
+            <p>Great news! Your tickets for <strong>{event_name}</strong> have been delivered to your email.</p>
+            <p><strong>Transaction ID:</strong> {transaction_id}</p>
+            <p>If you have any issues with your tickets, please contact us within 24 hours.</p>
+            <p>Enjoy the event!</p>
+            """
+            
+            send_email(transaction['buyer_email'], buyer_subject, buyer_html)
+            
+            # Notify seller
+            seller_subject = f"💰 Payment Confirmed - {event_name} Tickets Delivered"
+            seller_html = f"""
+            <h2>✅ Transaction Successful!</h2>
+            <p>Your tickets for <strong>{event_name}</strong> have been successfully delivered to the buyer.</p>
+            <p><strong>Transaction ID:</strong> {transaction_id}</p>
+            <p><strong>Amount:</strong> ${transaction['price']}</p>
+            <p>Funds will be released to your account within 24 hours after the event.</p>
+            """
+            
+            send_email(transaction['seller_email'], seller_subject, seller_html)
+            
+            print(f"📧 Ticket forwarded notifications sent for transaction {transaction_id}")
+            
+        except Exception as e:
+            print(f"❌ Error sending ticket forwarded notifications: {e}")
     
     def _notify_funds_released(self, transaction_id, reason):
         """Notify both parties that funds were released"""
-        print(f"💰 Funds released for transaction {transaction_id}: {reason}")
+        try:
+            from insta485.email_automation import send_email
+            
+            connection = insta485.model.get_db()
+            transaction = self._get_transaction(transaction_id, connection)
+            if not transaction:
+                return
+                
+            # Get event details
+            original_details = json.loads(transaction['original_event_details'])
+            event_name = original_details['event_name']
+            
+            # Calculate seller amount (minus 5% platform fee)
+            platform_fee_rate = 0.05
+            seller_amount = transaction['price'] * (1 - platform_fee_rate)
+            
+            # Notify seller
+            seller_subject = f"💰 Payment Released - {event_name}"
+            seller_html = f"""
+            <h2>💰 Payment Released!</h2>
+            <p>Your payment for <strong>{event_name}</strong> has been released.</p>
+            <p><strong>Transaction ID:</strong> {transaction_id}</p>
+            <p><strong>Gross Amount:</strong> ${transaction['price']}</p>
+            <p><strong>Platform Fee (5%):</strong> ${transaction['price'] * platform_fee_rate:.2f}</p>
+            <p><strong>Net Amount:</strong> ${seller_amount:.2f}</p>
+            <p><strong>Reason:</strong> {reason}</p>
+            <p>Funds should appear in your account within 2-3 business days.</p>
+            """
+            
+            send_email(transaction['seller_email'], seller_subject, seller_html)
+            
+            print(f"💰 Funds released notification sent for transaction {transaction_id}: {reason}")
+            
+        except Exception as e:
+            print(f"❌ Error sending funds released notification: {e}")
     
     def _notify_transaction_expired(self, transaction_id, responsible_party, deadline_type):
         """Notify about transaction expiration"""

@@ -66,7 +66,8 @@ class DeadlineManager:
         ).fetchall()
         
         for transaction in expired_tickets:
-            self._expire_listing_no_tickets(transaction['transaction_id'], connection)
+            from insta485.error_handler import error_handler
+            error_handler.handle_ticket_timeout(transaction['transaction_id'])
             print(f"⏰ Expired listing {transaction['transaction_id']} - no tickets received")
     
     def _check_payment_deadlines(self, connection):
@@ -85,7 +86,8 @@ class DeadlineManager:
         ).fetchall()
         
         for transaction in expired_payments:
-            self._return_tickets_to_seller(transaction['transaction_id'], connection)
+            from insta485.error_handler import error_handler
+            error_handler.handle_payment_timeout(transaction['transaction_id'])
             print(f"⏰ Returned tickets for transaction {transaction['transaction_id']} - no payment received")
     
     def _send_deadline_reminders(self, connection):

@@ -16,14 +16,22 @@ app.config.from_object('insta485.config')
 # $ export INSTA485_SETTINGS=secret_key_config.py
 app.config.from_envvar('INSTA485_SETTINGS', silent=True)
 
-# Flask-Mail configuration for Gmail SMTP
+# Mailgun configuration for Safe Transaction
 from flask_mail import Mail
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+
+# Mailgun SMTP Configuration
+app.config['MAIL_SERVER'] = 'smtp.mailgun.org'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'sanjivp2703@gmail.com'
-app.config['MAIL_PASSWORD'] = 'slfa lcwa owan psxe'
-app.config['MAIL_DEFAULT_SENDER'] = 'sanjivp2703@gmail.com'
+app.config['MAIL_USERNAME'] = 'postmaster@sandboxb9b4c56251404e08939d238b07603aff.mailgun.org'
+app.config['MAIL_PASSWORD'] = 'd3fac427288306d90280459b2faddb07-1ae02a08-43aa9974'  # Your API key
+app.config['MAIL_DEFAULT_SENDER'] = 'Safe Transaction <noreply@sandboxb9b4c56251404e08939d238b07603aff.mailgun.org>'
+
+# Mailgun API Configuration
+app.config['MAILGUN_DOMAIN'] = 'sandboxb9b4c56251404e08939d238b07603aff.mailgun.org'
+app.config['MAILGUN_API_KEY'] = 'd3fac427288306d90280459b2faddb07-1ae02a08-43aa9974'
+app.config['MAILGUN_BASE_URL'] = 'https://api.mailgun.net/v3/sandboxb9b4c56251404e08939d238b07603aff.mailgun.org'
+
 mail = Mail(app)
 
 # Initialize scheduler (no timezone)

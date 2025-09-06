@@ -158,11 +158,11 @@ def file_complaint_api(transaction_id):
         return flask.jsonify({'error': 'Missing complaint reason'}), 400
     
     try:
-        transaction_manager = TransactionManager()
-        result = transaction_manager.file_complaint(
+        from insta485.error_handler import error_handler
+        result = error_handler.handle_complaint_filed(
             transaction_id=transaction_id,
-            buyer_email=buyer_email,
-            complaint_reason=data['reason']
+            complaint_reason=data['reason'],
+            buyer_email=buyer_email
         )
         
         if result['success']:
@@ -555,28 +555,43 @@ def test_verify_transaction():
         
         connection.commit()
         
-        # Send buyer notification email
+        # Send notifications using new Mailgun system
         try:
-            from insta485.email_automation import send_modern_buyer_notification
+            from insta485.mailgun_sender import mailgun_sender
             original_details = json.loads(transaction['original_event_details'])
             
-            # Prepare event details for email
-            event_details = {
-                'name': original_details['event_name'],
-                'location': original_details.get('location', 'TBD'),
-                'datetime': original_details.get('datetime', 'TBD')
-            }
-            
-            send_modern_buyer_notification(
-                transaction_id=transaction_id,
-                buyer_email=transaction['buyer_email'],
+            # 1. Send SUCCESS notification to SELLER
+            mailgun_sender.send_seller_verification_success(
                 seller_email=transaction['seller_email'],
-                price=transaction['price'],
-                event_details=event_details,
+                transaction_id=transaction_id,
+                event_name=original_details['event_name'],
+                buyer_email=transaction['buyer_email'],
                 payment_deadline=payment_deadline
             )
             
-            print(f"📧 TEST VERIFY: Buyer notification sent to {transaction['buyer_email']}")
+            # 2. Send PAYMENT notification to BUYER
+            payment_url = f"http://localhost:8000/pay/{transaction_id}"
+            
+            # Parse datetime if it's a string
+            event_datetime = original_details.get('datetime', 'TBD')
+            if isinstance(event_datetime, str) and event_datetime != 'TBD':
+                try:
+                    event_datetime = datetime.strptime(event_datetime, '%Y-%m-%d %H:%M:%S')
+                except:
+                    pass
+            
+            mailgun_sender.send_buyer_payment_notification(
+                buyer_email=transaction['buyer_email'],
+                transaction_id=transaction_id,
+                event_name=original_details['event_name'],
+                event_location=original_details.get('location', 'TBD'),
+                event_datetime=event_datetime,
+                price=float(transaction['price']),
+                payment_deadline=payment_deadline,
+                payment_url=payment_url
+            )
+            
+            print(f"📧 TEST VERIFY: Notifications sent to seller ({transaction['seller_email']}) and buyer ({transaction['buyer_email']})")
             email_sent = True
             
         except Exception as e:

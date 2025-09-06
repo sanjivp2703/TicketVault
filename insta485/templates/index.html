@@ -297,6 +297,53 @@
             width: 100%;
         }
 
+        /* Ensure bottom cards have equal height */
+        .sidebar-bottom-cards {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+            flex: 1;
+        }
+
+        .withdrawal-section,
+        .how-it-works-card {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .withdrawal-section .withdrawal-actions,
+        .how-it-works-card .how-it-works-footer {
+            margin-top: auto;
+        }
+
+        /* Ensure equal height on all screen sizes */
+        @media (min-width: 901px) {
+            .sidebar-bottom-cards {
+                display: flex;
+                flex-direction: column;
+                gap: var(--space-lg);
+                flex: 1;
+            }
+            
+            .withdrawal-section,
+            .how-it-works-card {
+                flex: 1;
+                min-height: 0;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .sidebar-bottom-cards {
+                display: contents;
+            }
+            
+            .withdrawal-section,
+            .how-it-works-card {
+                min-height: 280px; /* Minimum height for consistency */
+            }
+        }
+
         /* Modern Hero Section - Psychological Design */
         .hero-section {
             grid-column: 1 / -1;
@@ -999,10 +1046,22 @@
             .sidebar {
                 position: static;
                 order: 2;
-            display: grid;
+                display: grid;
                 grid-template-columns: 1fr 1fr;
-            gap: var(--space-lg);
-        }
+                gap: var(--space-lg);
+                align-items: start;
+            }
+
+            .sidebar-bottom-cards {
+                display: contents;
+            }
+
+            .withdrawal-section,
+            .how-it-works-card {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+            }
 
             .hero-section,
             .listings-section-fullwidth {
@@ -2170,6 +2229,151 @@
         .listings-section-fullwidth .btn-cancel {
             padding: var(--space-xs) var(--space-sm); /* Smaller button padding */
             font-size: 13px; /* Smaller button text */
+        }
+
+        /* No Listings Message Styles */
+        .no-listings-message {
+            text-align: center;
+            padding: var(--space-2xl) var(--space-xl);
+            color: var(--text-secondary);
+        }
+
+        .no-listings-icon {
+            font-size: 48px;
+            color: var(--text-tertiary);
+            margin-bottom: var(--space-lg);
+            opacity: 0.6;
+        }
+
+        .no-listings-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .no-listings-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* How It Works Card Styles */
+        .how-it-works-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            border: 1px solid var(--border-light);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .how-it-works-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .how-it-works-header {
+            text-align: center;
+            margin-bottom: var(--space-lg);
+        }
+
+        .how-it-works-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-xs);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+        }
+
+        .how-it-works-title i {
+            color: #f59e0b;
+            font-size: 18px;
+        }
+
+        .how-it-works-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .how-it-works-steps {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-sm);
+            padding: var(--space-sm);
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+        }
+
+        .step-item:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .step-number {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .step-description {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .how-it-works-footer {
+            text-align: center;
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .security-badge i {
+            font-size: 12px;
         }
 
         /* Ensure Create Listing section at bottom has normal styling */
@@ -6295,8 +6499,76 @@
             
         <!-- Main Content Area -->
         <div class="main-content">
-            {% if transactions %}
-            <!-- When there ARE active listings: Put them here (where Create Listing normally is) -->
+            
+            <!-- Create New Listing Section - Always show, positioned first -->
+            <div class="create-listing-section">
+                <div class="create-listing-header">
+                    <h2 class="create-listing-title"><i class="fas fa-ticket-alt"></i> Create New Listing</h2>
+                    <p class="create-listing-subtitle">List your tickets for sale on our secure platform</p>
+                </div>
+                
+                <form id="createListingFormBottom" action="{{ url_for('create_transaction') }}" method="post" class="listing-form" onsubmit="return handleCreateListing(event)">
+
+                    <!-- Event Information -->
+                    <div class="form-group">
+                        <label for="event_name_bottom">Event Name</label>
+                        <div class="event-search">
+                            <input type="text" id="event_name_bottom" name="event_name" required placeholder="e.g., Taylor Swift Concert" autocomplete="off">
+                            <div id="event_suggestions_bottom" class="event-suggestions"></div>
+            </div>
+                </div>
+                
+                    <!-- Event Details Display (Hidden until event selected) -->
+                    <div id="event_details_container_bottom" class="event-details-container" style="display: none;">
+                        <div class="event-details-grid">
+                            <div class="event-detail-card venue-card">
+                                <div class="detail-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <label class="detail-label">Venue/Location</label>
+                                    <div id="event_location_display_bottom" class="detail-value">Select an event to see venue</div>
+                                </div>
+                            </div>
+                            
+                            <div class="event-detail-card date-card">
+                                <div class="detail-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <label class="detail-label">Date & Time</label>
+                                    <div id="event_datetime_display_bottom" class="detail-value">Select an event to see date</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Hidden fields for event details -->
+                    <input type="hidden" id="event_location_bottom" name="event_location">
+                    <input type="hidden" id="event_datetime_bottom" name="event_datetime">
+                    <input type="hidden" id="event_description_bottom" name="event_description">
+                
+                    <!-- Ticket Information -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ticket_price_bottom">Ticket Price ($)</label>
+                            <input type="number" id="ticket_price_bottom" name="ticket_price" step="0.01" min="0" required placeholder="100.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="buyer_email_bottom">Buyer Email <i class="fas fa-info-circle" title="Email address of the person who will purchase your ticket"></i></label>
+                            <input type="email" id="buyer_email_bottom" name="buyer_email" required placeholder="buyer@example.com">
+                        </div>
+                    </div>
+                
+                    <!-- Submit Button -->
+                    <button type="submit" class="create-listing-btn">
+                        <i class="fas fa-plus"></i>
+                        Create Listing & Send to Buyer
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Active Listings Section - Always show, positioned after create listing -->
             <div class="listings-section-fullwidth" style="margin: 0; grid-column: auto;">
                 <div class="listings-header">
                     <h2 class="listings-title"><i class="fas fa-list"></i> Your Active Listings</h2>
@@ -6304,6 +6576,7 @@
                     </div>
                 
                 <div class="listings-container">
+                    {% if transactions %}
                         {% for transaction in transactions %}
                         <div class="listing-card" data-transaction-id="{{ transaction.transaction_id }}">
                             <div class="listing-header">
@@ -6484,181 +6757,19 @@
                             </div>
                 </div>
                 {% endfor %}
-            </div>
+                    {% else %}
+                        <!-- No active listings message -->
+                        <div class="no-listings-message">
+                            <div class="no-listings-icon">
+                                <i class="fas fa-inbox"></i>
                             </div>
-                            {% endif %}
+                            <h3 class="no-listings-title">No Active Listings</h3>
+                            <p class="no-listings-subtitle">You don't have any active ticket listings yet. Create your first listing below to get started!</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
             
-            {% if not transactions %}
-            <!-- When there are NO active listings: Create Listing stays in its normal position -->
-            <div class="create-listing-section">
-                <div class="create-listing-header">
-                    <h2 class="create-listing-title"><i class="fas fa-ticket-alt"></i> Create New Listing</h2>
-                    <p class="create-listing-subtitle">List your tickets for sale on our secure platform</p>
-                        </div>
-                
-                <form id="createListingForm" action="{{ url_for('create_transaction') }}" method="post" class="listing-form" onsubmit="return handleCreateListing(event)">
-
-                    <!-- Event Information -->
-                    <div class="form-group">
-                        <label for="event_name">Event Name</label>
-                        <div class="event-search">
-                            <input type="text" id="event_name" name="event_name" required placeholder="e.g., Taylor Swift Concert" autocomplete="off">
-                            <div id="event_suggestions" class="event-suggestions"></div>
-                        </div>
-                </div>
-                
-                    <!-- Event Details Display (Hidden until event selected) -->
-                    <div id="event_details_container" class="event-details-container" style="display: none;">
-                        <div class="event-details-grid">
-                            <div class="event-detail-card venue-card">
-                                <div class="detail-icon">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                                <div class="detail-content">
-                                    <label class="detail-label">Venue/Location</label>
-                                    <div id="event_location_display" class="detail-value">Select an event to see venue</div>
-                                </div>
-                            </div>
-                        
-                            <div class="event-detail-card datetime-card">
-                                <div class="detail-icon">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                                <div class="detail-content">
-                                    <label class="detail-label">Event Date & Time</label>
-                                    <div id="event_datetime_display" class="detail-value">Select an event to see date</div>
-                                </div>
-                            </div>
-                                </div>
-                        </div>
-                    
-                    <!-- Hidden inputs for form submission -->
-                    <input type="hidden" id="event_location" name="event_location" required>
-                    <input type="hidden" id="event_datetime" name="event_datetime" required>
-                        
-                    <!-- Transaction Details -->
-                        <div class="form-row">
-                        <div class="form-group">
-                            <label for="price">Ticket Price ($)</label>
-                            <input type="number" id="price" name="price" step="0.01" min="1" max="10000" required placeholder="100.00">
-                            </div>
-                            
-                        <div class="form-group">
-                            <label for="buyer_email">
-                                Buyer Email 
-                                <i class="fas fa-info-circle tooltip-icon" data-tooltip="buyer-email-info"></i>
-                            </label>
-                            <input type="email" id="buyer_email" name="buyer_email" required placeholder="buyer@example.com">
-                            <div class="tooltip-content" id="buyer-email-info">
-                                <strong>Why we need the buyer's email:</strong>
-                                We'll send them a secure payment link to complete the purchase. They'll only pay if you successfully send valid tickets to our system first.
-                                <br><br>
-                                <strong>What the buyer receives:</strong>
-                                • Payment instructions with full protection details
-                                • Automatic ticket delivery after payment
-                                • 24-hour verification window
-                                • Full refund guarantee if tickets are invalid
-                            </div>
-                        </div>
-                    </div>
-                        
-
-                    
-
-                    
-                    <!-- Hidden fields -->
-                    <input type="hidden" name="seller_email" value="{{ logemail }}">
-                    
-                    <button type="submit" class="create-listing-btn">
-                        <i class="fas fa-plus"></i> Create Listing & Send to Buyer
-                    </button>
-                </form>
-                        </div>
-                {% endif %}
-            
-            {% if transactions %}
-            <!-- When there ARE active listings: Create Listing goes to the bottom -->
-            <div class="create-listing-section" style="margin-top: var(--space-2xl); /* Ensure proper spacing from active listings above */">
-                <div class="create-listing-header">
-                    <h2 class="create-listing-title"><i class="fas fa-ticket-alt"></i> Create New Listing</h2>
-                    <p class="create-listing-subtitle">List your tickets for sale on our secure platform</p>
-                </div>
-                
-                <form id="createListingFormBottom" action="{{ url_for('create_transaction') }}" method="post" class="listing-form" onsubmit="return handleCreateListing(event)">
-
-                    <!-- Event Information -->
-                    <div class="form-group">
-                        <label for="event_name_bottom">Event Name</label>
-                        <div class="event-search">
-                            <input type="text" id="event_name_bottom" name="event_name" required placeholder="e.g., Taylor Swift Concert" autocomplete="off">
-                            <div id="event_suggestions_bottom" class="event-suggestions"></div>
-            </div>
-                </div>
-                
-                    <!-- Event Details Display (Hidden until event selected) -->
-                    <div id="event_details_container_bottom" class="event-details-container" style="display: none;">
-                        <div class="event-details-grid">
-                            <div class="event-detail-card venue-card">
-                                <div class="detail-icon">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                                <div class="detail-content">
-                                    <label class="detail-label">Venue/Location</label>
-                                    <div id="event_location_display_bottom" class="detail-value">Select an event to see venue</div>
-                                </div>
-                            </div>
-                        
-                            <div class="event-detail-card datetime-card">
-                                <div class="detail-icon">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                                <div class="detail-content">
-                                    <label class="detail-label">Event Date & Time</label>
-                                    <div id="event_datetime_display_bottom" class="detail-value">Select an event to see date</div>
-                                </div>
-                            </div>
-                                </div>
-                        </div>
-                    
-                    <!-- Hidden inputs for form submission -->
-                    <input type="hidden" id="event_location_bottom" name="event_location" required>
-                    <input type="hidden" id="event_datetime_bottom" name="event_datetime" required>
-                        
-                    <!-- Transaction Details -->
-                        <div class="form-row">
-                        <div class="form-group">
-                            <label for="price_bottom">Ticket Price ($)</label>
-                            <input type="number" id="price_bottom" name="price" step="0.01" min="1" max="10000" required placeholder="100.00">
-                            </div>
-                            
-                        <div class="form-group">
-                            <label for="buyer_email_bottom">
-                                Buyer Email 
-                                <i class="fas fa-info-circle tooltip-icon" data-tooltip="buyer-email-info-bottom"></i>
-                            </label>
-                            <input type="email" id="buyer_email_bottom" name="buyer_email" required placeholder="buyer@example.com">
-                            <div class="tooltip-content" id="buyer-email-info-bottom">
-                                <strong>Why we need the buyer's email:</strong>
-                                We'll send them a secure payment link to complete the purchase. They'll only pay if you successfully send valid tickets to our system first.
-                                <br><br>
-                                <strong>What the buyer receives:</strong>
-                                • Payment instructions with full protection details
-                                • Automatic ticket delivery after payment
-                                • 24-hour verification window
-                                • Full refund guarantee if tickets are invalid
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Add the seller email as a hidden field for backend processing -->
-                    <input type="hidden" name="seller_email" value="{{ logemail }}">
-                    
-                    <button type="submit" class="create-listing-btn">
-                        <i class="fas fa-plus"></i> Create Listing & Send to Buyer
-                    </button>
-                </form>
-            </div>
-            {% endif %}
 
         </div>
 
@@ -6674,27 +6785,83 @@
                                 </div>
             </div>
             
-            <!-- Withdrawal Section -->
-            <div class="withdrawal-section">
-                <div class="withdrawal-header">
-                    <h3 class="withdrawal-title">
-                        <i class="fas fa-university"></i>
-                        Withdraw Funds
-                    </h3>
-                    <p class="withdrawal-subtitle">
-                        Withdraw your available balance of ${{ user_balance }}
-                    </p>
-        </div>
+            <!-- Bottom Cards Container for Equal Height -->
+            <div class="sidebar-bottom-cards">
+                <!-- Withdrawal Section -->
+                <div class="withdrawal-section">
+                    <div class="withdrawal-header">
+                        <h3 class="withdrawal-title">
+                            <i class="fas fa-university"></i>
+                            Withdraw Funds
+                        </h3>
+                        <p class="withdrawal-subtitle">
+                            Withdraw your available balance of ${{ user_balance }}
+                        </p>
+                    </div>
+                    
+                    <div class="withdrawal-actions">
+                        <button class="withdraw-btn" onclick="openBankModal()">
+                            <i class="fas fa-university"></i>
+                            Withdraw Now
+                        </button>
+                    </div>
+                </div>
                 
-                <div class="withdrawal-actions">
-                    <button class="withdraw-btn" onclick="openBankModal()">
-                        <i class="fas fa-university"></i>
-                        Withdraw Now
-                    </button>
+                <!-- How It Works Card -->
+                <div class="how-it-works-card">
+            <div class="how-it-works-header">
+                <h3 class="how-it-works-title">
+                    <i class="fas fa-lightbulb"></i>
+                    How It Works
+                </h3>
+                <p class="how-it-works-subtitle">
+                    Safe, automated ticket transactions
+                </p>
             </div>
+            
+            <div class="how-it-works-steps">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <div class="step-title">Create Listing</div>
+                        <div class="step-description">Add event details and buyer email</div>
+                    </div>
+                </div>
                 
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <div class="step-title">Send Tickets</div>
+                        <div class="step-description">Forward tickets to our secure email</div>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <div class="step-title">Auto-Verification</div>
+                        <div class="step-description">We verify and notify buyer instantly</div>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <div class="step-title">Get Paid</div>
+                        <div class="step-description">Receive funds after event completion</div>
+                    </div>
+                </div>
+            </div>
+            
+                    <div class="how-it-works-footer">
+                        <div class="security-badge">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>100% Secure & Automated</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-                                </div>
     </div>
 
     <!-- Ultra-Modern Creative Scroll Catalyst -->
@@ -8597,11 +8764,11 @@
                 datetimeCard = bottomForm.querySelector('.datetime-card');
             }
         } else {
-            // For top form, find cards within that specific form
-            const topForm = document.getElementById('createListingForm');
-            if (topForm) {
-                venueCard = topForm.querySelector('.venue-card');
-                datetimeCard = topForm.querySelector('.datetime-card');
+            // For create listing form, find cards within that specific form
+            const createForm = document.getElementById('createListingFormBottom');
+            if (createForm) {
+                venueCard = createForm.querySelector('.venue-card');
+                datetimeCard = createForm.querySelector('.datetime-card');
             }
         }
 

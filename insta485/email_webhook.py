@@ -41,12 +41,23 @@ class EmailWebhookHandler:
                 return {'error': 'Transaction not found'}
             
             # Verify transaction is in correct state
-            if transaction['status'] != 'waiting_for_ticket':
+            if transaction['status'] != 'pending_ticket_submission':
                 return {'error': f'Transaction in wrong state: {transaction["status"]}'}
             
-            # Verify ticket deadline hasn't passed
-            if datetime.now() > datetime.fromisoformat(transaction['ticket_deadline']):
-                return {'error': 'Ticket deadline has passed'}
+            # Verify sender is the seller
+            if email_data['from'] != transaction['seller_email']:
+                from insta485.error_handler import error_handler
+                return error_handler.handle_invalid_sender(
+                    transaction_id, 
+                    email_data['from'], 
+                    transaction['seller_email']
+                )
+            
+            # Check for duplicate emails
+            from insta485.error_handler import error_handler
+            duplicate_check = error_handler.handle_duplicate_email(transaction_id, email_data)
+            if 'error' in duplicate_check and 'already processed' in duplicate_check['error']:
+                return duplicate_check
             
             # Process and verify the ticket email
             verification_result = self._verify_ticket_email(email_data, transaction)
@@ -59,6 +70,9 @@ class EmailWebhookHandler:
                 self._activate_payment_window(transaction_id, transaction, connection)
                 return {'success': True, 'message': 'Ticket verified and payment window activated'}
             else:
+                # Handle verification failure through error handler
+                from insta485.error_handler import error_handler
+                error_handler.handle_verification_failure(transaction_id, verification_result, email_data)
                 return {'error': f'Ticket verification failed: {verification_result["reason"]}'}
                 
         except Exception as e:
@@ -166,19 +180,23 @@ class EmailWebhookHandler:
         connection.commit()
     
     def _activate_payment_window(self, transaction_id, transaction, connection):
-        """Activate the 5-minute payment window for the buyer"""
-        # Set payment deadline to 5 minutes from now
-        payment_deadline = datetime.now() + timedelta(minutes=5)
+        """Activate the 1-hour payment window for the buyer"""
+        # Set payment deadline to 1 hour from now
+        payment_deadline = datetime.now() + timedelta(hours=1)
         
         # Update transaction status
         connection.execute(
             """
             UPDATE transactions 
             SET status = 'waiting_for_payment',
-                payment_deadline = ?
+                payment_deadline = ?,
+                ticket_details_match = 1,
+                verification_notes = ?
             WHERE transaction_id = ?
             """,
-            (payment_deadline.isoformat(), transaction_id)
+            (payment_deadline.strftime('%Y-%m-%d %H:%M:%S'), 
+             'Automatically verified via email webhook',
+             transaction_id)
         )
         connection.commit()
         
@@ -206,29 +224,112 @@ class EmailWebhookHandler:
         print(f"📧 Payment window activated for buyer: {transaction['buyer_email']}")
 
 
-def create_webhook_route():
-    """Create Flask route for email webhook"""
+def create_webhook_routes():
+    """Create Flask routes for email webhooks"""
     import flask
     
-    @insta485.app.route('/webhook/email/ticket', methods=['POST'])
-    def handle_email_webhook():
-        """Handle incoming email webhook from email service"""
+    @insta485.app.route('/webhook/mailgun', methods=['POST'])
+    def handle_mailgun_webhook():
+        """Handle Mailgun webhook for incoming emails"""
         try:
-            # Get webhook data
-            webhook_data = flask.request.get_json() or flask.request.form.to_dict()
+            # Mailgun sends form data
+            webhook_data = {
+                'sender': flask.request.form.get('sender', ''),
+                'recipient': flask.request.form.get('recipient', ''),
+                'subject': flask.request.form.get('subject', ''),
+                'body-plain': flask.request.form.get('body-plain', ''),
+                'body-html': flask.request.form.get('body-html', ''),
+                'timestamp': flask.request.form.get('timestamp', '')
+            }
+            
+            print(f"📧 MAILGUN: Received email from {webhook_data['sender']} to {webhook_data['recipient']}")
             
             # Process the email
             handler = EmailWebhookHandler()
             result = handler.process_incoming_email(webhook_data)
             
             if 'error' in result:
+                print(f"❌ MAILGUN: {result['error']}")
                 return flask.jsonify(result), 400
             else:
+                print(f"✅ MAILGUN: Email processed successfully")
                 return flask.jsonify(result), 200
                 
         except Exception as e:
-            print(f"Webhook error: {e}")
+            print(f"❌ MAILGUN ERROR: {e}")
             return flask.jsonify({'error': 'Webhook processing failed'}), 500
+    
+    @insta485.app.route('/webhook/sendgrid', methods=['POST'])
+    def handle_sendgrid_webhook():
+        """Handle SendGrid Inbound Parse webhook"""
+        try:
+            # SendGrid sends form data
+            webhook_data = {
+                'sender': flask.request.form.get('from', ''),
+                'recipient': flask.request.form.get('to', ''),
+                'subject': flask.request.form.get('subject', ''),
+                'body-plain': flask.request.form.get('text', ''),
+                'body-html': flask.request.form.get('html', ''),
+                'timestamp': ''
+            }
+            
+            print(f"📧 SENDGRID: Received email from {webhook_data['sender']} to {webhook_data['recipient']}")
+            
+            # Process the email
+            handler = EmailWebhookHandler()
+            result = handler.process_incoming_email(webhook_data)
+            
+            return flask.jsonify({'status': 'processed' if 'error' not in result else 'failed'}), 200
+                
+        except Exception as e:
+            print(f"❌ SENDGRID ERROR: {e}")
+            return flask.jsonify({'error': 'Webhook processing failed'}), 500
+    
+    @insta485.app.route('/api/simulate-ticket-email', methods=['POST'])
+    def simulate_ticket_email():
+        """Development endpoint to simulate receiving a ticket email"""
+        try:
+            data = flask.request.get_json()
+            
+            if not data or 'transaction_id' not in data:
+                return flask.jsonify({'success': False, 'error': 'Missing transaction_id'}), 400
+            
+            transaction_id = data['transaction_id']
+            
+            # Get transaction details to use seller email
+            connection = insta485.model.get_db()
+            transaction = connection.execute(
+                "SELECT seller_email FROM transactions WHERE transaction_id = ?",
+                (transaction_id,)
+            ).fetchone()
+            
+            if not transaction:
+                return flask.jsonify({'success': False, 'error': 'Transaction not found'}), 400
+            
+            # Create realistic email data
+            webhook_data = {
+                'sender': transaction['seller_email'],
+                'recipient': f'tx-{transaction_id:06d}@safetransaction.com',
+                'subject': data.get('subject', 'Your Event Tickets - Order Confirmation'),
+                'body-plain': data.get('body', 'Your tickets are attached.'),
+                'body-html': data.get('html_content', ''),
+                'timestamp': datetime.now().isoformat()
+            }
+            
+            print(f"🧪 SIMULATION: Processing ticket email for transaction {transaction_id}")
+            
+            # Process through webhook handler
+            handler = EmailWebhookHandler()
+            result = handler.process_incoming_email(webhook_data)
+            
+            if 'error' in result:
+                return flask.jsonify({'success': False, 'error': result['error']}), 400
+            else:
+                return flask.jsonify({'success': True, 'message': result['message']}), 200
+                
+        except Exception as e:
+            print(f"❌ EMAIL SIMULATION ERROR: {e}")
+            return flask.jsonify({'success': False, 'error': str(e)}), 500
 
-# Initialize the webhook route
-create_webhook_route()
+# Initialize the webhook routes
+create_webhook_routes()
