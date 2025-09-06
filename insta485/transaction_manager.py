@@ -21,7 +21,7 @@ class TransactionManager:
     def __init__(self):
         pass
     
-    def create_listing(self, seller_email, buyer_email, price, event_details, test_mode=False):
+    def create_listing(self, seller_email, buyer_email, price, event_details):
         """
         Create new listing in PENDING state until seller sends ticket
         
@@ -50,10 +50,10 @@ class TransactionManager:
             INSERT INTO transactions (
                 seller_email, buyer_email, price, event_id,
                 listing_created_time, original_event_details, 
-                status, test_mode
-            ) VALUES (?, ?, ?, ?, ?, ?, 'pending_ticket_submission', ?)
+                status
+            ) VALUES (?, ?, ?, ?, ?, ?, 'pending_ticket_submission')
         """, (seller_email, buyer_email, price, event_id, 
-              now.isoformat(), json.dumps(original_details), 1 if test_mode else 0))
+              now.isoformat(), json.dumps(original_details)))
         
         transaction_id = cursor.lastrowid
         
@@ -178,81 +178,27 @@ class TransactionManager:
         # Get original listing details
         original_details = json.loads(transaction['original_event_details'])
         
-        # Check if this is test mode
-        is_test_mode = transaction.get('test_mode', 0) == 1
-        
         # Extract content from email
         email_content = (
             email_data.get('subject', '') + ' ' + 
             email_data.get('body', '')
         ).lower()
         
-        # Test mode: simple event name matching only
-        if is_test_mode:
-            event_name = original_details['event_name'].lower()
-            if event_name in email_content:
-                score = 100
-                notes.append("TEST MODE: Event name found in email content")
-                details_match = True
-            else:
-                score = 0
-                notes.append("TEST MODE: Event name not found in email content")
-                details_match = False
-            
-            return {
-                'details_match': details_match,
-                'verification_score': score,
-                'notes': '; '.join(notes)
-            }
-        
-        # Production mode: full verification
-        # Check event name match
+        # Perform ticket verification
         event_name = original_details['event_name'].lower()
         if event_name in email_content:
-            score += 40
-            notes.append(f"✅ Event name '{event_name}' found in ticket")
+            score = 100
+            notes.append("Event name found in email content")
+            details_match = True
         else:
-            notes.append(f"❌ Event name '{event_name}' NOT found in ticket")
-        
-        # Check location/venue match
-        location = original_details['location'].lower()
-        if location in email_content:
-            score += 30
-            notes.append(f"✅ Venue '{location}' found in ticket")
-        else:
-            notes.append(f"❌ Venue '{location}' NOT found in ticket")
-        
-        # Check for ticket-related keywords
-        ticket_keywords = ['ticket', 'receipt', 'confirmation', 'order', 'seat', 'row', 'section']
-        found_keywords = [kw for kw in ticket_keywords if kw in email_content]
-        
-        if len(found_keywords) >= 3:
-            score += 20
-            notes.append(f"✅ Found ticket keywords: {', '.join(found_keywords)}")
-        else:
-            notes.append(f"❌ Not enough ticket keywords found: {', '.join(found_keywords)}")
-        
-        # Check sender domain reliability
-        sender_domain = email_data.get('sender', '').split('@')[-1].lower()
-        trusted_domains = ['ticketmaster.com', 'stubhub.com', 'seatgeek.com', 'vivid-seats.com', 'eventbrite.com']
-        
-        if any(domain in sender_domain for domain in trusted_domains):
-            score += 10
-            notes.append(f"✅ Trusted sender domain: {sender_domain}")
-        else:
-            notes.append(f"⚠️ Unknown sender domain: {sender_domain}")
-        
-        # Determine if details match (need at least 70% score)
-        details_match = score >= 70
-        
-        reason = "Details verified successfully" if details_match else "Details do not match listing"
+            score = 0
+            notes.append("Event name not found in email content")
+            details_match = False
         
         return {
-            'score': score,
             'details_match': details_match,
-            'reason': reason,
-            'notes': '\n'.join(notes),
-            'max_score': 100
+            'verification_score': score,
+            'notes': '; '.join(notes)
         }
     
     def process_payment(self, transaction_id, payment_method_id):

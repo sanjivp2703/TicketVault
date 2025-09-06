@@ -20,29 +20,318 @@ def send_email(to_email, subject, body, html=None):
         return False
 
 def send_accept_confirmation_email(buyer_email, event_name, price, seller_email, transaction_id=None):
-    subject = f"Your payment for {event_name} was successful!"
+    subject = f"🎉 Payment confirmed for {event_name}!"
     body = (
         f"Hello,\n\nYour payment for '{event_name}' was successful. "
         f"Price: ${price}\nSeller: {seller_email}\n\n"
-        "The seller will transfer your ticket soon.\n\nBest,\nSafe-Transaction Team"
+        "We're now processing your ticket.\n\nBest,\nSafe-Transaction Team"
     )
-    # Add a confirm and cancel button if transaction_id is provided
-    confirm_btn = cancel_btn = ""
-    if transaction_id:
-        # Use url_for to generate absolute URLs if possible, else set YOUR_DOMAIN to your deployed domain
-        DOMAIN = "http://localhost:8000"  # CHANGE THIS to your deployed domain!
-        confirm_url = f"{DOMAIN}/ticket_status/{transaction_id}?action=confirm"
-        cancel_url = f"{DOMAIN}/cancel/{transaction_id}"
-        confirm_btn = f'<a href="{confirm_url}" style="background:#28a745;color:white;padding:10px 18px;border:none;border-radius:4px;text-decoration:none;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;">I Received My Ticket</a>'
-        cancel_btn = f'<a href="{cancel_url}" style="background:#dc3545;color:white;padding:10px 18px;border:none;border-radius:4px;text-decoration:none;margin-left:10px;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;">Cancel Transaction</a>'
+    
+    # Generate action URLs
+    DOMAIN = "http://localhost:8000"
+    ticket_status_url = f"{DOMAIN}/ticket/{transaction_id}" if transaction_id else "#"
+    
     html = f'''
-        <p>Hello,</p>
-        <p>Your payment for <b>{event_name}</b> was successful.<br>
-        Price: <b>${price}</b><br>
-        Seller: <b>{seller_email}</b></p>
-        <p>The seller will transfer your ticket soon.</p>
-        <div style="margin-top:28px;">{confirm_btn} {cancel_btn}</div>
-        <p style="margin-top:24px;">Best,<br>Safe-Transaction Team</p>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+            
+            body {{
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                background: #f8fafb;
+                margin: 0;
+                padding: 40px 20px;
+                color: #1f2937;
+                line-height: 1.6;
+            }}
+            
+            .email-container {{
+                max-width: 600px;
+                margin: 0 auto;
+                background: #ffffff;
+                border-radius: 20px;
+                overflow: hidden;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+                border: 1px solid #e5e7eb;
+            }}
+            
+            .header {{
+                background: linear-gradient(135deg, #3b82f6 0%, #059669 100%);
+                padding: 48px 40px;
+                text-align: center;
+                color: white;
+            }}
+            
+            .logo {{
+                font-size: 32px;
+                font-weight: 700;
+                color: white;
+                margin-bottom: 8px;
+            }}
+            
+            .tagline {{
+                font-size: 16px;
+                color: white;
+                margin: 16px 0 0 0;
+                opacity: 0.9;
+            }}
+            
+            .content {{
+                padding: 48px 40px;
+            }}
+            
+            .success-message {{
+                text-align: center;
+                margin-bottom: 40px;
+            }}
+            
+            .success-icon {{
+                font-size: 48px;
+                margin-bottom: 20px;
+            }}
+            
+            .success-title {{
+                font-size: 24px;
+                font-weight: 700;
+                color: #059669;
+                margin-bottom: 12px;
+            }}
+            
+            .success-subtitle {{
+                font-size: 18px;
+                color: #6b7280;
+                font-weight: 500;
+            }}
+            
+            .transaction-card {{
+                background: #f8fafb;
+                border-radius: 16px;
+                padding: 32px;
+                margin: 32px 0;
+                border: 1px solid #e5e7eb;
+            }}
+            
+            .transaction-details {{
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 24px;
+                margin-bottom: 0;
+            }}
+            
+            .detail-item {{
+                background: #ffffff;
+                border-radius: 12px;
+                padding: 20px;
+                border: 1px solid #f1f3f4;
+            }}
+            
+            .detail-label {{
+                font-size: 11px;
+                color: #9ca3af;
+                text-transform: uppercase;
+                letter-spacing: 0.8px;
+                font-weight: 600;
+                margin-bottom: 8px;
+                display: block;
+            }}
+            
+            .detail-value {{
+                font-size: 16px;
+                color: #1f2937;
+                font-weight: 700;
+                line-height: 1.4;
+                margin: 0;
+            }}
+            
+            .detail-value.price {{
+                font-size: 20px;
+                color: #059669;
+                font-weight: 800;
+            }}
+            
+            .next-steps {{
+                background: #dcfce7;
+                border-radius: 16px;
+                padding: 32px;
+                margin: 32px 0;
+            }}
+            
+            .next-steps-title {{
+                font-size: 18px;
+                font-weight: 700;
+                color: #059669;
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+            }}
+            
+            .step {{
+                display: flex;
+                align-items: flex-start;
+                margin-bottom: 16px;
+            }}
+            
+            .step:last-child {{
+                margin-bottom: 0;
+            }}
+            
+            .step-icon {{
+                color: #059669;
+                margin-right: 12px;
+                margin-top: 2px;
+                font-size: 16px;
+            }}
+            
+            .step-text {{
+                color: #065f46;
+                font-size: 15px;
+                line-height: 1.5;
+                font-weight: 500;
+            }}
+            
+            .cta-section {{
+                text-align: center;
+                margin: 40px 0;
+            }}
+            
+            .cta-button {{
+                display: inline-block;
+                background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+                color: #ffffff !important;
+                padding: 16px 32px;
+                text-decoration: none;
+                border-radius: 12px;
+                font-weight: 700;
+                font-size: 16px;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            }}
+            
+            .footer {{
+                background: #f8fafb;
+                padding: 32px 40px;
+                text-align: center;
+                border-top: 1px solid #e5e7eb;
+            }}
+            
+            .footer-text {{
+                color: #6b7280;
+                font-size: 14px;
+                margin-bottom: 8px;
+            }}
+            
+            .footer-link {{
+                color: #3b82f6;
+                text-decoration: none;
+                font-weight: 500;
+            }}
+            
+            @media (max-width: 640px) {{
+                .email-container {{
+                    margin: 0;
+                    border-radius: 0;
+                }}
+                
+                .header, .content, .footer {{
+                    padding: 32px 24px;
+                }}
+                
+                .transaction-details {{
+                    grid-template-columns: 1fr;
+                    gap: 16px;
+                }}
+                
+                .detail-item {{
+                    padding: 16px;
+                }}
+                
+                .next-steps {{
+                    padding: 24px;
+                }}
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="email-container">
+            <div class="header">
+                <div class="logo">Safe Transaction</div>
+                <div class="tagline">Secure Ticket Protection</div>
+            </div>
+            
+            <div class="content">
+                <div class="success-message">
+                    <div class="success-icon">🎉</div>
+                    <h2 class="success-title">Payment confirmed!</h2>
+                    <p class="success-subtitle">Thanks! We've received your payment and are now processing your secure transaction.</p>
+                </div>
+                
+                <div class="transaction-card">
+                    <div class="transaction-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Event</div>
+                            <div class="detail-value">{event_name}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Price</div>
+                            <div class="detail-value price">${price}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Order ID</div>
+                            <div class="detail-value">#ST-{transaction_id or "PENDING"}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Seller</div>
+                            <div class="detail-value">{seller_email}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="next-steps">
+                    <h3 class="next-steps-title">
+                        <span style="margin-right: 8px;">⚡</span>
+                        What happens next:
+                    </h3>
+                    <div class="step">
+                        <span class="step-icon">🔒</span>
+                        <span class="step-text">Your funds are securely held in escrow until ticket delivery</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-icon">🎫</span>
+                        <span class="step-text">The seller will transfer your verified ticket shortly</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-icon">📧</span>
+                        <span class="step-text">You'll receive an email with your ticket once it's ready</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-icon">🛡️</span>
+                        <span class="step-text">Full protection guarantee - if anything goes wrong, you're covered</span>
+                    </div>
+                </div>
+                
+                <div class="cta-section">
+                    <a href="{ticket_status_url}" class="cta-button">
+                        📋 Track Your Order
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <div class="footer-text">Questions? We're here to help!</div>
+                <div class="footer-text">
+                    <a href="mailto:support@safetransaction.app" class="footer-link">support@safetransaction.app</a>
+                </div>
+                <div class="footer-text" style="margin-top: 16px; font-size: 12px; color: #9ca3af;">
+                    Safe Transaction - Secure Ticket Protection
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>
     '''
     return send_email(buyer_email, subject, body, html=html)
 

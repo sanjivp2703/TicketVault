@@ -129,7 +129,7 @@ def show_balance():
         "JOIN events e ON t.event_id = e.event_id "
         "LEFT JOIN balance_changes bc ON t.transaction_id = bc.transaction_id_ref AND bc.change_type = 'earning' "
         "WHERE t.seller_email = ? AND t.status IN ('completed', 'complaint_resolved_seller') "
-        "ORDER BY COALESCE(bc.created, t.payment_processed_time) DESC LIMIT 10",
+        "ORDER BY COALESCE(bc.created, t.payment_received_time) DESC LIMIT 10",
         (logemail,)
     ).fetchall()
     

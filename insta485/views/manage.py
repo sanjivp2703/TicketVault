@@ -357,7 +357,7 @@ def send_payment_seller(transaction_id):
         # Get transaction details
         transaction = connection.execute(
             """
-            SELECT t.seller_email, t.price, t.status, t.payment_processed_time,
+            SELECT t.seller_email, t.price, t.status, t.payment_received_time,
                    e.event_datetime
             FROM transactions t
             JOIN events e ON t.event_id = e.event_id
@@ -371,7 +371,7 @@ def send_payment_seller(transaction_id):
         seller_email = transaction['seller_email']
         price = transaction['price']
         status = transaction['status']
-        payment_processed_time = transaction['payment_processed_time']
+        payment_received_time = transaction['payment_received_time']
         event_datetime = transaction['event_datetime']
         # Get seller's Stripe ID
         seller = connection.execute(

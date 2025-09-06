@@ -997,7 +997,7 @@ def send_buyer_notification(transaction_id, buyer_email, seller_email, price, ev
 
 
 def send_modern_buyer_notification(transaction_id, buyer_email, seller_email, price, event_details, payment_deadline=None):
-    """Send clean, modern buyer notification email"""
+    """Send simple, accurate buyer notification"""
     from datetime import datetime
     
     # Calculate payment deadline if provided
@@ -1005,23 +1005,16 @@ def send_modern_buyer_notification(transaction_id, buyer_email, seller_email, pr
     if payment_deadline:
         # Ensure payment_deadline is a datetime object
         if isinstance(payment_deadline, str):
-            try:
-                if 'T' in payment_deadline:
-                    payment_deadline = datetime.fromisoformat(payment_deadline.replace('Z', '+00:00'))
-                else:
-                    payment_deadline = datetime.strptime(payment_deadline, '%Y-%m-%d %H:%M:%S')
-            except ValueError:
-                payment_deadline = None
-                
-        if payment_deadline:
-            payment_hours = max(0, (payment_deadline - datetime.now()).total_seconds() / 3600)
+            from datetime import datetime
+            payment_deadline = datetime.fromisoformat(payment_deadline.replace('Z', '+00:00'))
+        payment_hours = max(0, (payment_deadline - datetime.now()).total_seconds() / 3600)
     
     # Format deadline text
     deadline_text = ""
     if payment_deadline:
         deadline_text = payment_deadline.strftime('%I:%M %p on %B %d')
     
-    subject = f"✅ Your {event_details['name']} Tickets Are Ready"
+    subject = f"🎫 Verified Ticket Available - {event_details['name']}"
     
     html_body = f"""
     <!DOCTYPE html>
@@ -1030,6 +1023,8 @@ def send_modern_buyer_notification(transaction_id, buyer_email, seller_email, pr
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
+            @import url('https://fonts.googleapis.com/css2?family=Circular:wght@400;500;700&display=swap');
+            
             * {{
                 margin: 0;
                 padding: 0;
@@ -1037,238 +1032,482 @@ def send_modern_buyer_notification(transaction_id, buyer_email, seller_email, pr
             }}
             
             body {{
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                background-color: #f8fafc;
-                color: #1f2937;
-                line-height: 1.5;
+                font-family: 'Circular', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                background-color: #f7f7f7;
+                color: #222222;
+                line-height: 1.43;
+                margin: 0;
+                padding: 0;
             }}
             
-            .container {{
-                max-width: 600px;
+            .email-container {{
+                max-width: 680px;
                 margin: 0 auto;
-                background: white;
-                border-radius: 12px;
-                overflow: hidden;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                background: #ffffff;
             }}
             
             .header {{
-                background: linear-gradient(135deg, #3b82f6, #1e40af);
-                color: white;
-                padding: 32px 24px;
+                background: linear-gradient(135deg, #3b82f6 0%, #059669 100%);
+                padding: 48px 40px;
                 text-align: center;
+                color: white;
             }}
             
-            .header h1 {{
-                font-size: 24px;
+            .logo {{
+                color: white;
+                font-size: 32px;
                 font-weight: 700;
+                text-decoration: none;
+                letter-spacing: -0.5px;
                 margin-bottom: 8px;
             }}
             
-            .header p {{
-                opacity: 0.9;
+            .tagline {{
+                color: white;
                 font-size: 16px;
+                margin: 16px 0 0 0;
+                opacity: 0.9;
+                font-weight: 500;
             }}
             
             .content {{
-                padding: 32px 24px;
+                padding: 40px 32px;
             }}
             
-            .event-card {{
-                background: #f8fafc;
-                border-radius: 8px;
-                padding: 20px;
-                margin: 24px 0;
-                border-left: 4px solid #3b82f6;
+            .section {{
+                margin-bottom: 48px;
             }}
             
-            .event-name {{
+            .section-header {{
+                display: flex;
+                align-items: center;
+                margin-bottom: 24px;
+            }}
+            
+            .ticket-card {{
+                background: #ffffff;
+                border-radius: 16px;
+                margin: 32px 0;
+                padding: 32px;
+                border: 1px solid #e5e7eb;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            }}
+            
+            .ticket-header {{
+                padding: 0 0 24px 0;
+                border-bottom: 1px solid #f1f3f4;
+                margin-bottom: 32px;
+            }}
+            
+            .event-title {{
                 font-size: 20px;
                 font-weight: 700;
-                color: #1f2937;
+                color: #222222;
                 margin-bottom: 8px;
+                line-height: 1.3;
             }}
             
-            .event-details {{
-                color: #6b7280;
+            .event-subtitle {{
                 font-size: 14px;
-                line-height: 1.4;
+                color: #717171;
+                font-weight: 400;
             }}
             
-            .price {{
-                font-size: 32px;
-                font-weight: 800;
-                color: #059669;
-                text-align: center;
-                margin: 24px 0;
+            .ticket-details {{
+                padding: 0;
             }}
             
-            {"" if not payment_deadline else f'''
-            .countdown-box {{
-                background: linear-gradient(135deg, #dc2626, #991b1b);
-                color: white;
-                padding: 20px;
-                border-radius: 8px;
-                text-align: center;
-                margin: 24px 0;
+            .detail-grid {{
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 32px;
+                margin-bottom: 0;
             }}
             
-            .countdown-label {{
-                font-size: 14px;
-                opacity: 0.9;
-                margin-bottom: 8px;
+            .detail-item {{
+                background: #ffffff;
+                border-radius: 12px;
+                padding: 24px;
+                box-shadow: none;
+                border: 1px solid #f1f3f4;
+                transition: all 0.2s ease;
+            }}
+            
+            .detail-item:hover {{
+                border-color: #d1d5db;
+            }}
+            
+            .detail-label {{
+                font-size: 11px;
+                color: #9ca3af;
                 text-transform: uppercase;
-                letter-spacing: 1px;
-            }}
-            
-            .countdown-time {{
-                font-size: 28px;
-                font-weight: 700;
-                font-family: 'Courier New', monospace;
-                margin-bottom: 4px;
-            }}
-            
-            .countdown-text {{
-                font-size: 12px;
-                opacity: 0.8;
-            }}
-            '''}
-            
-            .pay-button {{
+                letter-spacing: 0.8px;
+                font-weight: 600;
+                margin-bottom: 8px;
                 display: block;
-                background: linear-gradient(135deg, #059669, #047857);
-                color: white;
-                text-decoration: none;
-                padding: 16px 32px;
-                border-radius: 8px;
-                text-align: center;
-                font-weight: 700;
-                font-size: 18px;
-                margin: 32px 0;
-                transition: transform 0.2s ease;
             }}
             
-            .pay-button:hover {{
+            .detail-value {{
+                font-size: 18px;
+                color: #1f2937;
+                font-weight: 700;
+                line-height: 1.4;
+                margin: 0;
+            }}
+            
+            .detail-value.price {{
+                font-size: 24px;
+                color: #059669;
+                font-weight: 800;
+            }}
+            
+            
+            .cta-section {{
+                text-align: center;
+                margin: 32px 0 0 0;
+            }}
+            
+            .cta-button {{
+                display: inline-block;
+                background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+                color: #ffffff !important;
+                padding: 18px 36px;
+                text-decoration: none;
+                border-radius: 12px;
+                font-weight: 700;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                width: 100%;
+                max-width: 320px;
+                box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+                text-align: center;
+            }}
+            
+            .cta-button:hover {{
+                background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+                color: #ffffff !important;
+                box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
                 transform: translateY(-2px);
             }}
             
-            .security-note {{
-                background: #f0f9ff;
-                border: 1px solid #bfdbfe;
-                border-radius: 8px;
-                padding: 16px;
-                margin: 24px 0;
-                font-size: 14px;
-                color: #1e40af;
+            .payment-container {{
+                background: #ffffff;
+                border-radius: 16px;
+                margin: 24px 0 0 0;
+                padding: 24px;
+                border: 1px solid #e5e7eb;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             }}
             
-            .footer {{
-                background: #f8fafc;
-                padding: 24px;
+            .deadline-banner {{
+                background: #fff3cd;
+                border: 1px solid #ffeaa7;
+                border-radius: 8px;
+                padding: 16px 20px;
+                margin: 24px 0;
                 text-align: center;
-                border-top: 1px solid #e5e7eb;
+            }}
+            
+            .deadline-text {{
+                color: #856404;
+                font-size: 14px;
+                font-weight: 500;
+                margin: 0;
+            }}
+            
+            .protection-section {{
+                background: #f9fafb;
+                border-radius: 12px;
+                padding: 24px;
+                margin: 32px 0;
+            }}
+            
+            .protection-title {{
+                font-size: 18px;
+                font-weight: 700;
+                color: #222222;
+                margin-bottom: 16px;
+            }}
+            
+            .protection-list {{
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }}
+            
+            .protection-item {{
+                display: flex;
+                align-items: center;
+                margin-bottom: 12px;
+                font-size: 14px;
+                color: #484848;
+            }}
+            
+            .check-icon {{
+                width: 20px;
+                height: 20px;
+                background: #059669;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 12px;
+                flex-shrink: 0;
+            }}
+            
+            .footer-section {{
+                background: #f7f7f7;
+                padding: 32px 24px;
+                text-align: center;
+                border-top: 1px solid #EBEBEB;
+            }}
+            
+            .footer-text {{
                 font-size: 12px;
-                color: #6b7280;
+                color: #717171;
+                line-height: 1.4;
+                margin-bottom: 8px;
+            }}
+            
+            .footer-link {{
+                color: #3b82f6;
+                text-decoration: none;
+            }}
+            
+            .footer-brand {{
+                font-size: 14px;
+                font-weight: 700;
+                color: #3b82f6;
+                margin-top: 16px;
+            }}
+            
+            .divider {{
+                height: 1px;
+                background: #EBEBEB;
+                margin: 32px 0;
+            }}
+            
+            .help-section {{
+                text-align: center;
+                margin: 24px 0;
+            }}
+            
+            .help-text {{
+                font-size: 14px;
+                color: #717171;
+                margin-bottom: 8px;
+            }}
+            
+            .help-link {{
+                color: #3b82f6;
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: 500;
             }}
             
             @media (max-width: 600px) {{
-                .container {{
-                    margin: 16px;
-                    border-radius: 8px;
+                .email-container {{
+                    margin: 0;
                 }}
                 
-                .header, .content, .footer {{
-                    padding-left: 16px;
-                    padding-right: 16px;
+                .content {{
+                    padding: 32px 20px;
                 }}
                 
-                .countdown-time {{
-                    font-size: 24px;
+                .header {{
+                    padding: 32px 20px;
                 }}
                 
-                .pay-button {{
+                .logo {{
+                    font-size: 28px;
+                }}
+                
+                .detail-grid {{
+                    grid-template-columns: 1fr;
+                    gap: 20px;
+                }}
+                
+                .detail-item {{
+                    padding: 20px;
+                }}
+                
+                .detail-label {{
+                    font-size: 10px;
+                    margin-bottom: 6px;
+                }}
+                
+                .detail-value {{
                     font-size: 16px;
-                    padding: 14px 24px;
+                }}
+                
+                .detail-value.price {{
+                    font-size: 20px;
+                }}
+                
+                .cta-button {{
+                    width: 100%;
+                    max-width: none;
+                }}
+                
+                .payment-container {{
+                    margin: 16px 0 0 0;
+                    padding: 20px;
+                }}
+                
+                .section-header {{
+                    flex-direction: column;
+                    align-items: flex-start;
+                    text-align: left;
+                }}
+                
+                .section-header span {{
+                    margin-bottom: 12px;
+                    margin-right: 0 !important;
+                }}
+                
+                .footer-section {{
+                    padding: 32px 20px;
+                }}
+                
+                .ticket-details {{
+                    padding: 24px;
+                }}
+                
+                .ticket-card {{
+                    margin: 32px 0;
                 }}
             }}
         </style>
-        {"" if not payment_deadline else f'''
-        <script>
-            function startCountdown() {{
-                const hoursRemaining = {payment_hours or 0};
-                const totalSeconds = Math.max(0, hoursRemaining * 3600);
-                const countdownElement = document.getElementById('countdown');
-                
-                if (!countdownElement || totalSeconds <= 0) return;
-                
-                let secondsLeft = totalSeconds;
-                
-                function updateDisplay() {{
-                    const hours = Math.floor(secondsLeft / 3600);
-                    const minutes = Math.floor((secondsLeft % 3600) / 60);
-                    const seconds = secondsLeft % 60;
-                    
-                    countdownElement.innerHTML = 
-                        String(hours).padStart(2, '0') + ':' +
-                        String(minutes).padStart(2, '0') + ':' +
-                        String(seconds).padStart(2, '0');
-                    
-                    if (secondsLeft <= 0) {{
-                        countdownElement.innerHTML = 'EXPIRED';
-                        return;
-                    }}
-                    
-                    secondsLeft--;
-                    setTimeout(updateDisplay, 1000);
-                }}
-                
-                updateDisplay();
-            }}
-            
-            window.onload = startCountdown;
-        </script>
-        '''}
     </head>
     <body>
-        <div class="container">
+        <div class="email-container">
             <div class="header">
-                <h1>✅ Tickets Verified</h1>
-                <p>Your {event_details['name']} tickets are ready for purchase</p>
+                <div class="logo">Safe Transaction</div>
+                <div class="tagline">Secure Ticket Protection</div>
             </div>
             
             <div class="content">
-                <div class="event-card">
-                    <div class="event-name">{event_details['name']}</div>
-                    <div class="event-details">
-                        📍 {event_details.get('location', 'Venue TBD')}<br>
-                        📅 {event_details.get('datetime', 'Date TBD')}<br>
-                        ✅ Tickets verified and secured in escrow
+                <!-- Section 1: Ticket Verified & Available -->
+                <div class="section">
+                    <div class="section-header">
+                        <span style="font-size: 24px; margin-right: 12px;">🎉</span>
+                        <h2 style="font-size: 24px; font-weight: 800; color: #059669; margin: 0;">Your ticket is ready!</h2>
+                    </div>
+                    <p style="color: #222222; margin-bottom: 32px; line-height: 1.6; font-size: 18px; font-weight: 500;">
+                        Exciting news! We've carefully verified every detail of your ticket — it's 100% authentic and matches the event perfectly. Here's what you're getting:
+                    </p>
+                    
+                    <div class="ticket-card">
+                        <div class="ticket-details">
+                            <div class="detail-grid">
+                                <div class="detail-item">
+                                    <div class="detail-label">Event</div>
+                                    <div class="detail-value">{event_details['name']}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Location</div>
+                                    <div class="detail-value">{event_details['location']}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Date & Time</div>
+                                    <div class="detail-value">{event_details['datetime']}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Price</div>
+                                    <div class="detail-value price">${price}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Payment Button Container -->
+                    <div class="payment-container">
+                        <p style="color: #059669; font-size: 18px; font-weight: 700; margin: 0 0 16px 0; text-align: center;">
+                            ✨ Just one click to make this ticket yours!
+                        </p>
+                        <div class="cta-section">
+                            <a href="http://localhost:8000/pay/{transaction_id}" class="cta-button">
+                                🎫 Complete Your Payment
+                            </a>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="price">${price}</div>
-                
-                {"" if not payment_deadline else f'''
-                <div class="countdown-box">
-                    <div class="countdown-label">Payment Window Closes In</div>
-                    <div class="countdown-time" id="countdown">--:--:--</div>
-                    <div class="countdown-text">Complete payment before {deadline_text}</div>
+                <!-- Section 2: Your Purchase is Protected -->
+                <div class="section">
+                    <div class="section-header">
+                        <span style="font-size: 24px; margin-right: 12px;">🛡️</span>
+                        <h2 style="font-size: 22px; font-weight: 700; color: #3b82f6; margin: 0;">We've got your back</h2>
+                    </div>
+                    <p style="color: #222222; margin-bottom: 32px; line-height: 1.6; font-size: 18px; font-weight: 500;">
+                        Relax and enjoy the event! If anything doesn't go as planned, just let us know within 24 hours and we'll make it right with a full refund. No questions asked.
+                    </p>
                 </div>
-                '''}
                 
-                <a href="http://localhost:8000/pay/{transaction_id}" class="pay-button">
-                    💳 Pay Now - ${price}
-                </a>
+                <!-- Section 3: Why Use Safe Transaction -->
+                <div class="section">
+                    <div class="section-header">
+                        <span style="font-size: 20px; margin-right: 8px;">💡</span>
+                        <h2 style="font-size: 20px; font-weight: 700; color: #222222; margin: 0;">Why Use Safe Transaction?</h2>
+                </div>
+                    <ul class="protection-list">
+                        <li class="protection-item">
+                            <div class="check-icon">
+                                <span style="color: white; font-size: 12px; font-weight: bold;">✓</span>
+                            </div>
+                            Independent Ticket Verification
+                        </li>
+                        <li class="protection-item">
+                            <div class="check-icon">
+                                <span style="color: white; font-size: 12px; font-weight: bold;">✓</span>
+                            </div>
+                            Escrow Protection
+                        </li>
+                        <li class="protection-item">
+                            <div class="check-icon">
+                                <span style="color: white; font-size: 12px; font-weight: bold;">✓</span>
+                            </div>
+                            Full Refund Guarantee
+                        </li>
+                        <li class="protection-item">
+                            <div class="check-icon">
+                                <span style="color: white; font-size: 12px; font-weight: bold;">✓</span>
+                            </div>
+                            24/7 Support
+                        </li>
+                    </ul>
+                </div>
                 
-                <div class="security-note">
-                    🛡️ <strong>Protected Transaction:</strong> Your payment is held securely until tickets are delivered. 
-                    Full refund guaranteed if tickets are not as described.
+                <!-- Section 4: Payment Deadline -->
+                <div class="section">
+                    <div class="section-header">
+                        <span style="font-size: 20px; margin-right: 8px;">⏳</span>
+                        <h2 style="font-size: 20px; font-weight: 700; color: #222222; margin: 0;">Payment Deadline</h2>
+                    </div>
+                    <p style="color: #484848; margin-bottom: 24px; line-height: 1.6; font-size: 18px; font-weight: 500;">
+                        Please complete payment within 2 hours to secure your ticket.
+                    </p>
+                </div>
+                
+                <!-- Section 5: Support Information -->
+                <div style="text-align: center; margin: 32px 0;">
+                    <div class="reassurance" style="color: #717171; font-size: 14px; margin-bottom: 16px;">
+                        Questions? We're here to help! If anything goes wrong, you'll get a full refund — guaranteed.
+                    </div>
+                    <a href="mailto:support@safetransaction.com?subject=Problem%20with%20Transaction%20{transaction_id}" class="help-link" style="color: #3b82f6; text-decoration: none; font-size: 14px; font-weight: 500;">
+                        💬 Get Help or Report an Issue
+                    </a>
                 </div>
             </div>
             
-            <div class="footer">
-                Transaction #{transaction_id} • <a href="mailto:support@safetransaction.com">Support</a><br>
-                Safe Transaction - Secure Ticket Marketplace
+            <div class="footer-section">
+                <div class="footer-text">Transaction ID: #{transaction_id}</div>
+                <div class="footer-text">
+                    Need help? <a href="mailto:support@safetransaction.com" class="footer-link">Contact Support</a>
+                </div>
+                <div class="footer-brand">Safe Transaction</div>
             </div>
         </div>
     </body>

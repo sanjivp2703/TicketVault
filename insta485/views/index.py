@@ -449,7 +449,6 @@ def create_transaction():
     event_name = flask.request.form['event_name']
     event_location = flask.request.form['event_location']
     event_datetime_raw = flask.request.form['event_datetime']
-    test_mode = flask.request.form.get('test_mode', '0') == '1'
     
     # Use default deadlines
     ticket_deadline_hours = 24  # 24 hours to send tickets
@@ -517,8 +516,7 @@ def create_transaction():
             seller_email=seller_email,
             buyer_email=buyer_email,
             price=price,
-            event_details=event_details,
-            test_mode=test_mode
+            event_details=event_details
         )
         
         # Return success response for AJAX request to show popup
@@ -681,7 +679,7 @@ def simulate_payment(transaction_id):
     
     # Update transaction status to payment processing
     connection.execute(
-        "UPDATE transactions SET status = 'waiting_for_payment', payment_processed_time = CURRENT_TIMESTAMP WHERE transaction_id = ?",
+        "UPDATE transactions SET status = 'waiting_for_payment', payment_received_time = CURRENT_TIMESTAMP WHERE transaction_id = ?",
         (transaction_id,)
     )
     
@@ -1060,29 +1058,46 @@ def email_accept(transaction_id):
 
 @insta485.app.route('/success')
 def payment_success():
-    """Handle successful payment by updating status."""
+    """Handle successful payment by updating status and showing success page."""
     if 'transaction_id' not in flask.session:
-        return "<html><body><h2>Thank you! Your payment was successful. You may now close this tab and return to your email.</h2></body></html>"
+        return flask.render_template('payment_success.html', 
+                                   transaction_id="UNKNOWN",
+                                   buyer_email="buyer@example.com",
+                                   price=0.00,
+                                   payment_time="Unknown")
+    
     transaction_id = flask.session.pop('transaction_id', None)
     connection = insta485.model.get_db()
+    
     # Get event time and transaction info for confirmation email
     row = connection.execute(
         """
-        SELECT t.buyer_email, t.seller_email, t.price, e.name as event_name, e.event_datetime, t.payment_processed_time 
+        SELECT t.buyer_email, t.seller_email, t.price, e.name as event_name, e.event_datetime, t.payment_received_time 
         FROM transactions t 
         JOIN events e ON t.event_id = e.event_id 
         WHERE t.transaction_id = ?
         """,
         (transaction_id,)
     ).fetchone()
-    # Calculate expected_send as 1 minute after payment_processed_time (or now if not available)
+    
+    if not row:
+        return flask.render_template('payment_success.html', 
+                                   transaction_id=transaction_id,
+                                   buyer_email="buyer@example.com",
+                                   price=0.00,
+                                   payment_time="Unknown")
+    
+    # Calculate expected_send as 1 minute after payment_received_time (or now if not available)
     import datetime
-    payment_time = row['payment_processed_time']
+    payment_time = row['payment_received_time']
     if payment_time:
         payment_dt = datetime.datetime.strptime(payment_time, '%Y-%m-%d %H:%M:%S')
     else:
         payment_dt = datetime.datetime.now()
-    expected_send = payment_dt + datetime.timedelta(minutes=1)
+    
+    # Format payment time for display
+    payment_time_display = payment_dt.strftime('%a, %b %d, %I:%M %p')
+    
     # In the new automated system, payment triggers automatic ticket forwarding
     # So we update to indicate payment received
     connection.execute(
@@ -1095,6 +1110,7 @@ def payment_success():
         """,
         (transaction_id,)
     )
+    
     # Send acceptance confirmation email
     if row['buyer_email'] and row['event_name'] and row['price'] and row['seller_email']:
         send_accept_confirmation_email(row['buyer_email'], row['event_name'], row['price'], row['seller_email'], transaction_id=transaction_id)
@@ -1103,7 +1119,17 @@ def payment_success():
             "UPDATE transactions SET status = 'waiting_for_ticket' WHERE transaction_id = ?",
             (transaction_id,)
         )
-    return "<html><body><h2>Thank you! Your payment was successful. You may now close this tab and return to your email.</h2></body></html>"
+    
+    # Render the new success page
+    context = {
+        'transaction_id': transaction_id,
+        'buyer_email': row['buyer_email'],
+        'price': row['price'],
+        'payment_time': payment_time_display,
+        'event_name': row['event_name']
+    }
+    
+    return flask.render_template('payment_success.html', **context)
 
 @insta485.app.route('/cancel', methods=['GET', 'POST'])
 def payment_cancel():

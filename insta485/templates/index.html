@@ -999,10 +999,10 @@
             .sidebar {
                 position: static;
                 order: 2;
-                display: grid;
+            display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: var(--space-lg);
-            }
+            gap: var(--space-lg);
+        }
 
             .hero-section,
             .listings-section-fullwidth {
@@ -2729,6 +2729,47 @@
         .btn-cancel:hover {
             background: rgba(239, 68, 68, 0.2);
         }
+
+        /* Ticket Verification Buttons */
+        .btn-ticket-incorrect,
+        .btn-ticket-correct {
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            flex: 1;
+        }
+
+        .btn-ticket-incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .btn-ticket-incorrect:hover {
+            background: rgba(239, 68, 68, 0.2);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-ticket-correct {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .btn-ticket-correct:hover {
+            background: rgba(34, 197, 94, 0.2);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+        }
+
 
         code {
             background: var(--bg-tertiary);
@@ -5672,14 +5713,14 @@
                      <div class="terms-content">
                          <div class="terms-text">Terms apply. See website for details.</div>
                      </div>
-             </div>
-
+                 </div>
+                 
                  <button class="primary-action-button" onclick="openHowItWorksModal()">
                      <span class="button-text">See How It Works</span>
                      <div class="button-icon">
                          <i class="fas fa-arrow-right"></i>
                      </div>
-            </button>
+                 </button>
              </div>
          </div>
      </div>
@@ -5806,8 +5847,8 @@
                                             <div class="checklist-icon">📅</div>
                                             <div class="checklist-content">
                                                 <div class="checklist-text event-name">Michigan vs Ohio State</div>
-                                    </div>
-                                </div>
+                                            </div>
+                                        </div>
                                         <div class="checklist-item">
                                             <div class="checklist-icon">💵</div>
                                             <div class="checklist-content">
@@ -5865,8 +5906,8 @@
                                             <div class="checklist-icon">📧</div>
                                             <div class="checklist-content">
                                                 <div class="checklist-text">tx-000001@safetransaction.com</div>
-                                    </div>
-                                </div>
+                                            </div>
+                                        </div>
                                         <div class="checklist-item email-step">
                                             <div class="checklist-icon">🎫</div>
                                             <div class="checklist-content">
@@ -5924,8 +5965,8 @@
                                             <div class="checklist-icon">💳</div>
                                             <div class="checklist-content">
                                                 <div class="checklist-text">Card Payment</div>
-                                    </div>
-                                </div>
+                                            </div>
+                                        </div>
                                         <div class="checklist-item payment-option">
                                             <div class="checklist-icon">🏦</div>
                                             <div class="checklist-content">
@@ -5979,8 +6020,8 @@
                                             <div class="checklist-icon">✓</div>
                                             <div class="checklist-content">
                                                 <div class="checklist-text">Payment verified</div>
-                                    </div>
-                                </div>
+                                            </div>
+                                        </div>
                                         <div class="checklist-item delivery-check">
                                             <div class="checklist-icon">✓</div>
                                             <div class="checklist-content">
@@ -6038,8 +6079,8 @@
                                             <div class="checklist-icon">💰</div>
                                             <div class="checklist-content">
                                                 <div class="checklist-text">Ticket Price: $150.00</div>
-                                    </div>
-                                </div>
+                                            </div>
+                                        </div>
                                         <div class="checklist-item breakdown-bonus">
                                             <div class="checklist-icon">🎉</div>
                                             <div class="checklist-content">
@@ -6093,8 +6134,8 @@
                                             <div class="checklist-icon">📄</div>
                                             <div class="checklist-content">
                                                 <div class="checklist-text">Collect Evidence</div>
-                                    </div>
-                                </div>
+                                            </div>
+                                        </div>
                                         <div class="checklist-item dispute-step">
                                             <div class="checklist-icon">🔍</div>
                                             <div class="checklist-content">
@@ -6143,7 +6184,7 @@
                     <div class="button-icon">
                         <i class="fas fa-arrow-right"></i>
                     </div>
-            </button>
+                </button>
             </div>
         </div>
     </div>
@@ -6247,115 +6288,124 @@
             {% if transactions %}
             <!-- When there ARE active listings: Put them here (where Create Listing normally is) -->
             <div class="listings-section-fullwidth" style="margin: 0; grid-column: auto;">
-            <div class="listings-header">
-                <h2 class="listings-title"><i class="fas fa-list"></i> Your Active Listings</h2>
-                <p class="listings-subtitle">Manage your ticket listings and track transaction status</p>
+                <div class="listings-header">
+                    <h2 class="listings-title"><i class="fas fa-list"></i> Your Active Listings</h2>
+                    <p class="listings-subtitle">Manage your ticket listings and track transaction status</p>
+                    </div>
+                
+                <div class="listings-container">
+                        {% for transaction in transactions %}
+                        <div class="listing-card" data-transaction-id="{{ transaction.transaction_id }}">
+                            <div class="listing-header">
+                                <h3 class="listing-event">{{ transaction.ticket_description }}</h3>
+                                <div class="listing-price">${{ transaction.price }}</div>
+                </div>
+                            
+                            <div class="listing-details">
+                                <div class="listing-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    {{ transaction.location }}
             </div>
-        
-            <div class="listings-container">
-                {% for transaction in transactions %}
-                <div class="listing-card" data-transaction-id="{{ transaction.transaction_id }}">
-                    <div class="listing-header">
-                        <h3 class="listing-event">{{ transaction.ticket_description }}</h3>
-                        <div class="listing-price">${{ transaction.price }}</div>
-                    </div>
-                    
-                    <div class="listing-details">
-                        <div class="listing-location">
-                            <i class="fas fa-map-marker-alt"></i>
-                            {{ transaction.location }}
-                        </div>
-                        <div class="listing-date">
-                            <i class="fas fa-calendar"></i>
+                                <div class="listing-date">
+                                    <i class="fas fa-calendar"></i>
                             {{ transaction.event_datetime_str }}
-                        </div>
-                        <div class="listing-buyer">
-                            <i class="fas fa-user"></i>
-                            {{ transaction.buyer_email }}
-                        </div>
-                    </div>
-                    
+                                </div>
+                                <div class="listing-buyer">
+                                    <i class="fas fa-user"></i>
+                                    {{ transaction.buyer_email }}
+                                </div>
+                            </div>
+                            
                     <!-- Modern Status Progress with Actions -->
-                    <div class="transaction-progress">
-                        <div class="progress-header">
-                            <span class="current-step">
+                            <div class="transaction-progress">
+                                <div class="progress-header">
+                                    <span class="current-step">
                                 {% if transaction.status == 'pending_ticket_submission' %}
                                     ⚡ Waiting for You to Send Tickets
                                 {% elif transaction.status == 'waiting_for_ticket' %}
-                                    Step 1: Send Your Tickets
+                                            Step 1: Send Your Tickets
                                 {% elif transaction.status == 'waiting_for_payment' %}
                                     Step 2: Awaiting for buyer payment
                                 {% elif transaction.status == 'both_received_processing' %}
-                                    Step 3: Processing Payment
+                                            Step 3: Processing Payment
                                 {% elif transaction.status == 'ticket_forwarded_funds_held' %}
-                                    Step 4: Tickets Delivered
+                                            Step 4: Tickets Delivered
                                 {% elif transaction.status == 'completed' %}
-                                    ✅ Transaction Complete
+                                            ✅ Transaction Complete
                                 {% elif transaction.status == 'expired_no_ticket' %}
-                                    ❌ Expired - No Tickets
+                                            ❌ Expired - No Tickets
                                 {% elif transaction.status == 'expired_no_payment' %}
-                                    ❌ Expired - No Payment
-                                {% else %}
+                                            ❌ Expired - No Payment
+                                        {% else %}
                                     {{ transaction.status|title }}
-                                {% endif %}
-                            </span>
+                                        {% endif %}
+                                    </span>
                             <span class="transaction-id">#{{ transaction.transaction_id }}</span>
-                        </div>
-                        
-                        <div class="progress-bar">
-                            {% set progress = 0 %}
+                                </div>
+                                
+                                <div class="progress-bar">
+                                    {% set progress = 0 %}
                             {% if transaction.status == 'pending_ticket_submission' %}{% set progress = 15 %}
                             {% elif transaction.status == 'waiting_for_ticket' %}{% set progress = 25 %}
                             {% elif transaction.status == 'waiting_for_payment' %}{% set progress = 50 %}
                             {% elif transaction.status == 'both_received_processing' %}{% set progress = 75 %}
                             {% elif transaction.status == 'ticket_forwarded_funds_held' %}{% set progress = 90 %}
                             {% elif transaction.status == 'completed' %}{% set progress = 100 %}
-                            {% endif %}
-                            <div class="progress-fill" style="width: {{ progress }}%"></div>
-                        </div>
-                        
-                        <div class="progress-steps">
-                            <div class="step {% if progress >= 25 %}completed{% endif %}">
-                                <i class="fas fa-envelope"></i>
-                                <span>Send Tickets</span>
+        {% endif %}
+                                    <div class="progress-fill" style="width: {{ progress }}%"></div>
                             </div>
-                            <div class="step {% if progress >= 50 %}completed{% endif %}">
-                                <i class="fas fa-credit-card"></i>
-                                <span>Buyer Pays</span>
+                                
+                                <div class="progress-steps">
+                                    <div class="step {% if progress >= 25 %}completed{% endif %}">
+                                        <i class="fas fa-envelope"></i>
+                                        <span>Send Tickets</span>
+                                    </div>
+                                    <div class="step {% if progress >= 50 %}completed{% endif %}">
+                                        <i class="fas fa-credit-card"></i>
+                                        <span>Buyer Pays</span>
+                                    </div>
+                                    <div class="step {% if progress >= 75 %}completed{% endif %}">
+                                        <i class="fas fa-forward"></i>
+                                        <span>Tickets Sent</span>
+                                    </div>
+                                    <div class="step {% if progress >= 100 %}completed{% endif %}">
+                                        <i class="fas fa-money-bill-wave"></i>
+                                        <span>You Get Paid</span>
+                                </div>
                             </div>
-                            <div class="step {% if progress >= 75 %}completed{% endif %}">
-                                <i class="fas fa-forward"></i>
-                                <span>Tickets Sent</span>
-                            </div>
-                            <div class="step {% if progress >= 100 %}completed{% endif %}">
-                                <i class="fas fa-money-bill-wave"></i>
-                                <span>You Get Paid</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Action Required Section -->
+                            
+                            <!-- Action Required Section -->
                         {% if transaction.status == 'pending_ticket_submission' %}
-                        <div class="action-required">
-                            <div class="action-header">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <strong>Action Required</strong>
-                            </div>
+                            <div class="action-required">
+                                <div class="action-header">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <strong>Action Required</strong>
+                                </div>
                             <p>Send your tickets to: <code>{{ transaction.awaiting_ticket_email }}</code></p>
-                            <div class="deadline-info">
-                                <i class="fas fa-clock"></i>
+                                <div class="deadline-info">
+                                    <i class="fas fa-clock"></i>
                                 Deadline: {{ transaction.ticket_deadline.strftime('%m/%d %I:%M %p') if transaction.ticket_deadline else 'N/A' }}
+                                </div>
                             </div>
-                        </div>
                         {% elif transaction.status == 'waiting_for_ticket' %}
                         <div class="action-required">
-                            <div class="action-header">
+                                <div class="action-header">
                                 <i class="fas fa-exclamation-triangle"></i>
                                 <strong>Action Required</strong>
-                            </div>
+                                </div>
                             <p>Forward your ticket email to: <code>{{ transaction.ticket_email }}</code></p>
-                            <div class="deadline-info">
-                                <i class="fas fa-clock"></i>
+                                <div class="deadline-info">
+                                    <i class="fas fa-clock"></i>
                                 Deadline: {{ transaction.ticket_deadline.strftime('%m/%d %I:%M %p') if transaction.ticket_deadline else 'N/A' }}
+                                </div>
+                            <!-- Add special buttons for waiting_for_ticket status -->
+                            <div class="listing-actions" style="margin-top: var(--space-md);">
+                                <button class="btn-ticket-incorrect" onclick="markTicketIncorrect({{ transaction.transaction_id }})">
+                                    <i class="fas fa-times-circle"></i> Ticket Sent Was Incorrect (TEMP)
+                                </button>
+                                <button class="btn-ticket-correct" onclick="markTicketCorrect({{ transaction.transaction_id }})">
+                                    <i class="fas fa-check-circle"></i> Ticket Sent Was Correct (TEMP)
+                                </button>
                             </div>
                         </div>
                         {% elif transaction.status == 'waiting_for_payment' %}
@@ -6374,39 +6424,39 @@
                             </p>
                         </div>
                         {% elif transaction.status == 'ticket_forwarded_funds_held' %}
-                        <div class="action-success">
-                            <div class="action-header">
-                                <i class="fas fa-check-circle"></i>
-                                <strong>Almost Done!</strong>
+                            <div class="action-success">
+                                <div class="action-header">
+                                    <i class="fas fa-check-circle"></i>
+                                    <strong>Almost Done!</strong>
+                                </div>
+                                <p>Tickets delivered, payment will release automatically in 24 hours</p>
                             </div>
-                            <p>Tickets delivered, payment will release automatically in 24 hours</p>
-                        </div>
                         {% elif transaction.status == 'completed' %}
-                        <div class="action-complete">
-                            <div class="action-header">
-                                <i class="fas fa-trophy"></i>
-                                <strong>Transaction Complete</strong>
+                            <div class="action-complete">
+                                <div class="action-header">
+                                    <i class="fas fa-trophy"></i>
+                                    <strong>Transaction Complete</strong>
+                                </div>
+                                <p>Payment has been released to your account</p>
                             </div>
-                            <p>Payment has been released to your account</p>
-                        </div>
-                        {% endif %}
+                            {% endif %}
                     </div>
-                    
-                    <div class="listing-actions">
+                            
+                            <div class="listing-actions">
                         <button class="btn-details" onclick="showTransactionDetails({{ transaction.transaction_id }})">
-                            <i class="fas fa-info-circle"></i> View Details
-                        </button>
+                                    <i class="fas fa-info-circle"></i> View Details
+                                </button>
                         {% if transaction.status in ['waiting_for_ticket', 'waiting_for_payment'] %}
                         <button class="btn-cancel" onclick="cancelTransaction({{ transaction.transaction_id }})">
-                            <i class="fas fa-times"></i> Cancel
-                        </button>
-                        {% endif %}
-                    </div>
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                                {% endif %}
+                            </div>
                 </div>
                 {% endfor %}
             </div>
-            </div>
-            {% endif %}
+                            </div>
+                            {% endif %}
             
             {% if not transactions %}
             <!-- When there are NO active listings: Create Listing stays in its normal position -->
@@ -6414,7 +6464,7 @@
                 <div class="create-listing-header">
                     <h2 class="create-listing-title"><i class="fas fa-ticket-alt"></i> Create New Listing</h2>
                     <p class="create-listing-subtitle">List your tickets for sale on our secure platform</p>
-                </div>
+                        </div>
                 
                 <form id="createListingForm" action="{{ url_for('create_transaction') }}" method="post" class="listing-form" onsubmit="return handleCreateListing(event)">
 
@@ -6488,14 +6538,13 @@
                     
                     <!-- Hidden fields -->
                     <input type="hidden" name="seller_email" value="{{ logemail }}">
-                    <input type="hidden" name="test_mode" id="testModeInput" value="0">
                     
                     <button type="submit" class="create-listing-btn">
                         <i class="fas fa-plus"></i> Create Listing & Send to Buyer
                     </button>
                 </form>
-            </div>
-            {% endif %}
+                        </div>
+                {% endif %}
             
             {% if transactions %}
             <!-- When there ARE active listings: Create Listing goes to the bottom -->
@@ -6513,7 +6562,7 @@
                         <div class="event-search">
                             <input type="text" id="event_name_bottom" name="event_name" required placeholder="e.g., Taylor Swift Concert" autocomplete="off">
                             <div id="event_suggestions_bottom" class="event-suggestions"></div>
-                        </div>
+            </div>
                 </div>
                 
                     <!-- Event Details Display (Hidden until event selected) -->
@@ -6573,7 +6622,6 @@
 
                     <!-- Add the seller email as a hidden field for backend processing -->
                     <input type="hidden" name="seller_email" value="{{ logemail }}">
-                    <input type="hidden" name="test_mode" id="testModeInputBottom" value="0">
                     
                     <button type="submit" class="create-listing-btn">
                         <i class="fas fa-plus"></i> Create Listing & Send to Buyer
@@ -6953,6 +7001,63 @@
     </div>
 
     <script>
+        // Global ticket verification functions
+        window.markTicketIncorrect = function(transactionId) {
+            if (confirm('Are you sure the ticket sent was incorrect? This will cancel the transaction.')) {
+                fetch('/api/ticket-verification', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        transaction_id: transactionId,
+                        action: 'incorrect'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Transaction marked as incorrect and cancelled.');
+                        location.reload();
+                    } else {
+                        alert('Error: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error processing request');
+                });
+            }
+        };
+
+        window.markTicketCorrect = function(transactionId) {
+            if (confirm('Are you sure the ticket sent was correct? This will proceed to payment processing.')) {
+                fetch('/api/ticket-verification', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        transaction_id: transactionId,
+                        action: 'correct'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Ticket confirmed as correct. Proceeding to payment.');
+                        location.reload();
+            } else {
+                        alert('Error: ' + data.error);
+            }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error processing request');
+                });
+        }
+        };
+
 
         
         // SIMPLE GLOBAL SCROLL FUNCTION - GUARANTEED TO WORK
@@ -7904,23 +8009,23 @@
                     setTimeout(() => {
                         console.log('Initializing modal navigation...');
                         
-                        // Force show first step content and hide others
+                                                 // Force show first step content and hide others
                         const modal = document.getElementById('howItWorksOverlay');
                         const allSections = modal ? modal.querySelectorAll('.step-section') : document.querySelectorAll('.step-section');
                         console.log('Found step sections:', allSections.length);
                         
-                        allSections.forEach((section, index) => {
-                            if (index === 0) {
-                                section.classList.add('active');
+                         allSections.forEach((section, index) => {
+                             if (index === 0) {
+                                 section.classList.add('active');
                                 section.style.opacity = '1';
                                 section.style.transform = 'translateX(0)';
                                 section.style.pointerEvents = 'auto';
                                 section.style.zIndex = '10';
                                 console.log('First step section activated with inline styles');
-                            } else {
-                                section.classList.remove('active');
-                            }
-                        });
+                             } else {
+                                 section.classList.remove('active');
+                             }
+                         });
                         
                         activateStepInTracker(1);
                         updateNavigationButtons();
@@ -8161,12 +8266,12 @@
                 console.log('Activated step section', stepNumber, targetSection);
             } else {
                 // Fallback to index-based selection
-            stepSections.forEach((section, index) => {
-                if (index + 1 === stepNumber) {
-                    section.classList.add('active');
+                stepSections.forEach((section, index) => {
+                    if (index + 1 === stepNumber) {
+                        section.classList.add('active');
                         console.log('Activated step section by index', index + 1, section);
-                }
-            });
+                    }
+                });
             }
         });
     }
@@ -8505,7 +8610,7 @@
                     .then(events => {
                         if (events.length > 0) {
                             showSuggestions(events);
-                        } else {
+        } else {
                             suggestionsContainer.style.display = 'none';
                         }
                     })

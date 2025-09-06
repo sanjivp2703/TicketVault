@@ -252,7 +252,7 @@ def receive_ticket_email(transaction_id):
 @insta485.app.route('/pay/<int:transaction_id>')
 def show_payment_page(transaction_id):
     """
-    Show payment page for buyer
+    Redirect directly to Stripe Checkout for buyer payment
     """
     try:
         connection = insta485.model.get_db()
@@ -291,20 +291,36 @@ def show_payment_page(transaction_id):
             return flask.render_template('payment_error.html',
                                        error='Payment deadline has passed')
         
-        # Update the transaction dict with the parsed datetime
-        transaction_dict = dict(transaction)
-        transaction_dict['payment_deadline'] = payment_deadline
-        
-        context = {
-            'transaction': transaction_dict,
-            'stripe_public_key': insta485.app.config.get('STRIPE_PUBLIC_KEY'),
-            'hours_remaining': (payment_deadline - datetime.now()).total_seconds() / 3600
-        }
-        
-        return flask.render_template('payment_page.html', **context)
+        # Use the existing send_payment_buyer function to redirect to Stripe Checkout
+        from insta485.views.manage import send_payment_buyer
+        return send_payment_buyer(transaction_id)
         
     except Exception as e:
         return flask.render_template('payment_error.html', error=str(e))
+
+
+@insta485.app.route('/payment/complete/<int:transaction_id>')
+def payment_complete(transaction_id):
+    """
+    Handle successful payment return from Stripe Checkout
+    """
+    try:
+        # Update transaction status to indicate payment received
+        connection = insta485.model.get_db()
+        connection.execute("""
+            UPDATE transactions 
+            SET payment_received = 1,
+                payment_received_time = CURRENT_TIMESTAMP,
+                status = 'ticket_forwarded_funds_held'
+            WHERE transaction_id = ?
+        """, (transaction_id,))
+        connection.commit()
+        
+        # Redirect to ticket status page
+        return flask.redirect(flask.url_for('show_ticket_status', transaction_id=transaction_id))
+        
+    except Exception as e:
+        return flask.render_template('payment_error.html', error=f'Payment processing error: {str(e)}')
 
 
 @insta485.app.route('/ticket/<int:transaction_id>')
@@ -417,8 +433,8 @@ def mark_as_verified(transaction_id):
         if transaction['status'] != 'pending_ticket_submission':
             return flask.jsonify({'success': False, 'error': f'Transaction in wrong state: {transaction["status"]}'})
         
-        # Set 1-hour payment deadline
-        payment_deadline = datetime.now() + timedelta(hours=1)
+        # Set 24-hour payment deadline (extended for testing)
+        payment_deadline = datetime.now() + timedelta(hours=24)
         
         # Format payment deadline for SQLite (no microseconds, space instead of T)
         payment_deadline_str = payment_deadline.strftime('%Y-%m-%d %H:%M:%S')
@@ -478,6 +494,123 @@ def mark_as_verified(transaction_id):
         
     except Exception as e:
         print(f"❌ TEST ERROR: {e}")
+        return flask.jsonify({'success': False, 'error': str(e)})
+
+
+# New Test Verify API endpoint
+@insta485.app.route('/api/test-verify', methods=['POST'])
+def test_verify_transaction():
+    """
+    ⚡ TEST: Mark as Verified - Testing endpoint
+    Instantly marks a transaction as verified and sends buyer notification,
+    bypassing the normal email verification flow.
+    
+    POST /api/test-verify
+    {
+        "transaction_id": 123,
+        "test_mode": true
+    }
+    """
+    try:
+        data = flask.request.get_json()
+        
+        if not data or 'transaction_id' not in data:
+            return flask.jsonify({'success': False, 'error': 'Missing transaction_id'})
+        
+        transaction_id = data['transaction_id']
+        connection = insta485.model.get_db()
+        
+        # Get transaction details
+        transaction = connection.execute(
+            "SELECT * FROM transactions WHERE transaction_id = ?",
+            (transaction_id,)
+        ).fetchone()
+        
+        if not transaction:
+            return flask.jsonify({'success': False, 'error': 'Transaction not found'})
+        
+        # Must be in pending_ticket_submission state
+        if transaction['status'] != 'pending_ticket_submission':
+            return flask.jsonify({
+                'success': False, 
+                'error': f'Transaction must be in pending_ticket_submission state. Current: {transaction["status"]}'
+            })
+        
+        # Set 24-hour payment deadline from now (extended for testing)
+        payment_deadline = datetime.now() + timedelta(hours=24)
+        payment_deadline_str = payment_deadline.strftime('%Y-%m-%d %H:%M:%S')
+        
+        # Update transaction: instant verification (100%) and move to waiting_for_payment
+        connection.execute("""
+            UPDATE transactions 
+            SET status = 'waiting_for_payment',
+                ticket_email_received = 1,
+                ticket_received_time = CURRENT_TIMESTAMP,
+                ticket_verification_score = 100,
+                ticket_details_match = 1,
+                verification_notes = '⚡ TEST: Instant verification via Test Verify button',
+                payment_deadline = ?
+            WHERE transaction_id = ?
+        """, (payment_deadline_str, transaction_id))
+        
+        connection.commit()
+        
+        # Send buyer notification email
+        try:
+            from insta485.email_automation import send_modern_buyer_notification
+            original_details = json.loads(transaction['original_event_details'])
+            
+            # Prepare event details for email
+            event_details = {
+                'name': original_details['event_name'],
+                'location': original_details.get('location', 'TBD'),
+                'datetime': original_details.get('datetime', 'TBD')
+            }
+            
+            send_modern_buyer_notification(
+                transaction_id=transaction_id,
+                buyer_email=transaction['buyer_email'],
+                seller_email=transaction['seller_email'],
+                price=transaction['price'],
+                event_details=event_details,
+                payment_deadline=payment_deadline
+            )
+            
+            print(f"📧 TEST VERIFY: Buyer notification sent to {transaction['buyer_email']}")
+            email_sent = True
+            
+        except Exception as e:
+            print(f"📧 TEST VERIFY: Failed to send buyer notification: {e}")
+            import traceback
+            traceback.print_exc()
+            email_sent = False
+        
+        # Log the test verification
+        print(f"⚡ TEST VERIFY: Transaction {transaction_id} instantly verified")
+        print(f"📈 TEST VERIFY: Verification score set to 100%")
+        print(f"⏰ TEST VERIFY: Payment deadline set to {payment_deadline}")
+        print(f"🔄 TEST VERIFY: Status: pending_ticket_submission → waiting_for_payment")
+        
+        return flask.jsonify({
+            'success': True,
+            'message': '⚡ TEST VERIFICATION COMPLETE',
+            'details': {
+                'verification_score': 100,
+                'status_change': 'pending_ticket_submission → waiting_for_payment',
+                'payment_deadline': payment_deadline_str,
+                'buyer_notification_sent': email_sent,
+                'test_metadata': {
+                    'verification_method': 'test_verify_button',
+                    'instant_verification': True,
+                    'bypass_email_flow': True
+                }
+            }
+        })
+        
+    except Exception as e:
+        print(f"❌ TEST VERIFY ERROR: {e}")
+        import traceback
+        traceback.print_exc()
         return flask.jsonify({'success': False, 'error': str(e)})
 
 

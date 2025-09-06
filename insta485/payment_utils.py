@@ -14,7 +14,7 @@ def send_payment_seller(transaction_id):
         # Get transaction details
         transaction = connection.execute(
             """
-            SELECT t.seller_email, t.price, t.status, t.payment_processed_time,
+            SELECT t.seller_email, t.price, t.status, t.payment_received_time,
                    e.event_datetime
             FROM transactions t
             JOIN events e ON t.event_id = e.event_id
@@ -34,7 +34,7 @@ def send_payment_seller(transaction_id):
         try:
             # Update transaction status to indicate payment processing started
             connection.execute(
-                "UPDATE transactions SET status = 'waiting_for_ticket', payment_processed_time = CURRENT_TIMESTAMP WHERE transaction_id = ?",
+                "UPDATE transactions SET status = 'waiting_for_ticket', payment_received_time = CURRENT_TIMESTAMP WHERE transaction_id = ?",
                 (transaction_id,)
             )
             connection.commit()
