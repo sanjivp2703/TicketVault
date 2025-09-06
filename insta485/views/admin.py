@@ -1,10 +1,11 @@
 import flask
 import insta485
 from insta485.views.balance import add_earnings, deduct_withdrawal
+from insta485.views.manage import hash_password
 
 @insta485.app.route('/admin', methods=['GET'], endpoint='admin_dashboard')
 def admin_dashboard():
-    """Admin dashboard: show all complaints using admin.html with admin context."""
+    """Comprehensive admin dashboard showing all database content."""
     if 'email' not in flask.session:
         return flask.abort(403)
     connection = insta485.model.get_db()
@@ -14,18 +15,116 @@ def admin_dashboard():
     ).fetchone()
     if not user or not user['is_admin']:
         return flask.abort(403)
-    # Fetch all complaints (transactions with status 'complaint_filed')
-    complaints = connection.execute(
-        "SELECT t.*, e.name AS ticket_description, e.location, e.event_datetime FROM transactions t JOIN events e ON t.event_id = e.event_id WHERE t.status = 'complaint_filed' ORDER BY t.transaction_id DESC"
+    
+    # Get all users
+    users = connection.execute(
+        """SELECT email, firstname, lastname, stripe_id, is_admin, balance, created,
+                  CASE WHEN phone_number IS NOT NULL THEN phone_number ELSE 'N/A' END as phone_number,
+                  CASE WHEN email_verified IS NOT NULL THEN email_verified ELSE 0 END as email_verified,
+                  CASE WHEN phone_verified IS NOT NULL THEN phone_verified ELSE 0 END as phone_verified,
+                  CASE WHEN last_login IS NOT NULL THEN last_login ELSE 'Never' END as last_login
+           FROM users ORDER BY created DESC"""
     ).fetchall()
+    
+    # Get all transactions
+    transactions = connection.execute(
+        """SELECT t.*, e.name AS ticket_description, e.location, e.event_datetime,
+                  u1.firstname || ' ' || u1.lastname AS buyer_name,
+                  u2.firstname || ' ' || u2.lastname AS seller_name
+           FROM transactions t 
+           LEFT JOIN events e ON t.event_id = e.event_id
+           LEFT JOIN users u1 ON t.buyer_email = u1.email
+           LEFT JOIN users u2 ON t.seller_email = u2.email
+           ORDER BY t.created_time DESC LIMIT 50"""
+    ).fetchall()
+    
+    # Get all complaints
+    complaints = connection.execute(
+        """SELECT t.*, e.name AS ticket_description, e.location, e.event_datetime,
+                  u1.firstname || ' ' || u1.lastname AS buyer_name,
+                  u2.firstname || ' ' || u2.lastname AS seller_name
+           FROM transactions t 
+           JOIN events e ON t.event_id = e.event_id
+           LEFT JOIN users u1 ON t.buyer_email = u1.email
+           LEFT JOIN users u2 ON t.seller_email = u2.email
+           WHERE t.status = 'complaint_filed' 
+           ORDER BY t.transaction_id DESC"""
+    ).fetchall()
+    
+    # Get verification codes (if table exists)
+    verification_codes = []
+    try:
+        verification_codes = connection.execute(
+            """SELECT id, email, code, code_type, expires_at, used, created_at
+               FROM verification_codes 
+               ORDER BY created_at DESC LIMIT 20"""
+        ).fetchall()
+    except:
+        pass  # Table might not exist yet
+    
+    # Calculate statistics
+    stats = {
+        'total_users': len(users),
+        'admin_users': len([u for u in users if u['is_admin']]),
+        'verified_users': len([u for u in users if u['email_verified']]),
+        'total_transactions': len(transactions),
+        'active_complaints': len(complaints),
+        'total_balance': sum(u['balance'] for u in users if u['balance']),
+    }
+    
     context = {
         'is_admin': True,
         'logemail': flask.session['email'],
+        'users': users,
+        'transactions': transactions,
         'complaints': complaints,
+        'verification_codes': verification_codes,
+        'stats': stats,
         'user_type': 'admin',
-        'transactions': [],  # not used for admin
     }
-    return flask.render_template('admin.html', **context)
+    return flask.render_template('admin_comprehensive.html', **context)
+
+@insta485.app.route('/admin/create-admin', methods=['POST'])
+def create_admin_user():
+    """Create an admin user (for development/testing)."""
+    if 'email' not in flask.session:
+        return flask.abort(403)
+    connection = insta485.model.get_db()
+    user = connection.execute(
+        'SELECT is_admin FROM users WHERE email = ?',
+        (flask.session['email'],)
+    ).fetchone()
+    if not user or not user['is_admin']:
+        return flask.abort(403)
+    
+    email = flask.request.form.get('email')
+    password = flask.request.form.get('password', 'admin123')
+    firstname = flask.request.form.get('firstname', 'Admin')
+    lastname = flask.request.form.get('lastname', 'User')
+    
+    if not email:
+        return flask.abort(400)
+    
+    # Check if user already exists
+    existing = connection.execute(
+        "SELECT email FROM users WHERE email = ?", (email,)
+    ).fetchone()
+    
+    if existing:
+        return flask.redirect(flask.url_for('admin_dashboard'))
+    
+    # Create admin user
+    try:
+        connection.execute(
+            "INSERT INTO users (firstname, lastname, email, password, is_admin) VALUES (?, ?, ?, ?, ?)",
+            (firstname, lastname, email, hash_password(password), 1)
+        )
+        connection.commit()
+        print(f"[ADMIN] Created admin user: {email}")
+    except Exception as e:
+        print(f"[ERROR] Failed to create admin user: {e}")
+    
+    return flask.redirect(flask.url_for('admin_dashboard'))
 
 @insta485.app.route('/admin/resolve-complaint/<int:transaction_id>', methods=['POST'])
 def resolve_complaint(transaction_id):
