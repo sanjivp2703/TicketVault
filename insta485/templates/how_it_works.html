@@ -147,28 +147,6 @@
             margin-right: auto;
         }
 
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: var(--space-xl);
-            margin-bottom: var(--space-xl);
-        }
-
-        .hero-stat {
-            text-align: center;
-        }
-
-        .hero-stat-number {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--text-primary);
-        }
-
-        .hero-stat-label {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
 
         /* Table of Contents */
         .toc {
@@ -513,10 +491,6 @@
                 font-size: 2.5rem;
             }
             
-            .hero-stats {
-                flex-direction: column;
-                gap: var(--space-md);
-            }
             
             .main-content {
                 padding: var(--space-xl) var(--space-md);
@@ -553,20 +527,6 @@
             <p class="hero-subtitle">
                 A comprehensive guide to secure ticket selling that protects sellers and guarantees payments
             </p>
-            <div class="hero-stats">
-                <div class="hero-stat">
-                    <div class="hero-stat-number">{{ stats.total_value }}</div>
-                    <div class="hero-stat-label">Protected Value</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-number">{{ stats.total_transactions }}</div>
-                    <div class="hero-stat-label">Safe Transactions</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-number">{{ stats.success_rate }}</div>
-                    <div class="hero-stat-label">Success Rate</div>
-                </div>
-            </div>
         </section>
 
         <!-- Table of Contents -->
@@ -583,12 +543,6 @@
                     <a href="#process" class="toc-link">
                         <i class="fas fa-list-ol"></i>
                         6-Step Process
-                    </a>
-                </li>
-                <li class="toc-item">
-                    <a href="#safety" class="toc-link">
-                        <i class="fas fa-shield-alt"></i>
-                        Safety Features
                     </a>
                 </li>
                 <li class="toc-item">
@@ -609,8 +563,7 @@
                 Platform Overview
             </h2>
             <p class="section-intro">
-                Safe Transaction is a secure escrow platform specifically designed for University of Michigan football ticket sellers. 
-                We guarantee payment to sellers and eliminate the risk of scams by verifying buyers and holding payments securely.
+                Safe transaction is a secure escrow platform specifically designed for University of Michigan football ticket sellers. We guarantee full payment to sellers and the promised ticket to the buyers or their assets back.
             </p>
             
             <div class="safety-grid">
@@ -638,7 +591,7 @@
                     </div>
                     <h3 class="safety-title">Seller Protection</h3>
                     <p class="safety-description">
-                        Our dispute resolution system protects sellers from fraudulent buyers and ensures fair resolution of any issues.
+                        Our dispute resolution system protects sellers from fraudulent buyers and ensures fair resolution of any issues with proof provided outlined below.
                     </p>
                 </div>
             </div>
@@ -709,24 +662,20 @@
                     </div>
                     <div class="step-content">
                         <p class="step-description">
-                            Sellers start by creating a detailed listing with event information, ticket details, and buyer contact.
+                            Sellers start by submitting a listing with event information.
                         </p>
                         <ul class="step-details">
                             <li class="step-detail">
                                 <div class="detail-icon"><i class="fas fa-edit"></i></div>
-                                <div class="detail-text">Fill out complete event details (date, venue, section, row, seat)</div>
+                                <div class="detail-text">Select the event</div>
                             </li>
                             <li class="step-detail">
                                 <div class="detail-icon"><i class="fas fa-dollar-sign"></i></div>
-                                <div class="detail-text">Set your ticket price (what you'll receive plus 10% bonus)</div>
+                                <div class="detail-text">Set your ticket price</div>
                             </li>
                             <li class="step-detail">
                                 <div class="detail-icon"><i class="fas fa-envelope"></i></div>
-                                <div class="detail-text">Enter buyer's email address for automatic notifications</div>
-                            </li>
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-clock"></i></div>
-                                <div class="detail-text">Set deadlines for ticket submission and payment</div>
+                                <div class="detail-text">Enter buyer's Michigan Athletics email</div>
                             </li>
                         </ul>
                     </div>
@@ -740,24 +689,24 @@
                     </div>
                     <div class="step-content">
                         <p class="step-description">
-                            You'll receive a secure email address to forward your original ticket email for verification.
+                            Transfer your ticket to us to verify it.
                         </p>
                         <ul class="step-details">
                             <li class="step-detail">
                                 <div class="detail-icon"><i class="fas fa-lock"></i></div>
-                                <div class="detail-text">Receive unique secure email (e.g., tx-000001@safetransaction.com)</div>
+                                <div class="detail-text">Go to Michigan Athletics Transfer Page.</div>
                             </li>
                             <li class="step-detail">
                                 <div class="detail-icon"><i class="fas fa-forward"></i></div>
-                                <div class="detail-text">Forward your original ticket email from the venue/platform</div>
+                                <div class="detail-text">Input our information (Firstname: Safe, Lastname: Transaction, email: safetransactiontix@gmail) and transfer the ticket.</div>
                             </li>
                             <li class="step-detail">
                                 <div class="detail-icon"><i class="fas fa-search"></i></div>
-                                <div class="detail-text">Our system automatically verifies ticket authenticity</div>
+                                <div class="detail-text">Our system automatically verifies ticket authenticity.</div>
                             </li>
                             <li class="step-detail">
                                 <div class="detail-icon"><i class="fas fa-exclamation-triangle"></i></div>
-                                <div class="detail-text">Never send tickets directly to the buyer's email</div>
+                                <div class="detail-text">If anything goes wrong in the process we'll send the ticket back to you. If that's not possible we will supply the ticket price</div>
                             </li>
                         </ul>
                     </div>
@@ -771,24 +720,20 @@
                     </div>
                     <div class="step-content">
                         <p class="step-description">
-                            Buyer receives payment notification and submits payment through our secure portal.
+                            Once ticket is verified, we'll email the buyer a payment link.
                         </p>
                         <ul class="step-details">
                             <li class="step-detail">
                                 <div class="detail-icon"><i class="fas fa-bell"></i></div>
-                                <div class="detail-text">Buyer gets automatic email with payment instructions</div>
+                                <div class="detail-text">Ticket is verified and an email with a payment link is sent to the buyer.</div>
                             </li>
                             <li class="step-detail">
                                 <div class="detail-icon"><i class="fas fa-credit-card"></i></div>
-                                <div class="detail-text">Multiple payment options: credit card, bank transfer, digital wallet</div>
+                                <div class="detail-text">Buyer has to pay within 1 hour to avoid seller waiting for a while without ownership of their ticket.</div>
                             </li>
                             <li class="step-detail">
                                 <div class="detail-icon"><i class="fas fa-bank"></i></div>
-                                <div class="detail-text">Funds held securely in escrow, not released to seller yet</div>
-                            </li>
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-stopwatch"></i></div>
-                                <div class="detail-text">Payment deadline automatically enforced</div>
+                                <div class="detail-text">If full payment is not submitted within an hour, the ticket is sent back to the seller and we no longer accept payment.</div>
                             </li>
                         </ul>
                     </div>
@@ -829,28 +774,28 @@
                 <div class="step-card">
                     <div class="step-header">
                         <div class="step-number">5</div>
-                        <div class="step-title">You Get Paid</div>
+                        <div class="step-title">Seller Gets Paid & Buyer Gets Their Ticket</div>
                     </div>
                     <div class="step-content">
                         <p class="step-description">
-                            After a 24-hour verification window, you receive payment plus a 10% success bonus.
+                            Once buyer submits payment, seller will be paid plus a 10% bonus On Us.
                         </p>
                         <ul class="step-details">
                             <li class="step-detail">
                                 <div class="detail-icon"><i class="fas fa-hourglass-half"></i></div>
-                                <div class="detail-text">24-hour window for buyer to report any issues</div>
+                                <div class="detail-text">Seller receives price of ticket plus 10% to their balance located in the homepage.</div>
                             </li>
                             <li class="step-detail">
                                 <div class="detail-icon"><i class="fas fa-check-circle"></i></div>
-                                <div class="detail-text">No complaints = automatic payment release</div>
+                                <div class="detail-text">Seller withdraws and money is sent through the available options.</div>
                             </li>
                             <li class="step-detail">
                                 <div class="detail-icon"><i class="fas fa-gift"></i></div>
-                                <div class="detail-text">Receive 10% bonus on top of your ticket price</div>
+                                <div class="detail-text">Ticket is transferred to the buyers Michigan Athletics Account.</div>
                             </li>
                             <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-money-bill-wave"></i></div>
-                                <div class="detail-text">Funds transferred directly to your account</div>
+                                <div class="detail-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                                <div class="detail-text"><strong>At any point after this until 24 hours after the start of the event, the buyer or seller can submit a complaint if a scam has occured.</strong></div>
                             </li>
                         </ul>
                     </div>
@@ -864,24 +809,24 @@
                     </div>
                     <div class="step-content">
                         <p class="step-description">
-                            In rare cases of disputes, our team provides fair mediation to resolve issues.
+                            Our platform made to prevent any possible scam from occurring. In the off chance that this happens, follow this procedure. The goal is for the impacted user to be fully compensated.
                         </p>
                         <ul class="step-details">
                             <li class="step-detail">
                                 <div class="detail-icon"><i class="fas fa-clipboard-list"></i></div>
-                                <div class="detail-text">Collect evidence and documentation from both parties</div>
+                                <div class="detail-text">File a complaint from the homepage or send an email to safetransactiontix@gmail.com with the Subject Line: Filing a Dispute</div>
                             </li>
                             <li class="step-detail">
                                 <div class="detail-icon"><i class="fas fa-balance-scale"></i></div>
-                                <div class="detail-text">Impartial review by trained dispute resolution team</div>
+                                <div class="detail-text">We will email both parties and request specific proof from each based on the case.</div>
                             </li>
                             <li class="step-detail">
                                 <div class="detail-icon"><i class="fas fa-gavel"></i></div>
-                                <div class="detail-text">Fair decision based on evidence and platform policies</div>
+                                <div class="detail-text">We will be impartial in our decision.</div>
                             </li>
                             <li class="step-detail">
                                 <div class="detail-icon"><i class="fas fa-handshake"></i></div>
-                                <div class="detail-text">Money goes to the rightful party with full explanation</div>
+                                <div class="detail-text">In the unlikely scenario that funds or a ticket are proven to have been taken through a scam and can't be recovered, we will provide repayment in the form of the price of the ticket and the fraudulent user will be banned from our platform.</div>
                             </li>
                         </ul>
                     </div>
@@ -889,75 +834,6 @@
             </div>
         </section>
 
-        <!-- Safety Features -->
-        <section id="safety" class="section">
-            <h2 class="section-title">
-                <div class="section-icon">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                Advanced Safety Features
-            </h2>
-            <p class="section-intro">
-                We've built multiple layers of protection to ensure your money and tickets are always safe.
-            </p>
-
-            <div class="safety-grid">
-                <div class="safety-feature">
-                    <div class="safety-icon">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <h3 class="safety-title">Bank-Level Security</h3>
-                    <p class="safety-description">
-                        256-bit SSL encryption, secure servers, and compliance with financial regulations protect your data and money.
-                    </p>
-                </div>
-                <div class="safety-feature">
-                    <div class="safety-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <h3 class="safety-title">AI Fraud Detection</h3>
-                    <p class="safety-description">
-                        Advanced algorithms scan for fake tickets, suspicious patterns, and potential fraud attempts.
-                    </p>
-                </div>
-                <div class="safety-feature">
-                    <div class="safety-icon">
-                        <i class="fas fa-eye"></i>
-                    </div>
-                    <h3 class="safety-title">Human Verification</h3>
-                    <p class="safety-description">
-                        Trained specialists manually review all tickets and transactions for an extra layer of security.
-                    </p>
-                </div>
-                <div class="safety-feature">
-                    <div class="safety-icon">
-                        <i class="fas fa-money-check-alt"></i>
-                    </div>
-                    <h3 class="safety-title">Escrow Protection</h3>
-                    <p class="safety-description">
-                        Your money is held in a secure escrow account and only released when all conditions are met.
-                    </p>
-                </div>
-                <div class="safety-feature">
-                    <div class="safety-icon">
-                        <i class="fas fa-undo"></i>
-                    </div>
-                    <h3 class="safety-title">Full Refund Guarantee</h3>
-                    <p class="safety-description">
-                        If tickets are invalid or not delivered, buyers receive a complete refund including all fees.
-                    </p>
-                </div>
-                <div class="safety-feature">
-                    <div class="safety-icon">
-                        <i class="fas fa-headset"></i>
-                    </div>
-                    <h3 class="safety-title">24/7 Support</h3>
-                    <p class="safety-description">
-                        Our support team is available around the clock to help with any issues or questions.
-                    </p>
-                </div>
-            </div>
-        </section>
 
         <!-- FAQ -->
         <section id="faq" class="section">
@@ -985,8 +861,7 @@
                     <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="faq-answer">
-                    If tickets don't pass verification, you'll be notified immediately with the specific reason. 
-                    You can resubmit corrected tickets or cancel the transaction. No penalties are applied for invalid tickets.
+                    If tickets don't pass verification, you'll be notified immediately with the specific reason. The listing will be cancelled but you can submit another listing with the correct ticket.
                 </div>
             </div>
 
@@ -996,8 +871,7 @@
                     <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="faq-answer">
-                    Most tickets are verified within 2-4 hours during business hours. Complex cases may take up to 24 hours. 
-                    You'll receive updates throughout the process.
+                    Most tickets will be verified near instantly, or within a few minutes. In special cases it can take up to an hour. If you don't receive a result of the verification that would be shown in the homepage, email us and we'll return the ticket back to you.
                 </div>
             </div>
 
@@ -1008,7 +882,7 @@
                 </div>
                 <div class="faq-answer">
                     If payment isn't received by the deadline, the transaction automatically cancels. 
-                    Your tickets remain yours and you can create a new listing immediately. There's no penalty for unpaid transactions.
+                    We will send the ticket back to you and you can create a new listing immediately. There's no penalty for unpaid transactions.
                 </div>
             </div>
 
@@ -1018,28 +892,17 @@
                     <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="faq-answer">
-                    You can cancel anytime before the buyer makes payment. Once payment is received, 
-                    the transaction can only be cancelled through our dispute resolution process.
+                    Once you send the ticket to us, unfortunately you can't cancel it as the buyer is able to purchase the ticket at that point. However, if you sent the wrong ticket it will be automatically returned. If you would like to cancel the transaction, inform the buyer so that they won't pay before the deadline. The transaction will then be cancelled and the ticket sent back to you.
                 </div>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-question">
-                    <span>What types of tickets do you support?</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    We support all University of Michigan football tickets including mobile tickets, PDF tickets, 
-                    and physical tickets. We verify tickets from official sources like the Athletic Department and major platforms.
-                </div>
-            </div>
         </section>
 
         <!-- CTA Section -->
         <section class="cta-section">
             <h2 class="cta-title">Ready to Start Selling Safely?</h2>
             <p class="cta-subtitle">
-                Join thousands of Michigan fans who earn extra money selling tickets securely with guaranteed payments
+                Earn extra money selling tickets securely with guaranteed payments
             </p>
             <a href="/" class="cta-button">
                 <i class="fas fa-rocket"></i>

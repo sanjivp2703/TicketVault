@@ -1,0 +1,59 @@
+2025-09-12 21:48:21 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-12 21:48:21 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-12 21:48:21 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-12 21:48:22 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-12 21:48:22 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-12 21:48:44 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 21:48:44] "GET /how-it-works/ HTTP/1.1" 200 -
+2025-09-12 21:48:45 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 21:48:45] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-12 21:53:18 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/how_it_works.py', reloading
+2025-09-12 21:53:18 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-12 21:53:19 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-12 21:53:19 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-12 21:53:33 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/how_it_works.py', reloading
+2025-09-12 21:53:33 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/how_it_works.py', reloading
+2025-09-12 21:53:34 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-12 21:53:35 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-12 21:53:35 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-12 21:53:38 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 21:53:38] "GET /how-it-works/ HTTP/1.1" 200 -
+2025-09-12 21:53:38 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 21:53:38] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-12 21:53:48 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 21:53:48] "GET /how-it-works/ HTTP/1.1" 200 -
+2025-09-12 21:53:48 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 21:53:48] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-12 21:54:09 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 21:54:09] "GET /how-it-works/ HTTP/1.1" 200 -
+2025-09-12 21:54:09 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 21:54:09] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-12 21:54:51 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 21:54:51] "GET /how-it-works/ HTTP/1.1" 200 -
+2025-09-12 21:54:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 21:54:52] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-12 21:55:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 21:55:05] "GET /how-it-works/ HTTP/1.1" 200 -
+2025-09-12 21:55:06 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 21:55:06] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-12 22:01:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:01:22] "GET /how-it-works/ HTTP/1.1" 200 -
+2025-09-12 22:01:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:01:23] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-12 22:03:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:03:34] "GET /how-it-works/ HTTP/1.1" 200 -
+2025-09-12 22:03:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:03:34] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-12 22:07:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:07:12] "GET /how-it-works/ HTTP/1.1" 200 -
+2025-09-12 22:07:13 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:07:13] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-12 22:19:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:19:12] "GET /how-it-works/ HTTP/1.1" 200 -
+2025-09-12 22:19:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:19:12] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-12 22:20:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:20:12] "GET /how-it-works/ HTTP/1.1" 200 -
+2025-09-12 22:20:13 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:20:13] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-12 22:34:58 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:34:58] "GET /how-it-works/ HTTP/1.1" 200 -
+2025-09-12 22:34:58 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:34:58] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-12 22:36:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:36:35] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-12 22:36:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:36:35] "GET /index HTTP/1.1" 200 -
+2025-09-12 22:36:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:36:35] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-12 22:36:51 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:36:51] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-09-12 22:38:36 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:38:36] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-12 22:38:44 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:38:44] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-12 22:38:53 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:38:53] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-12 22:38:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:38:55] "GET /index HTTP/1.1" 200 -
+2025-09-12 22:38:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:38:55] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-12 22:39:27 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:39:27] "GET /index HTTP/1.1" 200 -
+2025-09-12 22:39:27 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:39:27] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-12 22:39:48 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:39:48] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-09-12 22:41:11 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:41:11] "GET /index HTTP/1.1" 200 -
+2025-09-12 22:41:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:41:12] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-12 22:41:44 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:41:44] "GET /index HTTP/1.1" 200 -
+2025-09-12 22:41:45 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:41:45] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-12 22:41:56 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:41:56] "GET /index HTTP/1.1" 200 -
+2025-09-12 22:41:56 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [12/Sep/2025 22:41:56] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
