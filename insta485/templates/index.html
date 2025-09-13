@@ -305,15 +305,13 @@
             flex: 1;
         }
 
-        .withdrawal-section,
-        .how-it-works-card {
+        .withdrawal-section {
             flex: 1;
             display: flex;
             flex-direction: column;
         }
 
-        .withdrawal-section .withdrawal-actions,
-        .how-it-works-card .how-it-works-footer {
+        .withdrawal-section .withdrawal-actions {
             margin-top: auto;
         }
 
@@ -326,8 +324,7 @@
                 flex: 1;
             }
             
-            .withdrawal-section,
-            .how-it-works-card {
+            .withdrawal-section {
                 flex: 1;
                 min-height: 0;
             }
@@ -338,8 +335,7 @@
                 display: contents;
             }
             
-            .withdrawal-section,
-            .how-it-works-card {
+            .withdrawal-section {
                 min-height: 280px; /* Minimum height for consistency */
             }
         }
@@ -389,9 +385,18 @@
             font-size: 20px;
             color: rgba(255, 255, 255, 0.9);
             font-weight: 500;
-            margin-bottom: var(--space-xl);
+            margin-bottom: var(--space-md);
             line-height: 1.6;
             text-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-description {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 400;
+            margin-bottom: var(--space-xl);
+            line-height: 1.5;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
         }
 
         .hero-stats {
@@ -444,40 +449,180 @@
             text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
         }
 
-        .hero-features {
-            display: flex;
-            justify-content: center;
-            gap: var(--space-lg);
-            flex-wrap: wrap;
-        }
 
-        .hero-feature {
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-            background: rgba(255, 255, 255, 0.1);
-            padding: var(--space-sm) var(--space-md);
-            border-radius: var(--radius-full);
-            color: white;
-            font-size: 14px;
-            font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
 
-        .hero-feature:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
-        }
 
-        .hero-feature i {
-            color: #34d399;
-            text-shadow: 0 0 10px rgba(52, 211, 153, 0.5);
-        }
+
+
+
 
         @keyframes heroTitleFloat {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-5px); }
+        }
+
+        /* How It Works Section - Light Gray Bubble */
+        .sell-tickets-section {
+            background: #f8fafc;
+            padding: var(--space-xl) var(--space-lg);
+            margin: var(--space-sm) 0 var(--space-md) 0;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .sell-tickets-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+
+        .sell-tickets-header {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .sell-tickets-guarantee-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin: 0;
+            letter-spacing: -0.01em;
+        }
+
+
+        .how-it-works-steps-horizontal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-lg);
+            flex-wrap: nowrap;
+        }
+
+        .step-item-horizontal {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 1;
+            max-width: 200px;
+            min-height: 120px;
+        }
+
+        .step-icon-container {
+            margin-bottom: var(--space-sm);
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .step-number-horizontal {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 600;
+            box-shadow: 0 3px 10px rgba(99, 102, 241, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .step-number-horizontal:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .step-content-horizontal {
+            max-width: 180px;
+        }
+
+        .step-title-horizontal {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .step-description-horizontal {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .step-arrow-horizontal {
+            display: flex;
+            align-items: center;
+            margin: 0 var(--space-sm);
+            flex-shrink: 0;
+        }
+
+        .step-arrow-horizontal svg {
+            width: 18px;
+            height: 18px;
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        /* Responsive design for How It Works Section */
+        @media (max-width: 1200px) {
+            .sell-tickets-container {
+                padding: 0 var(--space-md);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sell-tickets-section {
+                padding: var(--space-lg) var(--space-md);
+                margin: var(--space-xs) 0 var(--space-sm) 0;
+                border-radius: 12px;
+            }
+
+            .sell-tickets-container {
+                padding: 0;
+            }
+
+            .sell-tickets-header {
+                margin-bottom: var(--space-lg);
+            }
+
+            .sell-tickets-guarantee-title {
+                font-size: 24px;
+            }
+            
+            .how-it-works-steps-horizontal {
+                flex-direction: column;
+                gap: var(--space-lg);
+            }
+            
+            .step-arrow-horizontal {
+                transform: rotate(90deg);
+                margin: var(--space-sm) 0;
+            }
+            
+            .step-item-horizontal {
+                max-width: 250px;
+            }
+            
+            .step-number-horizontal {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+
+            .step-title-horizontal {
+                font-size: 0.9rem;
+            }
+
+            .step-description-horizontal {
+                font-size: 0.75rem;
+            }
         }
 
         /* Floating Elements */
@@ -1056,8 +1201,7 @@
                 display: contents;
             }
 
-            .withdrawal-section,
-            .how-it-works-card {
+            .withdrawal-section {
                 display: flex;
                 flex-direction: column;
                 height: 100%;
@@ -4571,14 +4715,14 @@
         .step-content-wrapper {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 35px;
+            gap: 50px;
             max-width: 100%;
             margin: 0 auto;
             padding: 0 35px;
             align-items: center;
             justify-content: center;
             height: 100%;
-            min-height: 360px;
+            min-height: 400px;
             /* Perfect vertical centering */
             place-items: center;
             place-content: center;
@@ -4586,11 +4730,12 @@
 
         /* Text Content */
         .step-text-content {
-            max-width: 500px;
+            max-width: 520px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: flex-start;
+            width: 100%;
         }
 
         .step-badge {
@@ -4611,6 +4756,10 @@
 
         .buyer-badge {
             background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+
+        .safe-transaction-badge {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
         }
 
         .success-badge {
@@ -4640,19 +4789,21 @@
         .step-bullets {
             display: flex;
             flex-direction: column;
-            gap: 14px;
-            margin-bottom: 16px;
+            gap: 16px;
+            margin-bottom: 20px;
+            width: 100%;
         }
 
         .bullet-item {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px 16px;
+            padding: 14px 18px;
             background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
             border: 2px solid #e2e8f0;
             border-radius: 10px;
             transition: all 0.3s ease;
+            min-height: 54px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
@@ -5184,6 +5335,46 @@
             color: #92400e;
             margin: 0;
             line-height: 1.3;
+        }
+
+        .terms-link {
+            color: #92400e;
+            text-decoration: underline;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .terms-link:hover {
+            color: #b45309;
+            text-decoration: none;
+        }
+
+        .guarantee-link {
+            color: inherit;
+            text-decoration: none;
+            font-weight: inherit;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .guarantee-link:hover {
+            color: inherit;
+            text-decoration: underline;
+            transform: translateY(-1px);
+        }
+
+        .guarantee-link-underlined {
+            color: inherit;
+            text-decoration: underline;
+            font-weight: inherit;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .guarantee-link-underlined:hover {
+            color: inherit;
+            text-decoration: underline;
+            transform: translateY(-1px);
         }
 
         .primary-action-button {
@@ -5896,7 +6087,7 @@
              <div class="welcome-hero">
                  <div class="brand-mark"></div>
                  <h1 class="popup-title welcome-heading">Safe Transaction</h1>
-                 <p class="popup-subtitle welcome-tagline">Insures and Prevents Scams for UMich Football Ticket Selling</p>
+                 <p class="popup-subtitle welcome-tagline">Insures and Prevents Scams for UMich Football Student Ticket Selling</p>
              </div>
 
              <!-- "How We Fit In" Row (Above benefits) -->
@@ -5906,7 +6097,8 @@
                          <div class="step-number">1</div>
                          <div class="step-content">
                              <h3>Find Your Buyer</h3>
-                             <p>Use GroupMe, Facebook, or Discord to connect with potential buyers</p>
+                             <p>Use GroupMe or Facebook to connect with buyers
+                            </p>
                          </div>
                      </div>
                      
@@ -5919,7 +6111,8 @@
                          <div class="step-number">2</div>
                          <div class="step-content">
                              <h3>We Handle Everything Else</h3>
-                             <p>Safe payment and ticket transfer process ensures you're always paid</p>
+                             <p>Our process ensures you’re always paid or we send your ticket back
+                            </p>
                          </div>
                      </div>
                  </div>
@@ -5929,12 +6122,12 @@
              <div class="benefits-section">
                  <div class="benefit-cards">
                      <div class="benefit-card">
-                         <h2>Full Protection Guarantee</h2>
+                         <h2><a href="/how-it-works/#guarantee" target="_blank" class="guarantee-link">Full Protection Guarantee</a></h2>
                          <p>We ensure correct payments and valid tickets are exchanged, or your ticket or money back.</p>
                      </div>
                      <div class="benefit-card">
                          <h2>Extra 10% Bonus</h2>
-                         <p>We'll send you an extra 10% for every completed sale.</p>
+                         <p>We’ll send you an extra 10% of the ticket price for every completed sale.</p>
                      </div>
                  </div>
              </div>
@@ -5946,7 +6139,7 @@
                          <i class="fas fa-info-circle"></i>
                      </div>
                      <div class="terms-content">
-                         <div class="terms-text">Terms apply. See website for details.</div>
+                         <div class="terms-text">Terms apply. <a href="/how-it-works/#dispute-resolution" class="terms-link" target="_blank">See website for details.</a></div>
                      </div>
                  </div>
                  
@@ -6056,20 +6249,16 @@
                             <h2 class="step-section-title">Create Your Listing</h2>
                             <div class="step-bullets">
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">📝</span>
-                                    <span>Fill out event details and price</span>
+                                    <span class="bullet-icon">📅</span>
+                                    <span>Select your event</span>
+                                </div>
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">💰</span>
+                                    <span>Choose your Price</span>
                                 </div>
                                 <div class="bullet-item">
                                     <span class="bullet-icon">📧</span>
-                                    <span>Enter buyer's email address</span>
-                                </div>
-                                <div class="bullet-item">
-                                    <span class="bullet-icon">⏰</span>
-                                    <span>Set deadlines for tickets and payment</span>
-                                </div>
-                                <div class="bullet-item">
-                                    <span class="bullet-icon">✅</span>
-                                    <span>Buyer gets notified automatically</span>
+                                    <span>Add buyer's Michigan Athletics email</span>
                                 </div>
                             </div>
                         </div>
@@ -6091,9 +6280,9 @@
                                             </div>
                                         </div>
                                         <div class="checklist-item">
-                                            <div class="checklist-icon">🎟️</div>
+                                            <div class="checklist-icon">📧</div>
                                             <div class="checklist-content">
-                                                <div class="checklist-text">Section: 12, Row: A, Seat: 15</div>
+                                                <div class="checklist-text email-text">student@umich.edu</div>
                                             </div>
                                         </div>
                                         <div class="mock-button">Submit Listing</div>
@@ -6116,19 +6305,19 @@
                             <div class="step-bullets">
                                 <div class="bullet-item">
                                     <span class="bullet-icon">📧</span>
-                                    <span>You get a secure email address</span>
+                                    <span>Transfer ticket to us</span>
                                 </div>
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">🎫</span>
-                                    <span>Forward your original ticket email</span>
+                                    <span class="bullet-icon">🔍</span>
+                                    <span>We verify it matches your listing</span>
                                 </div>
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">🔒</span>
-                                    <span>We verify ticket authenticity</span>
+                                    <span class="bullet-icon">💳</span>
+                                    <span>We email buyer a payment link</span>
                                 </div>
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">⚠️</span>
-                                    <span><strong>Never send directly to buyer!</strong></span>
+                                    <span class="bullet-icon">↩️</span>
+                                    <span>If anything goes wrong we'll send it back</span>
                                 </div>
                             </div>
                         </div>
@@ -6140,19 +6329,19 @@
                                         <div class="checklist-item email-step">
                                             <div class="checklist-icon">📧</div>
                                             <div class="checklist-content">
-                                                <div class="checklist-text">tx-000001@safetransaction.com</div>
+                                                <div class="checklist-text">Secure Ticket Holding</div>
                                             </div>
                                         </div>
                                         <div class="checklist-item email-step">
                                             <div class="checklist-icon">🎫</div>
                                             <div class="checklist-content">
-                                                <div class="checklist-text">Forward Ticket Email</div>
+                                                <div class="checklist-text">Auto Verification</div>
                                             </div>
                                         </div>
                                         <div class="checklist-item email-step">
-                                            <div class="checklist-icon">🔍</div>
+                                            <div class="checklist-icon">🛡️</div>
                                             <div class="checklist-content">
-                                                <div class="checklist-text">Auto-Verification</div>
+                                                <div class="checklist-text">Full Protection Guarantee</div>
                                             </div>
                                         </div>
                                         <div class="mock-button email-button">Tickets Secured</div>
@@ -6174,20 +6363,20 @@
                             <h2 class="step-section-title">Buyer Pays Securely</h2>
                             <div class="step-bullets">
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">📬</span>
-                                    <span>Buyer receives payment notification</span>
+                                    <span class="bullet-icon">📧</span>
+                                    <span>Buyer receives payment email</span>
                                 </div>
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">💳</span>
-                                    <span>Payment submitted through secure portal</span>
-                                </div>
-                                <div class="bullet-item">
-                                    <span class="bullet-icon">🏦</span>
-                                    <span>Funds held safely in escrow</span>
+                                    <span class="bullet-icon">✅</span>
+                                    <span>Ticket is verified beforehand</span>
                                 </div>
                                 <div class="bullet-item">
                                     <span class="bullet-icon">⏰</span>
-                                    <span>Payment deadline enforced automatically</span>
+                                    <span>Buyer has 1 hour to pay</span>
+                                </div>
+                                <div class="bullet-item">
+                                    <span class="bullet-icon">💰</span>
+                                    <span>Seller paid immediately</span>
                                 </div>
                             </div>
                         </div>
@@ -6197,24 +6386,24 @@
                                     <div class="screen-header">Secure Payment</div>
                                     <div class="form-mockup">
                                         <div class="checklist-item payment-option">
-                                            <div class="checklist-icon">💳</div>
+                                            <div class="checklist-icon">✅</div>
                                             <div class="checklist-content">
-                                                <div class="checklist-text">Card Payment</div>
+                                                <div class="checklist-text">Ticket Pre-Verified</div>
                                             </div>
                                         </div>
                                         <div class="checklist-item payment-option">
-                                            <div class="checklist-icon">🏦</div>
+                                            <div class="checklist-icon">⚡</div>
                                             <div class="checklist-content">
-                                                <div class="checklist-text">Bank Transfer</div>
+                                                <div class="checklist-text">Short Payment Deadline</div>
                                             </div>
                                         </div>
                                         <div class="checklist-item payment-option">
-                                            <div class="checklist-icon">🔒</div>
+                                            <div class="checklist-icon">🔄</div>
                                             <div class="checklist-content">
-                                                <div class="checklist-text">Escrow Protection</div>
+                                                <div class="checklist-text">Seamless Ticket Transfer</div>
                                             </div>
                                         </div>
-                                        <div class="mock-button payment-timer">⏰ 47:30:15 to pay</div>
+                                        <div class="mock-button payment-timer">⏰ 1 hour to pay</div>
                                     </div>
                                 </div>
                             </div>
@@ -6226,23 +6415,23 @@
                 <section class="step-section" data-step="4">
                     <div class="step-content-wrapper">
                         <div class="step-text-content">
-                            <div class="step-badge buyer-badge">
-                                <i class="fas fa-user"></i>
-                                <span>Buyer</span>
+                            <div class="step-badge safe-transaction-badge">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Safe Transaction</span>
                             </div>
-                            <h2 class="step-section-title">Automatic Ticket Delivery</h2>
+                            <h2 class="step-section-title">Automatic Payment/Ticket Delivery</h2>
                             <div class="step-bullets">
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">⚡</span>
-                                    <span>Instant delivery after payment confirmed</span>
+                                    <span class="bullet-icon">💰</span>
+                                    <span>Once buyer pays in full, we'll immediately pay you + 10% ticket sale</span>
                                 </div>
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">📧</span>
-                                    <span>Buyer receives original ticket email</span>
+                                    <span class="bullet-icon">🎫</span>
+                                    <span>Buyer gets ticket transferred within an hour</span>
                                 </div>
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">🔒</span>
-                                    <span>Complete transaction security maintained</span>
+                                    <span class="bullet-icon">🛡️</span>
+                                    <span>Something goes wrong? We'll provide repayment to all affected parties</span>
                                 </div>
                             </div>
                         </div>
@@ -6266,7 +6455,7 @@
                                         <div class="checklist-item delivery-check">
                                             <div class="checklist-icon">✓</div>
                                             <div class="checklist-content">
-                                                <div class="checklist-text">Email forwarded</div>
+                                                <div class="checklist-text">Transaction Insured</div>
                                             </div>
                                         </div>
                                         <div class="mock-button delivery-button">Delivered Instantly</div>
@@ -6285,23 +6474,23 @@
                                 <i class="fas fa-trophy"></i>
                                 <span>Success!</span>
                             </div>
-                            <h2 class="step-section-title">You Get Paid</h2>
+                            <h2 class="step-section-title">You get Paid + Buyer Gets Ticket</h2>
                             <div class="step-bullets">
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">⏰</span>
-                                    <span>24-hour verification window</span>
+                                    <span class="bullet-icon">💰</span>
+                                    <span>Funds added to your balance</span>
                                 </div>
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">✅</span>
-                                    <span>No issues reported by buyer</span>
+                                    <span class="bullet-icon">🎁</span>
+                                    <span>10% Ticket Price added On Us</span>
                                 </div>
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">💸</span>
-                                    <span>Funds automatically released to you</span>
+                                    <span class="bullet-icon">🏦</span>
+                                    <span>Withdraw to transfer to Bank Account</span>
                                 </div>
                                 <div class="bullet-item">
-                                    <span class="bullet-icon">⚡</span>
-                                    <span>Instant access to your money</span>
+                                    <span class="bullet-icon">🎉</span>
+                                    <span>Enjoy SafeTransaction!</span>
                                 </div>
                             </div>
                         </div>
@@ -6356,7 +6545,7 @@
                                 </div>
                                 <div class="bullet-item">
                                     <span class="bullet-icon">💰</span>
-                                    <span>Money goes to rightful party</span>
+                                    <span>Full Repayment to Rightful Party(s)</span>
                                 </div>
                             </div>
                         </div>
@@ -6409,7 +6598,7 @@
                         <i class="fas fa-shield-check"></i>
                     </div>
                     <div class="guarantee-content">
-                        <div class="guarantee-title">Full Protection Guarantee</div>
+                        <div class="guarantee-title"><a href="/how-it-works/#guarantee" target="_blank" class="guarantee-link-underlined">Full Protection Guarantee</a></div>
                         <div class="guarantee-subtitle">We ensure correct payments and valid tickets, or your ticket or money back</div>
                     </div>
                 </div>
@@ -6474,14 +6663,15 @@
         <!-- Hero Section -->
         <div class="hero-section">
             <div class="hero-content">
-                <h1 class="hero-title">Sell Tickets Safely — Zero Risk, Guaranteed</h1>
-                <p class="hero-subtitle">We securely hold your money, verify tickets, and guarantee you get paid or your ticket back.</p>
+                <h1 class="hero-title">Sell Michigan Football Student Tickets</h1>
+                <p class="hero-subtitle">Safe, Verified, and Backed by Our Guarantee</p>
+                <p class="hero-description">We securely hold your ticket, verify it, and guarantee you get paid</p>
                 
                 <div class="hero-stats">
                     <div class="hero-stat">
                         <div class="hero-stat-icon">🔒</div>
                         <div class="hero-stat-label">Secure Escrow</div>
-                        <div class="hero-stat-description">Funds protected until the ticket is verified.</div>
+                        <div class="hero-stat-description">Ticket and funds securely held until both are submitted/accurate</div>
                     </div>
                     <div class="hero-stat">
                         <div class="hero-stat-icon">🎟️</div>
@@ -6495,28 +6685,100 @@
                     </div>
         </div>
 
-                <div class="hero-features">
-                    <div class="hero-feature">
-                        <i class="fas fa-shield-check"></i>
-                        <span>100% Secure</span>
-                </div>
-                    <div class="hero-feature">
-                        <i class="fas fa-bolt"></i>
-                        <span>Instant Payments</span>
-                    </div>
-                    <div class="hero-feature">
-                        <i class="fas fa-headset"></i>
-                        <span>24/7 Support</span>
-                    </div>
-                    <div class="hero-feature">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Earn More on Every Sale</span>
-                    </div>
-                </div>
                 
 
                 </div>
             </div>
+
+    </div>
+
+    <!-- Sell Michigan Football Student Tickets Section -->
+    <div class="sell-tickets-section">
+        <div class="sell-tickets-container">
+            <div class="sell-tickets-header">
+                <h3 class="sell-tickets-guarantee-title">If Transaction Fails for any reason Ticket and payment Will Be Returned</h3>
+            </div>
+            
+            <div class="how-it-works-steps-horizontal">
+                <div class="step-item-horizontal">
+                    <div class="step-icon-container">
+                        <div class="step-number-horizontal">1</div>
+                    </div>
+                    <div class="step-content-horizontal">
+                        <h3 class="step-title-horizontal">Create Listing</h3>
+                        <p class="step-description-horizontal">Add event details and buyer's Michigan Athletics email</p>
+                    </div>
+                </div>
+                
+                <div class="step-arrow-horizontal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </div>
+                
+                <div class="step-item-horizontal">
+                    <div class="step-icon-container">
+                        <div class="step-number-horizontal">2</div>
+                    </div>
+                    <div class="step-content-horizontal">
+                        <h3 class="step-title-horizontal">Send Tickets</h3>
+                        <p class="step-description-horizontal">Transfer tickets to our secure account</p>
+                    </div>
+                </div>
+                
+                <div class="step-arrow-horizontal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </div>
+                
+                <div class="step-item-horizontal">
+                    <div class="step-icon-container">
+                        <div class="step-number-horizontal">3</div>
+                    </div>
+                    <div class="step-content-horizontal">
+                        <h3 class="step-title-horizontal">Auto-Verification</h3>
+                        <p class="step-description-horizontal">We verify ticket and provide buyer payment email</p>
+                    </div>
+                </div>
+                
+                <div class="step-arrow-horizontal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </div>
+                
+                <div class="step-item-horizontal">
+                    <div class="step-icon-container">
+                        <div class="step-number-horizontal">4</div>
+                    </div>
+                    <div class="step-content-horizontal">
+                        <h3 class="step-title-horizontal">Buyer Pays</h3>
+                        <p class="step-description-horizontal">Buyer pays through the payment link in their email</p>
+                    </div>
+                </div>
+                
+                <div class="step-arrow-horizontal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </div>
+                
+                <div class="step-item-horizontal">
+                    <div class="step-icon-container">
+                        <div class="step-number-horizontal">5</div>
+                    </div>
+                    <div class="step-content-horizontal">
+                        <h3 class="step-title-horizontal">Get Paid</h3>
+                        <p class="step-description-horizontal">You receive funds + 10% Bonus on Us! Buyer gets ticket transferred to them!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div class="app-container">
             
         <!-- Main Content Area -->
         <div class="main-content">
@@ -6833,59 +7095,6 @@
                     </div>
                 </div>
                 
-                <!-- How It Works Card -->
-                <div class="how-it-works-card">
-            <div class="how-it-works-header">
-                <h3 class="how-it-works-title">
-                    <i class="fas fa-lightbulb"></i>
-                    How It Works
-                </h3>
-                <p class="how-it-works-subtitle">
-                    Safe, automated ticket transactions
-                </p>
-            </div>
-            
-            <div class="how-it-works-steps">
-                <div class="step-item">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <div class="step-title">Create Listing</div>
-                        <div class="step-description">Add event details and buyer email</div>
-                    </div>
-                </div>
-                
-                <div class="step-item">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <div class="step-title">Send Tickets</div>
-                        <div class="step-description">Forward tickets to our secure email</div>
-                    </div>
-                </div>
-                
-                <div class="step-item">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <div class="step-title">Auto-Verification</div>
-                        <div class="step-description">We verify and notify buyer instantly</div>
-                    </div>
-                </div>
-                
-                <div class="step-item">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <div class="step-title">Get Paid</div>
-                        <div class="step-description">Receive funds after event completion</div>
-                    </div>
-                </div>
-            </div>
-            
-                    <div class="how-it-works-footer">
-                        <div class="security-badge">
-                            <i class="fas fa-shield-alt"></i>
-                            <span>100% Secure & Automated</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
