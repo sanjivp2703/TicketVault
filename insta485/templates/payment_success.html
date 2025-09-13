@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Confirmed - Safe Transaction</title>
+    <title>Payment Successful - Safe Transaction</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
@@ -12,96 +14,130 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #3b82f6 0%, #059669 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #333;
             padding: 20px;
         }
         
         .success-container {
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            padding: 48px;
-            text-align: center;
-            max-width: 600px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            max-width: 500px;
             width: 100%;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        .success-header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 40px 32px;
         }
         
         .success-icon {
             font-size: 64px;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
         }
         
         .success-title {
-            font-size: 32px;
-            font-weight: 700;
-            color: #059669;
-            margin-bottom: 12px;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
         }
         
         .success-subtitle {
-            font-size: 18px;
-            color: #6b7280;
-            margin-bottom: 40px;
-            line-height: 1.5;
-        }
-        
-        .details-card {
-            background: #f8fafb;
-            border-radius: 16px;
-            padding: 32px;
-            margin: 32px 0;
-            text-align: left;
-        }
-        
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        
-        .detail-row:last-child {
-            border-bottom: none;
-        }
-        
-        .detail-label {
-            font-size: 14px;
-            color: #6b7280;
+            font-size: 16px;
+            opacity: 0.9;
             font-weight: 500;
         }
         
-        .detail-value {
-            font-size: 16px;
-            color: #1f2937;
+        .success-content {
+            padding: 32px;
+        }
+        
+        .event-summary {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .event-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        
+        .event-info {
+            color: #475569;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+        
+        .payment-summary {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .payment-amount {
+            font-size: 24px;
+            font-weight: 800;
+            color: #166534;
+            margin-bottom: 8px;
+        }
+        
+        .payment-status {
+            color: #166534;
+            font-size: 14px;
             font-weight: 600;
         }
         
         .next-steps {
-            background: #dcfce7;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
             border-radius: 16px;
-            padding: 32px;
-            margin: 32px 0;
+            padding: 24px;
+            margin-bottom: 24px;
             text-align: left;
         }
         
         .next-steps-title {
-            font-size: 18px;
+            color: #1e40af;
+            font-size: 16px;
             font-weight: 700;
-            color: #059669;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
+            text-align: center;
         }
         
         .step {
             display: flex;
-            align-items: flex-start;
-            margin-bottom: 16px;
+            align-items: start;
+            gap: 12px;
+            margin-bottom: 12px;
         }
         
         .step:last-child {
@@ -109,163 +145,164 @@
         }
         
         .step-icon {
-            color: #059669;
-            margin-right: 12px;
-            margin-top: 2px;
-            font-size: 16px;
+            width: 24px;
+            height: 24px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
         }
         
         .step-text {
-            color: #065f46;
-            font-size: 15px;
+            color: #1e40af;
+            font-size: 14px;
+            font-weight: 500;
             line-height: 1.5;
         }
         
-        .action-buttons {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 32px 0;
-        }
-        
-        .btn {
-            padding: 14px 28px;
+        .transaction-details {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
             border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 16px;
-            transition: all 0.2s ease;
-            border: none;
-            cursor: pointer;
+            padding: 16px;
+            margin-bottom: 24px;
         }
         
-        .btn-primary {
-            background: linear-gradient(135deg, #3b82f6, #1e40af);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
-        }
-        
-        .btn-secondary {
-            background: #f3f4f6;
-            color: #374151;
-            border: 1px solid #d1d5db;
-        }
-        
-        .btn-secondary:hover {
-            background: #e5e7eb;
-        }
-        
-        .footer-help {
-            margin-top: 40px;
-            padding-top: 24px;
-            border-top: 1px solid #e5e7eb;
-            color: #6b7280;
+        .transaction-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
             font-size: 14px;
         }
         
-        .footer-help a {
-            color: #3b82f6;
-            text-decoration: none;
+        .transaction-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .transaction-label {
+            color: #64748b;
             font-weight: 500;
         }
         
-        .footer-help a:hover {
-            text-decoration: underline;
+        .transaction-value {
+            color: #0f172a;
+            font-weight: 600;
         }
         
-        @media (max-width: 640px) {
-            .success-container {
-                padding: 32px 24px;
-            }
-            
-            .success-title {
-                font-size: 28px;
-            }
-            
-            .success-subtitle {
-                font-size: 16px;
-            }
-            
-            .details-card, .next-steps {
-                padding: 24px;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-            }
+        .home-button {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 24px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 6px -1px rgba(102, 126, 234, 0.3);
+        }
+        
+        .home-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px -3px rgba(102, 126, 234, 0.4);
+        }
+        
+        .support-note {
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 16px;
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
     <div class="success-container">
-        <div class="success-icon">🎉</div>
-        <h1 class="success-title">Payment confirmed</h1>
-        <p class="success-subtitle">
-            Thanks, your payment for ${{ "%.2f"|format(price) }} is complete.
-        </p>
-        
-        <div class="details-card">
-            <div class="detail-row">
-                <span class="detail-label">Order</span>
-                <span class="detail-value">#ST-{{ transaction_id }}</span>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">Email</span>
-                <span class="detail-value">{{ buyer_email }}</span>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">Card</span>
-                <span class="detail-value">Card •••• ••••</span>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">Time</span>
-                <span class="detail-value">{{ payment_time }}</span>
-            </div>
+        <div class="success-header">
+            <div class="success-icon">🎉</div>
+            <h1 class="success-title">Payment Successful!</h1>
+            <p class="success-subtitle">Your tickets are on the way</p>
         </div>
         
-        <div class="next-steps">
-            <h3 class="next-steps-title">Next steps (for Safe Transaction):</h3>
-            <div class="step">
-                <span class="step-icon">🔒</span>
-                <span class="step-text">We're holding funds in escrow.</span>
+        <div class="success-content">
+            <div class="event-summary">
+                <div class="event-name">{{ transaction.event_name }}</div>
+                {% if transaction.location %}
+                <div class="event-info">📍 {{ transaction.location }}</div>
+                {% endif %}
+                {% if transaction.event_datetime %}
+                <div class="event-info">📅 {{ transaction.event_datetime }}</div>
+                {% endif %}
             </div>
-            <div class="step">
-                <span class="step-icon">🔍</span>
-                <span class="step-text">We're verifying the ticket you purchased.</span>
+            
+            <div class="payment-summary">
+                <div class="payment-amount">${{ transaction.price }} Paid</div>
+                <div class="payment-status">✅ Payment Confirmed</div>
             </div>
-            <div class="step">
-                <span class="step-icon">📧</span>
-                <span class="step-text">You'll get an email once verification finishes (usually a few minutes).</span>
+            
+            <div class="next-steps">
+                <div class="next-steps-title">What Happens Next</div>
+                
+                <div class="step">
+                    <div class="step-icon">1</div>
+                    <div class="step-text">
+                        Your tickets have been automatically sent to your email address
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">2</div>
+                    <div class="step-text">
+                        Check your inbox (and spam folder) for the ticket email
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">3</div>
+                    <div class="step-text">
+                        Save your tickets to your phone or print them out
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">4</div>
+                    <div class="step-text">
+                        Arrive early to the event and enjoy!
+                    </div>
+                </div>
             </div>
-            <div class="step">
-                <span class="step-icon">🛡️</span>
-                <span class="step-text">If anything goes wrong, you're covered by our Money/Ticket-Back Guarantee.</span>
+            
+            <div class="transaction-details">
+                <div class="transaction-row">
+                    <span class="transaction-label">Transaction ID:</span>
+                    <span class="transaction-value">#{{ transaction_id }}</span>
+                </div>
+                <div class="transaction-row">
+                    <span class="transaction-label">Payment Method:</span>
+                    <span class="transaction-value">Credit Card</span>
+                </div>
+                <div class="transaction-row">
+                    <span class="transaction-label">Status:</span>
+                    <span class="transaction-value">Completed</span>
+                </div>
             </div>
-        </div>
-        
-        <div class="action-buttons">
-            <a href="/ticket/{{ transaction_id }}" class="btn btn-primary">
-                📋 View Purchase
+            
+            <a href="{{ url_for('show_index') }}" class="home-button">
+                Return to Dashboard
             </a>
-            <a href="mailto:{{ buyer_email }}?subject=Payment Receipt - Order #ST-{{ transaction_id }}" class="btn btn-secondary">
-                📄 Download Receipt
-            </a>
-            <a href="mailto:{{ buyer_email }}" class="btn btn-secondary">
-                📧 Back to Email
-            </a>
-        </div>
-        
-        <div class="footer-help">
-            Questions? Chat with us at <a href="mailto:support@safetransaction.app">support@safetransaction.app</a>
+            
+            <div class="support-note">
+                If you don't receive your tickets within 5 minutes, please contact our support team.
+                Keep your transaction ID (#{{ transaction_id }}) for reference.
+            </div>
         </div>
     </div>
 </body>

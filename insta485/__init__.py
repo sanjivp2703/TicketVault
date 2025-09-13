@@ -39,6 +39,35 @@ scheduler = BackgroundScheduler()
 scheduler.start()
 app.scheduler = scheduler
 
+# Start background jobs for automated processing
+def start_automated_jobs():
+    """Start automated background jobs for transaction processing"""
+    try:
+        from insta485.transaction_manager import TransactionManager
+        from insta485.email_monitor import email_monitor
+        
+        transaction_manager = TransactionManager()
+        
+        # Schedule deadline checking every 5 minutes
+        scheduler.add_job(
+            func=transaction_manager.check_scheduled_deadlines,
+            trigger="interval",
+            minutes=5,
+            id='deadline_checker',
+            replace_existing=True
+        )
+        
+        # Start email monitoring
+        email_monitor.start()
+        
+        print("✅ Automated background jobs started successfully")
+        
+    except Exception as e:
+        print(f"❌ Error starting background jobs: {e}")
+
+# Start background jobs when app initializes
+start_automated_jobs()
+
 # Tell our app about views and model.  This is dangerously close to a
 # circular import, which is naughty, but Flask was designed that way.
 # (Reference http://flask.pocoo.org/docs/patterns/packages/)  We're
