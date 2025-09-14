@@ -67,7 +67,10 @@ def main():
     # List of emails to authorize
     emails_to_authorize = [
         "safetransactiontix@gmail.com",
-        "vedavyasj1@gmail.com"
+        "vedavyasj1@gmail.com",
+        "psanjiv@umich.edu",
+        "sanjivp2703@gmail.com",
+        "user2@gmail.com"
     ]
     
     print(f"🎯 Authorizing emails for domain: {config['domain']}")

@@ -362,6 +362,7 @@ def onboarding_complete():
     """Handle completion of Stripe onboarding."""
     return flask.redirect(flask.url_for('show_index', user_type='seller'))
 
+
 def send_payment_seller(transaction_id):
     """Send payment to seller via Stripe after a 1-minute delay."""
     print(f"Scheduler: Processing payment for transaction {transaction_id}")

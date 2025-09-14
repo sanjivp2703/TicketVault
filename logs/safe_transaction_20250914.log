@@ -1,0 +1,496 @@
+2025-09-14 00:05:34 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:05:34 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:05:42 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/mailgun_sender.py', reloading
+2025-09-14 00:05:44 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:05:44 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:05:49 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/mailgun_sender.py', reloading
+2025-09-14 00:05:50 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:05:50 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:05:55 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/mailgun_sender.py', reloading
+2025-09-14 00:05:57 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:05:57 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:06:10 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 00:06:10 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 00:06:11 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:06:11] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 00:06:43 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/mailgun_sender.py', reloading
+2025-09-14 00:06:45 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:06:45 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:06:51 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:06:51] "GET /index HTTP/1.1" 200 -
+2025-09-14 00:06:51 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:06:51] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 00:07:01 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:07:01] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 00:07:08 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:07:08] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 00:07:13 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 00:07:13 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=400
+2025-09-14 00:07:13 - stripe - INFO - log_info:128 - error_code=amount_too_small error_message="The Checkout Session's total amount due must add up to at least $0.50 usd" error_param=None error_type=invalid_request_error message='Stripe v1 API error received'
+2025-09-14 00:07:13 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:07:13] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 00:07:14 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:07:14] "GET /index HTTP/1.1" 200 -
+2025-09-14 00:07:14 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:07:14] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 00:07:39 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:07:39] "GET /pay/11 HTTP/1.1" 200 -
+2025-09-14 00:07:40 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:07:40] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 00:08:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:08:34] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 00:08:38 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:08:38] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 00:08:41 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 00:08:42 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 00:08:42 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:08:42] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 00:08:42 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:08:42] "GET /index HTTP/1.1" 200 -
+2025-09-14 00:08:43 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:08:43] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 00:09:03 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/mailgun_sender.py', reloading
+2025-09-14 00:09:04 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:09:04 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:09:11 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:09:11] "GET /index HTTP/1.1" 200 -
+2025-09-14 00:09:11 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:09:11] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 00:09:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:09:15] "GET /api/events?q=ps HTTP/1.1" 200 -
+2025-09-14 00:09:16 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:09:16] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 00:09:21 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:09:21] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 00:09:24 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:09:24] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 00:09:25 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:09:25] "GET /index HTTP/1.1" 200 -
+2025-09-14 00:09:25 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:09:25] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 00:10:08 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:10:08] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 00:10:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:10:12] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 00:10:16 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:10:16] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 00:10:18 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:10:18] "GET /index HTTP/1.1" 200 -
+2025-09-14 00:10:18 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:10:18] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 00:10:46 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/mailgun_sender.py', reloading
+2025-09-14 00:10:53 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:10:53 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:10:53 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:10:53] "GET /index HTTP/1.1" 200 -
+2025-09-14 00:10:53 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:10:53] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 00:10:57 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:10:57] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 00:11:01 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:11:01] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 00:11:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:11:05] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 00:11:06 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:11:06] "GET /index HTTP/1.1" 200 -
+2025-09-14 00:11:07 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:11:07] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 00:11:36 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:11:36] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 00:11:46 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:11:46] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 00:11:50 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:11:50] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 00:11:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:11:52] "GET /index HTTP/1.1" 200 -
+2025-09-14 00:11:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:11:52] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 00:13:03 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage.py', reloading
+2025-09-14 00:13:05 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:13:05 - werkzeug - INFO - _log:187 -  * Debugger PIN: 637-101-662
+2025-09-14 00:22:10 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage.py', reloading
+2025-09-14 00:22:13 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:22:13 - werkzeug - INFO - _log:187 -  * Debugger PIN: 637-101-662
+2025-09-14 00:22:16 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage.py', reloading
+2025-09-14 00:22:19 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:22:19 - werkzeug - INFO - _log:187 -  * Debugger PIN: 637-101-662
+2025-09-14 00:22:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:22:28] "[35m[1mGET /index HTTP/1.1[0m" 500 -
+2025-09-14 00:22:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:22:28] "[36mGET /index?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-09-14 00:22:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:22:28] "[36mGET /index?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-09-14 00:22:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:22:28] "[36mGET /index?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-09-14 00:22:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:22:28] "[36mGET /index?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-09-14 00:23:27 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage.py', reloading
+2025-09-14 00:23:29 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:23:29 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:25:06 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage.py', reloading
+2025-09-14 00:25:09 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:25:09 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:25:10 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage.py', reloading
+2025-09-14 00:25:12 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:25:12 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:25:13 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:25:13] "GET /index HTTP/1.1" 200 -
+2025-09-14 00:25:14 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:25:14] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 00:25:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:25:54] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 00:25:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:25:55] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 00:26:09 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:26:09] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 00:26:18 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:26:18] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 00:26:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:26:22] "GET /index HTTP/1.1" 200 -
+2025-09-14 00:26:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:26:22] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 00:27:41 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:27:41] "GET /pay/20 HTTP/1.1" 200 -
+2025-09-14 00:28:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:28:17] "GET /pay/20 HTTP/1.1" 200 -
+2025-09-14 00:28:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:28:22] "GET /pay/20 HTTP/1.1" 200 -
+2025-09-14 00:28:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:28:52] "HEAD /pay/22 HTTP/1.1" 200 -
+2025-09-14 00:28:58 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:28:58] "GET /pay/22 HTTP/1.1" 200 -
+2025-09-14 00:29:32 - payment - INFO - send_payment_buyer:29 - Buyer initiating payment for transaction 23
+2025-09-14 00:29:32 - payment - INFO - send_payment_buyer:43 - Creating Stripe checkout session for transaction 23, amount: $75
+2025-09-14 00:29:32 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 00:29:32 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 00:29:32 - payment - INFO - send_payment_buyer:62 - Stripe checkout session created successfully for transaction 23, session_id: cs_test_a1jg2UtmO3pv0jk1Mc65GiIupifYRk8HLcVS5xUz4X3bMRVuAU9SY156ZH
+2025-09-14 00:29:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:29:32] "[32mHEAD /pay/23 HTTP/1.1[0m" 303 -
+2025-09-14 00:30:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:30:26] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 00:30:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:30:32] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 00:30:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:30:37] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 00:30:38 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:30:38] "GET /index HTTP/1.1" 200 -
+2025-09-14 00:30:39 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:30:39] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 00:34:46 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 00:34:49 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:34:49 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:34:53 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 00:34:55 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:34:55 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:35:31 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 00:35:33 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:35:33 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:36:07 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py', reloading
+2025-09-14 00:36:09 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:36:09 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:36:16 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-14 00:36:18 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:36:18 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:37:33 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/mailgun_sender.py', reloading
+2025-09-14 00:37:35 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:37:35 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:38:09 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/mailgun_sender.py', reloading
+2025-09-14 00:38:10 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:38:10 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:38:27 - payment - INFO - send_payment_buyer:29 - Buyer initiating payment for transaction 25
+2025-09-14 00:38:27 - payment - INFO - send_payment_buyer:43 - Creating Stripe checkout session for transaction 25, amount: $100
+2025-09-14 00:38:27 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 00:38:27 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 00:38:27 - payment - INFO - send_payment_buyer:62 - Stripe checkout session created successfully for transaction 25, session_id: cs_test_a1j9FufdtelJDWmgkJxaxQuKKcuBRIXVmNUDij164i1H9pq9yUGNvivB5g
+2025-09-14 00:38:27 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:38:27] "[32mHEAD /pay/25 HTTP/1.1[0m" 303 -
+2025-09-14 00:38:40 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/mailgun_sender.py', reloading
+2025-09-14 00:38:40 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-14 00:38:40 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 00:38:40 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py', reloading
+2025-09-14 00:38:40 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/mailgun_sender.py', reloading
+2025-09-14 00:38:43 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:38:43 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:38:58 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:38:58] "GET /index HTTP/1.1" 200 -
+2025-09-14 00:38:59 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:38:59] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 00:39:07 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:39:07] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 00:39:24 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:39:24] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 00:39:33 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:39:33] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 00:39:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:39:35] "GET /index HTTP/1.1" 200 -
+2025-09-14 00:39:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:39:35] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 00:42:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:42:30] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 00:42:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:42:35] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 00:42:39 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:42:39] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 00:42:42 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:42:42] "GET /index HTTP/1.1" 200 -
+2025-09-14 00:42:42 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:42:42] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 00:46:21 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:46:21] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 00:46:37 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_email_debug.py', reloading
+2025-09-14 00:46:37 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_email_debug.py', reloading
+2025-09-14 00:46:38 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_email_debug.py', reloading
+2025-09-14 00:46:41 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:46:41 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:47:16 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 00:47:17 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:47:17 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:48:14 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 00:48:16 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:48:16 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:48:39 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 00:48:41 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:48:41 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:48:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:48:55] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 00:49:07 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:49:07] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 00:49:16 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_email_debug.py', reloading
+2025-09-14 00:49:16 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_email_debug.py', reloading
+2025-09-14 00:49:16 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_email_debug.py', reloading
+2025-09-14 00:49:17 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:49:17 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:49:32 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 00:49:34 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:49:34 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:49:41 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:49:41] "GET /index HTTP/1.1" 200 -
+2025-09-14 00:49:41 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:49:41] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 00:49:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:49:47] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 00:49:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:49:52] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 00:49:56 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:49:56] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 00:49:57 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:49:57] "GET /index HTTP/1.1" 200 -
+2025-09-14 00:49:58 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:49:58] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 00:52:49 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_email_output.py', reloading
+2025-09-14 00:52:49 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_email_output.py', reloading
+2025-09-14 00:52:49 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_email_output.py', reloading
+2025-09-14 00:52:51 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:52:51 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:53:08 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:53:08] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 00:53:14 - payment - INFO - send_payment_buyer:29 - Buyer initiating payment for transaction 31
+2025-09-14 00:53:14 - payment - INFO - send_payment_buyer:43 - Creating Stripe checkout session for transaction 31, amount: $75
+2025-09-14 00:53:14 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 00:53:14 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 00:53:14 - payment - INFO - send_payment_buyer:62 - Stripe checkout session created successfully for transaction 31, session_id: cs_test_a1d8uNmOrCwkhvLvDSgKUnfo69CIXfPzsGF90T3ls1Y5mjGUws3x7OXpb1
+2025-09-14 00:53:14 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:53:14] "[32mHEAD /pay/31 HTTP/1.1[0m" 303 -
+2025-09-14 00:53:20 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_email_output.py', reloading
+2025-09-14 00:53:20 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_email_output.py', reloading
+2025-09-14 00:53:20 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_email_output.py', reloading
+2025-09-14 00:53:22 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:53:22 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:54:37 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/debug_email_html.py', reloading
+2025-09-14 00:54:37 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/debug_email_html.py', reloading
+2025-09-14 00:54:37 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/debug_email_html.py', reloading
+2025-09-14 00:54:40 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:54:40 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:55:40 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/debug_email_html.py', reloading
+2025-09-14 00:55:40 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/debug_email_html.py', reloading
+2025-09-14 00:55:42 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:55:42 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:56:48 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 00:56:49 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:56:49 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:56:57 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 00:56:57 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 00:57:16 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 00:57:17 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 00:57:18 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 00:57:18] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 00:57:25 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/debug_email_html.py', reloading
+2025-09-14 00:57:25 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/debug_email_html.py', reloading
+2025-09-14 00:57:25 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/debug_email_html.py', reloading
+2025-09-14 00:57:27 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:57:27 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 00:57:44 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 00:57:46 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 00:57:46 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:10:10 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 01:10:12 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:10:12 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:10:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:10:23] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 01:10:29 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:10:29] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 01:10:34 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 01:10:34 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 01:10:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:10:34] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 01:10:36 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:10:36] "GET /index HTTP/1.1" 200 -
+2025-09-14 01:10:36 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:10:36] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 01:11:10 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:11:10] "GET /api/events?q=mich HTTP/1.1" 200 -
+2025-09-14 01:11:20 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:11:20] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 01:11:24 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 01:11:25 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 01:11:25 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:11:25] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 01:11:27 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:11:27] "GET /index HTTP/1.1" 200 -
+2025-09-14 01:11:27 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:11:27] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 01:16:24 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/debug_stripe_session.py', reloading
+2025-09-14 01:16:24 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/debug_stripe_session.py', reloading
+2025-09-14 01:16:24 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/debug_stripe_session.py', reloading
+2025-09-14 01:16:26 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:16:26 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:16:34 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 01:16:34 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 01:16:50 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/debug_email_template.py', reloading
+2025-09-14 01:16:50 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/debug_email_template.py', reloading
+2025-09-14 01:16:50 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/debug_email_template.py', reloading
+2025-09-14 01:16:52 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:16:52 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:16:55 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 01:16:55 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 01:17:11 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 01:17:12 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 01:17:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:17:12] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 01:17:21 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/debug_stripe_session.py', reloading
+2025-09-14 01:17:21 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/debug_stripe_session.py', reloading
+2025-09-14 01:17:23 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:17:23 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:17:25 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/debug_email_template.py', reloading
+2025-09-14 01:17:25 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/debug_email_template.py', reloading
+2025-09-14 01:17:25 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/debug_email_template.py', reloading
+2025-09-14 01:17:28 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:17:28 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:18:24 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 01:18:25 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:18:26 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:18:32 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 01:18:34 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:18:34 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:18:35 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 01:18:37 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:18:38 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:18:40 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:18:40] "GET /index HTTP/1.1" 200 -
+2025-09-14 01:18:43 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:18:43] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 01:18:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:18:47] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 01:19:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:19:00] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 01:19:47 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 01:19:48 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 01:19:48 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:19:48] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 01:20:02 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:20:02] "GET /index HTTP/1.1" 200 -
+2025-09-14 01:20:03 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:20:03] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 01:21:11 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 01:21:11 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 01:21:11 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:21:14 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:21:14 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:22:14 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:22:14] "GET /index HTTP/1.1" 200 -
+2025-09-14 01:22:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:22:15] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 01:22:20 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:22:20] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 01:22:51 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:22:51] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 01:22:54 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 01:22:55 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 01:22:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:22:55] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 01:22:57 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:22:57] "GET /index HTTP/1.1" 200 -
+2025-09-14 01:22:57 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:22:57] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 01:24:32 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 01:24:33 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:24:34 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:24:34 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:27:16 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:27:16] "GET /index HTTP/1.1" 200 -
+2025-09-14 01:27:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:27:17] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 01:27:21 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:27:21] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 01:27:29 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:27:29] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 01:27:33 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 01:27:33 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 01:27:33 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:27:33] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 01:27:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:27:35] "GET /index HTTP/1.1" 200 -
+2025-09-14 01:27:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:27:35] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 01:28:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:28:28] "GET /success?transaction_id=3 HTTP/1.1" 200 -
+2025-09-14 01:28:29 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:28:29] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 01:35:38 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:35:38] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 01:35:48 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:35:48] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 01:35:53 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 01:35:53 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 01:35:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:35:54] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 01:35:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:35:55] "GET /index HTTP/1.1" 200 -
+2025-09-14 01:35:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:35:55] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 01:36:36 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:36:36] "GET /success?transaction_id=4 HTTP/1.1" 200 -
+2025-09-14 01:36:36 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:36:36] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 01:38:41 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_payment_success.py', reloading
+2025-09-14 01:38:41 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_payment_success.py', reloading
+2025-09-14 01:38:41 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_payment_success.py', reloading
+2025-09-14 01:38:42 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:38:43 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:38:43 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:39:07 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 01:39:07 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 01:39:08 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:39:08] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 01:39:13 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:39:13] "HEAD /pay/5 HTTP/1.1" 200 -
+2025-09-14 01:39:30 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_payment_success.py', reloading
+2025-09-14 01:39:30 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:39:31 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:39:31 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:39:38 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_payment_success.py', reloading
+2025-09-14 01:39:40 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:39:41 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:39:41 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:40:05 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/add_authorized_recipients.py', reloading
+2025-09-14 01:40:06 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:40:06 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:40:06 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:40:32 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 01:40:33 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:40:34 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:40:34 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:40:51 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 01:40:52 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 01:40:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:40:52] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 01:41:08 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_payment_emails.py', reloading
+2025-09-14 01:41:08 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_payment_emails.py', reloading
+2025-09-14 01:41:08 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_payment_emails.py', reloading
+2025-09-14 01:41:09 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:41:10 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:41:10 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:41:30 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_payment_success.py', reloading
+2025-09-14 01:41:30 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_payment_success.py', reloading
+2025-09-14 01:41:30 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_payment_success.py', reloading
+2025-09-14 01:41:31 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:41:32 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:41:32 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:41:34 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_payment_emails.py', reloading
+2025-09-14 01:41:34 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_payment_emails.py', reloading
+2025-09-14 01:41:34 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_payment_emails.py', reloading
+2025-09-14 01:41:34 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:41:35 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:41:35 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:41:53 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 01:41:53 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/add_authorized_recipients.py', reloading
+2025-09-14 01:41:53 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 01:41:54 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:41:55 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:41:55 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:41:56 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/add_authorized_recipients.py', reloading
+2025-09-14 01:41:56 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:41:57 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:41:57 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:42:08 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:42:08] "GET /index HTTP/1.1" 200 -
+2025-09-14 01:42:09 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:42:09] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 01:42:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:42:15] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 01:42:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:42:22] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 01:42:27 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 01:42:27 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 01:42:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:42:28] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 01:42:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:42:28] "GET /index HTTP/1.1" 200 -
+2025-09-14 01:42:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:42:28] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 01:43:09 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:43:09] "GET /success?transaction_id=7 HTTP/1.1" 200 -
+2025-09-14 01:43:09 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:43:09] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 01:50:17 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_buyer_email_issue.py', reloading
+2025-09-14 01:50:17 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_buyer_email_issue.py', reloading
+2025-09-14 01:50:18 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:50:20 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:50:20 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:50:37 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 01:50:37 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:50:38 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:50:38 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:50:44 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 01:50:45 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:50:46 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:50:46 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:52:47 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_graceful_email_handling.py', reloading
+2025-09-14 01:52:47 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_graceful_email_handling.py', reloading
+2025-09-14 01:52:47 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:52:49 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:52:49 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:53:10 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_buyer_email_issue.py', reloading
+2025-09-14 01:53:10 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_buyer_email_issue.py', reloading
+2025-09-14 01:53:10 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_buyer_email_issue.py', reloading
+2025-09-14 01:53:11 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:53:12 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:53:12 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:53:18 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_graceful_email_handling.py', reloading
+2025-09-14 01:53:18 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_graceful_email_handling.py', reloading
+2025-09-14 01:53:18 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_graceful_email_handling.py', reloading
+2025-09-14 01:53:20 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:53:21 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:53:21 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:53:38 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 01:53:38 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 01:53:38 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:53:40 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:53:40 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:54:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:54:26] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 01:54:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:54:32] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 01:54:36 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 01:54:36 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 01:54:36 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:54:36] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 01:54:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:54:37] "GET /index HTTP/1.1" 200 -
+2025-09-14 01:54:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:54:37] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 01:55:11 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:55:11] "GET /success?transaction_id=10 HTTP/1.1" 200 -
+2025-09-14 01:55:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 01:55:12] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 01:56:49 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/dynamic_email_auth.py', reloading
+2025-09-14 01:56:49 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/dynamic_email_auth.py', reloading
+2025-09-14 01:56:50 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:56:51 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:56:51 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:57:26 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/gmail_sender.py', reloading
+2025-09-14 01:57:26 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/gmail_sender.py', reloading
+2025-09-14 01:57:26 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/gmail_sender.py', reloading
+2025-09-14 01:57:27 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:57:28 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:57:28 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:57:37 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 01:57:38 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:57:39 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:57:39 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:58:07 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/dynamic_email_auth.py', reloading
+2025-09-14 01:58:07 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/dynamic_email_auth.py', reloading
+2025-09-14 01:58:07 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/dynamic_email_auth.py', reloading
+2025-09-14 01:58:08 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:58:09 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:58:09 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 01:58:37 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/gmail_sender.py', reloading
+2025-09-14 01:58:37 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 01:58:37 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 01:58:39 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 01:58:39 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 02:00:02 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 02:00:02 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 02:00:03 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 02:00:03 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 02:00:21 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/auto_authorize_buyer.py', reloading
+2025-09-14 02:00:21 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/auto_authorize_buyer.py', reloading
+2025-09-14 02:00:22 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/auto_authorize_buyer.py', reloading
+2025-09-14 02:00:23 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 02:00:24 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 02:00:24 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 02:00:48 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/auto_authorize_buyer.py', reloading
+2025-09-14 02:00:48 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 02:00:49 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 02:00:50 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 02:00:50 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 02:01:08 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 02:01:08] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 02:01:19 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 02:01:19] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 02:01:23 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 02:01:23 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 02:01:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 02:01:23] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 02:01:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 02:01:30] "GET /index HTTP/1.1" 200 -
+2025-09-14 02:01:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 02:01:30] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -

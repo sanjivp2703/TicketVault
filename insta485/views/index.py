@@ -1165,8 +1165,17 @@ def payment_success():
         print(f"❌ AUTO-RELEASE ERROR: {e}")
     
     # Send confirmation emails to both parties
+    email_sent = False
     if row['buyer_email'] and row['event_name'] and row['price'] and row['seller_email']:
-        send_accept_confirmation_email(row['buyer_email'], row['event_name'], row['price'], row['seller_email'], transaction_id=transaction_id)
+        try:
+            email_sent = send_accept_confirmation_email(row['buyer_email'], row['event_name'], row['price'], row['seller_email'], transaction_id=transaction_id)
+            if email_sent:
+                print(f"✅ Confirmation email sent to {row['buyer_email']}")
+            else:
+                print(f"❌ Confirmation email failed for {row['buyer_email']} - likely not authorized in Mailgun sandbox")
+        except Exception as e:
+            print(f"❌ Confirmation email error for {row['buyer_email']}: {e}")
+            email_sent = False
     
     # Render the new success page
     context = {
@@ -1174,7 +1183,8 @@ def payment_success():
         'buyer_email': row['buyer_email'],
         'price': row['price'],
         'payment_time': payment_time_display,
-        'event_name': row['event_name']
+        'event_name': row['event_name'],
+        'email_sent': email_sent
     }
     
     return flask.render_template('payment_success.html', **context)

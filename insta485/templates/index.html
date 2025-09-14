@@ -6945,7 +6945,7 @@
                         <div class="action-waiting">
                             <p class="payment-info">✉️ We have emailed the buyer a payment link and they have until 
                             {% if transaction.payment_deadline %}
-                                <strong>{{ transaction.payment_deadline.strftime('%I:%M %p') }}</strong>
+                                <strong>{{ transaction.payment_deadline.strftime('%B %d, %Y at %I:%M %p') }}</strong>
                             {% else %}
                                 <strong>N/A</strong>
                             {% endif %}

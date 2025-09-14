@@ -433,8 +433,8 @@ def mark_as_verified(transaction_id):
         if transaction['status'] != 'pending_ticket_submission':
             return flask.jsonify({'success': False, 'error': f'Transaction in wrong state: {transaction["status"]}'})
         
-        # Set 24-hour payment deadline (extended for testing)
-        payment_deadline = datetime.now() + timedelta(hours=24)
+        # Set 1-hour payment deadline
+        payment_deadline = datetime.now() + timedelta(hours=1)
         
         # Format payment deadline for SQLite (no microseconds, space instead of T)
         payment_deadline_str = payment_deadline.strftime('%Y-%m-%d %H:%M:%S')
@@ -536,8 +536,8 @@ def test_verify_transaction():
                 'error': f'Transaction must be in pending_ticket_submission state. Current: {transaction["status"]}'
             })
         
-        # Set 24-hour payment deadline from now (extended for testing)
-        payment_deadline = datetime.now() + timedelta(hours=24)
+        # Set 1-hour payment deadline from now
+        payment_deadline = datetime.now() + timedelta(hours=1)
         payment_deadline_str = payment_deadline.strftime('%Y-%m-%d %H:%M:%S')
         
         # Update transaction: instant verification (100%) and move to waiting_for_payment
@@ -580,15 +580,23 @@ def test_verify_transaction():
                 except:
                     pass
             
-            mailgun_sender.send_buyer_payment_notification(
-                buyer_email=transaction['buyer_email'],
+            # Use modern email template
+            from insta485.email_automation import send_modern_buyer_notification
+            
+            # Prepare event details for email
+            event_details = {
+                'name': original_details['event_name'],
+                'location': original_details.get('location', 'TBD'),
+                'datetime': original_details.get('datetime', 'TBD')
+            }
+            
+            send_modern_buyer_notification(
                 transaction_id=transaction_id,
-                event_name=original_details['event_name'],
-                event_location=original_details.get('location', 'TBD'),
-                event_datetime=event_datetime,
-                price=float(transaction['price']),
-                payment_deadline=payment_deadline,
-                payment_url=payment_url
+                buyer_email=transaction['buyer_email'],
+                seller_email=transaction['seller_email'],
+                price=transaction['price'],
+                event_details=event_details,
+                payment_deadline=payment_deadline
             )
             
             print(f"📧 TEST VERIFY: Notifications sent to seller ({transaction['seller_email']}) and buyer ({transaction['buyer_email']})")

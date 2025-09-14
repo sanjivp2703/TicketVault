@@ -1,0 +1,9 @@
+2025-09-14 00:29:32 - payment - INFO - send_payment_buyer:29 - Buyer initiating payment for transaction 23
+2025-09-14 00:29:32 - payment - INFO - send_payment_buyer:43 - Creating Stripe checkout session for transaction 23, amount: $75
+2025-09-14 00:29:32 - payment - INFO - send_payment_buyer:62 - Stripe checkout session created successfully for transaction 23, session_id: cs_test_a1jg2UtmO3pv0jk1Mc65GiIupifYRk8HLcVS5xUz4X3bMRVuAU9SY156ZH
+2025-09-14 00:38:27 - payment - INFO - send_payment_buyer:29 - Buyer initiating payment for transaction 25
+2025-09-14 00:38:27 - payment - INFO - send_payment_buyer:43 - Creating Stripe checkout session for transaction 25, amount: $100
+2025-09-14 00:38:27 - payment - INFO - send_payment_buyer:62 - Stripe checkout session created successfully for transaction 25, session_id: cs_test_a1j9FufdtelJDWmgkJxaxQuKKcuBRIXVmNUDij164i1H9pq9yUGNvivB5g
+2025-09-14 00:53:14 - payment - INFO - send_payment_buyer:29 - Buyer initiating payment for transaction 31
+2025-09-14 00:53:14 - payment - INFO - send_payment_buyer:43 - Creating Stripe checkout session for transaction 31, amount: $75
+2025-09-14 00:53:14 - payment - INFO - send_payment_buyer:62 - Stripe checkout session created successfully for transaction 31, session_id: cs_test_a1d8uNmOrCwkhvLvDSgKUnfo69CIXfPzsGF90T3ls1Y5mjGUws3x7OXpb1

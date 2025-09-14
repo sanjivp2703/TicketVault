@@ -924,7 +924,7 @@ def send_buyer_notification(transaction_id, buyer_email, seller_email, price, ev
                 
                 <!-- Payment Button Section -->
                 <div class="cta-section">
-                    <a href="http://localhost:8000/pay/{transaction_id}" class="cta-button">
+                    <a href="{payment_url}" class="cta-button">
                         💳 Complete Secure Payment
                     </a>
                     <div class="reassurance">
@@ -1013,6 +1013,35 @@ def send_modern_buyer_notification(transaction_id, buyer_email, seller_email, pr
     deadline_text = ""
     if payment_deadline:
         deadline_text = payment_deadline.strftime('%I:%M %p on %B %d')
+    
+    # Generate direct Stripe checkout URL
+    try:
+        import stripe
+        import flask
+        
+        # Create Stripe checkout session
+        amount = int(float(price) * 100)  # Convert to cents
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': f'Payment for Transaction #{transaction_id}',
+                    },
+                    'unit_amount': amount,
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url=f"http://localhost:8000/success?transaction_id={transaction_id}",
+            cancel_url=f"http://localhost:8000/cancel?transaction_id={transaction_id}",
+        )
+        payment_url = session.url
+    except Exception as e:
+        print(f"Error creating Stripe session: {e}")
+        # Fallback to redirect URL
+        payment_url = f"http://localhost:8000/pay/{transaction_id}"
     
     subject = f"🎫 Verified Ticket Available - {event_details['name']}"
     
@@ -1428,7 +1457,7 @@ def send_modern_buyer_notification(transaction_id, buyer_email, seller_email, pr
                             ✨ Just one click to make this ticket yours!
                         </p>
                         <div class="cta-section">
-                            <a href="http://localhost:8000/pay/{transaction_id}" class="cta-button">
+                            <a href="{payment_url}" class="cta-button">
                                 🎫 Complete Your Payment
                             </a>
                         </div>
@@ -1514,7 +1543,9 @@ def send_modern_buyer_notification(transaction_id, buyer_email, seller_email, pr
     </html>
     """
     
-    send_email(buyer_email, subject, html_body)
+    # Use Mailgun sender instead of Flask-Mail to avoid context issues
+    from insta485.mailgun_sender import mailgun_sender
+    mailgun_sender.send_email(buyer_email, subject, html_body)
 
 
 def send_buyer_waiting_notification(transaction_id, buyer_email, seller_email, price, event_details, ticket_deadline):
@@ -1647,7 +1678,9 @@ def send_buyer_waiting_notification(transaction_id, buyer_email, seller_email, p
     </html>
     """
     
-    send_email(buyer_email, subject, html_body)
+    # Use Mailgun sender instead of Flask-Mail to avoid context issues
+    from insta485.mailgun_sender import mailgun_sender
+    mailgun_sender.send_email(buyer_email, subject, html_body)
 
 
 def send_ticket_deadline_reminder(transaction_id, seller_email, hours_remaining, ticket_email, event_name):

@@ -233,24 +233,37 @@
         </div>
         
         <div class="next-steps">
-            <h3 class="next-steps-title">Next steps (for Safe Transaction):</h3>
+            <h3 class="next-steps-title">Next steps:</h3>
             <div class="step">
-                <span class="step-icon">🔒</span>
-                <span class="step-text">We're holding funds in escrow.</span>
-            </div>
-            <div class="step">
-                <span class="step-icon">🔍</span>
-                <span class="step-text">We're verifying the ticket you purchased.</span>
+                <span class="step-icon">🎫</span>
+                <span class="step-text">We will transfer the ticket within an hour.</span>
             </div>
             <div class="step">
                 <span class="step-icon">📧</span>
-                <span class="step-text">You'll get an email once verification finishes (usually a few minutes).</span>
+                <span class="step-text">If you don't receive the ticket for any reason reach out to us at <a href="mailto:safetransactiontix@gmail.com" style="color: #059669; text-decoration: none; font-weight: 600;">safetransactiontix@gmail.com</a></span>
             </div>
             <div class="step">
-                <span class="step-icon">🛡️</span>
-                <span class="step-text">If anything goes wrong, you're covered by our Money/Ticket-Back Guarantee.</span>
+                <span class="step-icon">⚠️</span>
+                <span class="step-text">You have 24 hours till after the event to file a complaint.</span>
+            </div>
+            <div class="step">
+                <span class="step-icon">🏈</span>
+                <span class="step-text">Enjoy the game!</span>
             </div>
         </div>
+        
+        {% if not email_sent %}
+        <div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 12px; padding: 20px; margin: 20px 0; text-align: center;">
+            <div style="color: #92400e; font-size: 16px; font-weight: 600; margin-bottom: 8px;">
+                📧 Email Delivery Notice
+            </div>
+            <div style="color: #92400e; font-size: 14px; line-height: 1.5;">
+                We couldn't send a confirmation email to <strong>{{ buyer_email }}</strong>.<br>
+                Don't worry - your payment was successful and your ticket will be transferred as scheduled.<br>
+                For any questions, contact us at <a href="mailto:safetransactiontix@gmail.com" style="color: #92400e; font-weight: 600;">safetransactiontix@gmail.com</a>
+            </div>
+        </div>
+        {% endif %}
         
         <div class="action-buttons">
             <a href="/ticket/{{ transaction_id }}" class="btn btn-primary">
@@ -265,7 +278,7 @@
         </div>
         
         <div class="footer-help">
-            Questions? Chat with us at <a href="mailto:support@safetransaction.app">support@safetransaction.app</a>
+            Questions? Chat with us at <a href="mailto:safetransactiontix@gmail.com">safetransactiontix@gmail.com</a>
         </div>
     </div>
 </body>

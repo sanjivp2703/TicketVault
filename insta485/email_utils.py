@@ -333,7 +333,13 @@ def send_accept_confirmation_email(buyer_email, event_name, price, seller_email,
     </body>
     </html>
     '''
-    return send_email(buyer_email, subject, body, html=html)
+    # Use Mailgun sender - same as other emails
+    try:
+        from insta485.mailgun_sender import mailgun_sender
+        return mailgun_sender.send_email(buyer_email, subject, html)
+    except Exception as e:
+        print(f"❌ Error sending confirmation email: {e}")
+        return False
 
 def send_reject_confirmation_email(buyer_email, event_name, seller_email):
     subject = f"You have rejected the offer for {event_name}"

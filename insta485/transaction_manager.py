@@ -175,15 +175,23 @@ class TransactionManager:
                 except:
                     pass
             
-            mailgun_sender.send_buyer_payment_notification(
-                buyer_email=transaction['buyer_email'],
+            # Use modern email template
+            from insta485.email_automation import send_modern_buyer_notification
+            
+            # Prepare event details for email
+            event_details = {
+                'name': original_details['event_name'],
+                'location': original_details.get('location', 'TBD'),
+                'datetime': original_details.get('datetime', 'TBD')
+            }
+            
+            send_modern_buyer_notification(
                 transaction_id=transaction_id,
-                event_name=original_details['event_name'],
-                event_location=original_details.get('location', 'TBD'),
-                event_datetime=event_datetime,
-                price=float(transaction['price']),
-                payment_deadline=payment_deadline,
-                payment_url=payment_url
+                buyer_email=transaction['buyer_email'],
+                seller_email=transaction['seller_email'],
+                price=transaction['price'],
+                event_details=event_details,
+                payment_deadline=payment_deadline
             )
             
             print(f"✅ Listing {transaction_id} ACTIVATED - buyer has 1 hour to pay")
