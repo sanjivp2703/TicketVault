@@ -356,6 +356,7 @@ def send_accept_confirmation_email(buyer_email, event_name, price, seller_email,
         except Exception as e2:
             print(f"❌ Mailgun fallback also failed: {e2}")
             return False
+#COMMENT
 
 def send_reject_confirmation_email(buyer_email, event_name, seller_email):
     subject = f"You have rejected the offer for {event_name}"
