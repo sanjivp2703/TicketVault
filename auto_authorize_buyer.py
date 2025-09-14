@@ -103,3 +103,4 @@ def test_auto_authorization():
 
 if __name__ == "__main__":
     test_auto_authorization()
+

@@ -69,18 +69,33 @@
 2025-09-06 15:53:11 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:53:11] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
 2025-09-06 15:55:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:55:17] "GET /index HTTP/1.1" 200 -
 2025-09-06 15:55:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 15:55:17] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
-2025-09-06 16:38:15 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
- * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:8000
- * Running on http://192.168.1.205:8000
-2025-09-06 16:38:15 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
-2025-09-06 16:38:15 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-06 16:38:05 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-06 16:38:05 - werkzeug - INFO - _log:187 -  * Debugger PIN: 106-121-401
+2025-09-06 16:38:06 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-06 16:38:06 - werkzeug - INFO - _log:187 -  * Debugger PIN: 106-121-401
+2025-09-06 16:38:06 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-06 16:38:06 - werkzeug - INFO - _log:187 -  * Debugger PIN: 106-121-401
+2025-09-06 16:38:14 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-06 16:38:14 - werkzeug - INFO - _log:187 -  * Debugger PIN: 106-121-401
 2025-09-06 16:38:15 - werkzeug - WARNING - _log:187 -  * Debugger is active!
-2025-09-06 16:38:15 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
-2025-09-06 16:38:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 16:38:17] "GET /index HTTP/1.1" 200 -
-2025-09-06 16:38:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 16:38:17] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
-2025-09-06 16:38:25 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 16:38:25] "GET /index HTTP/1.1" 200 -
-2025-09-06 16:38:25 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Sep/2025 16:38:25] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
-2025-09-06 17:48:29 - werkzeug - INFO - _log:187 - 192.168.1.1 - - [06/Sep/2025 17:48:29] "[32mGET / HTTP/1.1[0m" 302 -
-2025-09-06 18:28:32 - werkzeug - INFO - _log:187 - 192.168.1.1 - - [06/Sep/2025 18:28:32] "[32mGET / HTTP/1.1[0m" 302 -
-2025-09-06 23:45:09 - werkzeug - INFO - _log:187 - 192.168.1.1 - - [06/Sep/2025 23:45:09] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-06 16:38:15 - werkzeug - INFO - _log:187 -  * Debugger PIN: 106-121-401
+2025-09-06 16:49:38 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\views\\index.py', reloading
+2025-09-06 16:49:38 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\views\\index.py', reloading
+2025-09-06 16:49:38 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\views\\index.py', reloading
+2025-09-06 16:49:39 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\views\\index.py', reloading
+2025-09-06 16:49:39 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\views\\index.py', reloading
+2025-09-06 16:49:49 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-06 16:49:49 - werkzeug - INFO - _log:187 -  * Debugger PIN: 106-121-401
+2025-09-06 16:49:49 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-06 16:49:49 - werkzeug - INFO - _log:187 -  * Debugger PIN: 106-121-401
+2025-09-06 16:49:49 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-06 16:49:49 - werkzeug - INFO - _log:187 -  * Debugger PIN: 106-121-401
+2025-09-06 16:49:49 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-06 16:49:49 - werkzeug - INFO - _log:187 -  * Debugger PIN: 106-121-401
+2025-09-06 16:49:49 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-06 16:49:49 - werkzeug - INFO - _log:187 -  * Debugger PIN: 106-121-401
+2025-09-06 16:50:34 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\views\\index.py', reloading
+2025-09-06 16:50:34 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\views\\index.py', reloading
+2025-09-06 16:50:34 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\views\\index.py', reloading
+2025-09-06 16:50:34 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\views\\index.py', reloading
+2025-09-06 16:50:35 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\views\\index.py', reloading
