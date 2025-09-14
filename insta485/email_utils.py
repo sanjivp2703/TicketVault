@@ -333,13 +333,29 @@ def send_accept_confirmation_email(buyer_email, event_name, price, seller_email,
     </body>
     </html>
     '''
-    # Use Mailgun sender - same as other emails
+    # Use Gmail SMTP for buyer emails to bypass Mailgun sandbox restrictions
     try:
-        from insta485.mailgun_sender import mailgun_sender
-        return mailgun_sender.send_email(buyer_email, subject, html)
+        from gmail_sender import GmailSender
+        gmail = GmailSender()
+        success = gmail.send_email(buyer_email, subject, html)
+        
+        if success:
+            return True
+        else:
+            print(f"❌ Gmail SMTP failed, trying Mailgun as fallback...")
+            # Fallback to Mailgun (will work for authorized emails)
+            from insta485.mailgun_sender import mailgun_sender
+            return mailgun_sender.send_email(buyer_email, subject, html)
+            
     except Exception as e:
-        print(f"❌ Error sending confirmation email: {e}")
-        return False
+        print(f"❌ Error sending confirmation email via Gmail: {e}")
+        # Fallback to Mailgun
+        try:
+            from insta485.mailgun_sender import mailgun_sender
+            return mailgun_sender.send_email(buyer_email, subject, html)
+        except Exception as e2:
+            print(f"❌ Mailgun fallback also failed: {e2}")
+            return False
 
 def send_reject_confirmation_email(buyer_email, event_name, seller_email):
     subject = f"You have rejected the offer for {event_name}"

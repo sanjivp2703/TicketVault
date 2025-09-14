@@ -165,7 +165,7 @@ class TransactionManager:
             )
             
             # 2. Send PAYMENT notification to BUYER
-            payment_url = f"https://safetransaction.app/pay/{transaction_id}"
+            payment_url = f"http://localhost:8000/pay/{transaction_id}"  # Update with your domain
             
             # Parse datetime if it's a string
             event_datetime = original_details.get('datetime', 'TBD')
