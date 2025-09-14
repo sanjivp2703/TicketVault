@@ -203,7 +203,114 @@ class MailgunSender:
         return self.send_email(seller_email, subject, html_content)
     
     # REMOVED: send_buyer_payment_notification - now using send_modern_buyer_notification from email_automation.py
-    
+    def send_buyer_payment_notification(self, buyer_email, transaction_id, event_name, event_location, event_datetime, price, payment_deadline, payment_url):
+        """Send payment notification to buyer"""
+        subject = f"🎫 Secure Payment Required - {event_name} | TX-{transaction_id:06d}"
+
+        deadline_str = payment_deadline.strftime('%B %d, %Y at %I:%M %p') if payment_deadline else "24 hours"
+        event_date_str = event_datetime.strftime('%B %d, %Y at %I:%M %p') if isinstance(event_datetime, datetime) else str(event_datetime)
+
+        html_content = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <style>
+                body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8fafc; margin: 0; padding: 20px; }}
+                .container {{ background: white; max-width: 600px; margin: 0 auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }}
+                .header {{ background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: white; padding: 30px; text-align: center; }}
+                .content {{ padding: 30px; }}
+                .ticket-info {{ background: #f0f9ff; border: 2px solid #3b82f6; padding: 20px; border-radius: 8px; margin: 20px 0; }}
+                .price-box {{ background: #10b981; color: white; padding: 20px; border-radius: 8px; text-align: center; margin: 20px 0; }}
+                .security-box {{ background: #ecfdf5; border-left: 4px solid #10b981; padding: 20px; margin: 20px 0; }}
+                .warning-box {{ background: #fef3c7; border-left: 4px solid #f59e0b; padding: 20px; margin: 20px 0; }}
+                .footer {{ background: #f8fafc; padding: 20px; text-align: center; color: #6b7280; }}
+                .pay-button {{ background: #10b981; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; display: inline-block; margin: 20px 0; font-weight: bold; font-size: 16px; }}
+                .pay-button:hover {{ background: #059669; }}
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>🎫 Verified Ticket Available!</h1>
+                    <p>Secure Payment Required</p>
+                </div>
+                
+                <div class="content">
+                    <div class="ticket-info">
+                        <h3>🎪 Event Details</h3>
+                        <p><strong>Event:</strong> {event_name}</p>
+                        <p><strong>Location:</strong> {event_location}</p>
+                        <p><strong>Date & Time:</strong> {event_date_str}</p>
+                        <p><strong>Transaction ID:</strong> #{transaction_id:06d}</p>
+                    </div>
+                    
+                    <div class="price-box">
+                        <h2>💰 Total: ${price:.2f}</h2>
+                        <p>Secure payment via Stripe</p>
+                    </div>
+                    
+                    <!-- Payment Button - Multiple formats for compatibility -->
+                    <div style="text-align: center; margin: 30px 0;">
+                        <!-- Primary Button -->
+                        <table cellpadding="0" cellspacing="0" border="0" style="margin: 0 auto;">
+                            <tr>
+                                <td style="background: #10b981; border-radius: 8px; padding: 0;">
+                                    <a href="{payment_url}" style="background: #10b981; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; display: block; font-weight: bold; font-size: 16px; border: none; font-family: Arial, sans-serif;">
+                                        🔒 Pay Securely Now
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                        
+                        <!-- Fallback Text Link -->
+                        <p style="margin-top: 20px; font-size: 14px; color: #6b7280;">
+                            Button not working? Copy and paste this link into your browser:<br>
+                            <a href="{payment_url}" style="color: #3b82f6; text-decoration: underline; word-break: break-all;">
+                                {payment_url}
+                            </a>
+                        </p>
+                    </div>
+                    
+                    <div class="security-box">
+                        <h3>🛡️ Your Protection</h3>
+                        <ul>
+                            <li><strong>Verified Ticket:</strong> Automatically verified against original listing</li>
+                            <li><strong>Secure Payment:</strong> Protected by Stripe encryption</li>
+                            <li><strong>Instant Delivery:</strong> Ticket delivered immediately after payment</li>
+                            <li><strong>Full Refund:</strong> If ticket is invalid or event cancelled</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="warning-box">
+                        <h3>⏰ Payment Deadline</h3>
+                        <p><strong>You must complete payment by: {deadline_str}</strong></p>
+                        <p>After this deadline, the ticket will be returned to the seller and this offer will expire.</p>
+                    </div>
+                    
+                    <div class="security-box">
+                        <h3>📋 What Happens After Payment</h3>
+                        <ol>
+                            <li>Payment processed securely via Stripe</li>
+                            <li>Ticket delivered to your email immediately</li>
+                            <li>Funds held in escrow until event completion</li>
+                            <li>Seller paid after successful event attendance</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="footer">
+                    <p>🎯 Safe Transaction - Automated Ticket Platform</p>
+                    <p>Transaction ID: {transaction_id:06d} | Secure & Automated</p>
+                    <p><em>This is a secure, verified ticket offer</em></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        """
+
+        return self.send_email(buyer_email, subject, html_content)
+        
     def send_ticket_to_buyer(self, buyer_email, transaction_id, event_name, seller_email):
         """Send ticket to buyer after payment"""
         subject = f"🎫 Your Tickets - {event_name} | TX-{transaction_id:06d}"

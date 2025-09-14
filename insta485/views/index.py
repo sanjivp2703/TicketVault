@@ -433,7 +433,210 @@ def get_events():
         })
     return flask.jsonify(results)
 
+@insta485.app.route('/api/test-verify', methods=['POST'])
+def test_verify():
+    """Test endpoint to instantly verify a listing for development purposes"""
+    try:
+        data = flask.request.get_json()
+        transaction_id = data.get('transaction_id')
 
+        if not transaction_id:
+            return flask.jsonify({'success': False, 'error': 'Missing transaction_id'}), 400
+
+        connection = insta485.model.get_db()
+
+        # Get transaction details
+        transaction = connection.execute("""
+            SELECT t.*, e.name as event_name, e.location, e.event_datetime
+            FROM transactions t
+            JOIN events e ON t.event_id = e.event_id
+            WHERE t.transaction_id = ?
+        """, (transaction_id,)).fetchone()
+
+        if not transaction:
+            return flask.jsonify({'success': False, 'error': 'Transaction not found'}), 400
+
+        if transaction['status'] != 'pending_ticket_submission':
+            return flask.jsonify({'success': False, 'error': f'Transaction in wrong state: {transaction["status"]}'}), 400
+
+        # Create fake email data for testing
+        fake_email_data = {
+            'sender': transaction['seller_email'],
+            'recipient': transaction['awaiting_ticket_email'],
+            'subject': f'Your {transaction["event_name"]} Tickets - Order Confirmation',
+            'body': f"""
+Thank you for your ticket purchase!
+Event: {transaction['event_name']}
+Venue: {transaction['location']}
+Order Number: TM-123456789
+Section: 101, Row A, Seats 5-6
+Your tickets are attached as PDF files.
+Please arrive 30 minutes early.
+Best regards,
+Ticketmaster Support
+            """,
+            'body_text': f'Your tickets for {transaction["event_name"]} at {transaction["location"]}. Section 101, Row A, Seats 5-6.',
+            'attachments': ['tickets.pdf'],
+            'timestamp': datetime.datetime.now().isoformat()
+        }
+
+        # Process through transaction manager
+        from insta485.transaction_manager import TransactionManager
+        transaction_manager = TransactionManager()
+
+        result = transaction_manager.process_incoming_ticket(transaction_id, fake_email_data)
+
+        if result['success']:
+            return flask.jsonify({
+                'success': True,
+                'message': 'Test verification completed successfully',
+                'status': result['status'],
+                'payment_deadline': result.get('payment_deadline')
+            })
+        else:
+            return flask.jsonify({
+                'success': False,
+                'error': result['error']
+            }), 400
+
+    except Exception as e:
+        print(f"Error in test verification: {e}")
+        return flask.jsonify({'success': False, 'error': str(e)}), 500
+
+
+@insta485.app.route('/pay/<int:transaction_id>')
+def buyer_payment_page(transaction_id):
+    """Display payment page for buyers"""
+    connection = insta485.model.get_db()
+
+    # Get transaction details
+    transaction = connection.execute("""
+        SELECT t.*, e.name as event_name, e.location, e.event_datetime
+        FROM transactions t
+        JOIN events e ON t.event_id = e.event_id
+        WHERE t.transaction_id = ?
+    """, (transaction_id,)).fetchone()
+
+    if not transaction:
+        flask.abort(404)
+
+    # Check if transaction is in correct state for payment
+    if transaction['status'] != 'waiting_for_payment':
+        flask.flash(f'Transaction is not available for payment. Status: {transaction["status"]}')
+        return flask.redirect(flask.url_for('show_index'))
+
+    # Check if payment deadline has passed
+    if transaction['payment_deadline']:
+        try:
+            if 'T' in transaction['payment_deadline']:
+                payment_deadline = datetime.datetime.fromisoformat(transaction['payment_deadline'].replace('Z', '+00:00'))
+            else:
+                payment_deadline = datetime.datetime.strptime(transaction['payment_deadline'], '%Y-%m-%d %H:%M:%S')
+
+            if datetime.datetime.now() > payment_deadline:
+                flask.flash('Payment deadline has passed for this transaction.')
+                return flask.redirect(flask.url_for('show_index'))
+        except ValueError:
+            pass  # Continue if date parsing fails
+
+    return flask.render_template('buyer_payment.html', 
+                               transaction=transaction,
+                               transaction_id=transaction_id)
+
+
+@insta485.app.route('/pay/<int:transaction_id>/process', methods=['POST'])
+def process_buyer_payment(transaction_id):
+    """Process buyer payment through Stripe"""
+    try:
+        import stripe
+        connection = insta485.model.get_db()
+
+        # Get transaction details
+        transaction = connection.execute("""
+            SELECT t.*, e.name as event_name
+            FROM transactions t
+            JOIN events e ON t.event_id = e.event_id
+            WHERE t.transaction_id = ?
+        """, (transaction_id,)).fetchone()
+
+        if not transaction:
+            return flask.jsonify({'success': False, 'error': 'Transaction not found'}), 404
+
+        if transaction['status'] != 'waiting_for_payment':
+            return flask.jsonify({'success': False, 'error': 'Transaction not available for payment'}), 400
+
+        # Create Stripe checkout session
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': f'Tickets for {transaction["event_name"]}',
+                        'description': f'Transaction #{transaction_id}'
+                    },
+                    'unit_amount': int(transaction['price'] * 100),  # Convert to cents
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url=f'https://safetransaction.app/payment-success/{transaction_id}',
+            cancel_url=f'https://safetransaction.app/pay/{transaction_id}',
+            metadata={'transaction_id': transaction_id}
+        )
+
+        return flask.jsonify({'checkout_url': session.url})
+
+    except Exception as e:
+        print(f"Error creating payment session: {e}")
+        return flask.jsonify({'success': False, 'error': str(e)}), 500
+
+
+@insta485.app.route('/payment-success/<int:transaction_id>')
+def payment_success(transaction_id):
+    """Handle successful payment"""
+    connection = insta485.model.get_db()
+
+    # Get transaction details
+    transaction = connection.execute("""
+        SELECT t.*, e.name as event_name
+        FROM transactions t
+        JOIN events e ON t.event_id = e.event_id
+        WHERE t.transaction_id = ?
+    """, (transaction_id,)).fetchone()
+
+    if not transaction:
+        flask.abort(404)
+
+    # Process payment through transaction manager
+    from insta485.transaction_manager import TransactionManager
+    transaction_manager = TransactionManager()
+
+    # For now, we'll simulate successful payment processing
+    # In production, you'd verify the payment with Stripe webhooks
+    try:
+        # Update transaction status to indicate payment received
+        connection.execute("""
+            UPDATE transactions 
+            SET payment_received = 1,
+                payment_received_time = CURRENT_TIMESTAMP,
+                status = 'both_received_processing'
+            WHERE transaction_id = ?
+        """, (transaction_id,))
+        connection.commit()
+
+        # Forward tickets to buyer
+        transaction_manager._forward_ticket_to_buyer(transaction_id, connection)
+
+        flask.flash('Payment successful! Your tickets have been sent to your email.')
+
+    except Exception as e:
+        print(f"Error processing payment success: {e}")
+        flask.flash('Payment was successful but there was an error processing your order. Please contact support.')
+
+    return flask.render_template('payment_success.html', 
+                               transaction=transaction,
+                               transaction_id=transaction_id)
 # Removed separate create_listing route - listing creation is now done directly on home page
 
 
