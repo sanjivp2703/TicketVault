@@ -41,4 +41,4 @@ CREATE TABLE balance_transactions(
 
 -- Add some initial sample data for testing
 -- Update existing users to have some balance
-UPDATE users SET balance = 0 WHERE email IN ('user1@gmail.com', 'user2@gmail.com', 'sanjivp2703@gmail.com'); 
+UPDATE users SET balance = 0 WHERE email IN ('user1@gmail.com', 'sanjivp2703@gmail.com'); 

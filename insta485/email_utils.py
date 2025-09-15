@@ -266,7 +266,10 @@ def send_accept_confirmation_email(buyer_email, event_name, price, seller_email,
                 <div class="success-message">
                     <div class="success-icon">🎉</div>
                     <h2 class="success-title">Payment confirmed!</h2>
-                    <p class="success-subtitle">Thanks! We've received your payment and are now processing your secure transaction.</p>
+                    <p class="success-subtitle">We've received your payment and will send the ticket to you within 1 hour.</p>
+                    <p class="success-disclaimer" style="font-size: 14px; color: #6b7280; margin-top: 12px; line-height: 1.5;">
+                        If you don't receive it within an hour, email us at <a href="mailto:safetransactiontix@gmail.com" style="color: #3b82f6;">safetransactiontix@gmail.com</a> and we'll make sure you get your ticket or your money back.
+                    </p>
                 </div>
                 
                 <div class="transaction-card">
@@ -292,31 +295,27 @@ def send_accept_confirmation_email(buyer_email, event_name, price, seller_email,
                 
                 <div class="next-steps">
                     <h3 class="next-steps-title">
-                        <span style="margin-right: 8px;">⚡</span>
                         What happens next:
                     </h3>
                     <div class="step">
-                        <span class="step-icon">🔒</span>
-                        <span class="step-text">Your funds are securely held in escrow until ticket delivery</span>
-                    </div>
-                    <div class="step">
                         <span class="step-icon">🎫</span>
-                        <span class="step-text">The seller will transfer your verified ticket shortly</span>
+                        <span class="step-text">We will send you your ticket within 1 hour</span>
                     </div>
                     <div class="step">
                         <span class="step-icon">📧</span>
-                        <span class="step-text">You'll receive an email with your ticket once it's ready</span>
+                        <span class="step-text">You will receive a confirmation email</span>
                     </div>
                     <div class="step">
                         <span class="step-icon">🛡️</span>
-                        <span class="step-text">Full protection guarantee - if anything goes wrong, you're covered</span>
+                        <span class="step-text">If anything goes wrong email us up to 24 hours after the event. We will attempt to resolve your problem or provide a refund based on our policy</span>
                     </div>
                 </div>
                 
-                <div class="cta-section">
-                    <a href="{ticket_status_url}" class="cta-button">
-                        📋 Track Your Order
-                    </a>
+                <div class="dispute-section" style="margin-top: 24px; padding: 16px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;">
+                    <div style="font-size: 14px; color: #6b7280; text-align: center;">
+                        <a href="mailto:safetransactiontix@gmail.com?subject=Filing a Dispute" style="color: #3b82f6; text-decoration: none; font-weight: 500;">File a Dispute</a> | 
+                        <a href="http://localhost:8000/how-it-works/" style="color: #3b82f6; text-decoration: none; font-weight: 500;">How Platform Works</a>
+                    </div>
                 </div>
             </div>
             

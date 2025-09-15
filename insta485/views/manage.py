@@ -39,7 +39,7 @@ def send_payment_buyer(transaction_id):
         payment_logger.error(f"Transaction {transaction_id} not found for payment")
         flask.abort(404)
 
-    amount = transaction['price'] * 100  # Convert to cents
+    amount = int(transaction['price'] * 100)  # Convert to cents as integer
     payment_logger.info(f"Creating Stripe checkout session for transaction {transaction_id}, amount: ${transaction['price']}")
     
     try:
@@ -56,7 +56,7 @@ def send_payment_buyer(transaction_id):
                 'quantity': 1,
             }],
             mode='payment',
-            success_url=flask.url_for('payment_success', _external=True),
+            success_url=flask.url_for('payment_success', transaction_id=transaction_id, _external=True),
             cancel_url=flask.url_for('payment_cancel', _external=True),
         )
         payment_logger.info(f"Stripe checkout session created successfully for transaction {transaction_id}, session_id: {session.id}")

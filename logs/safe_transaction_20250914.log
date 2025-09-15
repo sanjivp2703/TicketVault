@@ -513,3 +513,1038 @@
 2025-09-14 18:12:19 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
 2025-09-14 18:12:20 - werkzeug - WARNING - _log:187 -  * Debugger is active!
 2025-09-14 18:12:20 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 18:30:41 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 18:30:41 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 18:30:41 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 18:30:42 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 18:30:42 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 18:40:51 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 18:40:51 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 18:40:51 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 18:40:53 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 18:40:53 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 18:40:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:40:55] "GET /index HTTP/1.1" 200 -
+2025-09-14 18:40:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:40:55] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 18:41:03 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:41:03] "GET /api/events?q=mic HTTP/1.1" 200 -
+2025-09-14 18:41:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:41:12] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 18:41:17 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 18:41:17 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 18:41:18 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:41:18] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 18:41:19 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:41:19] "GET /index HTTP/1.1" 200 -
+2025-09-14 18:41:19 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:41:19] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 18:44:46 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:44:46] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 18:45:08 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:45:08] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 18:45:11 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 18:45:12 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 18:45:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:45:12] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 18:45:14 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:45:14] "GET /index HTTP/1.1" 200 -
+2025-09-14 18:45:14 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:45:14] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 18:45:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:45:37] "GET /success?transaction_id=13 HTTP/1.1" 200 -
+2025-09-14 18:45:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:45:37] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 18:45:51 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 18:50:51 EDT)" (scheduled at 2025-09-14 18:45:51.184203-04:00)
+2025-09-14 18:45:51 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 18:50:51 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 18:45:53 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 18:50:53 EDT)" (scheduled at 2025-09-14 18:45:53.789399-04:00)
+2025-09-14 18:45:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 18:50:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 18:48:07 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 18:48:08 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 18:48:09 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 18:48:09 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 18:48:11 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 18:48:11 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 18:48:12 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 18:48:12 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 18:48:39 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 18:48:39 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 18:48:40 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 18:48:40 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 18:48:40 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 18:57:08 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 19:00:51 EDT)" was missed by 0:01:17.273541
+2025-09-14 18:57:16 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 18:57:16 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 18:57:16 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 18:57:17 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 18:57:17 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 18:57:57 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 18:57:57 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 18:57:57 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 18:57:57 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 18:57:57 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 18:58:06 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:58:06] "GET /index HTTP/1.1" 200 -
+2025-09-14 18:58:06 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:58:06] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 18:58:11 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:58:11] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 18:58:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:58:26] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 18:58:30 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 18:58:30 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 18:58:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:58:30] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 18:58:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:58:32] "GET /index HTTP/1.1" 200 -
+2025-09-14 18:58:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:58:32] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 18:59:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:59:12] "GET /success?transaction_id=2 HTTP/1.1" 200 -
+2025-09-14 18:59:13 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 18:59:13] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 19:02:23 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 19:02:25 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 19:02:26 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 19:02:26 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 19:02:56 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 19:02:56 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 19:02:56 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 19:02:57 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 19:02:57 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 19:03:47 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 19:03:47 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 19:03:47 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 19:03:48 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 19:03:48 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 19:33:50 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.0.0.2:8000
+2025-09-14 19:33:50 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 19:33:50 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 19:33:51 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 19:33:51 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 19:33:51 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:33:51] "GET /index HTTP/1.1" 200 -
+2025-09-14 19:33:51 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:33:51] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 19:33:59 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:33:59] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 19:34:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:34:12] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 19:34:19 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 19:34:20 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 19:34:20 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:34:20] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 19:34:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:34:23] "GET /index HTTP/1.1" 200 -
+2025-09-14 19:34:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:34:23] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 19:35:02 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:35:02] "GET /success?transaction_id=3 HTTP/1.1" 200 -
+2025-09-14 19:35:02 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:35:02] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 19:38:50 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 19:43:50 EDT)" (scheduled at 2025-09-14 19:38:50.651177-04:00)
+2025-09-14 19:38:50 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 19:43:50 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 19:38:51 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 19:43:51 EDT)" (scheduled at 2025-09-14 19:38:51.361936-04:00)
+2025-09-14 19:38:51 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 19:43:51 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 19:42:07 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 19:42:07 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 19:42:08 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 19:42:08 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 19:42:24 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 19:42:25 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 19:42:25 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 19:42:25 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 19:42:37 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 19:42:38 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 19:42:39 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 19:42:39 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 19:42:54 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.0.0.2:8000
+2025-09-14 19:42:54 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 19:42:54 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 19:42:55 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 19:42:55 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 19:44:42 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.0.0.2:8000
+2025-09-14 19:44:42 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 19:44:42 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 19:44:43 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 19:44:43 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 19:44:43 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:44:43] "GET /index HTTP/1.1" 200 -
+2025-09-14 19:44:44 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:44:44] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 19:44:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:44:47] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 19:44:56 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:44:56] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 19:45:01 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 19:45:01 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 19:45:02 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:45:02] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 19:45:04 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:45:04] "GET /index HTTP/1.1" 200 -
+2025-09-14 19:45:04 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:45:04] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 19:46:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:46:12] "GET /success?transaction_id=2 HTTP/1.1" 200 -
+2025-09-14 19:46:13 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:46:13] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 19:46:59 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 19:46:59 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 19:47:01 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 19:47:01 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 19:47:22 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 19:47:23 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 19:47:23 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 19:47:24 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 19:47:24 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 19:47:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:47:54] "GET /ticket/2 HTTP/1.1" 200 -
+2025-09-14 19:47:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:47:54] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 19:48:24 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:48:24] "GET /how-it-works/ HTTP/1.1" 200 -
+2025-09-14 19:48:24 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:48:24] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 19:49:42 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 19:54:42 EDT)" (scheduled at 2025-09-14 19:49:42.803560-04:00)
+2025-09-14 19:49:42 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 19:54:42 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 19:52:24 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 19:57:24 EDT)" (scheduled at 2025-09-14 19:52:24.227732-04:00)
+2025-09-14 19:52:24 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 19:57:24 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 19:53:48 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 19:53:48 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 19:53:50 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 19:53:50 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 19:53:55 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 19:53:55 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 19:53:56 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 19:53:57 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 19:53:57 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 19:54:00 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 19:54:00 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 19:54:01 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 19:54:01 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 19:54:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:54:23] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-14 19:54:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:54:23] "GET /index HTTP/1.1" 200 -
+2025-09-14 19:54:24 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:54:24] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 19:54:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:54:30] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 19:54:42 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 19:59:42 EDT)" (scheduled at 2025-09-14 19:54:42.803560-04:00)
+2025-09-14 19:54:42 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 19:59:42 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 19:54:53 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:54:53] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 19:54:57 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 19:54:57 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 19:54:58 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:54:58] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 19:54:59 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:54:59] "GET /index HTTP/1.1" 200 -
+2025-09-14 19:55:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:55:00] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 19:55:51 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:55:51] "GET /success?transaction_id=3 HTTP/1.1" 200 -
+2025-09-14 19:55:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:55:52] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 19:56:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:56:32] "GET /how-it-works/ HTTP/1.1" 200 -
+2025-09-14 19:56:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 19:56:32] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 19:57:55 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 19:57:55 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 19:57:56 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 19:57:56 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 19:58:02 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 19:58:03 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 19:58:03 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 19:58:03 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 20:06:08 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 20:06:08 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_utils.py', reloading
+2025-09-14 20:06:09 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 20:06:10 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 20:06:10 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 20:06:41 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:06:41] "GET /how-it-works/ HTTP/1.1" 200 -
+2025-09-14 20:06:41 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:06:41] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 20:07:33 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:07:33] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-14 20:07:33 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:07:33] "GET /index HTTP/1.1" 200 -
+2025-09-14 20:07:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:07:34] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 20:07:38 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 20:09:42 EDT)" was missed by 0:02:55.252129
+2025-09-14 20:07:39 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:07:39] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 20:07:45 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:07:45] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 20:07:49 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 20:07:49 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 20:07:50 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:07:50] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 20:07:51 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:07:51] "GET /index HTTP/1.1" 200 -
+2025-09-14 20:07:51 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:07:51] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 20:09:42 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 20:14:42 EDT)" (scheduled at 2025-09-14 20:09:42.803560-04:00)
+2025-09-14 20:09:42 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 20:14:42 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 20:11:10 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 20:16:10 EDT)" (scheduled at 2025-09-14 20:11:10.863518-04:00)
+2025-09-14 20:11:10 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 20:16:10 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 20:14:42 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 20:19:42 EDT)" (scheduled at 2025-09-14 20:14:42.803560-04:00)
+2025-09-14 20:14:42 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 20:19:42 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 20:16:10 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 20:16:11 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 20:16:13 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 20:16:13 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 20:16:38 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 20:16:38 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 20:16:39 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 20:16:39 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 20:16:39 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 20:16:39 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 20:16:41 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 20:16:42 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 20:16:42 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 20:16:49 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 20:16:49 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 20:16:49 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 20:16:50 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 20:16:50 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 20:16:54 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 20:16:54 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 20:16:54 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 20:16:55 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 20:16:55 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 20:17:06 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 20:17:07 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 20:17:08 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 20:17:08 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 20:17:30 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 20:17:31 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 20:17:32 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 20:17:32 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 20:19:36 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 20:19:37 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 20:19:39 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 20:19:39 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 20:19:42 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 20:24:42 EDT)" (scheduled at 2025-09-14 20:19:42.803560-04:00)
+2025-09-14 20:19:42 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 20:24:42 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 20:19:52 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 20:19:52 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 20:19:53 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 20:19:54 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 20:19:54 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 20:20:08 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 20:20:08 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 20:20:08 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 20:20:08 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 20:20:08 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 20:20:35 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 20:20:35 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 20:20:35 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 20:20:35 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 20:20:35 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 20:20:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:20:47] "GET /index HTTP/1.1" 200 -
+2025-09-14 20:20:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:20:47] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 20:20:53 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:20:53] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 20:21:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:21:05] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 20:21:10 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 20:21:10 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 20:21:11 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:21:11] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 20:21:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:21:12] "GET /index HTTP/1.1" 200 -
+2025-09-14 20:21:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:21:12] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 20:22:39 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 20:22:40 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 20:22:41 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 20:22:41 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 20:22:42 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 20:22:43 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 20:22:44 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 20:22:44 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 20:22:50 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-14 20:22:51 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 20:22:52 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 20:22:52 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 20:23:44 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:23:44] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-14 20:23:44 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:23:44] "GET /index HTTP/1.1" 200 -
+2025-09-14 20:23:45 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:23:45] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 20:23:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:23:52] "[32mGET /accounts/logout/ HTTP/1.1[0m" 302 -
+2025-09-14 20:23:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:23:52] "GET /accounts/login/ HTTP/1.1" 200 -
+2025-09-14 20:23:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:23:52] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 20:23:56 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:23:56] "[32mGET /dev/skip-login/admin HTTP/1.1[0m" 302 -
+2025-09-14 20:23:56 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:23:56] "GET /admin HTTP/1.1" 200 -
+2025-09-14 20:23:56 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 20:23:56] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 20:24:31 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 20:24:32 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 20:24:33 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 20:24:33 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 20:24:34 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/add_authorized_recipients.py', reloading
+2025-09-14 20:24:34 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/add_authorized_recipients.py', reloading
+2025-09-14 20:24:35 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 20:24:36 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 20:24:36 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 20:24:42 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/add_balance.py', reloading
+2025-09-14 20:24:42 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 20:24:43 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 20:24:43 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 20:25:10 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 20:25:10 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 20:25:10 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 20:25:11 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 20:25:11 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 21:42:31 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 21:42:31 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 21:42:31 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 21:42:31 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 21:42:31 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 21:42:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:42:32] "GET /index HTTP/1.1" 200 -
+2025-09-14 21:42:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:42:32] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 21:42:39 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:42:39] "[32mGET /accounts/logout/ HTTP/1.1[0m" 302 -
+2025-09-14 21:42:39 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:42:39] "GET /accounts/login/ HTTP/1.1" 200 -
+2025-09-14 21:42:39 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:42:39] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 21:42:43 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:42:43] "[32mGET /dev/skip-login/seller HTTP/1.1[0m" 302 -
+2025-09-14 21:42:43 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:42:43] "GET /index HTTP/1.1" 200 -
+2025-09-14 21:42:43 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:42:43] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 21:43:27 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:43:27] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 21:43:33 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:43:33] "[32mPOST /create-transaction HTTP/1.1[0m" 302 -
+2025-09-14 21:43:33 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:43:33] "GET /index HTTP/1.1" 200 -
+2025-09-14 21:43:36 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:43:36] "[32mPOST /create-transaction HTTP/1.1[0m" 302 -
+2025-09-14 21:43:36 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:43:36] "GET /index HTTP/1.1" 200 -
+2025-09-14 21:44:04 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:44:04] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 21:45:23 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 21:45:23 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 21:45:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:45:23] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 21:45:25 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:45:25] "GET /index HTTP/1.1" 200 -
+2025-09-14 21:45:25 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:45:25] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 21:45:59 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:45:59] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 21:46:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:46:05] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 21:47:31 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 21:52:31 EDT)" (scheduled at 2025-09-14 21:47:31.097985-04:00)
+2025-09-14 21:47:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 21:52:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 21:47:31 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 21:47:31 EDT)" (scheduled at 2025-09-14 21:47:31.957091-04:00)
+2025-09-14 21:47:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 21:52:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 21:48:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:48:15] "GET /index HTTP/1.1" 200 -
+2025-09-14 21:48:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:48:15] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 21:48:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:48:23] "GET /how-it-works/ HTTP/1.1" 200 -
+2025-09-14 21:48:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:48:23] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 21:48:31 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:48:31] "GET /how-it-works/ HTTP/1.1" 200 -
+2025-09-14 21:48:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:48:32] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 21:51:20 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:51:20] "GET /index HTTP/1.1" 200 -
+2025-09-14 21:51:20 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:51:20] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 21:52:31 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 21:57:31 EDT)" (scheduled at 2025-09-14 21:52:31.097985-04:00)
+2025-09-14 21:52:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 21:57:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 21:52:31 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 21:57:31 EDT)" (scheduled at 2025-09-14 21:52:31.957091-04:00)
+2025-09-14 21:52:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 21:57:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 21:53:12 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 21:53:12 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 21:53:12 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 21:53:13 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 21:53:13 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 21:54:04 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 21:54:04 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 21:54:04 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 21:54:05 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 21:54:05 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 21:54:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:54:05] "GET /index HTTP/1.1" 200 -
+2025-09-14 21:54:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:54:05] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 21:54:10 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:54:10] "GET /index HTTP/1.1" 200 -
+2025-09-14 21:54:10 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:54:10] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 21:54:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:54:12] "GET /index HTTP/1.1" 200 -
+2025-09-14 21:54:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:54:12] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 21:55:10 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 21:55:10 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 21:55:10 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 21:55:11 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 21:55:11 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 21:57:46 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 21:57:46 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 21:57:46 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 21:57:47 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 21:57:47 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 21:57:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:57:47] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-14 21:57:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:57:47] "GET /accounts/login/ HTTP/1.1" 200 -
+2025-09-14 21:57:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:57:47] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 21:57:51 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:57:51] "[32mGET /dev/skip-login/seller HTTP/1.1[0m" 302 -
+2025-09-14 21:57:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:57:52] "GET /index HTTP/1.1" 200 -
+2025-09-14 21:57:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:57:52] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 21:57:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:57:55] "GET /index HTTP/1.1" 200 -
+2025-09-14 21:57:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:57:55] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 21:57:56 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:57:56] "GET /index HTTP/1.1" 200 -
+2025-09-14 21:57:56 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:57:56] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 21:58:04 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:58:04] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-14 21:58:04 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:58:04] "GET /index HTTP/1.1" 200 -
+2025-09-14 21:58:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:58:05] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 21:58:10 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:58:10] "GET /index HTTP/1.1" 200 -
+2025-09-14 21:58:10 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:58:10] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 21:58:13 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:58:13] "[32mGET /accounts/logout/ HTTP/1.1[0m" 302 -
+2025-09-14 21:58:13 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:58:13] "GET /accounts/login/ HTTP/1.1" 200 -
+2025-09-14 21:58:13 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:58:13] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 21:58:16 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:58:16] "[32mGET /dev/skip-login/seller HTTP/1.1[0m" 302 -
+2025-09-14 21:58:16 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:58:16] "GET /index HTTP/1.1" 200 -
+2025-09-14 21:58:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 21:58:17] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 21:59:41 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 21:59:41 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 21:59:41 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 21:59:41 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 21:59:41 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 22:00:14 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 22:00:14 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 22:00:14 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:00:14 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 22:00:14 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 22:00:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:00:15] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-14 22:00:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:00:15] "GET /accounts/login/ HTTP/1.1" 200 -
+2025-09-14 22:00:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:00:15] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:00:19 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:00:19] "[32mGET /dev/skip-login/seller HTTP/1.1[0m" 302 -
+2025-09-14 22:00:19 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:00:19] "GET /index HTTP/1.1" 200 -
+2025-09-14 22:00:19 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:00:19] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:00:29 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:00:29] "GET /index HTTP/1.1" 200 -
+2025-09-14 22:00:29 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:00:29] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:02:15 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 22:02:15 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 22:02:15 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:02:16 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 22:02:16 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 22:03:05 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 22:03:05 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 22:03:05 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:03:06 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 22:03:06 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 22:03:06 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:03:06] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-14 22:03:06 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:03:06] "GET /accounts/login/ HTTP/1.1" 200 -
+2025-09-14 22:03:06 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:03:06] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:03:09 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:03:09] "[32mGET /dev/skip-login/seller HTTP/1.1[0m" 302 -
+2025-09-14 22:03:09 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:03:09] "GET /index HTTP/1.1" 200 -
+2025-09-14 22:03:09 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:03:09] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:03:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:03:17] "GET /index HTTP/1.1" 200 -
+2025-09-14 22:03:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:03:17] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:03:20 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:03:20] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-14 22:03:20 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:03:20] "GET /index HTTP/1.1" 200 -
+2025-09-14 22:03:21 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:03:21] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:03:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:03:26] "[32mGET /accounts/logout/ HTTP/1.1[0m" 302 -
+2025-09-14 22:03:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:03:26] "GET /accounts/login/ HTTP/1.1" 200 -
+2025-09-14 22:03:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:03:26] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:03:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:03:30] "[32mGET /dev/skip-login/seller HTTP/1.1[0m" 302 -
+2025-09-14 22:03:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:03:30] "GET /index HTTP/1.1" 200 -
+2025-09-14 22:03:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:03:30] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:04:44 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:04:44] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-14 22:04:44 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:04:44] "GET /index HTTP/1.1" 200 -
+2025-09-14 22:04:45 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:04:45] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:04:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:04:55] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 22:04:57 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:04:57] "GET /api/events?q=mic HTTP/1.1" 200 -
+2025-09-14 22:05:07 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:05:07] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 22:05:12 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 22:05:12 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 22:05:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:05:12] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 22:05:16 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:05:16] "GET /index HTTP/1.1" 200 -
+2025-09-14 22:05:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:05:17] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:06:32 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 22:06:32 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 22:06:32 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:08:25 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 22:08:25 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 22:08:25 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:08:26 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 22:08:26 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 22:08:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:08:28] "GET /index HTTP/1.1" 200 -
+2025-09-14 22:08:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:08:28] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:08:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:08:30] "GET /index HTTP/1.1" 200 -
+2025-09-14 22:08:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:08:30] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:08:33 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:08:33] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 22:08:43 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:08:43] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 22:08:47 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 22:08:48 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 22:08:48 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:08:48] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 22:08:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:08:49] "GET /index HTTP/1.1" 200 -
+2025-09-14 22:08:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:08:49] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:13:25 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 22:18:25 EDT)" (scheduled at 2025-09-14 22:13:25.622945-04:00)
+2025-09-14 22:13:25 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 22:18:25 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 22:13:26 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 22:18:26 EDT)" (scheduled at 2025-09-14 22:13:26.802433-04:00)
+2025-09-14 22:13:26 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 22:18:26 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 22:18:25 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 22:23:25 EDT)" (scheduled at 2025-09-14 22:18:25.622945-04:00)
+2025-09-14 22:18:25 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 22:23:25 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 22:18:26 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 22:23:26 EDT)" (scheduled at 2025-09-14 22:18:26.802433-04:00)
+2025-09-14 22:18:26 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 22:23:26 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 22:18:42 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 22:18:42 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 22:18:42 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:18:43 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 22:18:43 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 22:19:37 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 22:19:37 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 22:19:37 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:19:37 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 22:19:37 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 22:19:38 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:19:38] "GET /index HTTP/1.1" 200 -
+2025-09-14 22:19:38 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:19:38] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:22:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:22:22] "[35m[1mGET /pay/1 HTTP/1.1[0m" 500 -
+2025-09-14 22:22:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:22:22] "GET /pay/1?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-09-14 22:22:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:22:22] "GET /pay/1?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-09-14 22:22:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:22:22] "GET /pay/1?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-09-14 22:22:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:22:22] "[36mGET /pay/1?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-09-14 22:23:55 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 22:23:56 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:23:58 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 22:23:58 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 22:24:35 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-14 22:24:36 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:24:37 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 22:29:37 EDT)" (scheduled at 2025-09-14 22:24:37.269146-04:00)
+2025-09-14 22:24:37 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 22:29:37 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 22:24:37 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 22:24:37 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 22:24:46 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 22:24:46 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 22:24:46 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:24:46 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 22:24:46 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 22:25:29 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 22:25:29 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 22:25:29 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:25:30 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 22:25:30 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 22:26:15 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 22:26:15 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 22:26:15 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:26:16 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 22:26:16 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 22:26:16 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:26:16] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-14 22:26:16 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:26:16] "GET /index HTTP/1.1" 200 -
+2025-09-14 22:26:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:26:17] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:26:24 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 22:26:25 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 22:26:25 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:26:25] "POST /api/transactions/1/pay HTTP/1.1" 200 -
+2025-09-14 22:26:31 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:26:31] "GET /payment-success/1 HTTP/1.1" 200 -
+2025-09-14 22:26:31 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:26:31] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:26:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:26:34] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-14 22:26:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:26:34] "GET /index HTTP/1.1" 200 -
+2025-09-14 22:26:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:26:34] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:28:07 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 22:28:07 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:28:08 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 22:28:08 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 22:28:16 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 22:28:16 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 22:28:17 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:28:17 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 22:28:17 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 22:28:51 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 22:28:51 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 22:28:51 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:28:52 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 22:28:52 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 22:29:39 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 22:29:39 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 22:29:39 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:29:40 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 22:29:40 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 22:30:21 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 22:30:21 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 22:30:21 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:30:21 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 22:30:21 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 22:30:21 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:30:21] "GET /index HTTP/1.1" 200 -
+2025-09-14 22:30:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:30:22] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:30:50 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:30:50] "GET /api/events?q=mic HTTP/1.1" 200 -
+2025-09-14 22:30:57 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:30:57] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 22:31:01 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 22:31:02 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 22:31:02 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:31:02] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 22:31:04 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:31:04] "GET /index HTTP/1.1" 200 -
+2025-09-14 22:31:04 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:31:04] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:31:23 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 22:31:24 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 22:31:24 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:31:24] "POST /api/transactions/2/pay HTTP/1.1" 200 -
+2025-09-14 22:31:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:31:30] "GET /payment-success/2 HTTP/1.1" 200 -
+2025-09-14 22:31:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:31:30] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:31:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:31:34] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-14 22:31:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:31:34] "GET /index HTTP/1.1" 200 -
+2025-09-14 22:31:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 22:31:35] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 22:33:03 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 22:33:04 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:33:05 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 22:33:05 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 22:33:10 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 22:33:11 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:33:12 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 22:33:12 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 22:33:29 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 22:33:29 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 22:33:29 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 22:33:29 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 22:33:29 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 23:16:16 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 23:16:16 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 23:16:16 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 23:16:17 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 23:16:17 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 23:16:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:16:17] "GET /index HTTP/1.1" 200 -
+2025-09-14 23:16:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:16:17] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 23:16:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:16:32] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 23:16:45 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:16:45] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 23:16:59 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 23:16:59 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 23:17:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:17:00] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 23:17:01 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:17:01] "GET /index HTTP/1.1" 200 -
+2025-09-14 23:17:01 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:17:01] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 23:17:09 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 23:17:10 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 23:17:10 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:17:10] "POST /api/transactions/3/pay HTTP/1.1" 200 -
+2025-09-14 23:17:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:17:15] "GET /payment-success/3 HTTP/1.1" 200 -
+2025-09-14 23:17:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:17:15] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 23:17:39 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:17:39] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-14 23:17:39 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:17:39] "GET /index HTTP/1.1" 200 -
+2025-09-14 23:17:40 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:17:40] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 23:19:38 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 23:19:39 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 23:19:40 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 23:19:40 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 23:19:48 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 23:19:49 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 23:19:49 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 23:19:49 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 23:20:01 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 23:20:01 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 23:20:01 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 23:20:02 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 23:20:02 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 23:21:22 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 23:21:22 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 23:21:22 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 23:21:23 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 23:21:23 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 23:21:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:21:23] "GET /index HTTP/1.1" 200 -
+2025-09-14 23:21:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:21:23] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 23:21:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:21:28] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 23:21:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:21:37] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 23:21:43 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 23:21:43 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 23:21:44 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:21:44] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 23:21:46 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:21:46] "GET /index HTTP/1.1" 200 -
+2025-09-14 23:21:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:21:47] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 23:21:53 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 23:21:53 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 23:21:53 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:21:53] "POST /api/transactions/1/pay HTTP/1.1" 200 -
+2025-09-14 23:21:59 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:21:59] "GET /payment-success/1 HTTP/1.1" 200 -
+2025-09-14 23:22:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:22:00] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 23:22:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:22:05] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-14 23:22:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:22:05] "GET /index HTTP/1.1" 200 -
+2025-09-14 23:22:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:22:05] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 23:22:25 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:22:25] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 23:22:31 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:22:31] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 23:22:36 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 23:22:37 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 23:22:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:22:37] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 23:22:38 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:22:38] "GET /index HTTP/1.1" 200 -
+2025-09-14 23:22:39 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:22:39] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 23:22:44 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 23:22:45 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=400
+2025-09-14 23:22:45 - stripe - INFO - log_info:128 - error_code=parameter_invalid_integer error_message='Invalid integer: 10011.0' error_param=line_items[0][price_data][unit_amount] error_type=invalid_request_error message='Stripe v1 API error received'
+2025-09-14 23:22:45 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:22:45] "[35m[1mPOST /api/transactions/2/pay HTTP/1.1[0m" 500 -
+2025-09-14 23:23:36 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:23:36] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 23:23:44 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:23:44] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 23:23:48 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 23:23:48 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 23:23:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:23:49] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 23:23:50 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:23:50] "GET /index HTTP/1.1" 200 -
+2025-09-14 23:23:50 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:23:50] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 23:23:57 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 23:23:58 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=400
+2025-09-14 23:23:58 - stripe - INFO - log_info:128 - error_code=parameter_invalid_integer error_message='Invalid integer: 10011.0' error_param=line_items[0][price_data][unit_amount] error_type=invalid_request_error message='Stripe v1 API error received'
+2025-09-14 23:23:58 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:23:58] "[35m[1mPOST /api/transactions/3/pay HTTP/1.1[0m" 500 -
+2025-09-14 23:24:33 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-14 23:24:34 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 23:24:35 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 23:24:35 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 23:24:44 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage.py', reloading
+2025-09-14 23:24:45 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 23:24:46 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 23:24:46 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 23:24:52 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 23:24:53 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 23:24:53 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 23:24:53 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 23:24:58 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 23:24:59 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 23:24:59 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 23:24:59 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 23:26:22 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 23:31:22 EDT)" (scheduled at 2025-09-14 23:26:22.749734-04:00)
+2025-09-14 23:26:22 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-14 23:31:22 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-14 23:53:36 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-14 23:53:36 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage.py', reloading
+2025-09-14 23:53:36 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 23:53:37 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 23:53:38 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 23:53:38 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 23:53:42 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 23:53:42 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-14 23:53:42 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage.py', reloading
+2025-09-14 23:53:42 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-14 23:53:43 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 23:53:46 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 23:53:46 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 23:54:26 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-14 23:54:27 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 23:54:28 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 23:54:28 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 23:54:32 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage.py', reloading
+2025-09-14 23:54:32 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 23:54:33 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 23:54:33 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 23:55:06 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 23:55:06 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 23:55:06 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 23:55:06 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 23:55:06 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 23:56:23 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-14 23:56:23 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-14 23:56:23 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-14 23:56:24 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-14 23:56:24 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-14 23:56:25 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:56:25] "GET /index HTTP/1.1" 200 -
+2025-09-14 23:56:25 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:56:25] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 23:56:39 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:56:39] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-14 23:56:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:56:52] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-14 23:56:56 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 23:56:57 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 23:56:57 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:56:57] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-14 23:56:58 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:56:58] "GET /index HTTP/1.1" 200 -
+2025-09-14 23:56:58 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:56:58] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 23:57:05 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-14 23:57:06 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-14 23:57:06 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:57:06] "POST /api/transactions/4/pay HTTP/1.1" 200 -
+2025-09-14 23:57:11 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:57:11] "GET /payment-success/4 HTTP/1.1" 200 -
+2025-09-14 23:57:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:57:12] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-14 23:57:16 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:57:16] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-14 23:57:16 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:57:16] "GET /index HTTP/1.1" 200 -
+2025-09-14 23:57:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [14/Sep/2025 23:57:17] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-15 00:01:23 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-15 00:06:23 EDT)" (scheduled at 2025-09-15 00:01:23.742124-04:00)
+2025-09-15 00:01:23 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-15 00:06:23 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-15 00:01:24 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-15 00:06:24 EDT)" (scheduled at 2025-09-15 00:01:24.769600-04:00)
+2025-09-15 00:01:24 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-15 00:06:24 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'

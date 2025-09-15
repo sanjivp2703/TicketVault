@@ -93,65 +93,6 @@ def get_balance_history(user_email, limit=50):
     ).fetchall()
     return history
 
-@insta485.app.route('/balance')
-def show_balance():
-    """Show seller's balance and earnings dashboard."""
-    if 'email' not in flask.session:
-        return redirect(url_for('show_accounts', url='login'))
-    
-    logemail = flask.session['email']
-    connection = insta485.model.get_db()
-    
-    # Get user balance
-    user = connection.execute(
-        "SELECT balance FROM users WHERE email = ?",
-        (logemail,)
-    ).fetchone()
-    
-    if not user:
-        flask.abort(404)
-    
-    # Get balance history
-    balance_history = connection.execute(
-        "SELECT bc.*, t.transaction_id as ref_transaction_id "
-        "FROM balance_changes bc "
-        "LEFT JOIN transactions t ON bc.transaction_id_ref = t.transaction_id "
-        "WHERE bc.user_email = ? "
-        "ORDER BY bc.created DESC LIMIT 20",
-        (logemail,)
-    ).fetchall()
-    
-    # Get recent successful transactions (earnings)
-    recent_earnings = connection.execute(
-        "SELECT t.transaction_id, t.price, e.name as event_name, t.status, "
-        "bc.created as earning_date "
-        "FROM transactions t "
-        "JOIN events e ON t.event_id = e.event_id "
-        "LEFT JOIN balance_changes bc ON t.transaction_id = bc.transaction_id_ref AND bc.change_type = 'earning' "
-        "WHERE t.seller_email = ? AND t.status IN ('completed', 'complaint_resolved_seller') "
-        "ORDER BY COALESCE(bc.created, t.payment_received_time) DESC LIMIT 10",
-        (logemail,)
-    ).fetchall()
-    
-    # Get withdrawal history
-    withdrawals = connection.execute(
-        "SELECT change_id, user_email, amount, created, change_type "
-        "FROM balance_changes "
-        "WHERE user_email = ? AND change_type = 'withdrawal' "
-        "ORDER BY created DESC LIMIT 10",
-        (logemail,)
-    ).fetchall()
-    
-    context = {
-        'logemail': logemail,
-        'balance': user['balance'],
-        'balance_history': balance_history,
-        'recent_earnings': recent_earnings,
-        'withdrawals': withdrawals,
-        'user_type': 'seller'  # Always seller for balance page
-    }
-    
-    return flask.render_template('balance.html', **context)
 
 @insta485.app.route('/secure-withdrawal', methods=['GET'])
 def secure_withdrawal():
@@ -251,7 +192,7 @@ def withdraw_funds():
         connection.commit()
         
         flash(f"✅ Withdrawal request for ${amount} submitted successfully! We'll process it within 3-5 business days.", "success")
-        return redirect(url_for('show_balance'))
+        return redirect(url_for('show_index'))
         
     except Exception as e:
         print(f"[WITHDRAWAL ERROR] Failed to create withdrawal request: {e}")
@@ -282,7 +223,7 @@ def simulate_withdrawal():
     
     if amount <= 0:
         flash("No funds available for withdrawal.", "error")
-        return redirect(url_for('show_balance'))
+        return redirect(url_for('show_index'))
     
     try:
         # Update user balance
@@ -313,4 +254,4 @@ def simulate_withdrawal():
         connection.rollback()
         flash("Failed to simulate withdrawal. Please try again.", "error")
     
-    return redirect(url_for('show_balance')) 
+    return redirect(url_for('show_index')) 

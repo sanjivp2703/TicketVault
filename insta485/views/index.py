@@ -295,7 +295,7 @@ def skip_login(user_type):
         return flask.redirect(url_for('admin_dashboard'))
     elif user_type in ['seller', 'user']:
         # Log in as seller (all users are sellers now)
-        flask.session['email'] = 'user2@gmail.com'
+        flask.session['email'] = 'sanjivp2703@gmail.com'
         return flask.redirect(url_for('show_index'))
     else:
         flask.flash('Invalid user type for skip login')
@@ -504,46 +504,6 @@ Ticketmaster Support
         return flask.jsonify({'success': False, 'error': str(e)}), 500
 
 
-@insta485.app.route('/pay/<int:transaction_id>')
-def buyer_payment_page(transaction_id):
-    """Display payment page for buyers"""
-    connection = insta485.model.get_db()
-
-    # Get transaction details
-    transaction = connection.execute("""
-        SELECT t.*, e.name as event_name, e.location, e.event_datetime
-        FROM transactions t
-        JOIN events e ON t.event_id = e.event_id
-        WHERE t.transaction_id = ?
-    """, (transaction_id,)).fetchone()
-
-    if not transaction:
-        flask.abort(404)
-
-    # Check if transaction is in correct state for payment
-    if transaction['status'] != 'waiting_for_payment':
-        flask.flash(f'Transaction is not available for payment. Status: {transaction["status"]}')
-        return flask.redirect(flask.url_for('show_index'))
-
-    # Check if payment deadline has passed
-    if transaction['payment_deadline']:
-        try:
-            if 'T' in transaction['payment_deadline']:
-                payment_deadline = datetime.datetime.fromisoformat(transaction['payment_deadline'].replace('Z', '+00:00'))
-            else:
-                payment_deadline = datetime.datetime.strptime(transaction['payment_deadline'], '%Y-%m-%d %H:%M:%S')
-
-            if datetime.datetime.now() > payment_deadline:
-                flask.flash('Payment deadline has passed for this transaction.')
-                return flask.redirect(flask.url_for('show_index'))
-        except ValueError:
-            pass  # Continue if date parsing fails
-
-    return flask.render_template('buyer_payment.html', 
-                               transaction=transaction,
-                               transaction_id=transaction_id)
-
-
 @insta485.app.route('/pay/<int:transaction_id>/process', methods=['POST'])
 def process_buyer_payment(transaction_id):
     """Process buyer payment through Stripe"""
@@ -628,6 +588,19 @@ def payment_success(transaction_id):
         # Forward tickets to buyer
         transaction_manager._forward_ticket_to_buyer(transaction_id, connection)
 
+        # Add funds to seller balance (price * 1.1, converted to cents)
+        seller_amount_dollars = float(transaction['price']) * 1.1
+        seller_amount_cents = int(seller_amount_dollars * 100)
+        
+        # Add funds to seller balance (using users.balance column, stored in cents)
+        connection.execute("""
+            UPDATE users 
+            SET balance = balance + ?
+            WHERE email = ?
+        """, (seller_amount_cents, transaction['seller_email']))
+        
+        print(f"💰 Added ${seller_amount_dollars:.2f} ({seller_amount_cents} cents) to seller {transaction['seller_email']} balance")
+
         flask.flash('Payment successful! Your tickets have been sent to your email.')
 
     except Exception as e:
@@ -636,7 +609,12 @@ def payment_success(transaction_id):
 
     return flask.render_template('payment_success.html', 
                                transaction=transaction,
-                               transaction_id=transaction_id)
+                               transaction_id=transaction_id,
+                               buyer_email=transaction['buyer_email'],
+                               price=transaction['price'],
+                               payment_time="Just now",
+                               event_name=transaction['event_name'],
+                               email_sent=True)
 # Removed separate create_listing route - listing creation is now done directly on home page
 
 
@@ -1260,16 +1238,31 @@ def email_accept(transaction_id):
     return insta485.views.manage.send_payment_buyer(transaction_id)
 
 @insta485.app.route('/success')
-def payment_success():
+def payment_success_generic():
     """Handle successful payment by updating status and showing success page."""
-    if 'transaction_id' not in flask.session:
+    # Get transaction_id from query parameter (since buyer doesn't have a session)
+    transaction_id = flask.request.args.get('transaction_id')
+    
+    if not transaction_id:
+        # Also check session as fallback for backwards compatibility
+        transaction_id = flask.session.pop('transaction_id', None) if 'transaction_id' in flask.session else None
+    
+    if not transaction_id:
         return flask.render_template('payment_success.html', 
                                    transaction_id="UNKNOWN",
-                                   buyer_email="buyer@example.com",
+                                   buyer_email="UNKNOWN",
                                    price=0.00,
                                    payment_time="Unknown")
     
-    transaction_id = flask.session.pop('transaction_id', None)
+    # Convert to int if it's a string
+    try:
+        transaction_id = int(transaction_id)
+    except (ValueError, TypeError):
+        return flask.render_template('payment_success.html', 
+                                   transaction_id="INVALID",
+                                   buyer_email="UNKNOWN",
+                                   price=0.00,
+                                   payment_time="Unknown")
     connection = insta485.model.get_db()
     
     # Get event time and transaction info for confirmation email
@@ -1286,7 +1279,7 @@ def payment_success():
     if not row:
         return flask.render_template('payment_success.html', 
                                    transaction_id=transaction_id,
-                                   buyer_email="buyer@example.com",
+                                   buyer_email="UNKNOWN",
                                    price=0.00,
                                    payment_time="Unknown")
     
@@ -1338,31 +1331,27 @@ def payment_success():
     
     # AUTOMATIC FUND RELEASE - Add funds to seller balance
     try:
-        # Calculate seller amount (minus platform fee)
-        platform_fee_rate = 0.03  # 3% platform fee
-        seller_amount = float(row['price']) * (1 - platform_fee_rate)
+        # Calculate seller amount (price * 1.1 as requested, converted to cents)
+        seller_amount_dollars = float(row['price']) * 1.1
+        seller_amount_cents = int(seller_amount_dollars * 100)
         
-        # Add to seller balance
+        # Add to seller balance (using users.balance column, stored in cents)
         connection.execute("""
-            INSERT OR IGNORE INTO user_balances (email, balance) VALUES (?, 0)
-        """, (row['seller_email'],))
-        
-        connection.execute("""
-            UPDATE user_balances 
+            UPDATE users 
             SET balance = balance + ?
             WHERE email = ?
-        """, (seller_amount, row['seller_email']))
+        """, (seller_amount_cents, row['seller_email']))
         
         # Send fund notification to seller
         mailgun_sender.send_seller_payment_received(
             seller_email=row['seller_email'],
             transaction_id=transaction_id,
             event_name=row['event_name'],
-            amount=seller_amount,
+            amount=seller_amount_dollars,
             buyer_email=row['buyer_email']
         )
         
-        print(f"💰 AUTO-RELEASE: ${seller_amount:.2f} added to seller {row['seller_email']} balance")
+        print(f"💰 AUTO-RELEASE: ${seller_amount_dollars:.2f} ({seller_amount_cents} cents) added to seller {row['seller_email']} balance")
         
     except Exception as e:
         print(f"❌ AUTO-RELEASE ERROR: {e}")

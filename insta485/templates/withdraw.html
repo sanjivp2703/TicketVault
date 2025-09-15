@@ -4,8 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Withdraw Funds - Safe Transaction</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            /* Trust-Building Color Palette */
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #00d4aa 0%, #00c896 100%);
+            --warning-gradient: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+            --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            --info-gradient: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            
+            /* Sophisticated Neutrals */
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-tertiary: #94a3b8;
+            --border-light: #e2e8f0;
+            --border-medium: #cbd5e1;
+            
+            /* Interactive States */
+            --hover-lift: translateY(-2px);
+            --hover-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            --active-scale: scale(0.98);
+            
+            /* Modern Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 0.75rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            
+            /* Border Radius System */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-2xl: 24px;
+            --radius-full: 9999px;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,207 +56,554 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            /* Subtle scrollbar styling */
+            scrollbar-width: thin;
+            scrollbar-color: rgba(148, 163, 184, 0.2) transparent;
         }
 
-        .container {
-            max-width: 600px;
+        /* Global subtle scrollbar for webkit browsers */
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.15);
+            border-radius: 4px;
+        }
+
+        body::-webkit-scrollbar-thumb:hover {
+            background: rgba(148, 163, 184, 0.25);
+        }
+
+        /* Main Layout - Full Width Modern */
+        .app-container {
+            max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+            min-height: 100vh;
         }
 
-        .header {
-            background: linear-gradient(135deg, #28a745, #20c997);
-            color: white;
-            padding: 30px;
-            text-align: center;
+
+        /* Modern App Header */
+        .app-header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
         }
 
-        .header h1 {
-            margin-bottom: 10px;
+        .header-navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-md) var(--space-lg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .logo {
             font-size: 24px;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            letter-spacing: -0.02em;
         }
 
-        .content {
-            padding: 40px;
+        .page-header {
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-light);
+            padding: var(--space-xl) 0;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-md);
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--text-primary);
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+            line-height: 1.2;
+        }
+
+        .page-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .main-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--space-2xl) var(--space-lg);
+            background: var(--bg-primary);
+        }
+
+        .withdrawal-form {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border-light);
+        }
+
+        .form-section {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-md);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .section-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--success-gradient);
+            color: white;
+            border-radius: var(--radius-full);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
         }
 
         .balance-info {
-            background: #e8f5e8;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            text-align: center;
-            border-left: 4px solid #28a745;
+            background: linear-gradient(135deg, #dcfce7 0%, #f0fdf4 100%);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            border: 1px solid #bbf7d0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .balance-label {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
 
         .balance-amount {
             font-size: 28px;
-            font-weight: 700;
-            color: #28a745;
-            margin-bottom: 8px;
+            font-weight: 800;
+            background: var(--success-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: var(--space-xl);
         }
 
-        label {
+        .form-label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: var(--space-sm);
             font-weight: 600;
-            color: #333;
+            color: var(--text-primary);
+            font-size: 15px;
+            letter-spacing: -0.01em;
         }
 
-        input[type="number"], input[type="text"], select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+        .form-description {
             font-size: 14px;
-            transition: border-color 0.3s ease;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-md);
+            line-height: 1.5;
         }
 
-        input:focus, select:focus {
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: var(--space-lg) var(--space-md);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-md);
+            font-size: 16px;
+            font-family: inherit;
+            font-weight: 500;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            appearance: none;
+        }
+
+        .form-input:focus {
             outline: none;
-            border-color: #28a745;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-tertiary);
+            font-weight: 400;
+        }
+
+        .currency-symbol {
+            position: absolute;
+            left: var(--space-md);
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+
+        .currency-input {
+            padding-left: 2.5rem;
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: var(--space-lg);
         }
 
         .btn-submit {
-            background: #28a745;
+            background: var(--success-gradient);
             color: white;
             border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
+            padding: var(--space-lg) var(--space-xl);
+            border-radius: var(--radius-md);
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             width: 100%;
-            transition: background 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0, 212, 170, 0.3);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-xs);
         }
 
         .btn-submit:hover {
-            background: #218838;
+            transform: var(--hover-lift);
+            box-shadow: var(--hover-shadow);
         }
 
         .btn-cancel {
-            background: #6c757d;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-medium);
+            padding: var(--space-md) var(--space-lg);
+            border-radius: var(--radius-md);
             font-size: 14px;
             text-decoration: none;
             display: inline-block;
             text-align: center;
-            margin-top: 15px;
+            margin-top: var(--space-lg);
             width: 100%;
-            transition: background 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
         }
 
         .btn-cancel:hover {
-            background: #5a6268;
-            color: white;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
             text-decoration: none;
+            transform: var(--hover-lift);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
 
         .security-info {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            border-left: 4px solid #007bff;
+            background: var(--bg-tertiary);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            margin-top: var(--space-lg);
+            border: 1px solid var(--border-light);
         }
 
         .security-info h4 {
-            color: #007bff;
-            margin-bottom: 10px;
+            color: var(--text-primary);
+            margin-bottom: var(--space-md);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
         }
 
         .security-info ul {
             margin: 0;
-            padding-left: 20px;
-            color: #666;
+            padding-left: var(--space-lg);
+            color: var(--text-secondary);
         }
 
         .security-info li {
-            margin-bottom: 5px;
+            margin-bottom: var(--space-xs);
             font-size: 14px;
+            line-height: 1.5;
         }
 
         .warning {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 20px;
-            color: #856404;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 1px solid #f59e0b;
+            border-radius: var(--radius-md);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+            color: #92400e;
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-md);
         }
 
         .flash-message {
-            padding: 12px 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            background: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
+            padding: var(--space-md) var(--space-lg);
+            margin-bottom: var(--space-lg);
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, #dcfce7 0%, #f0fdf4 100%);
+            border: 1px solid #bbf7d0;
+            color: #065f46;
         }
 
         .flash-message.error {
-            background: #f8d7da;
-            border-color: #f1aeb5;
-            color: #721c24;
+            background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+            border-color: #f87171;
+            color: #7f1d1d;
         }
 
         .input-help {
             font-size: 12px;
-            color: #666;
-            margin-top: 5px;
+            color: var(--text-secondary);
+            margin-top: var(--space-xs);
+            line-height: 1.4;
         }
 
-        .amount-suggestions {
+        .quick-amounts {
             display: flex;
-            gap: 10px;
-            margin-top: 10px;
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+            flex-wrap: wrap;
         }
 
-        .amount-btn {
-            background: #f8f9fa;
-            border: 2px solid #e0e0e0;
-            padding: 8px 16px;
-            border-radius: 6px;
+        .amount-chip {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-light);
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-full);
             cursor: pointer;
             font-size: 14px;
-            transition: all 0.3s ease;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-primary);
+            white-space: nowrap;
         }
 
-        .amount-btn:hover {
-            background: #e8f5e8;
-            border-color: #28a745;
-            color: #28a745;
+        .amount-chip:hover {
+            background: linear-gradient(135deg, #dcfce7 0%, #f0fdf4 100%);
+            border-color: #059669;
+            color: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(5, 150, 105, 0.15);
+        }
+
+        .withdrawal-summary {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            margin: var(--space-xl) 0;
+            border: 1px solid var(--border-light);
+        }
+
+        .summary-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-md) 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .summary-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .summary-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .app-container {
+                max-width: 1000px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                padding: var(--space-md);
+            }
+            
+            .header-content,
+            .main-content {
+                padding-left: var(--space-md);
+                padding-right: var(--space-md);
+            }
+
+            .withdrawal-form {
+                padding: var(--space-xl);
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: var(--space-md);
+            }
+
+            .balance-info {
+                flex-direction: column;
+                text-align: center;
+                gap: var(--space-sm);
+            }
+
+            .quick-amounts {
+                justify-content: center;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: var(--space-lg) var(--space-sm);
+            }
+
+            .withdrawal-form {
+                padding: var(--space-lg);
+            }
+
+            .quick-amounts {
+                flex-direction: column;
+                gap: var(--space-xs);
+            }
+
+            .amount-chip {
+                text-align: center;
+                justify-content: center;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-sm);
+            }
+
+            .breadcrumb {
+                font-size: 12px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1><i class="fa fa-bank"></i> Withdraw Funds</h1>
-            <p>Transfer your earnings to your bank account</p>
-        </div>
+    <div class="app-container">
+        <!-- Safe Transaction Header -->
+        <header class="app-header">
+            <div class="header-navbar">
+                <div class="logo-section">
+                    <a href="{{ url_for('show_index') }}" class="logo">
+                        Safe Transaction
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Header -->
+        <header class="page-header">
+            <div class="header-content">
+                <nav class="breadcrumb">
+                    <a href="{{ url_for('show_index') }}">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <span>></span>
+                    <span>Withdraw</span>
+                </nav>
+                <h1 class="page-title">Withdraw funds</h1>
+                <p class="page-subtitle">Transfer your earnings securely to your bank account</p>
+            </div>
+        </header>
         
-        <div class="content">
+        <!-- Main Content -->
+        <main class="main-content">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
@@ -224,93 +614,137 @@
                 {% endif %}
             {% endwith %}
 
+            <!-- Balance Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-number">1</div>
+                    <h2 class="section-title">Available balance</h2>
+                </div>
             <div class="balance-info">
-                <div class="balance-amount">${{ balance }}</div>
-                <div>Available Balance</div>
+                    <div>
+                        <div class="balance-label">Available to withdraw</div>
+                    </div>
+                    <div class="balance-amount">${{ "%.2f"|format(balance / 100) }}</div>
+                </div>
             </div>
 
-            {% if balance < 10 %}
+            {% if balance < 1000 %}
                 <div class="warning">
-                    <i class="fa fa-exclamation-triangle"></i>
-                    <strong>Minimum withdrawal amount is $10.</strong> Complete more transactions to withdraw funds.
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <strong>Minimum withdrawal amount is $10.</strong><br>
+                        Complete more transactions to build up your withdrawable balance.
+                    </div>
                 </div>
-                <a href="{{ url_for('show_balance') }}" class="btn-cancel">Back to Balance</a>
+                <a href="{{ url_for('show_index') }}" class="btn-cancel">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
             {% else %}
-                <form method="post">
-                    <div class="form-group">
-                        <label for="amount"><i class="fa fa-dollar"></i> Withdrawal Amount</label>
-                        <input type="number" id="amount" name="amount" min="10" max="{{ balance }}" 
-                               placeholder="Enter amount to withdraw" required>
-                        <div class="input-help">Minimum: $10 | Maximum: ${{ balance }}</div>
-                        <div class="amount-suggestions">
-                            {% if balance >= 50 %}
-                                <button type="button" class="amount-btn" onclick="setAmount(50)">$50</button>
-                            {% endif %}
-                            {% if balance >= 100 %}
-                                <button type="button" class="amount-btn" onclick="setAmount(100)">$100</button>
-                            {% endif %}
-                            {% if balance >= 200 %}
-                                <button type="button" class="amount-btn" onclick="setAmount(200)">$200</button>
-                            {% endif %}
-                            <button type="button" class="amount-btn" onclick="setAmount({{ balance }})">All (${{ balance }})</button>
-                        </div>
+                <form method="post" class="withdrawal-form">
+                    <input type="hidden" 
+                           id="amount" 
+                           name="amount" 
+                           value="{{ "%.2f"|format(balance / 100) }}">
+
+                    <!-- Bank Details Section -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <div class="section-number">2</div>
+                            <h2 class="section-title">Where should we send the money?</h2>
                     </div>
 
                     <div class="form-group">
-                        <label for="bank_name"><i class="fa fa-university"></i> Bank Name</label>
-                        <input type="text" id="bank_name" name="bank_name" 
-                               placeholder="e.g., Chase, Bank of America" required>
+                            <label class="form-label" for="bank_name">Bank name</label>
+                            <p class="form-description">The name of your bank or financial institution</p>
+                            <input type="text" 
+                                   id="bank_name" 
+                                   name="bank_name" 
+                                   class="form-input"
+                                   placeholder="e.g., Chase, Bank of America, Wells Fargo" 
+                                   required>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="routing_number"><i class="fa fa-hashtag"></i> Routing Number</label>
-                            <input type="text" id="routing_number" name="routing_number" 
-                                   pattern="[0-9]{9}" maxlength="9" placeholder="9-digit routing number" required>
-                            <div class="input-help">9-digit bank routing number</div>
+                                <label class="form-label" for="routing_number">Routing number</label>
+                                <p class="form-description">9-digit number found on your checks</p>
+                                <input type="text" 
+                                       id="routing_number" 
+                                       name="routing_number" 
+                                       class="form-input"
+                                       pattern="[0-9]{9}" 
+                                       maxlength="9" 
+                                       placeholder="123456789" 
+                                       required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="account_number">Account number</label>
+                                <p class="form-description">Your checking account number</p>
+                                <input type="text" 
+                                       id="account_number" 
+                                       name="account_number" 
+                                       class="form-input"
+                                       placeholder="Account number" 
+                                       required>
+                                <div class="input-help">
+                                    <i class="fas fa-shield-alt"></i>
+                                    We encrypt and only store the last 4 digits for security
+                                </div>
+                            </div>
+                        </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="account_number"><i class="fa fa-credit-card"></i> Account Number</label>
-                            <input type="text" id="account_number" name="account_number" 
-                                   placeholder="Your account number" required>
-                            <div class="input-help">We only store last 4 digits</div>
+                    <!-- Summary Section -->
+                    <div class="withdrawal-summary">
+                        <h3 class="summary-title">
+                            <i class="fas fa-receipt"></i>
+                            Transfer summary
+                        </h3>
+                        <div class="summary-row">
+                            <span class="summary-label">Withdrawal amount</span>
+                            <span class="summary-value">${{ "%.2f"|format(balance / 100) }}</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Processing fee</span>
+                            <span class="summary-value">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Total you'll receive</span>
+                            <span class="summary-value">${{ "%.2f"|format(balance / 100) }}</span>
                         </div>
                     </div>
 
                     <button type="submit" class="btn-submit">
-                        <i class="fa fa-paper-plane"></i> Submit Withdrawal Request
+                        <i class="fas fa-paper-plane"></i> 
+                        Submit withdrawal request
                     </button>
                 </form>
 
-                <a href="{{ url_for('show_balance') }}" class="btn-cancel">Cancel</a>
 
+            <!-- Security Information -->
                 <div class="security-info">
-                    <h4><i class="fa fa-shield"></i> Security & Processing</h4>
-                    <ul>
-                        <li>We use bank-level encryption to protect your information</li>
-                        <li>Only the last 4 digits of your account number are stored</li>
-                        <li>Withdrawals are processed within 3-5 business days</li>
-                        <li>You'll receive an email confirmation once processed</li>
-                        <li>Contact us if you don't receive funds within 5 business days</li>
+                <h4><i class="fas fa-shield-alt"></i> Security & processing information</h4>
+                <ul>
+                    <li><strong>Bank-level security:</strong> We use 256-bit SSL encryption to protect your information</li>
+                    <li><strong>Data protection:</strong> Only the last 4 digits of your account number are stored</li>
+                    <li><strong>Processing time:</strong> Withdrawals typically arrive within 3-5 business days</li>
+                    <li><strong>Confirmation:</strong> You'll receive email updates throughout the process</li>
+                    <li><strong>Support:</strong> Contact us if funds don't arrive within 5 business days</li>
                     </ul>
                 </div>
             {% endif %}
-        </div>
+        </main>
     </div>
 
     <script>
-        function setAmount(amount) {
-            document.getElementById('amount').value = amount;
-        }
-
         // Auto-format routing number
-        document.getElementById('routing_number').addEventListener('input', function(e) {
+        document.getElementById('routing_number')?.addEventListener('input', function(e) {
             e.target.value = e.target.value.replace(/\D/g, '').substring(0, 9);
         });
 
         // Auto-format account number (remove non-digits)
-        document.getElementById('account_number').addEventListener('input', function(e) {
+        document.getElementById('account_number')?.addEventListener('input', function(e) {
             e.target.value = e.target.value.replace(/\D/g, '');
         });
     </script>

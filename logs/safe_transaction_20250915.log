@@ -1,0 +1,130 @@
+2025-09-15 00:06:41 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-15 00:06:41 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-15 00:06:41 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-15 00:06:41 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-15 00:06:41 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-15 00:07:46 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-15 00:07:46 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-15 00:07:46 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-15 00:07:47 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-15 00:07:47 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-15 00:07:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:07:49] "GET /index HTTP/1.1" 200 -
+2025-09-15 00:07:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:07:49] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-15 00:07:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:07:49] "GET /index HTTP/1.1" 200 -
+2025-09-15 00:07:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:07:49] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-15 00:07:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:07:55] "GET /withdraw HTTP/1.1" 200 -
+2025-09-15 00:07:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:07:55] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-15 00:19:31 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-15 00:19:31 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-15 00:19:31 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-15 00:19:32 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-15 00:19:32 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-15 00:19:40 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:19:40] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-15 00:19:40 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:19:40] "GET /index HTTP/1.1" 200 -
+2025-09-15 00:19:40 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:19:40] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-15 00:19:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:19:54] "GET /withdraw HTTP/1.1" 200 -
+2025-09-15 00:19:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:19:54] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-15 00:24:31 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-15 00:29:31 EDT)" (scheduled at 2025-09-15 00:24:31.654323-04:00)
+2025-09-15 00:24:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-15 00:29:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-15 00:24:32 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-15 00:29:32 EDT)" (scheduled at 2025-09-15 00:24:32.443902-04:00)
+2025-09-15 00:24:32 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-15 00:29:32 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-15 00:27:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:27:26] "GET /withdraw HTTP/1.1" 200 -
+2025-09-15 00:27:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:27:26] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-15 00:29:31 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-15 00:34:31 EDT)" (scheduled at 2025-09-15 00:29:31.654323-04:00)
+2025-09-15 00:29:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-15 00:34:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-15 00:29:32 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-15 00:34:32 EDT)" (scheduled at 2025-09-15 00:29:32.443902-04:00)
+2025-09-15 00:29:32 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-15 00:34:32 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-15 00:31:51 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:31:51] "GET /withdraw HTTP/1.1" 200 -
+2025-09-15 00:31:51 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:31:51] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-15 00:33:48 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:33:48] "GET /withdraw HTTP/1.1" 200 -
+2025-09-15 00:33:48 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:33:48] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-15 00:33:50 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:33:50] "GET /withdraw HTTP/1.1" 200 -
+2025-09-15 00:33:50 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:33:50] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-15 00:34:01 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:34:01] "GET /balance HTTP/1.1" 200 -
+2025-09-15 00:34:01 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:34:01] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-15 00:34:31 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-15 00:39:31 EDT)" (scheduled at 2025-09-15 00:34:31.654323-04:00)
+2025-09-15 00:34:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-15 00:39:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-15 00:34:32 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-15 00:39:32 EDT)" (scheduled at 2025-09-15 00:34:32.443902-04:00)
+2025-09-15 00:34:32 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-15 00:39:32 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 582, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-15 00:36:03 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/balance.py', reloading
+2025-09-15 00:36:04 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-15 00:36:05 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-15 00:36:05 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-15 00:36:09 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/balance.py', reloading
+2025-09-15 00:36:10 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-15 00:36:10 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-15 00:36:10 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-15 00:36:13 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/balance.py', reloading
+2025-09-15 00:36:13 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-15 00:36:14 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-15 00:36:14 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-15 00:36:17 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/balance.py', reloading
+2025-09-15 00:36:17 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-15 00:36:18 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-15 00:36:18 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-15 00:36:58 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/balance.py', reloading
+2025-09-15 00:36:58 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-15 00:36:59 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-15 00:36:59 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-15 00:37:04 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:37:04] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-15 00:37:04 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:37:04] "GET /index HTTP/1.1" 200 -
+2025-09-15 00:37:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:37:05] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-15 00:37:11 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:37:11] "GET /withdraw HTTP/1.1" 200 -
+2025-09-15 00:37:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [15/Sep/2025 00:37:12] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -

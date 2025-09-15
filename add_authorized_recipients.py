@@ -70,7 +70,7 @@ def main():
         "vedavyasj1@gmail.com",
         "psanjiv@umich.edu",
         "sanjivp2703@gmail.com",
-        "user2@gmail.com"
+        "sanjivp2703@gmail.com"
     ]
     
     print(f"🎯 Authorizing emails for domain: {config['domain']}")

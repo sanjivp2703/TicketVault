@@ -930,7 +930,7 @@ def send_buyer_notification(transaction_id, buyer_email, seller_email, price, ev
                     <div class="reassurance">
                         If anything goes wrong, you'll get a full refund — guaranteed.
                     </div>
-                    <a href="mailto:support@safetransaction.com?subject=Problem%20with%20Transaction%20{transaction_id}" class="problem-link">
+                    <a href="mailto:safetransactiontix@gmail.com?subject=Problem%20with%20Transaction%20{transaction_id}" class="problem-link">
                         📢 Report a Problem
                     </a>
                 </div>
@@ -945,46 +945,12 @@ def send_buyer_notification(transaction_id, buyer_email, seller_email, price, ev
                         You have 24 hours after the event to let us know if anything went wrong — if so, we'll refund you in full.
                     </p>
                 </div>
-                
-                <!-- Why Use Safe Transaction Section -->
-                <div class="section">
-                    <div class="section-header">
-                        <span style="font-size: 24px;">💡</span>
-                        <h2>Why Use Safe Transaction?</h2>
-                    </div>
-                    <ul class="protection-list">
-                        <li class="protection-item">
-                            <div class="check-icon">
-                                <span style="color: white; font-size: 12px; font-weight: bold;">✓</span>
-                            </div>
-                            Independent Ticket Verification
-                        </li>
-                        <li class="protection-item">
-                            <div class="check-icon">
-                                <span style="color: white; font-size: 12px; font-weight: bold;">✓</span>
-                            </div>
-                            Escrow Protection
-                        </li>
-                        <li class="protection-item">
-                            <div class="check-icon">
-                                <span style="color: white; font-size: 12px; font-weight: bold;">✓</span>
-                            </div>
-                            Full Refund Guarantee
-                        </li>
-                        <li class="protection-item">
-                            <div class="check-icon">
-                                <span style="color: white; font-size: 12px; font-weight: bold;">✓</span>
-                            </div>
-                            24/7 Support
-                        </li>
-                    </ul>
-                </div>
             </div>
             
             <div class="footer-section">
                 <div class="footer-text">Transaction ID: #{transaction_id}</div>
                 <div class="footer-text">
-                    Need help? <a href="mailto:support@safetransaction.com" class="footer-link">Contact Support</a>
+                    Need help? <a href="mailto:safetransactiontix@gmail.com" class="footer-link">Contact Support</a>
                 </div>
                 <div class="footer-brand">Safe Transaction</div>
             </div>
@@ -1486,13 +1452,13 @@ def send_modern_buyer_notification(transaction_id, buyer_email, seller_email, pr
                             <div class="check-icon">
                                 <span style="color: white; font-size: 12px; font-weight: bold;">✓</span>
                             </div>
-                            Independent Ticket Verification
+                            Ticket Verification
                         </li>
                         <li class="protection-item">
                             <div class="check-icon">
                                 <span style="color: white; font-size: 12px; font-weight: bold;">✓</span>
                             </div>
-                            Escrow Protection
+                            Secure transfer system
                         </li>
                         <li class="protection-item">
                             <div class="check-icon">
@@ -1516,16 +1482,16 @@ def send_modern_buyer_notification(transaction_id, buyer_email, seller_email, pr
                         <h2 style="font-size: 20px; font-weight: 700; color: #222222; margin: 0;">Payment Deadline</h2>
                     </div>
                     <p style="color: #484848; margin-bottom: 24px; line-height: 1.6; font-size: 18px; font-weight: 500;">
-                        Please complete payment within 2 hours to secure your ticket.
+                        Please complete payment within 1 hour to secure your ticket.
                     </p>
                 </div>
                 
                 <!-- Section 5: Support Information -->
                 <div style="text-align: center; margin: 32px 0;">
                     <div class="reassurance" style="color: #717171; font-size: 14px; margin-bottom: 16px;">
-                        Questions? We're here to help! If anything goes wrong, you'll get a full refund — guaranteed.
+                        Questions? We're here to help! If something goes wrong, let us know and we'll attempt to refund you.
                     </div>
-                    <a href="mailto:support@safetransaction.com?subject=Problem%20with%20Transaction%20{transaction_id}" class="help-link" style="color: #3b82f6; text-decoration: none; font-size: 14px; font-weight: 500;">
+                    <a href="mailto:safetransactiontix@gmail.com?subject=Problem%20with%20Transaction%20{transaction_id}" class="help-link" style="color: #3b82f6; text-decoration: none; font-size: 14px; font-weight: 500;">
                         💬 Get Help or Report an Issue
                     </a>
                 </div>
@@ -1534,7 +1500,7 @@ def send_modern_buyer_notification(transaction_id, buyer_email, seller_email, pr
             <div class="footer-section">
                 <div class="footer-text">Transaction ID: #{transaction_id}</div>
                 <div class="footer-text">
-                    Need help? <a href="mailto:support@safetransaction.com" class="footer-link">Contact Support</a>
+                    Need help? <a href="mailto:safetransactiontix@gmail.com" class="footer-link">Contact Support</a>
                 </div>
                 <div class="footer-brand">Safe Transaction</div>
             </div>

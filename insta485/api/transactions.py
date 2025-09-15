@@ -3,6 +3,7 @@ API endpoints for the automated transaction system
 """
 import flask
 import json
+import stripe
 from datetime import datetime, timedelta
 import insta485
 from insta485.transaction_manager import TransactionManager
@@ -73,38 +74,52 @@ def create_transaction_api():
 
 
 @insta485.app.route('/api/transactions/<int:transaction_id>/pay', methods=['POST'])
-def process_payment_api(transaction_id):
+def get_payment_checkout_url(transaction_id):
     """
-    Process buyer payment
+    Get Stripe checkout URL for buyer payment
     
     POST /api/transactions/123/pay
-    {
-        "payment_method_id": "pm_1234567890"
-    }
+    Returns: {"success": true, "checkout_url": "https://checkout.stripe.com/..."}
     """
-    data = flask.request.get_json()
-    
-    if 'payment_method_id' not in data:
-        return flask.jsonify({'error': 'Missing payment_method_id'}), 400
-    
     try:
-        transaction_manager = TransactionManager()
-        result = transaction_manager.process_payment(
-            transaction_id=transaction_id,
-            payment_method_id=data['payment_method_id']
+        connection = insta485.model.get_db()
+        transaction = connection.execute(
+            "SELECT price FROM transactions WHERE transaction_id = ?",
+            (transaction_id,)
+        ).fetchone()
+
+        if not transaction:
+            return flask.jsonify({'success': False, 'error': 'Transaction not found'}), 404
+
+        amount = int(transaction['price'] * 100)  # Convert to cents as integer
+        
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': f'Payment for Transaction #{transaction_id}',
+                    },
+                    'unit_amount': amount,
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url=flask.url_for('payment_success', transaction_id=transaction_id, _external=True),
+            cancel_url=flask.url_for('payment_cancel', _external=True),
         )
         
-        if result['success']:
-            return flask.jsonify({
-                'success': True,
-                'payment_intent_id': result['payment_intent_id'],
-                'message': 'Payment processed successfully'
-            })
-        else:
-            return flask.jsonify({'error': result['error']}), 400
+        # Store transaction_id in session for success page
+        flask.session['transaction_id'] = transaction_id
+        
+        return flask.jsonify({
+            'success': True,
+            'checkout_url': session.url
+        })
             
     except Exception as e:
-        return flask.jsonify({'error': str(e)}), 500
+        return flask.jsonify({'success': False, 'error': str(e)}), 500
 
 
 @insta485.app.route('/api/transactions/<int:transaction_id>/confirm', methods=['POST'])
