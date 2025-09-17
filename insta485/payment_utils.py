@@ -41,7 +41,7 @@ def send_payment_seller(transaction_id):
             print(f"[PAYMENT] Updated transaction {transaction_id} to waiting_for_ticket")
             
             # Send email to seller notifying them to send the ticket
-            from insta485.email_utils import send_seller_notification
+            from insta485.views.index import send_seller_notification
             send_seller_notification(transaction_id, transaction['seller_email'])
             
         except Exception as e:

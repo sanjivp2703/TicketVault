@@ -9,7 +9,6 @@ import stripe
 import insta485
 import insta485.model
 from insta485.email_automation import (
-    send_seller_instructions, 
     send_buyer_notification, 
     forward_ticket_email
 )
@@ -67,24 +66,7 @@ class TransactionManager:
         )
         connection.commit()
         
-        # Send seller instructions email
-        try:
-            from insta485.mailgun_sender import mailgun_sender
-            
-            # Calculate deadline (24 hours from now)
-            deadline = datetime.datetime.now() + timedelta(hours=24)
-            
-            mailgun_sender.send_seller_instructions(
-                seller_email=seller_email,
-                transaction_id=transaction_id,
-                ticket_email=ticket_email,
-                event_name=event_details['name'],
-                deadline=deadline
-            )
-            
-            print(f"📧 Seller instructions sent to {seller_email}")
-        except Exception as e:
-            print(f"📧 Failed to send seller instructions: {e}")
+        # No longer sending seller instructions email - automatic system
         
         print(f"✅ Created PENDING listing {transaction_id} - awaiting ticket submission to {ticket_email}")
         
@@ -155,14 +137,7 @@ class TransactionManager:
             # Import our new email sender
             from insta485.mailgun_sender import mailgun_sender
             
-            # 1. Send SUCCESS notification to SELLER
-            mailgun_sender.send_seller_verification_success(
-                seller_email=transaction['seller_email'],
-                transaction_id=transaction_id,
-                event_name=original_details['event_name'],
-                buyer_email=transaction['buyer_email'],
-                payment_deadline=payment_deadline
-            )
+            # NOTE: Seller success email now sent after payment, not after verification
             
             # 2. Send PAYMENT notification to BUYER
             payment_url = f"http://localhost:8000/pay/{transaction_id}"  # Update with your domain

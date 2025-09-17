@@ -601,6 +601,26 @@ def payment_success(transaction_id):
         
         print(f"💰 Added ${seller_amount_dollars:.2f} ({seller_amount_cents} cents) to seller {transaction['seller_email']} balance")
 
+        # Send "Your sale is complete" email to seller after successful payment
+        try:
+            from insta485.mailgun_sender import mailgun_sender
+            from datetime import datetime
+            
+            # Create a payment deadline (not used in this context but required by function)
+            payment_deadline = datetime.now()
+            
+            mailgun_sender.send_seller_verification_success(
+                seller_email=transaction['seller_email'],
+                transaction_id=transaction_id,
+                event_name=transaction['event_name'],
+                buyer_email=transaction['buyer_email'],
+                payment_deadline=payment_deadline
+            )
+            
+            print(f"📧 Sent 'sale complete' email to seller {transaction['seller_email']}")
+        except Exception as e:
+            print(f"❌ Failed to send seller success email: {e}")
+
         flask.flash('Payment successful! Your tickets have been sent to your email.')
 
     except Exception as e:
@@ -972,73 +992,75 @@ def validate_ticket(transaction_id):
 
 
 def send_seller_notification(transaction_id, seller_email):
-    """Send notification to seller about payment received."""
+    """Send notification to seller about payment received using the modern template."""
+    import flask
+    
+    # Get transaction and event details for the template
+    connection = insta485.model.get_db()
+    transaction_details = connection.execute(
+        """
+        SELECT t.transaction_id, t.buyer_email, t.price, t.status,
+               e.name as event_name, e.location, e.event_datetime
+        FROM transactions t
+        JOIN events e ON t.event_id = e.event_id
+        WHERE t.transaction_id = ?
+        """,
+        (transaction_id,)
+    ).fetchone()
+    
+    if not transaction_details:
+        print(f"❌ Transaction {transaction_id} not found")
+        return
+    
+    # Format event datetime for display
+    import datetime
+    try:
+        event_dt = datetime.datetime.strptime(transaction_details['event_datetime'], '%Y-%m-%d %H:%M:%S')
+        event_datetime_str = event_dt.strftime('%A, %b %d, %Y at %I:%M %p')
+    except ValueError:
+        event_datetime_str = transaction_details['event_datetime']
+    
+    # Prepare template context
+    template_context = {
+        'transaction_id': transaction_id,
+        'transaction': {
+            'transaction_id': transaction_id,
+            'buyer_email': transaction_details['buyer_email'],
+            'price': transaction_details['price'],
+            'event_name': transaction_details['event_name'],
+            'location': transaction_details['location'],
+            'event_datetime': transaction_details['event_datetime'],
+            'event_datetime_str': event_datetime_str
+        },
+        'dashboard_url': 'http://localhost:8000/seller'  # TODO: Make this configurable
+    }
+    
     subject = f"💰 Payment Received - Transfer Ticket Now (Transaction #{transaction_id})"
     
-    # Create HTML email content
-    html_body = f"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <style>
-            body {{ font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; }}
-            .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
-            .header {{ background: linear-gradient(135deg, #28a745, #1e7e34); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }}
-            .content {{ background: white; padding: 30px; border: 1px solid #ddd; }}
-            .highlight {{ background: #d4edda; padding: 20px; border-radius: 8px; border-left: 4px solid #28a745; margin: 20px 0; }}
-            .cta-button {{ display: inline-block; background: #007bff; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; margin: 20px 0; }}
-            .steps {{ background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; }}
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="header">
-                <h1>🎉 Great News!</h1>
-                <p>Payment Received - Transfer Ticket Now</p>
-            </div>
-            <div class="content">
-                <div class="highlight">
-                    <h2>💰 Your buyer has paid for Transaction #{transaction_id}!</h2>
-                </div>
-                
-                <h3>📋 Next Steps:</h3>
-                <div class="steps">
-                    <ol>
-                        <li><strong>Transfer the ticket</strong> to the buyer via your ticket platform (Ticketmaster, StubHub, etc.)</li>
-                        <li><strong>Log into Safe Transaction</strong> and mark the ticket as "sent"</li>
-                        <li><strong>Get paid</strong> once the buyer confirms receipt (or automatically after 48 hours)</li>
-                    </ol>
-                </div>
-                
-                <div style="text-align: center;">
-                    <a href="http://localhost:8000/seller" class="cta-button">
-                        📱 Go to Seller Dashboard
-                    </a>
-                </div>
-                
-                <p><strong>Important:</strong> Please transfer the ticket promptly to maintain a good seller rating.</p>
-                <p>Best regards,<br>The Safe Transaction Team</p>
-            </div>
-        </div>
-    </body>
-    </html>
-    """
-    
-    # Create plain text version
-    text_body = f"""
-    Great news! Your buyer has paid for Transaction #{transaction_id}.
-
-    Next Steps:
-    1. Transfer the ticket to the buyer via your ticket platform
-    2. Log into Safe Transaction and mark the ticket as 'sent'
-    3. Get paid once the buyer confirms receipt
-
-    Dashboard: http://localhost:8000/seller
-
-    Safe Transaction Team
-    """
-    
     try:
+        # Render the beautiful template
+        html_body = flask.render_template('seller_payment_received.html', **template_context)
+        
+        # Create plain text version
+        text_body = f"""
+        Great news! Your buyer has paid for Transaction #{transaction_id}.
+
+        Event: {transaction_details['event_name']}
+        Location: {transaction_details['location']}
+        Date: {event_datetime_str}
+        Amount: ${transaction_details['price']}
+        Buyer: {transaction_details['buyer_email']}
+
+        Next Steps:
+        1. Transfer the ticket to the buyer via your ticket platform
+        2. Log into Safe Transaction and mark the ticket as 'sent'
+        3. Get paid once the buyer confirms receipt
+
+        Dashboard: http://localhost:8000/seller
+
+        Safe Transaction Team
+        """
+        
         # Create and send email
         msg = Message(
             subject=subject,
@@ -1052,6 +1074,8 @@ def send_seller_notification(transaction_id, seller_email):
         print(f"\n✅ SELLER NOTIFICATION SENT!")
         print(f"📧 TO: {seller_email}")
         print(f"📋 Transaction: #{transaction_id}")
+        print(f"🎫 Event: {transaction_details['event_name']}")
+        print(f"💰 Amount: ${transaction_details['price']}")
         print(f"{'='*40}\n")
         
     except Exception as e:

@@ -187,6 +187,25 @@
         .required {
             color: #e53935;
         }
+
+        /* Date & Time Field Styling */
+        .datetime-field {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%) !important;
+            border: 2px solid #4a90e2 !important;
+            color: #1565c0 !important;
+            font-weight: 600 !important;
+            box-shadow: 0 2px 8px rgba(74, 144, 226, 0.2) !important;
+        }
+
+        .datetime-label {
+            color: #4a90e2 !important;
+            font-weight: 700 !important;
+        }
+
+        .datetime-help {
+            color: #4a90e2 !important;
+            font-weight: 500 !important;
+        }
     </style>
 </head>
 <body>
@@ -218,10 +237,10 @@
                     <input type="text" id="event_location" name="event_location" placeholder="e.g., Madison Square Garden" required>
                 </div>
                 <div class="form-group">
-                    <label>Event Date & Time</label>
-                    <input type="text" id="event_datetime_display" readonly style="background:#f8f9fa; color:#555;" placeholder="Select an event...">
+                    <label for="event_datetime_display" class="datetime-label">📅 Event Date & Time</label>
+                    <input type="text" id="event_datetime_display" readonly class="datetime-field" placeholder="Select an event...">
                     <input type="hidden" id="event_datetime" name="event_datetime">
-                    <div class="help-text">Date & time will autofill when you select an event</div>
+                    <div class="help-text datetime-help">📍 Date & time will autofill when you select an event</div>
                 </div>
             </div>
 

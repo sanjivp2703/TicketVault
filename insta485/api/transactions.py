@@ -575,14 +575,7 @@ def test_verify_transaction():
             from insta485.mailgun_sender import mailgun_sender
             original_details = json.loads(transaction['original_event_details'])
             
-            # 1. Send SUCCESS notification to SELLER
-            mailgun_sender.send_seller_verification_success(
-                seller_email=transaction['seller_email'],
-                transaction_id=transaction_id,
-                event_name=original_details['event_name'],
-                buyer_email=transaction['buyer_email'],
-                payment_deadline=payment_deadline
-            )
+            # NOTE: Seller success email now sent after payment, not after verification
             
             # 2. Send PAYMENT notification to BUYER
             payment_url = f"http://localhost:8000/pay/{transaction_id}"
@@ -685,4 +678,80 @@ def get_transaction_status(transaction_id):
         
     except Exception as e:
         print(f"❌ STATUS API ERROR: {e}")
+        return flask.jsonify({'success': False, 'error': str(e)})
+
+
+@insta485.app.route('/api/transactions/<int:transaction_id>/simulate-ticket-sent', methods=['POST'])
+def simulate_ticket_sent(transaction_id):
+    """
+    Simulate Safe Transaction transferring ticket to buyer and send congratulations email to seller
+    """
+    try:
+        connection = insta485.model.get_db()
+        
+        # Get transaction details
+        transaction = connection.execute(
+            """
+            SELECT t.*, e.name as event_name, e.location, e.event_datetime
+            FROM transactions t
+            LEFT JOIN events e ON t.event_id = e.event_id
+            WHERE t.transaction_id = ?
+            """,
+            (transaction_id,)
+        ).fetchone()
+        
+        if not transaction:
+            return flask.jsonify({'success': False, 'error': 'Transaction not found'})
+        
+        # Check if transaction is in a valid state for ticket simulation
+        valid_statuses = ['waiting_for_ticket', 'waiting_for_payment', 'both_received_processing']
+        if transaction['status'] not in valid_statuses:
+            return flask.jsonify({'success': False, 'error': f'Cannot simulate ticket transfer for status: {transaction["status"]}'})
+        
+        # Update transaction status to simulate ticket transfer completion
+        connection.execute(
+            """
+            UPDATE transactions 
+            SET status = 'ticket_forwarded_funds_held'
+            WHERE transaction_id = ?
+            """,
+            (transaction_id,)
+        )
+        connection.commit()
+        
+        # Send congratulations email to seller
+        try:
+            from insta485.mailgun_sender import mailgun_sender
+            
+            # Format event datetime
+            from datetime import datetime
+            try:
+                event_dt = datetime.strptime(transaction['event_datetime'], '%Y-%m-%d %H:%M:%S')
+                event_datetime_str = event_dt.strftime('%A, %b %d, %Y at %I:%M %p')
+            except (ValueError, TypeError):
+                event_datetime_str = str(transaction['event_datetime']) if transaction['event_datetime'] else 'TBD'
+            
+            # Send ticket received email to buyer
+            mailgun_sender.send_ticket_transfer_congratulations(
+                buyer_email=transaction['buyer_email'],
+                transaction_id=transaction_id,
+                event_name=transaction['event_name'],
+                seller_email=transaction['seller_email'],
+                event_datetime_str=event_datetime_str
+            )
+            
+            print(f"📧 Sent ticket received email to buyer {transaction['buyer_email']}")
+            
+        except Exception as e:
+            print(f"❌ Failed to send congratulations email: {e}")
+            # Don't fail the whole operation if email fails
+        
+        return flask.jsonify({
+            'success': True,
+            'message': 'Ticket transfer simulated successfully',
+            'new_status': 'ticket_forwarded_funds_held'
+        })
+        
+    except Exception as e:
+        print(f"❌ SIMULATE TICKET SENT API ERROR: {e}")
         return flask.jsonify({'success': False, 'error': str(e)})

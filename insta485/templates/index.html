@@ -2170,6 +2170,7 @@
             color: #1e293b;
         }
 
+
         /* Responsive adjustments */
         @media (max-width: 640px) {
             .event-details-grid {
@@ -2371,7 +2372,8 @@
         }
 
         .listings-section-fullwidth .btn-details,
-        .listings-section-fullwidth .btn-cancel {
+        .listings-section-fullwidth .btn-cancel,
+        .listings-section-fullwidth .btn-simulate {
             padding: var(--space-xs) var(--space-sm); /* Smaller button padding */
             font-size: 13px; /* Smaller button text */
         }
@@ -3056,7 +3058,8 @@
         }
 
         .btn-details,
-        .btn-cancel {
+        .btn-cancel,
+        .btn-simulate {
             padding: var(--space-xs) var(--space-sm);
             border-radius: var(--radius-md);
             font-size: 12px;
@@ -3087,6 +3090,18 @@
 
         .btn-cancel:hover {
             background: rgba(239, 68, 68, 0.2);
+        }
+
+        .btn-simulate {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-simulate:hover {
+            background: rgba(16, 185, 129, 0.2);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
 
         /* Ticket Verification Buttons */
@@ -5969,12 +5984,14 @@
                     </div>
                             
                             <div class="listing-actions">
-                        <button class="btn-details" onclick="showTransactionDetails({{ transaction.transaction_id }})">
-                                    <i class="fas fa-info-circle"></i> View Details
-                                </button>
                         {% if transaction.status in ['waiting_for_ticket', 'waiting_for_payment'] %}
                         <button class="btn-cancel" onclick="cancelTransaction({{ transaction.transaction_id }})">
                                     <i class="fas fa-times"></i> Cancel
+                                </button>
+                                {% endif %}
+                        {% if transaction.status in ['waiting_for_ticket', 'waiting_for_payment', 'both_received_processing'] %}
+                        <button class="btn-simulate" onclick="simulateTicketSent({{ transaction.transaction_id }})">
+                                    <i class="fas fa-paper-plane"></i> Test Simulate Ticket Sent
                                 </button>
                                 {% endif %}
                             </div>
@@ -6015,7 +6032,7 @@
                                 </div>
                             </div>
                             
-                            <div class="event-detail-card date-card">
+                            <div class="event-detail-card datetime-card">
                                 <div class="detail-icon">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
@@ -6039,7 +6056,7 @@
                             <input type="number" id="ticket_price_bottom" name="ticket_price" step="0.01" min="0" required placeholder="100.00">
                         </div>
                         <div class="form-group">
-                            <label for="buyer_email_bottom">Buyer Email <i class="fas fa-info-circle" title="Email address of the person who will purchase your ticket"></i></label>
+                            <label for="buyer_email_bottom">Buyer Michigan Athletics Email</label>
                             <input type="email" id="buyer_email_bottom" name="buyer_email" required placeholder="buyer@example.com">
                         </div>
                     </div>
@@ -6063,7 +6080,7 @@
                 <div class="balance-label">Available Balance</div>
                 <div class="balance-status">
                     <i class="fas fa-check-circle"></i>
-                    Verified & Ready
+                    Ready to Withdraw
                                 </div>
             </div>
             
@@ -6995,7 +7012,8 @@
         }
     }
 
-    // Current step tracking (using existing currentStep variable)
+    // Current step tracking - declare globally
+    let currentStep = 1;
     const totalSteps = 6;
 
     function setupStepNavigation() {
@@ -7662,6 +7680,30 @@
                     alert('Error cancelling transaction');
                 });
     }
+        };
+
+        window.simulateTicketSent = function(transactionId) {
+            if (confirm('Simulate Safe Transaction transferring the ticket to the buyer? This will send a ticket delivery email to the buyer.')) {
+                fetch(`/api/transactions/${transactionId}/simulate-ticket-sent`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('✅ Ticket transfer simulated! Delivery confirmation email sent to buyer.');
+                        location.reload();
+                    } else {
+                        alert('Error simulating ticket transfer: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error simulating ticket transfer');
+                });
+            }
         };
     });
 
