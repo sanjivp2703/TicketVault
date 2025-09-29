@@ -1,0 +1,939 @@
+2025-09-18 00:00:35 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:00:35 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:00:38 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 00:00:41 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:00:41 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:00:51 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 00:00:54 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:00:54 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:00:58 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 00:00:59 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:00:59 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:02:06 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 00:02:06] "GET /api/events?q=Ohio HTTP/1.1" 200 -
+2025-09-18 00:02:26 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 00:02:29 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:02:29 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:02:44 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 00:02:45 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:02:45 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:02:59 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 00:02:59] "GET /index HTTP/1.1" 200 -
+2025-09-18 00:03:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 00:03:00] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 00:03:02 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 00:03:02] "GET /api/events?q=wis HTTP/1.1" 200 -
+2025-09-18 00:03:24 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 00:03:24] "GET /api/events?q=Wisconsin%20vs%20Michigan HTTP/1.1" 200 -
+2025-09-18 00:03:25 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 00:03:25] "GET /api/events?q=ohio HTTP/1.1" 200 -
+2025-09-18 00:07:02 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 00:07:02] "GET /api/events?q=Ohio%20vs%20Michiganmi HTTP/1.1" 200 -
+2025-09-18 00:07:02 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 00:07:02] "GET /api/events?q=Ohio%20vs%20Michigan HTTP/1.1" 200 -
+2025-09-18 00:07:45 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 00:12:45 EDT)" (scheduled at 2025-09-18 00:07:45.506843-04:00)
+2025-09-18 00:07:45 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 00:12:45 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-18 00:09:57 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 00:09:59 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:09:59 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:11:35 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 00:11:36 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:11:36 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:11:50 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 00:11:52 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:11:52 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:12:08 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 00:12:12 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:12:12 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:12:16 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 00:12:17 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:12:17 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:13:48 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 00:13:49 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:13:49 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:14:33 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 00:14:35 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:14:35 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:14:40 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 00:14:41 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:14:41 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:15:25 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 00:15:25 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 00:15:25 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 00:15:28 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:15:28 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:17:56 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 00:17:58 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:17:58 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:18:16 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 00:18:17 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:18:17 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:18:29 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 00:18:31 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:18:31 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:18:35 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 00:18:42 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:18:42 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:18:56 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 00:18:56 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 00:18:58 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:18:58 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 00:52:31 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 00:52:31 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 00:52:31 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 00:52:31 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 00:52:33 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 00:52:33 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 08:32:50 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 08:37:33 EDT)" was missed by 0:00:17.597423
+2025-09-18 08:40:16 - werkzeug - INFO - _log:187 - 192.168.1.1 - - [18/Sep/2025 08:40:16] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-18 12:11:27 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 12:12:33 EDT)" was missed by 0:03:54.070449
+2025-09-18 12:38:58 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 12:42:33 EDT)" was missed by 0:01:25.707695
+2025-09-18 13:39:08 - werkzeug - INFO - _log:187 - 192.168.1.1 - - [18/Sep/2025 13:39:08] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-18 13:43:52 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 13:47:33 EDT)" was missed by 0:01:19.864227
+2025-09-18 13:52:32 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 13:52:33 EDT)" was missed by 0:04:59.126378
+2025-09-18 13:52:33 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 13:57:33 EDT)" (scheduled at 2025-09-18 13:52:33.083195-04:00)
+2025-09-18 13:52:33 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 13:57:33 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-18 15:11:21 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 15:12:33 EDT)" was missed by 0:03:48.557202
+2025-09-18 15:56:22 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 15:57:33 EDT)" was missed by 0:03:49.777751
+2025-09-18 17:17:24 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 17:17:33 EDT)" was missed by 0:04:51.283644
+2025-09-18 17:17:33 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 17:22:33 EDT)" (scheduled at 2025-09-18 17:17:33.083195-04:00)
+2025-09-18 17:17:33 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 17:22:33 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-18 17:17:33 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 17:17:33 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 17:17:42 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:17:42 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:17:54 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 17:17:55 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:17:55 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:18:19 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 17:18:22 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:18:22 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:18:28 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 17:18:29 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:18:29 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:18:36 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 17:18:39 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:18:39 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:19:14 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:19:14] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-18 17:19:18 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-18 17:19:18 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-18 17:19:18 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:19:18] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-18 17:19:20 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:19:20] "GET /index HTTP/1.1" 200 -
+2025-09-18 17:19:20 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:19:20] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 17:19:46 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:19:46] "[33mPOST /api/transactions/1/cancel HTTP/1.1[0m" 404 -
+2025-09-18 17:20:25 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 17:20:27 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:20:27 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:20:41 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 17:20:43 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:20:43 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:21:01 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 17:21:02 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 17:21:03 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:21:03 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:21:08 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 17:21:11 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:21:11 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:21:53 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 17:21:53 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 17:21:55 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:21:55 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:22:17 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 17:22:20 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:22:20 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:23:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:23:00] "GET /index HTTP/1.1" 200 -
+2025-09-18 17:23:01 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:23:01] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 17:23:20 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:23:20] "[33mPOST /api/transactions/1/cancel HTTP/1.1[0m" 404 -
+2025-09-18 17:23:51 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 17:23:53 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:23:53 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:24:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:24:32] "[31m[1mPOST /api/transactions/1/cancel HTTP/1.1[0m" 401 -
+2025-09-18 17:24:57 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 17:24:59 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:24:59 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:25:29 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:25:29] "GET /index HTTP/1.1" 200 -
+2025-09-18 17:25:29 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:25:29] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 17:25:33 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:25:33] "POST /api/transactions/1/cancel HTTP/1.1" 200 -
+2025-09-18 17:25:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:25:34] "GET /index HTTP/1.1" 200 -
+2025-09-18 17:25:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:25:34] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 17:26:56 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:26:56] "GET /index HTTP/1.1" 200 -
+2025-09-18 17:26:57 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:26:57] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 17:27:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:27:00] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-18 17:27:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:27:05] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-18 17:27:11 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-18 17:27:12 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-18 17:27:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:27:12] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-18 17:27:13 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:27:13] "GET /index HTTP/1.1" 200 -
+2025-09-18 17:27:13 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:27:13] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 17:29:59 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 17:34:59 EDT)" (scheduled at 2025-09-18 17:29:59.891702-04:00)
+2025-09-18 17:29:59 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 17:34:59 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-18 17:34:42 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:34:42] "POST /api/transactions/2/cancel HTTP/1.1" 200 -
+2025-09-18 17:34:44 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:34:44] "GET /index HTTP/1.1" 200 -
+2025-09-18 17:34:45 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:34:45] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 17:34:59 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 17:39:59 EDT)" (scheduled at 2025-09-18 17:34:59.891702-04:00)
+2025-09-18 17:34:59 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 17:39:59 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-18 17:39:59 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 17:44:59 EDT)" (scheduled at 2025-09-18 17:39:59.891702-04:00)
+2025-09-18 17:39:59 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 17:44:59 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-18 17:40:21 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 17:40:24 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:40:24 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:40:30 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 17:40:31 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:40:31 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:40:41 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 17:40:41 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 17:40:43 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:40:43 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:41:22 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 17:41:24 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:41:24 - werkzeug - INFO - _log:187 -  * Debugger PIN: 637-101-662
+2025-09-18 17:41:39 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:41:39] "[35m[1mPOST /api/transactions/999/cancel HTTP/1.1[0m" 500 -
+2025-09-18 17:42:07 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 17:42:07 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 17:42:07 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 17:42:09 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:42:09 - werkzeug - INFO - _log:187 -  * Debugger PIN: 637-101-662
+2025-09-18 17:46:33 - werkzeug - INFO - _log:187 - 192.168.1.1 - - [18/Sep/2025 17:46:33] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2025-09-18 17:47:09 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 17:52:09 EDT)" (scheduled at 2025-09-18 17:47:09.457205-04:00)
+2025-09-18 17:47:09 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 17:52:09 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-18 17:50:36 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 17:50:36 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 17:50:41 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:50:41 - werkzeug - INFO - _log:187 -  * Debugger PIN: 637-101-662
+2025-09-18 17:50:45 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:50:45] "[35m[1mGET /index HTTP/1.1[0m" 500 -
+2025-09-18 17:50:46 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:50:46] "[36mGET /index?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-09-18 17:50:46 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:50:46] "[36mGET /index?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-09-18 17:50:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:50:47] "[36mGET /index?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-09-18 17:50:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:50:47] "[36mGET /index?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-09-18 17:51:30 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 17:51:33 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:51:33 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:51:42 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 17:51:44 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:51:44 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:51:57 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 17:51:59 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:51:59 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:52:19 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:52:19] "[31m[1mPOST /api/transactions/1/cancel HTTP/1.1[0m" 401 -
+2025-09-18 17:52:36 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 17:52:38 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 17:52:38 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 17:56:27 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:56:27] "GET /index HTTP/1.1" 200 -
+2025-09-18 17:56:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:56:28] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 17:56:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:56:32] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-18 17:56:36 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:56:36] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-18 17:56:40 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-18 17:56:40 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-18 17:56:41 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:56:41] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-18 17:56:42 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:56:42] "GET /index HTTP/1.1" 200 -
+2025-09-18 17:56:42 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:56:42] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 17:57:03 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:57:03] "POST /api/transactions/3/cancel HTTP/1.1" 200 -
+2025-09-18 17:57:04 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:57:04] "GET /index HTTP/1.1" 200 -
+2025-09-18 17:57:04 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:57:04] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 17:57:38 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 18:02:38 EDT)" (scheduled at 2025-09-18 17:57:38.674629-04:00)
+2025-09-18 17:57:38 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 18:02:38 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-18 17:58:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:58:34] "GET /success?transaction_id=3 HTTP/1.1" 200 -
+2025-09-18 17:58:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 17:58:34] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 18:00:53 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 18:00:56 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 18:00:56 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 18:01:29 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 18:01:31 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 18:01:31 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 18:01:49 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 18:01:50 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 18:01:50 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 18:02:08 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 18:02:09 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 18:02:09 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 18:02:21 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 18:02:21] "[31m[1mPOST /api/transactions/1/pay HTTP/1.1[0m" 400 -
+2025-09-18 18:02:46 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 18:02:46 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 18:02:46 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 18:02:48 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 18:02:48 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 18:03:37 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 18:03:37 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 18:03:40 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 18:03:40 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 18:08:48 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 18:13:40 EDT)" was missed by 0:00:07.301826
+2025-09-18 18:09:25 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 18:09:28 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 18:09:28 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 18:09:39 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 18:09:41 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 18:09:41 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 18:09:58 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 18:10:00 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 18:10:00 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 18:44:39 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 18:44:40 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 18:44:40 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 21:17:58 - werkzeug - INFO - _log:187 - 192.168.1.1 - - [18/Sep/2025 21:17:58] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-18 21:45:13 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 21:49:40 EDT)" was missed by 0:00:33.211460
+2025-09-18 21:50:04 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 21:50:06 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 21:50:06 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 21:52:07 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 21:52:09 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 21:52:09 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 21:52:10 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 21:52:10 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 21:52:12 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 21:52:12 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 21:54:49 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/ticket.py', reloading
+2025-09-18 21:54:51 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 21:54:51 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 21:54:55 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/ticket.py', reloading
+2025-09-18 21:54:56 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 21:54:56 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 21:55:19 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage_reference.py', reloading
+2025-09-18 21:55:19 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage_reference.py', reloading
+2025-09-18 21:55:19 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage_reference.py', reloading
+2025-09-18 21:55:19 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/manage_reference.py', reloading
+2025-09-18 21:55:25 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 21:55:25 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 21:56:01 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 21:56:01] "GET /ticket/1 HTTP/1.1" 200 -
+2025-09-18 22:01:09 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 22:05:25 EDT)" was missed by 0:00:43.878574
+2025-09-18 22:05:28 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 22:10:25 EDT)" was missed by 0:00:03.358487
+2025-09-18 22:06:41 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/ticket.py', reloading
+2025-09-18 22:06:44 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:06:44 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:10:33 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:10:33] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-18 22:10:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:10:34] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:10:36 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:10:36] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:10:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:10:52] "GET /withdraw HTTP/1.1" 200 -
+2025-09-18 22:10:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:10:52] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:10:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:10:55] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:10:56 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:10:56] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-18 22:11:04 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:11:04] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-18 22:11:08 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-18 22:11:08 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-18 22:11:08 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:11:08] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-18 22:11:09 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:11:09] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:11:09 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:11:09] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:13:07 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 22:16:44 EDT)" was missed by 0:01:23.344510
+2025-09-18 22:13:24 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/ticket.py', reloading
+2025-09-18 22:13:24 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/ticket.py', reloading
+2025-09-18 22:13:28 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:13:28 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:14:43 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_cancellation_redirect.py', reloading
+2025-09-18 22:14:43 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_cancellation_redirect.py', reloading
+2025-09-18 22:14:43 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_cancellation_redirect.py', reloading
+2025-09-18 22:14:48 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:14:48 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:15:02 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_cancellation_redirect.py', reloading
+2025-09-18 22:15:02 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_cancellation_redirect.py', reloading
+2025-09-18 22:15:04 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:15:04 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:15:36 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:15:36] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:15:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:15:37] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:15:41 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:15:41] "GET /api/events?q=wis HTTP/1.1" 200 -
+2025-09-18 22:15:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:15:49] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-18 22:15:52 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-18 22:15:53 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-18 22:15:53 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:15:53] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-18 22:15:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:15:54] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:15:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:15:54] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:16:59 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:16:59] "POST /api/transactions/5/cancel HTTP/1.1" 200 -
+2025-09-18 22:17:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:17:00] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:17:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:17:00] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:17:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:17:15] "GET /success?transaction_id=5 HTTP/1.1" 200 -
+2025-09-18 22:17:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:17:15] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:20:04 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 22:25:04 EDT)" (scheduled at 2025-09-18 22:20:04.285682-04:00)
+2025-09-18 22:20:04 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 22:25:04 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-18 22:23:40 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_cancellation_redirect.py', reloading
+2025-09-18 22:23:40 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_cancellation_redirect.py', reloading
+2025-09-18 22:23:40 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_cancellation_redirect.py', reloading
+2025-09-18 22:23:43 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:23:43 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:25:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:25:28] "GET /ticket/1 HTTP/1.1" 200 -
+2025-09-18 22:25:59 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:25:59] "GET /ticket/1 HTTP/1.1" 200 -
+2025-09-18 22:27:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:27:22] "POST /api/transactions/4/cancel HTTP/1.1" 200 -
+2025-09-18 22:27:24 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:27:24] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:27:24 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:27:24] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:27:27 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:27:27] "GET /api/events?q=wis HTTP/1.1" 200 -
+2025-09-18 22:27:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:27:32] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-18 22:27:35 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-18 22:27:36 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-18 22:27:36 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:27:36] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-18 22:27:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:27:37] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:27:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:27:37] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:28:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:28:22] "POST /api/transactions/6/cancel HTTP/1.1" 200 -
+2025-09-18 22:28:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:28:23] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:28:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:28:23] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:28:43 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 22:33:43 EDT)" (scheduled at 2025-09-18 22:28:43.041734-04:00)
+2025-09-18 22:28:43 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 22:33:43 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-18 22:29:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:29:00] "GET /success?transaction_id=6 HTTP/1.1" 200 -
+2025-09-18 22:29:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:29:00] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:29:59 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 22:29:59 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 22:30:01 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:30:01 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:30:11 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 22:30:12 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:30:12 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:30:23 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 22:30:24 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:30:24 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:30:33 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 22:30:34 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:30:34 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:31:06 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 22:31:08 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:31:08 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:31:12 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 22:31:14 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:31:14 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:31:18 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 22:31:18 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 22:31:20 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:31:20 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:32:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:32:15] "[31m[1mPOST /api/transactions/1/cancel HTTP/1.1[0m" 401 -
+2025-09-18 22:32:19 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:32:19] "GET /ticket/1 HTTP/1.1" 200 -
+2025-09-18 22:33:03 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/background_jobs.py', reloading
+2025-09-18 22:33:05 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:33:05 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:33:09 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:33:09] "GET /ticket/1 HTTP/1.1" 200 -
+2025-09-18 22:33:22 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 22:33:22 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 22:33:22 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/background_jobs.py', reloading
+2025-09-18 22:33:24 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:33:24 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:33:49 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 22:33:49 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 22:33:49 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 22:33:51 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:33:51 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:33:58 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:33:58] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:33:58 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:33:58] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:34:01 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:34:01] "GET /api/events?q=wi HTTP/1.1" 200 -
+2025-09-18 22:34:01 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:34:01] "GET /api/events?q=wis HTTP/1.1" 200 -
+2025-09-18 22:34:03 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:34:03] "GET /api/events?q=wisc HTTP/1.1" 200 -
+2025-09-18 22:34:09 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:34:09] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-18 22:34:13 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-18 22:34:14 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-18 22:34:14 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:34:14] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-18 22:34:20 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:34:20] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:34:20 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:34:20] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:34:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:34:52] "POST /api/transactions/7/cancel HTTP/1.1" 200 -
+2025-09-18 22:34:53 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:34:53] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:34:53 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:34:53] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:37:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:37:23] "GET /ticket/1 HTTP/1.1" 200 -
+2025-09-18 22:37:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:37:28] "GET /ticket/1 HTTP/1.1" 200 -
+2025-09-18 22:38:11 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:38:11] "GET /ticket/3 HTTP/1.1" 200 -
+2025-09-18 22:38:45 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 22:38:47 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:38:47 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:38:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:38:49] "[32mGET /pay/1 HTTP/1.1[0m" 302 -
+2025-09-18 22:38:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:38:54] "[32mGET /pay/1 HTTP/1.1[0m" 302 -
+2025-09-18 22:38:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:38:54] "GET /ticket/1 HTTP/1.1" 200 -
+2025-09-18 22:39:41 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 22:39:43 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:39:43 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:39:47 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 22:39:48 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:39:48 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:42:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:42:49] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:42:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:42:49] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:42:51 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:42:51] "GET /api/events?q=wis HTTP/1.1" 200 -
+2025-09-18 22:42:58 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:42:58] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-18 22:43:04 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-18 22:43:05 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-18 22:43:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:43:05] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-18 22:43:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:43:05] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:43:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:43:05] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:43:45 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:43:45] "POST /api/transactions/8/cancel HTTP/1.1" 200 -
+2025-09-18 22:43:46 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 22:43:50 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:43:50 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:43:50 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:43:50] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:43:50 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:43:50] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:43:53 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/background_jobs.py', reloading
+2025-09-18 22:43:53 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/background_jobs.py', reloading
+2025-09-18 22:44:03 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:44:03 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:44:05 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 22:44:05 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 22:44:07 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:44:07 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:44:10 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-18 22:44:10 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-18 22:44:12 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:44:12 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:44:15 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_payment_system.py', reloading
+2025-09-18 22:44:15 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_payment_system.py', reloading
+2025-09-18 22:44:17 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:44:17 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:44:19 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/FINAL_SYSTEM_TEST.py', reloading
+2025-09-18 22:44:19 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/FINAL_SYSTEM_TEST.py', reloading
+2025-09-18 22:44:21 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:44:21 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:44:54 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 22:44:56 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:44:56 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:44:59 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:44:59] "GET /ticket/1 HTTP/1.1" 200 -
+2025-09-18 22:45:02 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:45:02] "[33mGET /pay/1 HTTP/1.1[0m" 404 -
+2025-09-18 22:45:07 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:45:07] "GET /ticket/3 HTTP/1.1" 200 -
+2025-09-18 22:45:26 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py', reloading
+2025-09-18 22:45:26 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 22:45:26 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 22:45:26 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_payment_system.py', reloading
+2025-09-18 22:45:26 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/FINAL_SYSTEM_TEST.py', reloading
+2025-09-18 22:45:26 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-18 22:45:26 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/background_jobs.py', reloading
+2025-09-18 22:45:26 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py', reloading
+2025-09-18 22:45:26 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 22:45:26 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/test_payment_system.py', reloading
+2025-09-18 22:45:26 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 22:45:26 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-18 22:45:26 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/FINAL_SYSTEM_TEST.py', reloading
+2025-09-18 22:45:28 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:45:28 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:45:52 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py', reloading
+2025-09-18 22:45:52 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/background_jobs.py', reloading
+2025-09-18 22:45:52 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-18 22:45:52 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 22:45:52 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 22:45:52 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py', reloading
+2025-09-18 22:45:52 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/background_jobs.py', reloading
+2025-09-18 22:45:52 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-18 22:45:52 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 22:45:53 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:45:53 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:46:11 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:46:11] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:46:11 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:46:11] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:46:13 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:46:13] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-18 22:46:18 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:46:18] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-18 22:46:21 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-18 22:46:22 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-18 22:46:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:46:22] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-18 22:46:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:46:23] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:46:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:46:23] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:46:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:46:52] "POST /api/transactions/9/cancel HTTP/1.1" 200 -
+2025-09-18 22:46:53 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:46:53] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:46:53 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:46:53] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:49:06 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-18 22:49:08 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:49:08 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:49:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:49:37] "GET /ticket/1 HTTP/1.1" 200 -
+2025-09-18 22:49:57 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-18 22:49:59 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:49:59 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:50:03 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-18 22:50:04 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:50:04 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:50:29 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:50:29] "GET /api/events?q=wis HTTP/1.1" 200 -
+2025-09-18 22:50:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:50:30] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:50:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:50:30] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:50:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:50:32] "GET /api/events?q=wis HTTP/1.1" 200 -
+2025-09-18 22:50:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:50:37] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-18 22:50:40 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:50:40] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-18 22:50:41 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:50:41] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:50:41 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:50:41] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:50:46 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:50:46] "POST /api/transactions/10/cancel HTTP/1.1" 200 -
+2025-09-18 22:50:46 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:50:46] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:50:46 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:50:46] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:51:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:51:00] "GET /ticket/10 HTTP/1.1" 200 -
+2025-09-18 22:51:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:51:00] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:53:20 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:53:20] "GET /api/events?q=wis HTTP/1.1" 200 -
+2025-09-18 22:53:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:53:26] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-18 22:53:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:53:37] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-18 22:53:39 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:53:39] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:53:39 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:53:39] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:54:06 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:54:06] "GET /ticket/11 HTTP/1.1" 200 -
+2025-09-18 22:54:08 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:54:08] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:54:29 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:54:29] "POST /api/transactions/11/cancel HTTP/1.1" 200 -
+2025-09-18 22:54:29 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:54:29] "GET /index HTTP/1.1" 200 -
+2025-09-18 22:54:29 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:54:29] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:54:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:54:32] "GET /ticket/11 HTTP/1.1" 200 -
+2025-09-18 22:54:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 22:54:32] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 22:55:04 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 23:00:04 EDT)" (scheduled at 2025-09-18 22:55:04.565237-04:00)
+2025-09-18 22:55:04 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 23:00:04 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-18 22:59:09 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-18 22:59:11 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:59:11 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 22:59:53 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 22:59:53 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 22:59:55 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 22:59:55 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 23:00:01 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-18 23:00:02 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 23:00:02 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 23:00:19 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:00:19] "[32mGET /ticket_status_check/1 HTTP/1.1[0m" 302 -
+2025-09-18 23:00:24 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:00:24] "GET /cancelled/1 HTTP/1.1" 200 -
+2025-09-18 23:00:35 - payment - INFO - send_payment_buyer:29 - Buyer initiating payment for transaction 3
+2025-09-18 23:00:35 - payment - INFO - send_payment_buyer:43 - Creating Stripe checkout session for transaction 3, amount: $100
+2025-09-18 23:00:35 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-18 23:00:35 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-18 23:00:35 - payment - INFO - send_payment_buyer:62 - Stripe checkout session created successfully for transaction 3, session_id: cs_test_a1QITg6yu6NVOHUoonmdLHOsLcQLNyRODT4XL2ZSs8H2xf3217VlMcF86k
+2025-09-18 23:00:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:00:35] "[32mGET /ticket_status_check/3 HTTP/1.1[0m" 303 -
+2025-09-18 23:01:20 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 23:01:21 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 23:01:22 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 23:01:42 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:01:42] "[32mGET /ticket_status_check/1 HTTP/1.1[0m" 302 -
+2025-09-18 23:01:55 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 23:01:55 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-18 23:01:55 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 23:01:58 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 23:01:59 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 23:02:25 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 23:02:25 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/email_automation.py', reloading
+2025-09-18 23:02:25 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-09-18 23:02:26 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 23:02:26 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 23:02:36 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:02:36] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-18 23:02:40 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:02:40] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-18 23:02:43 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:02:43] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-18 23:02:44 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:02:44] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:02:44 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:02:44] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:03:18 - payment - INFO - send_payment_buyer:29 - Buyer initiating payment for transaction 12
+2025-09-18 23:03:18 - payment - INFO - send_payment_buyer:43 - Creating Stripe checkout session for transaction 12, amount: $100
+2025-09-18 23:03:18 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-18 23:03:18 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-18 23:03:18 - payment - INFO - send_payment_buyer:62 - Stripe checkout session created successfully for transaction 12, session_id: cs_test_a1FNU07mQZZ5mqcchypmZRbJBY7BMMayA0jAu3kTHm2ofPIDnNUQ5r43VQ
+2025-09-18 23:03:18 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:03:18] "[32mGET /ticket_status_check/12 HTTP/1.1[0m" 303 -
+2025-09-18 23:03:25 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:03:25] "POST /api/transactions/12/cancel HTTP/1.1" 200 -
+2025-09-18 23:03:25 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:03:25] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:03:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:03:26] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:03:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:03:28] "[32mGET /ticket_status_check/12 HTTP/1.1[0m" 302 -
+2025-09-18 23:03:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:03:28] "GET /cancelled/12 HTTP/1.1" 200 -
+2025-09-18 23:03:29 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:03:29] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:07:26 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 23:12:26 EDT)" (scheduled at 2025-09-18 23:07:26.297121-04:00)
+2025-09-18 23:07:26 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 23:12:26 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-18 23:08:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:08:35] "GET /cancelled/1 HTTP/1.1" 200 -
+2025-09-18 23:08:40 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:08:40] "GET /cancelled/1 HTTP/1.1" 200 -
+2025-09-18 23:11:10 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:11:10] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-18 23:11:14 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:11:14] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-18 23:11:18 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:11:18] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-18 23:11:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:11:23] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:11:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:11:23] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:11:47 - payment - INFO - send_payment_buyer:29 - Buyer initiating payment for transaction 13
+2025-09-18 23:11:47 - payment - INFO - send_payment_buyer:43 - Creating Stripe checkout session for transaction 13, amount: $100
+2025-09-18 23:11:47 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-18 23:11:47 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-18 23:11:47 - payment - INFO - send_payment_buyer:62 - Stripe checkout session created successfully for transaction 13, session_id: cs_test_a1omF3xqMBiuvcIiBlrffuSXmH3SUB6xSvXMH0KuCZS5CGQoNB1gFCMbWa
+2025-09-18 23:11:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:11:47] "[32mGET /ticket_status_check/13 HTTP/1.1[0m" 303 -
+2025-09-18 23:11:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:11:55] "POST /api/transactions/13/cancel HTTP/1.1" 200 -
+2025-09-18 23:11:57 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:11:57] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:11:57 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:11:57] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:12:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:12:00] "[32mGET /ticket_status_check/13 HTTP/1.1[0m" 302 -
+2025-09-18 23:12:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:12:00] "GET /cancelled/13 HTTP/1.1" 200 -
+2025-09-18 23:12:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:12:00] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:12:53 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 23:17:26 EDT)" was missed by 0:00:27.379641
+2025-09-18 23:13:41 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:13:41] "GET /cancelled/13 HTTP/1.1" 200 -
+2025-09-18 23:13:41 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:13:41] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:15:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:15:00] "GET /cancelled/1 HTTP/1.1" 200 -
+2025-09-18 23:15:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:15:05] "GET /cancelled/1 HTTP/1.1" 200 -
+2025-09-18 23:15:43 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:15:43] "GET /cancelled/13 HTTP/1.1" 200 -
+2025-09-18 23:15:44 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:15:44] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:17:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:17:00] "GET /cancelled/1 HTTP/1.1" 200 -
+2025-09-18 23:17:26 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 23:22:26 EDT)" (scheduled at 2025-09-18 23:17:26.297121-04:00)
+2025-09-18 23:17:26 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 23:22:26 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-18 23:18:01 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:18:01] "GET /cancelled/13 HTTP/1.1" 200 -
+2025-09-18 23:18:01 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:18:01] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:22:26 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 23:27:26 EDT)" (scheduled at 2025-09-18 23:22:26.297121-04:00)
+2025-09-18 23:22:26 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 23:27:26 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-18 23:22:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:22:30] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:22:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:22:30] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:22:50 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:22:50] "GET /api/events?q=wi HTTP/1.1" 200 -
+2025-09-18 23:22:50 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:22:50] "GET /api/events?q=wid HTTP/1.1" 200 -
+2025-09-18 23:22:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:22:52] "GET /api/events?q=wi HTTP/1.1" 200 -
+2025-09-18 23:22:58 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:22:58] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-18 23:23:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:23:05] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-18 23:23:07 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:23:07] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:23:07 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:23:07] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:23:14 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:23:14] "[32mGET /index HTTP/1.1[0m" 302 -
+2025-09-18 23:23:49 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/balance.py', reloading
+2025-09-18 23:23:49 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/balance.py', reloading
+2025-09-18 23:23:51 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 23:23:51 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 23:23:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:23:55] "[33mPOST /simulate-withdrawal HTTP/1.1[0m" 404 -
+2025-09-18 23:24:17 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/balance.py', reloading
+2025-09-18 23:24:20 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 23:24:20 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 23:24:24 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/balance.py', reloading
+2025-09-18 23:24:25 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 23:24:25 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 23:24:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:24:28] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:24:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:24:28] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:25:14 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-18 23:25:14 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-18 23:25:14 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:25:14] "POST /api/transactions/14/pay HTTP/1.1" 200 -
+2025-09-18 23:25:20 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:25:20] "GET /payment-success/14 HTTP/1.1" 200 -
+2025-09-18 23:25:20 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:25:20] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:25:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:25:22] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-18 23:25:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:25:22] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:25:24 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:25:24] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:25:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:25:32] "POST /api/transactions/14/simulate-ticket-sent HTTP/1.1" 200 -
+2025-09-18 23:25:33 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:25:33] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:25:33 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:25:33] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:29:24 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 23:29:28 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 23:29:28 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 23:29:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:29:34] "[32mGET /index HTTP/1.1[0m" 302 -
+2025-09-18 23:29:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:29:49] "[32mGET /index HTTP/1.1[0m" 302 -
+2025-09-18 23:29:53 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:29:53] "[32mGET /index HTTP/1.1[0m" 302 -
+2025-09-18 23:29:58 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:29:58] "[32mPOST /accounts/login/ HTTP/1.1[0m" 302 -
+2025-09-18 23:30:03 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:30:03] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:30:25 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 23:30:25 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 23:30:26 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 23:30:26 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 23:30:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:30:30] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:30:36 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:30:36] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:30:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:30:49] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:31:05 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 23:31:07 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 23:31:07 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 23:31:41 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 23:31:41 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 23:31:45 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 23:31:45 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 23:31:45 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:31:45] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:31:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:31:47] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:34:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:34:23] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:34:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:34:32] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:35:04 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:35:04] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:35:04 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:35:04] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:35:09 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:35:09] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:35:09 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:35:09] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:35:21 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:35:21] "GET /receipt/14 HTTP/1.1" 200 -
+2025-09-18 23:36:45 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 23:41:45 EDT)" (scheduled at 2025-09-18 23:36:45.675259-04:00)
+2025-09-18 23:36:45 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 23:41:45 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-18 23:38:16 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:38:16] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:38:21 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:38:21] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:38:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:38:49] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:38:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:38:49] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:39:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:39:49] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:39:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:39:55] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:41:45 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 23:46:45 EDT)" (scheduled at 2025-09-18 23:41:45.675259-04:00)
+2025-09-18 23:41:45 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 23:46:45 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-18 23:44:03 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:44:03] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:44:03 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:44:03] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:45:13 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:45:13] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:45:18 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:45:18] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:45:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:45:35] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:45:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:45:35] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:45:45 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:45:45] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:45:45 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:45:45] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:45:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:45:47] "GET /api/events?q=km HTTP/1.1" 200 -
+2025-09-18 23:45:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:45:47] "GET /api/events?q=kmi HTTP/1.1" 200 -
+2025-09-18 23:46:45 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 23:51:45 EDT)" (scheduled at 2025-09-18 23:46:45.675259-04:00)
+2025-09-18 23:46:45 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 23:51:45 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-18 23:46:48 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:46:48] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:46:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:46:49] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:48:04 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:48:04] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:48:04 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:48:04] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:48:06 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:48:06] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:48:06 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:48:06] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:48:47 - werkzeug - INFO - _log:187 - 192.168.1.1 - - [18/Sep/2025 23:48:47] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-18 23:49:06 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:49:06] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:49:06 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:49:06] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:50:20 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:50:20] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:50:21 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:50:21] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:51:45 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 23:56:45 EDT)" (scheduled at 2025-09-18 23:51:45.675259-04:00)
+2025-09-18 23:51:45 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-18 23:56:45 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-18 23:54:11 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:54:11] "GET /api/events?q=wo HTTP/1.1" 200 -
+2025-09-18 23:54:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:54:12] "GET /api/events?q=wos HTTP/1.1" 200 -
+2025-09-18 23:54:13 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:54:13] "GET /api/events?q=wi HTTP/1.1" 200 -
+2025-09-18 23:54:14 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:54:14] "GET /api/events?q=wisc HTTP/1.1" 200 -
+2025-09-18 23:54:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:54:23] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-18 23:54:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:54:28] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-18 23:54:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:54:30] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:54:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:54:30] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:54:46 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:54:46] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:54:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:54:47] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:54:50 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:54:50] "GET /api/events?q=wisc HTTP/1.1" 200 -
+2025-09-18 23:54:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:54:54] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-18 23:55:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:55:32] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-18 23:55:33 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:55:33] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:55:33 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:55:33] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:55:40 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-09-18 23:55:41 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-09-18 23:55:41 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:55:41] "POST /api/transactions/1/pay HTTP/1.1" 200 -
+2025-09-18 23:55:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:55:47] "GET /payment-success/1 HTTP/1.1" 200 -
+2025-09-18 23:55:48 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:55:48] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:55:51 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:55:51] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-18 23:55:51 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:55:51] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:55:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:55:52] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:56:01 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:56:01] "POST /api/transactions/1/simulate-ticket-sent HTTP/1.1" 200 -
+2025-09-18 23:56:02 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:56:02] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:56:02 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:56:02] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:56:45 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-19 00:01:45 EDT)" (scheduled at 2025-09-18 23:56:45.675259-04:00)
+2025-09-18 23:56:45 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-19 00:01:45 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-18 23:57:36 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:57:36] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:57:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:57:37] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-18 23:58:23 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 23:58:26 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 23:58:26 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 23:58:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:58:30] "[32mPOST /accounts/login/ HTTP/1.1[0m" 302 -
+2025-09-18 23:58:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:58:35] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:58:47 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 23:58:47 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 23:58:51 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 23:58:51 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 23:58:59 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-18 23:59:03 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-18 23:59:03 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-18 23:59:03 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:59:03] "GET /index HTTP/1.1" 200 -
+2025-09-18 23:59:04 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [18/Sep/2025 23:59:04] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-19 00:00:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [19/Sep/2025 00:00:05] "GET /api/events?q=mi HTTP/1.1" 200 -
+2025-09-19 00:00:11 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [19/Sep/2025 00:00:11] "POST /create-transaction HTTP/1.1" 200 -
+2025-09-19 00:00:16 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [19/Sep/2025 00:00:16] "POST /api/test-verify HTTP/1.1" 200 -
+2025-09-19 00:00:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [19/Sep/2025 00:00:17] "GET /index HTTP/1.1" 200 -
+2025-09-19 00:00:18 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [19/Sep/2025 00:00:18] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-19 00:01:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [19/Sep/2025 00:01:15] "GET /index HTTP/1.1" 200 -
+2025-09-19 00:01:19 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [19/Sep/2025 00:01:19] "GET /index HTTP/1.1" 200 -
+2025-09-19 00:01:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [19/Sep/2025 00:01:37] "GET /index HTTP/1.1" 200 -
+2025-09-19 00:01:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [19/Sep/2025 00:01:37] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-19 00:01:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [19/Sep/2025 00:01:47] "POST /api/transactions/2/cancel HTTP/1.1" 200 -
+2025-09-19 00:01:48 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [19/Sep/2025 00:01:48] "GET /index HTTP/1.1" 200 -
+2025-09-19 00:01:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [19/Sep/2025 00:01:49] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-19 00:01:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [19/Sep/2025 00:01:52] "GET /index HTTP/1.1" 200 -
+2025-09-19 00:01:52 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [19/Sep/2025 00:01:52] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-19 00:02:19 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading

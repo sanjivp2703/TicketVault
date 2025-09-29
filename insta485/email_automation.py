@@ -980,34 +980,8 @@ def send_modern_buyer_notification(transaction_id, buyer_email, seller_email, pr
     if payment_deadline:
         deadline_text = payment_deadline.strftime('%I:%M %p on %B %d')
     
-    # Generate direct Stripe checkout URL
-    try:
-        import stripe
-        import flask
-        
-        # Create Stripe checkout session
-        amount = int(float(price) * 100)  # Convert to cents
-        session = stripe.checkout.Session.create(
-            payment_method_types=['card'],
-            line_items=[{
-                'price_data': {
-                    'currency': 'usd',
-                    'product_data': {
-                        'name': f'Payment for Transaction #{transaction_id}',
-                    },
-                    'unit_amount': amount,
-                },
-                'quantity': 1,
-            }],
-            mode='payment',
-            success_url=f"http://localhost:8000/success?transaction_id={transaction_id}",
-            cancel_url=f"http://localhost:8000/cancel?transaction_id={transaction_id}",
-        )
-        payment_url = session.url
-    except Exception as e:
-        print(f"Error creating Stripe session: {e}")
-        # Fallback to redirect URL
-        payment_url = f"http://localhost:8000/pay/{transaction_id}"
+    # Use smart status check route that handles cancellation and routes to payment
+    payment_url = f"http://localhost:8000/ticket_status_check/{transaction_id}"
     
     subject = f"🎫 Verified Ticket Available - {event_details['name']}"
     

@@ -92,3 +92,250 @@ def admin_pay_seller(transaction_id):
         flask.flash(f'Error processing payment: {str(e)}', 'error')
     
     return flask.redirect(flask.url_for('admin_dashboard'))
+
+@insta485.app.route('/admin/declare-ticket-sent/<int:transaction_id>', methods=['POST'])
+def admin_declare_ticket_sent(transaction_id):
+    """Admin declares that ticket was sent for a transaction."""
+    if 'email' not in flask.session:
+        return flask.abort(403)
+    
+    connection = insta485.model.get_db()
+    user = connection.execute(
+        'SELECT is_admin FROM users WHERE email = ?',
+        (flask.session['email'],)
+    ).fetchone()
+    if not user or not user['is_admin']:
+        return flask.abort(403)
+    
+    # Get transaction details with event information
+    transaction = connection.execute(
+        """SELECT t.*, e.name as event_name, e.location, e.event_datetime
+           FROM transactions t 
+           JOIN events e ON t.event_id = e.event_id
+           WHERE t.transaction_id = ?""",
+        (transaction_id,)
+    ).fetchone()
+    
+    if not transaction:
+        flask.flash('Transaction not found', 'error')
+        return flask.redirect(flask.url_for('admin_dashboard'))
+    
+    # Check if transaction is in a valid state for ticket declaration (payment must be received)
+    is_payment_received = transaction.get('payment_received') == 1
+    is_valid_status = transaction['status'] in ['both_received_processing']
+    
+    if not (is_payment_received or is_valid_status):
+        flask.flash(f'Cannot declare ticket sent - payment not yet received for transaction #{transaction_id}', 'error')
+        return flask.redirect(flask.url_for('admin_dashboard'))
+    
+    try:
+        # Update transaction status to ticket_sent
+        connection.execute(
+            """UPDATE transactions 
+               SET status = 'ticket_sent', 
+                   ticket_forwarded = 1,
+                   ticket_forwarded_time = CURRENT_TIMESTAMP
+               WHERE transaction_id = ?""",
+            (transaction_id,)
+        )
+        
+        # Add earnings to seller's balance when ticket is sent
+        add_earnings(transaction['seller_email'], transaction['price'], transaction_id, 
+                   f"Payment for {transaction['event_name']} - Transaction #{transaction_id}")
+        
+        # Send notification emails
+        send_ticket_sent_notifications(transaction_id, transaction)
+        
+        connection.commit()
+        flask.flash(f'✅ Ticket marked as sent for transaction #{transaction_id}. Seller paid ${transaction["price"]:.2f}. Notification emails sent.', 'success')
+        
+    except Exception as e:
+        connection.rollback()
+        flask.flash(f'Error updating transaction: {str(e)}', 'error')
+        print(f"Error in admin_declare_ticket_sent: {e}")
+    
+    return flask.redirect(flask.url_for('admin_dashboard'))
+
+def send_ticket_sent_notifications(transaction_id, transaction):
+    """Send notification emails to buyer and seller when admin declares ticket sent."""
+    try:
+        from flask_mail import Message
+        
+        # Email to buyer - Professional HTML template
+        buyer_subject = f"🎫 Your Tickets Have Been Sent! - Transaction #{transaction_id}"
+        
+        # Create professional HTML email
+        buyer_html = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body {{ font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }}
+                .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
+                .header {{ background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }}
+                .content {{ background: white; padding: 30px; border: 1px solid #ddd; border-top: none; }}
+                .success-banner {{ background: #d4edda; padding: 20px; border-radius: 8px; border-left: 4px solid #28a745; margin: 20px 0; }}
+                .event-details {{ background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid #e9ecef; }}
+                .detail-row {{ display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e9ecef; }}
+                .detail-row:last-child {{ border-bottom: none; }}
+                .detail-label {{ font-weight: 600; color: #495057; }}
+                .detail-value {{ color: #28a745; font-weight: 600; }}
+                .instructions {{ background: #e7f3ff; padding: 20px; border-radius: 8px; border-left: 4px solid #007bff; margin: 20px 0; }}
+                .warning {{ background: #fff3cd; padding: 20px; border-radius: 8px; border-left: 4px solid #ffc107; margin: 20px 0; }}
+                .footer {{ text-align: center; padding: 20px; color: #6c757d; font-size: 14px; }}
+                .btn {{ display: inline-block; background: #007bff; color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; margin: 10px 0; }}
+                ul {{ padding-left: 20px; }}
+                li {{ margin-bottom: 8px; }}
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>🛡️ Safe Transaction</h1>
+                    <p>Your Ticket Delivery Confirmation</p>
+                </div>
+                <div class="content">
+                    <div class="success-banner">
+                        <h2 style="margin: 0 0 10px 0; color: #155724;">🎉 Great News! Your Tickets Have Been Sent!</h2>
+                        <p style="margin: 0; color: #155724;">Your secure ticket transfer has been initiated and should arrive in your email shortly.</p>
+                    </div>
+                    
+                    <div class="event-details">
+                        <h3 style="margin-top: 0; color: #333;">📋 Transaction Summary</h3>
+                        <div class="detail-row">
+                            <span class="detail-label">Transaction ID:</span>
+                            <span class="detail-value">ST-{transaction_id}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Event:</span>
+                            <span class="detail-value">{transaction['event_name']}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Venue:</span>
+                            <span class="detail-value">{transaction['location']}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Amount Paid:</span>
+                            <span class="detail-value">${transaction['price']:.2f}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h3 style="margin-top: 0; color: #0056b3;">📧 Where to Check for Your Tickets</h3>
+                        <p>Your tickets should arrive within the next <strong>30 minutes</strong>. Please check:</p>
+                        <ul>
+                            <li><strong>Your main email inbox</strong> - Look for the seller's email</li>
+                            <li><strong>Spam/Junk folder</strong> - Sometimes emails get filtered</li>
+                            <li><strong>All email addresses</strong> you may have provided</li>
+                            <li><strong>Email from seller:</strong> {transaction['seller_email']}</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="warning">
+                        <h3 style="margin-top: 0; color: #856404;">⚠️ Important Reminders</h3>
+                        <ul style="margin: 0;">
+                            <li><strong>Contact us immediately</strong> if you don't receive tickets within 1 hour</li>
+                            <li><strong>Save this email</strong> as proof of purchase and payment</li>
+                            <li><strong>24-hour protection:</strong> You have until 24 hours after the event to report any issues</li>
+                            <li><strong>Enjoy your event!</strong> You're protected by Safe Transaction's guarantee</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="text-align: center; margin: 25px 0;">
+                        <p><strong>Need help or have questions?</strong></p>
+                        <a href="mailto:safetransactiontix@gmail.com?subject=Support Request - Transaction #{transaction_id}" class="btn">
+                            📞 Contact Support
+                        </a>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center;">
+                        <h4 style="margin-top: 0; color: #28a745;">✅ You're Protected!</h4>
+                        <p style="margin: 0; color: #6c757d;">This transaction was processed through Safe Transaction's secure platform. Your payment is protected and your tickets are guaranteed.</p>
+                    </div>
+                </div>
+                <div class="footer">
+                    <p>Thank you for choosing Safe Transaction - The secure way to buy tickets!</p>
+                    <p style="margin: 5px 0;"><strong>Safe Transaction LLC</strong> | <a href="mailto:safetransactiontix@gmail.com" style="color: #007bff;">safetransactiontix@gmail.com</a></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        """
+        
+        # Create plain text version
+        buyer_text = f"""
+🎫 YOUR TICKETS HAVE BEEN SENT! - Transaction #{transaction_id}
+
+Great news! Your secure ticket transfer has been initiated.
+
+📋 TRANSACTION SUMMARY:
+• Transaction ID: ST-{transaction_id}
+• Event: {transaction['event_name']}
+• Venue: {transaction['location']}
+• Amount Paid: ${transaction['price']:.2f}
+
+📧 WHERE TO CHECK FOR YOUR TICKETS:
+Your tickets should arrive within 30 minutes. Please check:
+• Your main email inbox
+• Spam/Junk folder  
+• All email addresses you provided
+• Email from seller: {transaction['seller_email']}
+
+⚠️ IMPORTANT REMINDERS:
+• Contact us immediately if you don't receive tickets within 1 hour
+• Save this email as proof of purchase
+• 24-hour protection: You can report issues until 24 hours after the event
+• Enjoy your event! You're protected by Safe Transaction's guarantee
+
+Need help? Contact us at safetransactiontix@gmail.com
+
+✅ YOU'RE PROTECTED!
+This transaction was processed through Safe Transaction's secure platform.
+
+Thank you for choosing Safe Transaction - The secure way to buy tickets!
+Safe Transaction LLC | safetransactiontix@gmail.com
+        """
+        
+        buyer_msg = Message(
+            subject=buyer_subject,
+            recipients=[transaction['buyer_email']],
+            html=buyer_html,
+            body=buyer_text
+        )
+        insta485.mail.send(buyer_msg)
+        
+        # Email to seller
+        seller_subject = f"✅ Ticket Delivery Confirmed - Transaction #{transaction_id}"
+        seller_body = f"""
+Your ticket delivery has been confirmed by our admin team.
+
+📋 Transaction Details:
+• Transaction ID: ST-{transaction_id}
+• Event: {transaction['event_name']}
+• Buyer: {transaction['buyer_email']}
+• Amount: ${transaction['price']:.2f}
+
+✅ Status Update:
+Your tickets have been marked as successfully sent to the buyer. This transaction is now complete.
+
+💰 Payment:
+Your earnings will be processed and added to your account balance shortly.
+
+Thank you for using Safe Transaction!
+
+Best regards,
+The Safe Transaction Team
+        """
+        
+        seller_msg = Message(
+            subject=seller_subject,
+            recipients=[transaction['seller_email']],
+            body=seller_body
+        )
+        insta485.mail.send(seller_msg)
+        
+        print(f"📧 Sent ticket delivery notifications for transaction {transaction_id}")
+        
+    except Exception as e:
+        print(f"❌ Failed to send ticket delivery emails: {e}")
+        # Don't raise the exception since the main transaction update should still succeed

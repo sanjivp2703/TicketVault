@@ -424,6 +424,7 @@
                                 <th>Price</th>
                                 <th>Status</th>
                                 <th>Created</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -458,6 +459,19 @@
                                 </td>
                                 <td>
                                     <span class="timestamp">{{ transaction.created_time }}</span>
+                                </td>
+                                <td>
+                                    {% if transaction.status in ['both_received_processing'] or (transaction.payment_received == 1) %}
+                                        <button class="declare-ticket-btn" onclick="declareTicketSent({{ transaction.transaction_id }})">
+                                            📨 Declare Ticket Sent
+                                        </button>
+                                    {% elif transaction.status == 'ticket_sent' %}
+                                        <span class="badge success">✅ Ticket Sent</span>
+                                    {% elif transaction.status == 'completed' %}
+                                        <span class="badge success">✅ Completed</span>
+                                    {% else %}
+                                        <span class="badge">{{ transaction.status }}</span>
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}
@@ -597,6 +611,17 @@
                 form.submit();
             }
         }
+
+        function declareTicketSent(transactionId) {
+            if (confirm(`Are you sure you want to declare that the ticket was sent for transaction #${transactionId}?\n\n⚠️ This should only be done AFTER the buyer has paid!\n\nThis will:\n- Update the transaction status to "ticket_sent"\n- Process payment to seller\n- Send notification emails to buyer and seller\n- Close the transaction`)) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/admin/declare-ticket-sent/${transactionId}`;
+                
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
     </script>
 
     <style>
@@ -614,6 +639,25 @@
 
         .resolve-btn:hover {
             background: #5a6fd8;
+            transform: translateY(-1px);
+        }
+
+        .declare-ticket-btn {
+            background: #16a34a;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .declare-ticket-btn:hover {
+            background: #15803d;
             transform: translateY(-1px);
         }
     </style>

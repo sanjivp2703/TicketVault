@@ -2,12 +2,6 @@
 <div id="pendingListingPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.8); backdrop-filter: blur(16px); z-index: 9999; justify-content: center; align-items: center; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">
     <div style="background: #ffffff; border-radius: 20px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15); max-width: 480px; width: 90%; margin: auto; position: relative; max-height: 90vh; overflow-y: auto; border: 1px solid #e2e8f0;">
         
-        <!-- Close Button -->
-        <button onclick="closePendingPopup()" style="position: absolute; top: 20px; right: 20px; color: #64748b; background: #f8fafc; border: none; cursor: pointer; padding: 10px; border-radius: 12px; transition: all 0.2s ease; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;">
-            <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-        </button>
         
         <!-- Header -->
         <div style="padding: 40px 32px 20px 32px; text-align: center;">
@@ -145,13 +139,8 @@
         <!-- Action Buttons -->
         <div style="padding: 0 32px 32px 32px;">
             <div style="space-y: 12px;">
-                <button onclick="openMichiganAthletics()" 
+                <button onclick="markAsTransferredAndClose()" 
                         style="width: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 16px 24px; border-radius: 16px; border: none; cursor: pointer; transition: all 0.2s; font-weight: 700; font-size: 16px; box-shadow: 0 4px 6px -1px rgba(102, 126, 234, 0.3);">
-                    Go to Transfer Page
-                </button>
-                
-                <button onclick="markAsTransferred()" 
-                        style="width: 100%; background: #ffffff; color: #475569; padding: 14px 24px; border-radius: 16px; border: 1px solid #cbd5e1; cursor: pointer; transition: all 0.2s; font-weight: 600; font-size: 15px; margin-top: 12px;">
                     I've completed the transfer
                 </button>
                 
@@ -281,6 +270,12 @@ function markAsTransferred() {
     console.log('🚀 User marked transfer as complete - monitoring for verification');
 }
 
+function markAsTransferredAndClose() {
+    console.log('🚀 User marked transfer as complete - closing popup');
+    // Close the popup immediately
+    closePendingPopup();
+}
+
 function getCurrentTransactionId() {
     // This will be set when the popup is shown
     return window.currentTransactionId || null;
@@ -347,17 +342,12 @@ function testVerifyFromPopup() {
     }
 }
 
-// Close popup when clicking outside
-document.getElementById('pendingListingPopup').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closePendingPopup();
-    }
-});
+// Note: Popup no longer closes when clicking outside since there's no X button
 
 // Add hover effects for buttons
 document.addEventListener('DOMContentLoaded', function() {
     // Add hover effect to primary button
-    const primaryButton = document.querySelector('button[onclick="openMichiganAthletics()"]');
+    const primaryButton = document.querySelector('button[onclick="markAsTransferredAndClose()"]');
     if (primaryButton) {
         primaryButton.addEventListener('mouseenter', function() {
             this.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';

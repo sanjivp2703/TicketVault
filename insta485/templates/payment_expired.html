@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Link Expired - Safe Transaction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            max-width: 600px;
+            width: 100%;
+            overflow: hidden;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: white;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .header i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .event-info {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .event-info h3 {
+            color: #1e293b;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .event-detail {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 8px 0;
+            color: #64748b;
+            font-size: 1rem;
+        }
+
+        .event-detail i {
+            color: #3b82f6;
+            width: 20px;
+        }
+
+        .explanation {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        .explanation h4 {
+            color: #92400e;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+        }
+
+        .explanation p {
+            color: #78350f;
+            margin-bottom: 8px;
+        }
+
+        .next-steps {
+            background: #ecfdf5;
+            border: 1px solid #10b981;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        .next-steps h4 {
+            color: #047857;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+        }
+
+        .next-steps ul {
+            list-style: none;
+            color: #065f46;
+        }
+
+        .next-steps li {
+            margin: 8px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .next-steps li i {
+            color: #10b981;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 20px 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-top: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .header i {
+                font-size: 3rem;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .btn {
+                display: block;
+                margin: 15px 0;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <i class="fas fa-clock"></i>
+            <h1>Payment Link Expired</h1>
+            <p>This payment window has closed</p>
+        </div>
+        
+        <div class="content">
+            <div class="event-info">
+                <h3>{{ event_name }}</h3>
+                <div class="event-detail">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>{{ event_location }}</span>
+                </div>
+                <div class="event-detail">
+                    <i class="fas fa-calendar"></i>
+                    <span>{{ event_datetime }}</span>
+                </div>
+                <div class="event-detail">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span>${{ price }}</span>
+                </div>
+                <div class="event-detail">
+                    <i class="fas fa-user"></i>
+                    <span>Seller: {{ seller_email }}</span>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <h4>
+                    <i class="fas fa-info-circle"></i>
+                    What happened?
+                </h4>
+                <p>This payment link expired because the 1-hour payment deadline has passed.</p>
+                <p>Payment links automatically expire 1 hour after the seller verifies the ticket to ensure quick transactions.</p>
+            </div>
+
+            <div class="next-steps">
+                <h4>
+                    <i class="fas fa-lightbulb"></i>
+                    What can you do next?
+                </h4>
+                <ul>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>Contact the seller ({{ seller_email }}) to request a new listing</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-refresh"></i>
+                        <span>The seller can create a fresh listing with a new payment window</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-shield-alt"></i>
+                        <span>All Safe Transaction listings have the same 1-hour payment protection</span>
+                    </li>
+                </ul>
+            </div>
+
+            <a href="mailto:{{ seller_email }}?subject=Request%20New%20Listing%20-%20{{ event_name|urlencode }}&body=Hi%2C%0A%0AI%20missed%20the%20payment%20deadline%20for%20your%20{{ event_name|urlencode }}%20ticket.%20Could%20you%20please%20create%20a%20new%20listing%20for%20me%3F%0A%0AThanks%21" class="btn">
+                <i class="fas fa-envelope"></i>
+                Email Seller for New Listing
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>Safe Transaction • Secure Ticket Marketplace</p>
+            <p>Transaction ID: ST-{{ transaction_id }}</p>
+        </div>
+    </div>
+</body>
+</html>

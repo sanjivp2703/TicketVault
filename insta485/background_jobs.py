@@ -206,7 +206,7 @@ class BackgroundJobManager:
         # Archive old completed transactions
         old_transactions = connection.execute("""
             SELECT transaction_id FROM transactions 
-            WHERE status IN ('completed', 'expired_no_ticket', 'ticket_returned', 'cancelled_by_seller', 'cancelled_by_buyer')
+            WHERE status IN ('completed', 'expired_no_ticket', 'ticket_returned', 'cancelled_by_seller')
             AND created_time < ?
         """, (cutoff_date,)).fetchall()
         
@@ -322,7 +322,7 @@ class BackgroundJobManager:
         """, (transaction_id,)).fetchone()
         
         hours_remaining = (transaction['payment_deadline'] - datetime.now()).total_seconds() / 3600
-        payment_url = f"http://localhost:8000/pay/{transaction_id}"
+        payment_url = f"http://localhost:8000/ticket/{transaction_id}"
         
         msg = Message(
             subject=f"Reminder: Pay for {transaction['event_name']} Tickets",

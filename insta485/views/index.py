@@ -77,7 +77,7 @@ def show_index():
     # Get seller transactions (including pending ones)
     transactions = connection.execute(
         """SELECT t.transaction_id, e.name AS ticket_description, t.buyer_email, t.price, 
-                  e.location, e.event_datetime, t.status, t.ticket_deadline,
+                  e.location, e.event_datetime, e.is_tbd, t.status, t.ticket_deadline,
                   t.awaiting_ticket_email, t.listing_created_time, t.payment_deadline
            FROM transactions t 
            JOIN events e ON t.event_id = e.event_id 
@@ -102,6 +102,20 @@ def show_index():
 
     for trans in transactions:
         trans_dict = dict(trans)
+        
+        # --- AUTO-UPDATE STATUS TO 'payment_deadline_expired' IF PAYMENT DEADLINE PASSED ---
+        if trans['payment_deadline'] and trans['status'] == 'waiting_for_payment':
+            try:
+                payment_deadline = datetime.datetime.strptime(trans['payment_deadline'], '%Y-%m-%d %H:%M:%S')
+                if now > payment_deadline:
+                    connection.execute(
+                        "UPDATE transactions SET status = 'payment_deadline_expired' WHERE transaction_id = ?",
+                        (trans['transaction_id'],)
+                    )
+                    trans_dict['status'] = 'payment_deadline_expired'
+            except ValueError:
+                pass  # Invalid datetime format, continue normally
+        
         # --- AUTO-UPDATE STATUS TO 'completed' IF EVENT TIME PASSED ---
         if trans['event_datetime'] and trans['event_datetime'].strip():
             event_dt = datetime.datetime.strptime(trans['event_datetime'], '%Y-%m-%d %H:%M:%S')
@@ -141,9 +155,14 @@ def show_index():
         # Add ticket_email for template compatibility
         trans_dict['ticket_email'] = 'system@safe-transaction.com'
 
-        # Pass the event datetime as a formatted string
+        # Pass the event datetime as a formatted string, handling TBD times
         event_dt = datetime.datetime.strptime(trans_dict['event_datetime'], '%Y-%m-%d %H:%M:%S')
-        trans_dict['event_datetime_str'] = event_dt.strftime('%Y-%m-%d %I:%M %p')
+        if trans_dict.get('is_tbd', 0):
+            # For TBD times, show only the date
+            trans_dict['event_datetime_str'] = event_dt.strftime('%Y-%m-%d') + ' TBD'
+        else:
+            # For specific times, show date and time
+            trans_dict['event_datetime_str'] = event_dt.strftime('%Y-%m-%d %I:%M %p')
         trans_dict['event_started'] = now >= event_dt
 
         # Allow problem reporting for up to 1 minute after the event
@@ -152,18 +171,23 @@ def show_index():
         trans_dict['problem_report_deadline_str'] = problem_report_deadline.strftime('%Y-%m-%d %I:%M %p')
 
         # Add status category for filtering
-        if trans_dict['status'] in ['waiting_for_ticket', 'waiting_for_payment', 'both_received_processing', 'ticket_forwarded_funds_held', 'complaint_filed']:
+        if trans_dict['status'] in ['pending_ticket_submission', 'waiting_for_ticket', 'waiting_for_payment', 'both_received_processing', 'ticket_forwarded_funds_held', 'complaint_filed']:
             trans_dict['status_category'] = 'active'
+        elif trans_dict['status'] in ['payment_deadline_expired', 'cancelled_by_seller']:
+            trans_dict['status_category'] = 'cancelled'
         else:
             trans_dict['status_category'] = 'completed'
 
         formatted_transactions.append(trans_dict)
 
+    # Commit all status updates
+    connection.commit()
+
     # Filter transactions based on view_filter
     if view_filter == 'active':
         filtered_transactions = [t for t in formatted_transactions if t['status_category'] == 'active']
     elif view_filter == 'history':
-        filtered_transactions = [t for t in formatted_transactions if t['status_category'] == 'completed']
+        filtered_transactions = [t for t in formatted_transactions if t['status_category'] in ['completed', 'cancelled']]
     else:  # 'all'
         filtered_transactions = formatted_transactions
     
@@ -180,9 +204,62 @@ def show_index():
     # Calculate real platform statistics
     stats = calculate_platform_stats(connection)
 
+    # Get finished (completed and cancelled) transactions for the separate finished listings section
+    # Fetch completed and cancelled transactions with proper event data using a fresh query
+    finished_transactions_raw = connection.execute("""
+        SELECT t.*, e.name, e.location, e.event_datetime 
+        FROM transactions t 
+        JOIN events e ON t.event_id = e.event_id 
+        WHERE t.seller_email = ? AND t.status IN ('completed', 'cancelled_by_seller', 'payment_deadline_expired')
+        ORDER BY t.created_time DESC
+    """, (logemail,)).fetchall()
+    
+    finished_transactions = []
+    for trans in finished_transactions_raw:
+        trans_dict = dict(trans)
+        
+        # Format event datetime for display
+        if trans_dict.get('event_datetime'):
+            try:
+                event_dt = datetime.datetime.strptime(trans_dict['event_datetime'], '%Y-%m-%d %H:%M:%S')
+                trans_dict['event_datetime_formatted'] = event_dt.strftime('%A, %B %d, %Y at %I:%M %p')
+            except ValueError:
+                trans_dict['event_datetime_formatted'] = 'Date TBD'
+        else:
+            trans_dict['event_datetime_formatted'] = 'Date TBD'
+        
+        # Format completion time (use created_time as basis)
+        if trans_dict.get('created_time'):
+            try:
+                created_dt = datetime.datetime.strptime(trans_dict['created_time'], '%Y-%m-%d %H:%M:%S')
+                time_diff = now - created_dt
+                if time_diff.days < 0:
+                    trans_dict['completed_time_formatted'] = 'Recently'
+                elif time_diff.days == 0:
+                    trans_dict['completed_time_formatted'] = 'Today'
+                elif time_diff.days == 1:
+                    trans_dict['completed_time_formatted'] = 'Yesterday'
+                elif time_diff.days < 7:
+                    trans_dict['completed_time_formatted'] = f'{time_diff.days} days ago'
+                else:
+                    trans_dict['completed_time_formatted'] = created_dt.strftime('%b %d, %Y')
+            except ValueError:
+                trans_dict['completed_time_formatted'] = 'Recently'
+        else:
+            trans_dict['completed_time_formatted'] = 'Recently'
+        
+        # Set event location
+        trans_dict['event_location'] = trans_dict.get('location', 'Location TBD')
+        
+        # Create ticket description using event name
+        trans_dict['ticket_description'] = trans_dict.get('name', f"Event #{trans_dict.get('event_id', 'Unknown')}")
+        
+        finished_transactions.append(trans_dict)
+
     context = {
         'logemail': logemail,
         'transactions': filtered_transactions,
+        'finished_transactions': finished_transactions,
         'is_admin': is_admin,
         'view_filter': view_filter,
         'active_count': active_count,
@@ -407,11 +484,26 @@ def resend_code():
 def get_events():
     """Return a list of events for autocomplete."""
     query = flask.request.args.get('q', '')
+    school = flask.request.args.get('school', '')
     connection = insta485.model.get_db()
-    events = connection.execute(
-        "SELECT name, location, event_datetime FROM events WHERE name LIKE ? OR location LIKE ? LIMIT 10",
-        (f"%{query}%", f"%{query}%")
-    ).fetchall()
+    
+    # Filter events based on school
+    if school == 'michigan':
+        events = connection.execute(
+            "SELECT name, location, event_datetime, is_tbd, max_ticket_price FROM events WHERE (name LIKE ? OR location LIKE ?) AND (name LIKE '%Michigan%' OR name LIKE '%michigan%') LIMIT 10",
+            (f"%{query}%", f"%{query}%")
+        ).fetchall()
+    elif school == 'florida':
+        events = connection.execute(
+            "SELECT name, location, event_datetime, is_tbd, max_ticket_price FROM events WHERE (name LIKE ? OR location LIKE ?) AND (name LIKE '%Florida%' OR name LIKE '%florida%') LIMIT 10",
+            (f"%{query}%", f"%{query}%")
+        ).fetchall()
+    else:
+        # Default behavior - show all events
+        events = connection.execute(
+            "SELECT name, location, event_datetime, is_tbd, max_ticket_price FROM events WHERE name LIKE ? OR location LIKE ? LIMIT 10",
+            (f"%{query}%", f"%{query}%")
+        ).fetchall()
     results = []
     for row in events:
         try:
@@ -425,11 +517,19 @@ def get_events():
                 # If all else fails, use a default format
                 event_dt = datetime.datetime.now()
         
+        # Handle TBD times
+        if row.get('is_tbd', 0):
+            formatted_datetime = event_dt.strftime('%A, %b %d, %Y') + ' at TBD'
+        else:
+            formatted_datetime = event_dt.strftime('%A, %b %d, %Y at %I:%M %p')
+        
         results.append({
             'name': row['name'],
             'location': row['location'],
-            'datetime': event_dt.strftime('%A, %b %d, %Y at %I:%M %p'),
-            'raw_datetime': row['event_datetime']
+            'datetime': formatted_datetime,
+            'raw_datetime': row['event_datetime'],
+            'is_tbd': row.get('is_tbd', 0),
+            'max_ticket_price': row.get('max_ticket_price', 20000)
         })
     return flask.jsonify(results)
 
@@ -541,7 +641,7 @@ def process_buyer_payment(transaction_id):
             }],
             mode='payment',
             success_url=f'https://safetransaction.app/payment-success/{transaction_id}',
-            cancel_url=f'https://safetransaction.app/pay/{transaction_id}',
+            cancel_url=f'https://safetransaction.app/ticket/{transaction_id}',
             metadata={'transaction_id': transaction_id}
         )
 
@@ -635,6 +735,269 @@ def payment_success(transaction_id):
                                payment_time="Just now",
                                event_name=transaction['event_name'],
                                email_sent=True)
+
+@insta485.app.route('/receipt/<int:transaction_id>')
+def download_receipt(transaction_id):
+    """Generate and serve a downloadable PDF receipt for a transaction."""
+    from reportlab.lib import colors
+    from reportlab.lib.pagesizes import letter, A4
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Frame, PageTemplate
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.lib.units import inch
+    from reportlab.pdfgen import canvas
+    from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT
+    from io import BytesIO
+    from datetime import datetime
+    
+    connection = insta485.model.get_db()
+    
+    # Get transaction details with event information
+    transaction = connection.execute("""
+        SELECT t.*, e.name as event_name, e.location, e.event_datetime
+        FROM transactions t
+        JOIN events e ON t.event_id = e.event_id
+        WHERE t.transaction_id = ?
+    """, (transaction_id,)).fetchone()
+    
+    if not transaction:
+        flask.abort(404)
+    
+    # Create a BytesIO buffer to hold the PDF
+    buffer = BytesIO()
+    
+    # Create the PDF document
+    doc = SimpleDocTemplate(buffer, pagesize=letter, topMargin=0.5*inch, bottomMargin=0.5*inch, 
+                           leftMargin=0.75*inch, rightMargin=0.75*inch)
+    
+    # Define styles matching the email aesthetics
+    styles = getSampleStyleSheet()
+    
+    # Custom styles inspired by the email templates
+    title_style = ParagraphStyle(
+        'CustomTitle',
+        parent=styles['Heading1'],
+        fontSize=24,
+        textColor=colors.HexColor('#667eea'),
+        spaceAfter=6,
+        alignment=TA_CENTER,
+        fontName='Helvetica-Bold'
+    )
+    
+    subtitle_style = ParagraphStyle(
+        'CustomSubtitle',
+        parent=styles['Normal'],
+        fontSize=12,
+        textColor=colors.HexColor('#475569'),
+        spaceAfter=20,
+        alignment=TA_CENTER,
+        fontName='Helvetica'
+    )
+    
+    section_header_style = ParagraphStyle(
+        'SectionHeader',
+        parent=styles['Heading2'],
+        fontSize=14,
+        textColor=colors.HexColor('#0f172a'),
+        spaceAfter=8,
+        spaceBefore=16,
+        fontName='Helvetica-Bold',
+        backColor=colors.HexColor('#f8fafc'),
+        borderPadding=8
+    )
+    
+    normal_style = ParagraphStyle(
+        'CustomNormal',
+        parent=styles['Normal'],
+        fontSize=10,
+        textColor=colors.HexColor('#475569'),
+        spaceAfter=4,
+        fontName='Helvetica'
+    )
+    
+    highlight_style = ParagraphStyle(
+        'Highlight',
+        parent=styles['Normal'],
+        fontSize=11,
+        textColor=colors.HexColor('#0f172a'),
+        fontName='Helvetica-Bold'
+    )
+    
+    # Format dates
+    current_time = datetime.now().strftime('%B %d, %Y at %I:%M %p')
+    try:
+        event_dt = datetime.strptime(transaction['event_datetime'], '%Y-%m-%d %H:%M:%S')
+        formatted_event_time = event_dt.strftime('%A, %B %d, %Y at %I:%M %p')
+    except:
+        formatted_event_time = transaction['event_datetime']
+    
+    # Build the story (content)
+    story = []
+    
+    # Header with gradient-like styling
+    story.append(Paragraph("🛡️ SAFE TRANSACTION", title_style))
+    story.append(Paragraph("Official Receipt", subtitle_style))
+    story.append(Spacer(1, 12))
+    
+    # Receipt metadata in a styled table
+    receipt_info = [
+        ['Receipt Generated:', current_time],
+        ['Transaction ID:', f'ST-{transaction_id}'],
+    ]
+    
+    receipt_table = Table(receipt_info, colWidths=[2*inch, 3*inch])
+    receipt_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#f1f5f9')),
+        ('TEXTCOLOR', (0, 0), (0, -1), colors.HexColor('#475569')),
+        ('TEXTCOLOR', (1, 0), (1, -1), colors.HexColor('#0f172a')),
+        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+        ('FONTNAME', (1, 0), (1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('ROWBACKGROUNDS', (0, 0), (-1, -1), [colors.white, colors.HexColor('#f8fafc')]),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#e2e8f0')),
+        ('TOPPADDING', (0, 0), (-1, -1), 8),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
+        ('LEFTPADDING', (0, 0), (-1, -1), 12),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 12),
+    ]))
+    
+    story.append(receipt_table)
+    story.append(Spacer(1, 20))
+    
+    # Event Information Section
+    story.append(Paragraph("🎫 TICKET INFORMATION", section_header_style))
+    
+    event_info = [
+        ['Event:', transaction['event_name']],
+        ['Venue:', transaction['location']],
+        ['Date & Time:', formatted_event_time],
+    ]
+    
+    event_table = Table(event_info, colWidths=[1.5*inch, 4*inch])
+    event_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#f0fff4')),
+        ('TEXTCOLOR', (0, 0), (0, -1), colors.HexColor('#059669')),
+        ('TEXTCOLOR', (1, 0), (1, -1), colors.HexColor('#0f172a')),
+        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+        ('FONTNAME', (1, 0), (1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#bbf7d0')),
+        ('TOPPADDING', (0, 0), (-1, -1), 8),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
+        ('LEFTPADDING', (0, 0), (-1, -1), 12),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 12),
+    ]))
+    
+    story.append(event_table)
+    story.append(Spacer(1, 16))
+    
+    # Purchase Details Section
+    story.append(Paragraph("💳 PURCHASE DETAILS", section_header_style))
+    
+    purchase_info = [
+        ['Buyer Email:', transaction['buyer_email']],
+        ['Seller Email:', transaction['seller_email']],
+        ['Amount Paid:', f"${transaction['price']:.2f}"],
+        ['Status:', transaction['status'].replace('_', ' ').title()],
+    ]
+    
+    purchase_table = Table(purchase_info, colWidths=[1.5*inch, 4*inch])
+    purchase_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#f0f4ff')),
+        ('TEXTCOLOR', (0, 0), (0, -1), colors.HexColor('#667eea')),
+        ('TEXTCOLOR', (1, 0), (1, -1), colors.HexColor('#0f172a')),
+        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+        ('FONTNAME', (1, 0), (1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#c3d1ff')),
+        ('TOPPADDING', (0, 0), (-1, -1), 8),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
+        ('LEFTPADDING', (0, 0), (-1, -1), 12),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 12),
+    ]))
+    
+    story.append(purchase_table)
+    story.append(Spacer(1, 16))
+    
+    # Timeline Section
+    story.append(Paragraph("⏱️ TRANSACTION TIMELINE", section_header_style))
+    
+    timeline_info = [
+        ['Transaction Created:', transaction['created_time'] or 'N/A'],
+        ['Payment Processed:', transaction.get('payment_received_time', 'N/A')],
+    ]
+    
+    timeline_table = Table(timeline_info, colWidths=[2*inch, 3.5*inch])
+    timeline_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#fffbeb')),
+        ('TEXTCOLOR', (0, 0), (0, -1), colors.HexColor('#d97706')),
+        ('TEXTCOLOR', (1, 0), (1, -1), colors.HexColor('#0f172a')),
+        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+        ('FONTNAME', (1, 0), (1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#fde68a')),
+        ('TOPPADDING', (0, 0), (-1, -1), 8),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
+        ('LEFTPADDING', (0, 0), (-1, -1), 12),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 12),
+    ]))
+    
+    story.append(timeline_table)
+    story.append(Spacer(1, 20))
+    
+    # Important Notes Section
+    story.append(Paragraph("📋 IMPORTANT INFORMATION", section_header_style))
+    
+    notes = [
+        "• This receipt serves as proof of purchase",
+        "• Keep this receipt for your records",
+        "• Contact support at safetransactiontix@gmail.com for any issues",
+        "• You have 24 hours after the event to file any complaints",
+        "• All transactions are protected by Safe Transaction's guarantee"
+    ]
+    
+    for note in notes:
+        story.append(Paragraph(note, normal_style))
+    
+    story.append(Spacer(1, 24))
+    
+    # Footer
+    footer_style = ParagraphStyle(
+        'Footer',
+        parent=styles['Normal'],
+        fontSize=9,
+        textColor=colors.HexColor('#94a3b8'),
+        alignment=TA_CENTER,
+        fontName='Helvetica',
+        spaceAfter=4
+    )
+    
+    story.append(Paragraph("Thank you for using Safe Transaction!", highlight_style))
+    story.append(Spacer(1, 8))
+    story.append(Paragraph("Safe Transaction LLC • Secure Ticket Marketplace", footer_style))
+    story.append(Paragraph("Visit us at safetransaction.com", footer_style))
+    
+    # Build the PDF
+    doc.build(story)
+    
+    # Get the PDF content from the buffer
+    pdf_content = buffer.getvalue()
+    buffer.close()
+    
+    # Create response with PDF content
+    response = flask.make_response(pdf_content)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = f'attachment; filename="receipt_ST-{transaction_id}.pdf"'
+    
+    return response
+
 # Removed separate create_listing route - listing creation is now done directly on home page
 
 
@@ -650,6 +1013,7 @@ def create_transaction():
     event_name = flask.request.form['event_name']
     event_location = flask.request.form['event_location']
     event_datetime_raw = flask.request.form['event_datetime']
+    school = flask.request.form.get('school', 'michigan')  # Get school from form, default to michigan
     
     # Use default deadlines
     ticket_deadline_hours = 24  # 24 hours to send tickets
@@ -667,7 +1031,18 @@ def create_transaction():
         flask.flash('You cannot create a transaction with yourself.', 'error')
         return flask.redirect(url_for('show_index'))
     
+    # Validate ticket price against event maximum
     connection = insta485.model.get_db()
+    event = connection.execute(
+        "SELECT max_ticket_price FROM events WHERE name = ? AND location = ?",
+        (event_name, event_location)
+    ).fetchone()
+    
+    if event:
+        max_price_dollars = event['max_ticket_price'] / 100.0
+        if price > max_price_dollars:
+            flask.flash(f'Maximum ticket price for this event is ${max_price_dollars:.0f}', 'error')
+            return flask.redirect(url_for('show_index'))
     
     # Check if buyer exists in users table, if not create a placeholder
     buyer_exists = connection.execute(
@@ -717,7 +1092,8 @@ def create_transaction():
             seller_email=seller_email,
             buyer_email=buyer_email,
             price=price,
-            event_details=event_details
+            event_details=event_details,
+            school=school
         )
         
         # Return success response for AJAX request to show popup
@@ -737,8 +1113,8 @@ def create_transaction():
         })
 
 
-def send_buyer_email_1(transaction_id, buyer_email, event_name, price, seller_email):
-    """Send Email 1 to buyer with secure payment link."""
+def send_buyer_email_1(transaction_id, buyer_email, event_name, price, seller_email, payment_deadline=None):
+    """Send Email 1 to buyer with secure payment link and deadline."""
     subject = f"🎫 Secure Ticket Offer - {event_name}"
     
     # Create HTML email content
@@ -783,6 +1159,14 @@ def send_buyer_email_1(transaction_id, buyer_email, event_name, price, seller_em
                     <strong>🛡️ 100% Secure:</strong> Your payment is protected until you receive the ticket. No scams, guaranteed!
                 </div>
                 
+                {"" if not payment_deadline else f'''
+                <div style="background: #fff3cd; padding: 20px; border-radius: 8px; border-left: 4px solid #ffc107; margin: 20px 0;">
+                    <h3 style="color: #856404; margin: 0 0 10px 0;">⏰ Payment Deadline</h3>
+                    <p style="margin: 0; color: #856404;"><strong>You must complete payment by: {payment_deadline.strftime("%B %d, %Y at %I:%M %p")}</strong></p>
+                    <p style="margin: 5px 0 0 0; color: #856404; font-size: 14px;">This offer expires in 1 hour. After that, the payment link will be disabled.</p>
+                </div>
+                '''}
+                
                 <p>Click the link above to view full details and pay securely.</p>
                 <p>Best regards,<br>The Safe Transaction Team</p>
             </div>
@@ -801,6 +1185,11 @@ def send_buyer_email_1(transaction_id, buyer_email, event_name, price, seller_em
     🎫 Event: {event_name}
     💰 Price: ${price}
     🔗 Secure Payment Link: http://localhost:8000/ticket/{transaction_id}
+
+    {"" if not payment_deadline else f'''
+    ⏰ PAYMENT DEADLINE: {payment_deadline.strftime("%B %d, %Y at %I:%M %p")}
+    This offer expires in 1 hour. After that, the payment link will be disabled.
+    '''}
 
     Click the link above to view details and pay securely.
     Your payment is protected until you receive the ticket!
@@ -851,6 +1240,64 @@ def buyer_ticket_card(transaction_id):
     if not transaction:
         flask.abort(404)
     
+    # Check if payment deadline has passed and format it
+    payment_deadline_passed = False
+    payment_deadline_formatted = None
+    
+    # If already expired, show the expired page
+    if transaction['status'] == 'payment_deadline_expired':
+        # Format datetime for display
+        event_dt = datetime.datetime.strptime(transaction['event_datetime'], '%Y-%m-%d %H:%M:%S')
+        formatted_datetime = event_dt.strftime('%A, %B %d, %Y at %I:%M %p')
+        
+        return flask.render_template("payment_expired.html",
+                                   transaction_id=transaction_id,
+                                   event_name=transaction['name'],
+                                   event_location=transaction['location'],
+                                   event_datetime=formatted_datetime,
+                                   price=transaction['price'],
+                                   seller_email=transaction['seller_email'])
+    
+    # If transaction is cancelled, show the cancelled page (only sellers can cancel)
+    if transaction['status'] == 'cancelled_by_seller':
+        # Format datetime for display
+        event_dt = datetime.datetime.strptime(transaction['event_datetime'], '%Y-%m-%d %H:%M:%S')
+        formatted_datetime = event_dt.strftime('%A, %B %d, %Y at %I:%M %p')
+        
+        return flask.render_template("transaction_cancelled.html",
+                                   transaction_id=transaction_id,
+                                   event_name=transaction['name'],
+                                   event_location=transaction['location'],
+                                   event_datetime=formatted_datetime,
+                                   price=transaction['price'],
+                                   seller_email=transaction['seller_email'])
+    
+    if transaction['payment_deadline'] and transaction['status'] == 'waiting_for_payment':
+        try:
+            deadline = datetime.datetime.strptime(transaction['payment_deadline'], '%Y-%m-%d %H:%M:%S')
+            payment_deadline_formatted = deadline.strftime('%B %d, %Y at %I:%M %p')
+            if datetime.datetime.now() > deadline:
+                payment_deadline_passed = True
+                # Update transaction status to expired
+                connection.execute(
+                    "UPDATE transactions SET status = 'payment_deadline_expired' WHERE transaction_id = ?",
+                    (transaction_id,)
+                )
+                connection.commit()
+                # Redirect to expired page
+                event_dt = datetime.datetime.strptime(transaction['event_datetime'], '%Y-%m-%d %H:%M:%S')
+                formatted_datetime = event_dt.strftime('%A, %B %d, %Y at %I:%M %p')
+                
+                return flask.render_template("payment_expired.html",
+                                           transaction_id=transaction_id,
+                                           event_name=transaction['name'],
+                                           event_location=transaction['location'],
+                                           event_datetime=formatted_datetime,
+                                           price=transaction['price'],
+                                           seller_email=transaction['seller_email'])
+        except ValueError:
+            pass  # Invalid datetime format, continue normally
+    
     # Format event datetime
     event_dt = datetime.datetime.strptime(transaction['event_datetime'], '%Y-%m-%d %H:%M:%S')
     formatted_datetime = event_dt.strftime('%A, %B %d, %Y at %I:%M %p')
@@ -860,6 +1307,8 @@ def buyer_ticket_card(transaction_id):
         'event_name': transaction['name'],
         'event_location': transaction['location'],
         'event_datetime': formatted_datetime,
+        'payment_deadline_passed': payment_deadline_passed,
+        'payment_deadline_formatted': payment_deadline_formatted,
         'is_buyer_logged_in': ('email' in flask.session and 
                                flask.session['email'] == transaction['buyer_email'])
     }
@@ -867,16 +1316,127 @@ def buyer_ticket_card(transaction_id):
     return flask.render_template("buyer_ticket_card.html", **context)
 
 
+@insta485.app.route('/ticket_status_check/<int:transaction_id>')
+def ticket_status_check(transaction_id):
+    """Smart router: Check transaction status and route to cancellation page or Stripe payment."""
+    connection = insta485.model.get_db()
+    
+    # Get transaction and event details (same logic as buyer_ticket_card)
+    transaction = connection.execute(
+        """SELECT t.*, e.name, e.location, e.event_datetime 
+           FROM transactions t 
+           JOIN events e ON t.event_id = e.event_id 
+           WHERE t.transaction_id = ?""",
+        (transaction_id,)
+    ).fetchone()
+    
+    if not transaction:
+        flask.abort(404)
+    
+    # Check if transaction is cancelled (only sellers can cancel)
+    if transaction['status'] == 'cancelled_by_seller':
+        # Redirect to dedicated cancellation page
+        return flask.redirect(flask.url_for('show_cancellation_page', transaction_id=transaction_id))
+    
+    # Check if payment deadline has passed
+    if transaction['payment_deadline'] and transaction['status'] == 'waiting_for_payment':
+        try:
+            deadline = datetime.datetime.strptime(transaction['payment_deadline'], '%Y-%m-%d %H:%M:%S')
+            if datetime.datetime.now() > deadline:
+                # Update transaction status to expired
+                connection.execute(
+                    "UPDATE transactions SET status = 'payment_deadline_expired' WHERE transaction_id = ?",
+                    (transaction_id,)
+                )
+                connection.commit()
+                # Redirect to cancellation page (expired is also a form of cancellation)
+                return flask.redirect(flask.url_for('show_cancellation_page', transaction_id=transaction_id))
+        except ValueError:
+            pass  # Invalid datetime format, continue to payment
+    
+    # Transaction is active - redirect to Stripe payment
+    from insta485.views.manage import send_payment_buyer
+    return send_payment_buyer(transaction_id)
+
+
+@insta485.app.route('/cancelled/<int:transaction_id>')
+def show_cancellation_page(transaction_id):
+    """Display dedicated cancellation page with proper messaging."""
+    connection = insta485.model.get_db()
+    
+    # Get transaction and event details
+    transaction = connection.execute(
+        """SELECT t.*, e.name, e.location, e.event_datetime 
+           FROM transactions t 
+           JOIN events e ON t.event_id = e.event_id 
+           WHERE t.transaction_id = ?""",
+        (transaction_id,)
+    ).fetchone()
+    
+    if not transaction:
+        flask.abort(404)
+    
+    # Format datetime for display
+    event_dt = datetime.datetime.strptime(transaction['event_datetime'], '%Y-%m-%d %H:%M:%S')
+    formatted_datetime = event_dt.strftime('%A, %B %d, %Y at %I:%M %p')
+    
+    # Determine cancellation reason
+    if transaction['status'] == 'cancelled_by_seller':
+        cancellation_reason = 'seller_cancelled'
+    elif transaction['status'] == 'payment_deadline_expired':
+        cancellation_reason = 'payment_expired'
+    else:
+        cancellation_reason = 'unknown'
+    
+    return flask.render_template("transaction_cancelled.html",
+                               transaction_id=transaction_id,
+                               event_name=transaction['name'],
+                               event_location=transaction['location'],
+                               event_datetime=formatted_datetime,
+                               price=transaction['price'],
+                               seller_email=transaction['seller_email'],
+                               cancellation_reason=cancellation_reason)
+
+
 @insta485.app.route('/simulate-payment/<int:transaction_id>', methods=['POST'])
 def simulate_payment(transaction_id):
     """Simulate payment processing for the transaction."""
     connection = insta485.model.get_db()
     
-    # Get transaction details
+    # Get transaction details including status and deadline
     transaction = connection.execute(
-        "SELECT buyer_email, seller_email, price FROM transactions WHERE transaction_id = ?",
+        "SELECT buyer_email, seller_email, price, status, payment_deadline FROM transactions WHERE transaction_id = ?",
         (transaction_id,)
     ).fetchone()
+    
+    if not transaction:
+        flask.abort(404)
+    
+    # Check if payment deadline has passed
+    if transaction['payment_deadline'] and transaction['status'] == 'waiting_for_payment':
+        try:
+            deadline = datetime.datetime.strptime(transaction['payment_deadline'], '%Y-%m-%d %H:%M:%S')
+            if datetime.datetime.now() > deadline:
+                # Update status and redirect to expired page
+                connection.execute(
+                    "UPDATE transactions SET status = 'payment_deadline_expired' WHERE transaction_id = ?",
+                    (transaction_id,)
+                )
+                connection.commit()
+                flask.flash('Payment deadline has expired. Please contact the seller for a new listing.', 'error')
+                return flask.redirect(flask.url_for('buyer_ticket_card', transaction_id=transaction_id))
+        except ValueError:
+            pass
+    
+    # Check if transaction is cancelled (only sellers can cancel)
+    if transaction['status'] == 'cancelled_by_seller':
+        flask.flash('This transaction has been cancelled.', 'error')
+        return flask.redirect(flask.url_for('buyer_ticket_card', transaction_id=transaction_id))
+    
+    # Check if transaction is not in payable status
+    if transaction['status'] not in ['waiting_for_payment', 'pending']:
+        flask.flash('This transaction cannot be paid at this time.', 'error')
+        return flask.redirect(flask.url_for('buyer_ticket_card', transaction_id=transaction_id))
     
     # Update transaction status to payment processing
     connection.execute(
@@ -1192,6 +1752,44 @@ def initiate_transaction():
 
     flask.flash('Please use the new listing creation form on the main page.', 'info')
     return flask.redirect(url_for('show_index'))
+
+@insta485.app.route('/send-ticket-sent-email/<int:transaction_id>', methods=['POST'])
+def send_ticket_sent_email_route(transaction_id):
+    """Send ticket sent notification email to buyer from active listings."""
+    if 'email' not in flask.session:
+        return flask.jsonify({'success': False, 'error': 'Not logged in'}), 401
+    
+    connection = insta485.model.get_db()
+    
+    # Get transaction details with event information and verify seller ownership
+    transaction = connection.execute("""
+        SELECT t.*, e.name as event_name, e.location, e.event_datetime
+        FROM transactions t 
+        JOIN events e ON t.event_id = e.event_id
+        WHERE t.transaction_id = ? AND t.seller_email = ?
+    """, (transaction_id, flask.session['email'])).fetchone()
+    
+    if not transaction:
+        return flask.jsonify({'success': False, 'error': 'Transaction not found or access denied'}), 404
+    
+    try:
+        # Import the email function from admin_actions
+        from insta485.views.admin_actions import send_ticket_sent_notifications
+        
+        # Send the notification emails
+        send_ticket_sent_notifications(transaction_id, transaction)
+        
+        return flask.jsonify({
+            'success': True, 
+            'message': f'Ticket sent notification email sent successfully for transaction #{transaction_id}'
+        })
+        
+    except Exception as e:
+        print(f"Error sending ticket sent email: {e}")
+        return flask.jsonify({
+            'success': False, 
+            'error': f'Failed to send email: {str(e)}'
+        }), 500
 
 @insta485.app.route('/update_transaction_status/<int:transaction_id>', methods=['POST'])
 def update_transaction_status(transaction_id):

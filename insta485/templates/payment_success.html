@@ -375,14 +375,8 @@
         {% endif %}
         
         <div class="action-buttons">
-            <a href="/ticket/{{ transaction_id }}" class="btn btn-primary">
-                📋 View Purchase
-            </a>
-            <a href="mailto:{{ buyer_email }}?subject=Payment Receipt - Order #ST-{{ transaction_id }}" class="btn btn-secondary">
+            <a href="/receipt/{{ transaction_id }}" class="btn btn-primary" download>
                 📄 Download Receipt
-            </a>
-            <a href="mailto:{{ buyer_email }}" class="btn btn-secondary">
-                📧 Back to Email
             </a>
         </div>
         

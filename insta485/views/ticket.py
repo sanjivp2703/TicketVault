@@ -21,8 +21,7 @@ def show_validate_ticket(transaction_id):
     ).fetchone()
     
     if not transaction:
-        flask.flash("Transaction not found or you don't have permission to view it", "error")
-        return flask.redirect(flask.url_for('show_index', user_type='buyer'))
+        flask.abort(404)  # Transaction not found
     
     # Generate a ticket code (in a real app, this would be more sophisticated)
     ticket_code = f"SAFE-{transaction_id}-{hash(transaction['seller_email']) % 10000:04d}"
@@ -88,8 +87,7 @@ def show_report_problem(transaction_id):
     ).fetchone()
     
     if not transaction:
-        flask.flash("Transaction not found", "error")
-        return flask.redirect(flask.url_for('show_index', user_type='buyer'))
+        flask.abort(404)  # Transaction not found
     
     # No need to check if the user is logged in or is the buyer
     # This page is accessible directly from the email link

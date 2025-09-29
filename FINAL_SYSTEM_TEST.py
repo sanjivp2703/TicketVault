@@ -75,7 +75,7 @@ def test_complete_automated_system():
                     print(f"\n💳 TEST 3: PAYMENT SYSTEM")
                     print("-" * 40)
                     
-                    payment_response = requests.get(f'http://localhost:8000/pay/{transaction_id}', timeout=10)
+                    payment_response = requests.get(f'http://localhost:8000/ticket/{transaction_id}', timeout=10)
                     
                     if payment_response.status_code == 200:
                         print("✅ Payment system accessible!")

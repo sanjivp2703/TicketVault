@@ -21,7 +21,9 @@ CREATE TABLE events(
     event_id INTEGER PRIMARY KEY AUTOINCREMENT,
     name VARCHAR(128) NOT NULL,
     location VARCHAR(256),
-    event_datetime DATETIME
+    event_datetime DATETIME,
+    is_tbd BOOLEAN DEFAULT 0,
+    max_ticket_price INTEGER DEFAULT 20000
 );
 
 CREATE TABLE transactions(

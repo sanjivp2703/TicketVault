@@ -20,7 +20,7 @@ class TransactionManager:
     def __init__(self):
         pass
     
-    def create_listing(self, seller_email, buyer_email, price, event_details):
+    def create_listing(self, seller_email, buyer_email, price, event_details, school='michigan'):
         """
         Create new listing in PENDING state until seller sends ticket
         
@@ -29,6 +29,7 @@ class TransactionManager:
             buyer_email: Buyer's email  
             price: Ticket price
             event_details: Event information (name, location, datetime)
+            school: School selection (michigan or florida)
         """
         connection = insta485.model.get_db()
         
@@ -49,10 +50,10 @@ class TransactionManager:
             INSERT INTO transactions (
                 seller_email, buyer_email, price, event_id,
                 listing_created_time, original_event_details, 
-                status
-            ) VALUES (?, ?, ?, ?, ?, ?, 'pending_ticket_submission')
+                status, school
+            ) VALUES (?, ?, ?, ?, ?, ?, 'pending_ticket_submission', ?)
         """, (seller_email, buyer_email, price, event_id, 
-              now.isoformat(), json.dumps(original_details)))
+              now.isoformat(), json.dumps(original_details), school))
         
         transaction_id = cursor.lastrowid
         
@@ -140,7 +141,7 @@ class TransactionManager:
             # NOTE: Seller success email now sent after payment, not after verification
             
             # 2. Send PAYMENT notification to BUYER
-            payment_url = f"http://localhost:8000/pay/{transaction_id}"  # Update with your domain
+            payment_url = f"http://localhost:8000/ticket/{transaction_id}"  # Update with your domain
             
             # Parse datetime if it's a string
             event_datetime = original_details.get('datetime', 'TBD')

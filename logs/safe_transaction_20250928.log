@@ -1,0 +1,11 @@
+2025-09-28 22:12:13 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://127.0.0.1:8000
+2025-09-28 22:12:13 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-28 22:12:13 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-28 22:12:15 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-28 22:12:15 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-09-28 22:12:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [28/Sep/2025 22:12:15] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-28 22:12:16 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [28/Sep/2025 22:12:16] "GET /index HTTP/1.1" 200 -
+2025-09-28 22:12:16 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [28/Sep/2025 22:12:16] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -

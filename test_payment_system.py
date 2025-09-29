@@ -29,7 +29,7 @@ def test_payment_flow():
         # Step 2: Test payment page access
         print(f"\n💰 Step 2: Testing payment page for transaction {transaction_id}...")
         
-        payment_url = f"http://localhost:8000/pay/{transaction_id}"
+        payment_url = f"http://localhost:8000/ticket/{transaction_id}"
         payment_response = requests.get(payment_url, timeout=10)
         
         print(f"📊 Payment page response: {payment_response.status_code}")

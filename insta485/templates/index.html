@@ -1015,6 +1015,8 @@
             font-size: 16px;
             color: var(--text-secondary);
             font-weight: 500;
+            margin-bottom: 0;
+            line-height: 1.3;
         }
 
         /* Tooltip Styles */
@@ -2301,6 +2303,14 @@
             gap: var(--space-lg); /* Reduced from var(--space-xl) */
         }
 
+        /* Specific styling for finished listings container only */
+        .finished-listings .listings-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 400px));
+            gap: var(--space-lg);
+            justify-content: start;
+        }
+
         /* Smaller sizing for listing cards within full-width section */
         .listings-section-fullwidth .listing-card {
             padding: var(--space-md); /* Reduced internal padding */
@@ -2373,7 +2383,8 @@
 
         .listings-section-fullwidth .btn-details,
         .listings-section-fullwidth .btn-cancel,
-        .listings-section-fullwidth .btn-simulate {
+        .listings-section-fullwidth .btn-simulate,
+        .listings-section-fullwidth .btn-send-email {
             padding: var(--space-xs) var(--space-sm); /* Smaller button padding */
             font-size: 13px; /* Smaller button text */
         }
@@ -2616,13 +2627,211 @@
                 font-size: 18px; /* Smaller on mobile */
             }
 
-            .disclaimer-text {
-                font-size: 13px;
-            }
+        .disclaimer-text {
+            font-size: 13px;
         }
+    }
 
-        /* Smooth scroll behavior */
-        html {
+    /* Finished Listing Cards - Simplified Design */
+    .finished-listing-card {
+        background: var(--bg-primary);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .finished-listing-card:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+    
+    .finished-listing-card .listing-header {
+        padding: var(--space-lg);
+        border-bottom: 1px solid var(--border-light);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .finished-listing-card .listing-event {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin: 0;
+    }
+    
+    .finished-listing-card .listing-price {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-primary);
+    }
+    
+    .simple-status {
+        padding: var(--space-md) var(--space-lg);
+        text-align: center;
+    }
+    
+    .simple-status .current-step {
+        font-size: 16px;
+        font-weight: 600;
+        color: #059669;
+        margin-bottom: var(--space-sm);
+    }
+    
+    /* Red text for cancelled transactions */
+    .simple-status .current-step.cancelled {
+        color: #dc2626;
+    }
+    
+    /* Orange text for expired transactions */
+    .simple-status .current-step.expired {
+        color: #d97706;
+    }
+    
+    .progress-steps-simple {
+        display: flex;
+        justify-content: center;
+        gap: var(--space-lg);
+        margin-top: var(--space-sm);
+    }
+    
+    .progress-steps-simple .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+    
+    .progress-steps-simple .step.completed {
+        color: #000000 !important;
+        background: #f3f4f6;
+        border: none;
+        border-radius: 20px;
+        padding: 8px 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .progress-steps-simple .step span {
+        font-size: 12px;
+        font-weight: 500;
+        margin-top: 4px;
+        color: #000000 !important;
+    }
+    
+    .progress-steps-simple .step:before {
+        content: '✓';
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #f3f4f6;
+        color: #000000;
+        border: 2px solid #000000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 4px;
+    }
+    
+    /* Cancelled transaction styling */
+    .progress-steps-simple .step.cancelled:before {
+        content: '✕';
+        background: #fee2e2;
+        color: #dc2626;
+        border: 2px solid #dc2626;
+    }
+    
+    .progress-steps-simple .step.cancelled {
+        background: #fee2e2;
+        border: 2px solid #dc2626;
+    }
+    
+    /* Expired transaction styling */
+    .progress-steps-simple .step.expired:before {
+        content: '!';
+        background: #fef3c7;
+        color: #d97706;
+        border: 2px solid #d97706;
+    }
+    
+    .progress-steps-simple .step.expired {
+        background: #fef3c7;
+        border: 2px solid #d97706;
+    }
+    
+    .details-toggle {
+        padding: var(--space-sm) var(--space-lg);
+        background: var(--bg-secondary);
+        border-top: 1px solid var(--border-light);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        font-size: 14px;
+        color: var(--text-secondary);
+    }
+    
+    .details-toggle:hover {
+        background: rgba(59, 130, 246, 0.05);
+        color: var(--accent-primary);
+    }
+    
+    .details-toggle i {
+        transition: transform 0.3s ease;
+    }
+    
+    .details-toggle.active i {
+        transform: rotate(180deg);
+    }
+    
+    .details-dropdown {
+        border-top: 1px solid var(--border-light);
+        background: var(--bg-secondary);
+        padding: var(--space-lg);
+        animation: slideDown 0.3s ease;
+    }
+    
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            max-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        to {
+            opacity: 1;
+            max-height: 300px;
+            padding-top: var(--space-lg);
+            padding-bottom: var(--space-lg);
+        }
+    }
+    
+    .details-dropdown .listing-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-sm);
+        margin-bottom: var(--space-lg);
+    }
+    
+    .details-dropdown .listing-details > div {
+        font-size: 14px;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+    }
+    
+    .details-dropdown .listing-actions {
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Smooth scroll behavior */
+    html {
             scroll-behavior: smooth;
             scroll-padding-top: 100px;
         }
@@ -3059,7 +3268,8 @@
 
         .btn-details,
         .btn-cancel,
-        .btn-simulate {
+        .btn-simulate,
+        .btn-send-email {
             padding: var(--space-xs) var(--space-sm);
             border-radius: var(--radius-md);
             font-size: 12px;
@@ -3102,6 +3312,18 @@
             background: rgba(16, 185, 129, 0.2);
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-send-email {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .btn-send-email:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
 
         /* Ticket Verification Buttons */
@@ -5071,6 +5293,152 @@
                 gap: 16px;
             }
         }
+
+        /* === SCHOOL SELECTION TOGGLE === */
+        .school-selection-container {
+            margin: 0 0 8px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .school-selection-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #64748b;
+            margin: -5px 0 4px 0;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .school-toggle-group {
+            display: inline-flex;
+            background: #f1f5f9;
+            border-radius: 50px;
+            padding: 3px;
+            position: relative;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            width: fit-content;
+            overflow: hidden;
+        }
+
+        .school-toggle-input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            width: 0;
+            height: 0;
+        }
+
+        .school-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 18px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #64748b;
+            background: transparent;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+            min-width: 75px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .school-toggle-btn:hover {
+            color: #334155;
+        }
+
+        /* Base sliding background */
+        .school-toggle-group::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: calc(50% - 3px);
+            height: calc(100% - 6px);
+            border-radius: 50px;
+            transition: transform 0.3s ease;
+            z-index: 1;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Michigan selected - Yellow background */
+        .school-toggle-group.michigan-selected::before,
+        .school-toggle-group:has(#school-michigan:checked)::before {
+            background: #FFCB05;
+            transform: translateX(0%);
+        }
+
+        /* Florida selected - Blue background */
+        .school-toggle-group.florida-selected::before,
+        .school-toggle-group:has(#school-florida:checked)::before {
+            background: #0021A5;
+            transform: translateX(100%);
+        }
+
+        /* Florida selected text - Orange */
+        .school-toggle-group.florida-selected #school-florida:checked + .school-toggle-btn,
+        .school-toggle-group:has(#school-florida:checked) #school-florida + .school-toggle-btn {
+            color: #FA4616;
+        }
+
+        /* Michigan selected text - Blue */
+        .school-toggle-group.michigan-selected #school-michigan:checked + .school-toggle-btn,
+        .school-toggle-group:has(#school-michigan:checked) #school-michigan + .school-toggle-btn {
+            color: #00274C;
+        }
+
+        /* General checked state text colors */
+        #school-florida:checked + .school-toggle-btn {
+            color: #FA4616;
+        }
+
+        #school-michigan:checked + .school-toggle-btn {
+            color: #00274C;
+        }
+
+        /* Hover states for selected buttons */
+        #school-florida:checked + .school-toggle-btn:hover {
+            color: #FA4616;
+        }
+
+        #school-michigan:checked + .school-toggle-btn:hover {
+            color: #00274C;
+        }
+
+        /* Default state when no specific school is selected */
+        .school-toggle-group::before {
+            background: #FFCB05;
+            transform: translateX(0%);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .school-toggle-btn {
+                min-width: 65px;
+                padding: 7px 15px;
+                font-size: 14px;
+            }
+            
+            .school-toggle-group {
+                padding: 2px;
+            }
+            
+            .school-toggle-group::before {
+                top: 2px;
+                left: 2px;
+                width: calc(50% - 2px);
+                height: calc(100% - 4px);
+            }
+        }
     </style>
 </head>
 
@@ -5662,7 +6030,7 @@
         <!-- Hero Section -->
         <div class="hero-section">
             <div class="hero-content">
-                <h1 class="hero-title">Sell Michigan Football Student Tickets</h1>
+                <h1 class="hero-title">Sell College Football Student Tickets</h1>
                 <p class="hero-subtitle">Safe, Verified, and Backed by Our Guarantee</p>
                 <p class="hero-description">We securely hold your ticket, verify it, and guarantee you get paid</p>
                 
@@ -5823,6 +6191,11 @@
                                             Step 1: Send Your Tickets
                                 {% elif transaction.status == 'waiting_for_payment' %}
                                     Step 2: Awaiting for buyer payment
+                                {% elif transaction.status == 'payment_deadline_expired' %}
+                                    ❌ Payment Deadline Expired
+                                {% elif transaction.status == 'cancelled_by_seller' %}
+                                    ❌ Transaction Cancelled
+                                    ❌ Cancelled by Buyer
                                 {% elif transaction.status == 'both_received_processing' %}
                                             Step 3: Processing Payment
                                 {% elif transaction.status == 'ticket_forwarded_funds_held' %}
@@ -5845,6 +6218,8 @@
                             {% if transaction.status == 'pending_ticket_submission' %}{% set progress = 15 %}
                             {% elif transaction.status == 'waiting_for_ticket' %}{% set progress = 25 %}
                             {% elif transaction.status == 'waiting_for_payment' %}{% set progress = 50 %}
+                            {% elif transaction.status == 'payment_deadline_expired' %}{% set progress = 30 %}
+                            {% elif transaction.status == 'cancelled_by_seller' %}{% set progress = 10 %}
                             {% elif transaction.status == 'both_received_processing' %}{% set progress = 75 %}
                             {% elif transaction.status == 'ticket_forwarded_funds_held' %}{% set progress = 90 %}
                             {% elif transaction.status == 'completed' %}{% set progress = 100 %}
@@ -5855,7 +6230,7 @@
                                 <div class="progress-steps">
                                     <div class="step {% if progress > 25 %}completed{% elif progress == 25 %}current{% endif %}">
                                         <i class="fas fa-envelope"></i>
-                                        <span>Send Tickets</span>
+                                        <span>Send Ticket</span>
                                         {% if progress == 25 %}
                                         <div class="progress-bar-mini" style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 80%; height: 4px; background: rgba(245, 158, 11, 0.3); border-radius: 2px;">
                                             <div class="progress-fill-mini" style="width: 100%; height: 100%; background: #f59e0b; border-radius: 2px; transition: width 0.3s ease;"></div>
@@ -5872,8 +6247,8 @@
                                         {% endif %}
                                     </div>
                                     <div class="step {% if progress > 75 %}completed{% elif progress == 75 %}current{% endif %}">
-                                        <i class="fas fa-forward"></i>
-                                        <span>Tickets Sent</span>
+                                        <i class="fas fa-money-bill-wave"></i>
+                                        <span>You Get Paid</span>
                                         {% if progress == 75 %}
                                         <div class="progress-bar-mini" style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 80%; height: 4px; background: rgba(245, 158, 11, 0.3); border-radius: 2px;">
                                             <div class="progress-fill-mini" style="width: 100%; height: 100%; background: #f59e0b; border-radius: 2px; transition: width 0.3s ease;"></div>
@@ -5881,8 +6256,8 @@
                                         {% endif %}
                                     </div>
                                     <div class="step {% if progress >= 100 %}completed{% elif progress >= 90 %}current{% endif %}">
-                                        <i class="fas fa-money-bill-wave"></i>
-                                        <span>You Get Paid</span>
+                                        <i class="fas fa-ticket-alt"></i>
+                                        <span>Buyer Gets Ticket</span>
                                         {% if progress >= 90 and progress < 100 %}
                                         <div class="progress-bar-mini" style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 80%; height: 4px; background: rgba(245, 158, 11, 0.3); border-radius: 2px;">
                                             <div class="progress-fill-mini" style="width: 100%; height: 100%; background: #f59e0b; border-radius: 2px; transition: width 0.3s ease;"></div>
@@ -5972,6 +6347,30 @@
                                 </div>
                                 <p>Tickets delivered, payment will release automatically in 24 hours</p>
                             </div>
+                        {% elif transaction.status == 'payment_deadline_expired' %}
+                            <div class="action-expired" style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 20px; border-radius: 8px;">
+                                <div class="action-header">
+                                    <i class="fas fa-clock" style="color: #ef4444;"></i>
+                                    <strong style="color: #ef4444;">Payment Deadline Expired</strong>
+                                </div>
+                                <p style="margin: 8px 0; color: #374151;">
+                                    The buyer did not complete payment within the 1-hour deadline. 
+                                    The payment link has been disabled and you have your ticket back.
+                                </p>
+                                <p style="margin: 8px 0; color: #6b7280; font-size: 14px;">
+                                    💡 <strong>Next steps:</strong> You can create a new listing if the buyer is still interested.
+                                </p>
+                            </div>
+                        {% elif transaction.status == 'cancelled_by_seller' %}
+                            <div class="action-expired" style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 20px; border-radius: 8px;">
+                                <div class="action-header">
+                                    <i class="fas fa-times-circle" style="color: #ef4444;"></i>
+                                    <strong style="color: #ef4444;">Transaction Cancelled</strong>
+                                </div>
+                                <p style="margin: 8px 0; color: #374151;">
+                                    You cancelled this transaction. The buyer has been notified.
+                                </p>
+                            </div>
                         {% elif transaction.status == 'completed' %}
                             <div class="action-complete">
                                 <div class="action-header">
@@ -5984,7 +6383,7 @@
                     </div>
                             
                             <div class="listing-actions">
-                        {% if transaction.status in ['waiting_for_ticket', 'waiting_for_payment'] %}
+                        {% if transaction.status in ['waiting_for_ticket', 'waiting_for_payment', 'pending_ticket_submission'] %}
                         <button class="btn-cancel" onclick="cancelTransaction({{ transaction.transaction_id }})">
                                     <i class="fas fa-times"></i> Cancel
                                 </button>
@@ -5992,6 +6391,11 @@
                         {% if transaction.status in ['waiting_for_ticket', 'waiting_for_payment', 'both_received_processing'] %}
                         <button class="btn-simulate" onclick="simulateTicketSent({{ transaction.transaction_id }})">
                                     <i class="fas fa-paper-plane"></i> Test Simulate Ticket Sent
+                                </button>
+                                {% endif %}
+                        {% if transaction.status in ['both_received_processing', 'ticket_forwarded_funds_held'] %}
+                        <button class="btn-send-email" onclick="sendTicketSentEmail({{ transaction.transaction_id }})">
+                                    <i class="fas fa-envelope"></i> Send "Ticket Sent" Email
                                 </button>
                                 {% endif %}
                             </div>
@@ -6008,13 +6412,28 @@
                     <p class="create-listing-subtitle">List your tickets for sale on our secure platform</p>
                 </div>
                 
+                <!-- School Selection -->
+                <div class="school-selection-container">
+                    <label class="school-selection-label">Select Your School</label>
+                    <div class="school-toggle-group">
+                        <input type="radio" id="school-michigan" name="school" value="michigan" class="school-toggle-input" checked>
+                        <label for="school-michigan" class="school-toggle-btn">Michigan</label>
+                        
+                        <input type="radio" id="school-florida" name="school" value="florida" class="school-toggle-input">
+                        <label for="school-florida" class="school-toggle-btn">Florida</label>
+                    </div>
+                </div>
+                
                 <form id="createListingFormBottom" action="{{ url_for('create_transaction') }}" method="post" class="listing-form" onsubmit="return handleCreateListing(event)">
+                    
+                    <!-- Hidden school field -->
+                    <input type="hidden" id="selected_school" name="school" value="michigan">
 
                     <!-- Event Information -->
                     <div class="form-group">
                         <label for="event_name_bottom">Event Name</label>
                         <div class="event-search">
-                            <input type="text" id="event_name_bottom" name="event_name" required placeholder="e.g., Taylor Swift Concert" autocomplete="off">
+                            <input type="text" id="event_name_bottom" name="event_name" required placeholder="e.g., Wisconsin vs Michigan" autocomplete="off">
                             <div id="event_suggestions_bottom" class="event-suggestions"></div>
             </div>
                 </div>
@@ -6057,7 +6476,7 @@
                         </div>
                         <div class="form-group">
                             <label for="buyer_email_bottom">Buyer Michigan Athletics Email</label>
-                            <input type="email" id="buyer_email_bottom" name="buyer_email" required placeholder="buyer@example.com">
+                            <input type="email" id="buyer_email_bottom" name="buyer_email" required placeholder="buyer@umich.edu">
                         </div>
                     </div>
                 
@@ -6270,6 +6689,62 @@
         };
 
 
+
+        // Send "Ticket Sent" Email function
+        window.sendTicketSentEmail = function(transactionId) {
+            if (confirm('Send "Ticket Sent" notification email to the buyer?\n\nThis will send a professional email notifying the buyer that their tickets have been sent.')) {
+                const button = event.target.closest('button');
+                if (button) {
+                    button.disabled = true;
+                    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                }
+                
+                fetch('/send-ticket-sent-email/' + transactionId, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (button) {
+                        button.disabled = false;
+                        button.innerHTML = '<i class="fas fa-envelope"></i> Send "Ticket Sent" Email';
+                    }
+                    
+                    if (data.success) {
+                        alert('✅ Email sent successfully!\n\nThe buyer has been notified that their tickets have been sent.');
+                    } else {
+                        alert('❌ Failed to send email: ' + (data.error || 'Unknown error'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    if (button) {
+                        button.disabled = false;
+                        button.innerHTML = '<i class="fas fa-envelope"></i> Send "Ticket Sent" Email';
+                    }
+                    alert('❌ Network error. Please try again.');
+                });
+            }
+        };
+
+        // Toggle finished listing details dropdown
+        window.toggleFinishedDetails = function(transactionId) {
+            const detailsDiv = document.getElementById(`details-${transactionId}`);
+            const chevron = document.getElementById(`chevron-${transactionId}`);
+            const toggle = chevron.parentElement;
+            
+            if (detailsDiv.style.display === 'none' || detailsDiv.style.display === '') {
+                detailsDiv.style.display = 'block';
+                toggle.classList.add('active');
+                chevron.style.transform = 'rotate(180deg)';
+            } else {
+                detailsDiv.style.display = 'none';
+                toggle.classList.remove('active');
+                chevron.style.transform = 'rotate(0deg)';
+            }
+        };
         
         // SIMPLE GLOBAL SCROLL FUNCTION - GUARANTEED TO WORK
         function simpleScroll() {
@@ -7503,7 +7978,11 @@
             }
 
             searchTimeout = setTimeout(() => {
-                fetch(`/api/events?q=${encodeURIComponent(query)}`)
+                // Get current school selection
+                const schoolInput = document.getElementById('selected_school');
+                const school = schoolInput ? schoolInput.value : 'michigan';
+                
+                fetch(`/api/events?q=${encodeURIComponent(query)}&school=${encodeURIComponent(school)}`)
                     .then(response => response.json())
                     .then(events => {
                         if (events.length > 0) {
@@ -7551,6 +8030,46 @@
                     }
                     if (eventDatetimeDisplay) {
                         eventDatetimeDisplay.textContent = event.datetime;
+                    }
+                    
+                    // Set max price validation
+                    if (event.max_ticket_price) {
+                        const maxPriceDollars = event.max_ticket_price / 100;
+                        const ticketPriceInput = document.getElementById('ticket_price' + suffix);
+                        if (ticketPriceInput) {
+                            ticketPriceInput.setAttribute('max', maxPriceDollars);
+                            ticketPriceInput.setAttribute('data-max-price', maxPriceDollars);
+                            
+                            // Remove existing event listeners to avoid duplicates
+                            const newInput = ticketPriceInput.cloneNode(true);
+                            ticketPriceInput.parentNode.replaceChild(newInput, ticketPriceInput);
+                            
+                            // Add real-time validation
+                            newInput.addEventListener('input', function() {
+                                const currentPrice = parseFloat(this.value);
+                                const maxPrice = parseFloat(this.getAttribute('data-max-price'));
+                                const errorSpan = document.getElementById('price-error' + suffix);
+                                
+                                if (currentPrice > maxPrice) {
+                                    if (!errorSpan) {
+                                        const error = document.createElement('span');
+                                        error.id = 'price-error' + suffix;
+                                        error.style.color = '#ef4444';
+                                        error.style.fontSize = '12px';
+                                        error.style.marginTop = '4px';
+                                        error.style.display = 'block';
+                                        error.textContent = `Maximum ticket price is $${maxPrice}`;
+                                        this.parentNode.appendChild(error);
+                                    }
+                                    this.style.borderColor = '#ef4444';
+                                } else {
+                                    if (errorSpan) {
+                                        errorSpan.remove();
+                                    }
+                                    this.style.borderColor = '';
+                                }
+                            });
+                        }
                     }
                     
                     // Show and animate the event details container
@@ -7659,7 +8178,7 @@
         };
 
         window.cancelTransaction = function(transactionId) {
-            if (confirm('Are you sure you want to cancel this transaction? This action cannot be undone.')) {
+            if (confirm('We will send your ticket back to you. Are you sure you want to cancel this transaction?')) {
                 fetch(`/api/transactions/${transactionId}/cancel`, {
                     method: 'POST',
                     headers: {
@@ -7775,7 +8294,161 @@
             document.getElementById('userDropdown').classList.remove('active');
         }
     });
+
+    // School selection toggle functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const schoolInputs = document.querySelectorAll('input[name="school"]');
+        const schoolToggleGroup = document.querySelector('.school-toggle-group');
+        
+        // Handle school selection changes
+        schoolInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                if (this.checked) {
+                    console.log('Selected school:', this.value);
+                    
+                    // Update CSS classes for sliding animation fallback
+                    updateToggleAnimation(this.value);
+                    
+                    // Update form behavior based on selected school
+                    updateFormForSchool(this.value);
+                }
+            });
+        });
+        
+        function updateToggleAnimation(school) {
+            if (schoolToggleGroup) {
+                // Remove all selection classes
+                schoolToggleGroup.classList.remove('michigan-selected', 'florida-selected');
+                
+                // Add the appropriate class for the selected school
+                if (school === 'michigan') {
+                    schoolToggleGroup.classList.add('michigan-selected');
+                } else if (school === 'florida') {
+                    schoolToggleGroup.classList.add('florida-selected');
+                }
+            }
+        }
+        
+        function updateFormForSchool(school) {
+            // Update placeholder text based on school selection
+            const eventInput = document.getElementById('event_name_bottom');
+            if (eventInput) {
+                if (school === 'michigan') {
+                    eventInput.placeholder = 'e.g., Ohio State vs Michigan';
+                } else if (school === 'florida') {
+                    eventInput.placeholder = 'e.g., Georgia vs Florida';
+                }
+            }
+            
+            // Update hidden form field
+            const hiddenSchoolInput = document.getElementById('selected_school');
+            if (hiddenSchoolInput) {
+                hiddenSchoolInput.value = school;
+            }
+            
+            // Clear event input and suggestions when school changes
+            if (eventInput) {
+                eventInput.value = '';
+            }
+            const suggestions = document.getElementById('event_suggestions_bottom');
+            if (suggestions) {
+                suggestions.innerHTML = '';
+                suggestions.style.display = 'none';
+            }
+            
+            // You can add more school-specific behavior here
+            // For example, filtering event suggestions, updating colors, etc.
+        }
+        
+        // Initialize with default selection
+        const defaultSchool = document.querySelector('input[name="school"]:checked');
+        if (defaultSchool) {
+            updateToggleAnimation(defaultSchool.value);
+            updateFormForSchool(defaultSchool.value);
+        }
+    });
 </script>
+
+        <!-- Finished Listings Section - Always show at bottom with full width -->
+        {% if finished_transactions %}
+        <div class="listings-section-fullwidth finished-listings" style="margin: var(--space-2xl) var(--space-xl); grid-column: 1 / -1;">
+            <div class="listings-header">
+                <h2 class="listings-title"><i class="fas fa-check-circle"></i> Finished Listings</h2>
+                <p class="listings-subtitle">Your completed transactions and sales history</p>
+            </div>
+            
+            <div class="listings-container">
+                {% for transaction in finished_transactions %}
+                <div class="listing-card finished-listing-card" data-transaction-id="{{ transaction.transaction_id }}">
+                    <!-- Simplified Header -->
+                    <div class="listing-header">
+                        <h3 class="listing-event">{{ transaction.ticket_description }}</h3>
+                        <div class="listing-price">${{ transaction.price }}</div>
+                    </div>
+                    
+                    <!-- Simplified Status -->
+                    <div class="simple-status">
+                        {% if transaction.status == 'completed' %}
+                            <div class="current-step">Transaction Complete</div>
+                            
+                            <!-- Progress Steps -->
+                            <div class="progress-steps-simple">
+                                <div class="step completed"><span>Listed</span></div>
+                                <div class="step completed"><span>Paid</span></div>
+                                <div class="step completed"><span>Delivered</span></div>
+                                <div class="step completed"><span>Complete</span></div>
+                            </div>
+                        {% elif transaction.status == 'cancelled_by_seller' %}
+                            <div class="current-step cancelled">Transaction Cancelled</div>
+                            
+                            <!-- Progress Steps for Cancelled -->
+                            <div class="progress-steps-simple">
+                                <div class="step completed"><span>Listed</span></div>
+                                <div class="step cancelled"><span>Cancelled</span></div>
+                            </div>
+                        {% elif transaction.status == 'payment_deadline_expired' %}
+                            <div class="current-step expired">Payment Expired</div>
+                            
+                            <!-- Progress Steps for Expired -->
+                            <div class="progress-steps-simple">
+                                <div class="step completed"><span>Listed</span></div>
+                                <div class="step expired"><span>Expired</span></div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Details Dropdown Toggle -->
+                    <div class="details-toggle" onclick="toggleFinishedDetails({{ transaction.transaction_id }})">
+                        <span>View Details</span>
+                        <i class="fas fa-chevron-down" id="chevron-{{ transaction.transaction_id }}"></i>
+                    </div>
+                    
+                    <!-- Collapsible Details Section -->
+                    <div class="details-dropdown" id="details-{{ transaction.transaction_id }}" style="display: none;">
+                        <div class="listing-details">
+                            <div><i class="fas fa-calendar"></i> {{ transaction.event_datetime_formatted }}</div>
+                            <div><i class="fas fa-map-marker-alt"></i> {{ transaction.event_location or 'Location TBD' }}</div>
+                            <div><i class="fas fa-user"></i> {{ transaction.buyer_email }}</div>
+                            <div><i class="fas fa-clock"></i> Completed {{ transaction.completed_time_formatted }}</div>
+                            <div><i class="fas fa-hashtag"></i> Transaction ID: {{ transaction.transaction_id }}</div>
+                        </div>
+                        
+                        <div class="listing-actions">
+                            <a href="{{ url_for('download_receipt', transaction_id=transaction.transaction_id) }}" 
+                               class="btn-details" style="text-decoration: none;">
+                                <i class="fas fa-download"></i> Download Receipt
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+    </div> <!-- End main-content -->
+    </div> <!-- End app-container -->
+</div> <!-- End app-layout -->
 
 <!-- Include Pending Listing Popup -->
 {% include 'pending_listing_popup.html' %}

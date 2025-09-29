@@ -264,54 +264,8 @@ def receive_ticket_email(transaction_id):
         return flask.jsonify({'error': str(e)}), 500
 
 
-@insta485.app.route('/pay/<int:transaction_id>')
-def show_payment_page(transaction_id):
-    """
-    Redirect directly to Stripe Checkout for buyer payment
-    """
-    try:
-        connection = insta485.model.get_db()
-        transaction = connection.execute("""
-            SELECT t.*, e.name as event_name, e.location as event_location,
-                   e.event_datetime
-            FROM transactions t
-            JOIN events e ON t.event_id = e.event_id
-            WHERE t.transaction_id = ?
-        """, (transaction_id,)).fetchone()
-        
-        if not transaction:
-            flask.abort(404)
-        
-        # Check if transaction is in valid state for payment
-        if transaction['status'] not in ['waiting_for_payment', 'both_received_processing']:
-            return flask.render_template('payment_error.html', 
-                                       error='This transaction is no longer available for payment')
-        
-        # Check if payment deadline has passed
-        payment_deadline = transaction['payment_deadline']
-        if isinstance(payment_deadline, str):
-            # Convert string to datetime
-            try:
-                if 'T' in payment_deadline:
-                    # ISO format
-                    payment_deadline = datetime.fromisoformat(payment_deadline.replace('Z', '+00:00'))
-                else:
-                    # SQLite format
-                    payment_deadline = datetime.strptime(payment_deadline, '%Y-%m-%d %H:%M:%S')
-            except ValueError:
-                return flask.render_template('payment_error.html',
-                                           error='Invalid payment deadline format')
-        
-        if datetime.now() > payment_deadline:
-            return flask.render_template('payment_error.html',
-                                       error='Payment deadline has passed')
-        
-        # Use the existing send_payment_buyer function to redirect to Stripe Checkout
-        from insta485.views.manage import send_payment_buyer
-        return send_payment_buyer(transaction_id)
-        
-    except Exception as e:
-        return flask.render_template('payment_error.html', error=str(e))
+# REMOVED: /pay/<transaction_id> route - consolidated into /ticket/<transaction_id> route
+# All payment links now use /ticket/<transaction_id> for consistency and better security
 
 
 @insta485.app.route('/payment/complete/<int:transaction_id>')
@@ -338,35 +292,8 @@ def payment_complete(transaction_id):
         return flask.render_template('payment_error.html', error=f'Payment processing error: {str(e)}')
 
 
-@insta485.app.route('/ticket/<int:transaction_id>')
-def show_ticket_status(transaction_id):
-    """
-    Show ticket status page for buyer
-    """
-    try:
-        connection = insta485.model.get_db()
-        transaction = connection.execute("""
-            SELECT t.*, e.name as event_name, e.location as event_location,
-                   e.event_datetime
-            FROM transactions t
-            JOIN events e ON t.event_id = e.event_id
-            WHERE t.transaction_id = ?
-        """, (transaction_id,)).fetchone()
-        
-        if not transaction:
-            flask.abort(404)
-        
-        context = {
-            'transaction': transaction,
-            'can_pay': transaction['status'] in ['waiting_for_payment', 'both_received_processing'],
-            'can_confirm': transaction['status'] == 'ticket_forwarded_funds_held',
-            'can_complain': transaction['status'] in ['ticket_forwarded_funds_held', 'completed']
-        }
-        
-        return flask.render_template('ticket_status.html', **context)
-        
-    except Exception as e:
-        flask.abort(500)
+# REMOVED: Duplicate /ticket/<int:transaction_id> route - now handled by ticket_status_check route
+# This was conflicting with the main route in views/index.py
 
 
 # Background job endpoint (for cron/scheduler)
@@ -578,7 +505,7 @@ def test_verify_transaction():
             # NOTE: Seller success email now sent after payment, not after verification
             
             # 2. Send PAYMENT notification to BUYER
-            payment_url = f"http://localhost:8000/pay/{transaction_id}"
+            payment_url = f"http://localhost:8000/ticket/{transaction_id}"
             
             # Parse datetime if it's a string
             event_datetime = original_details.get('datetime', 'TBD')
@@ -755,3 +682,401 @@ def simulate_ticket_sent(transaction_id):
     except Exception as e:
         print(f"❌ SIMULATE TICKET SENT API ERROR: {e}")
         return flask.jsonify({'success': False, 'error': str(e)})
+
+
+@insta485.app.route('/api/ticket-verification', methods=['POST'])
+def ticket_verification():
+    """Handle ticket verification from seller dashboard."""
+    try:
+        data = flask.request.get_json()
+        if not data or 'transaction_id' not in data or 'action' not in data:
+            return flask.jsonify({'success': False, 'error': 'Missing required data'}), 400
+        
+        transaction_id = data['transaction_id']
+        action = data['action']  # 'correct' or 'incorrect'
+        
+        connection = insta485.model.get_db()
+        
+        # Get transaction details
+        transaction = connection.execute(
+            """SELECT t.*, e.name as event_name, e.location, e.event_datetime
+               FROM transactions t 
+               JOIN events e ON t.event_id = e.event_id
+               WHERE t.transaction_id = ?""",
+            (transaction_id,)
+        ).fetchone()
+        
+        if not transaction:
+            return flask.jsonify({'success': False, 'error': 'Transaction not found'}), 404
+        
+        if transaction['status'] != 'waiting_for_ticket':
+            return flask.jsonify({'success': False, 'error': f'Invalid status: {transaction["status"]}'}), 400
+        
+        if action == 'incorrect':
+            # Mark ticket as incorrect and cancel transaction
+            connection.execute(
+                "UPDATE transactions SET status = 'cancelled_by_seller', verification_notes = ? WHERE transaction_id = ?",
+                ('Seller marked ticket as incorrect', transaction_id)
+            )
+            connection.commit()
+            
+            return flask.jsonify({
+                'success': True, 
+                'message': 'Transaction cancelled due to incorrect ticket'
+            })
+            
+        elif action == 'correct':
+            # Mark ticket as verified and set payment deadline (1 hour from now)
+            from datetime import datetime, timedelta
+            payment_deadline = datetime.now() + timedelta(hours=1)
+            payment_deadline_str = payment_deadline.strftime('%Y-%m-%d %H:%M:%S')
+            
+            connection.execute(
+                """UPDATE transactions 
+                   SET status = 'waiting_for_payment',
+                       ticket_verification_score = 100,
+                       ticket_details_match = 1,
+                       verification_notes = 'Seller confirmed ticket is correct',
+                       payment_deadline = ?
+                   WHERE transaction_id = ?""",
+                (payment_deadline_str, transaction_id)
+            )
+            connection.commit()
+            
+            # Send payment email to buyer
+            from insta485.views.index import send_buyer_email_1
+            send_buyer_email_1(
+                transaction_id=transaction_id,
+                buyer_email=transaction['buyer_email'],
+                event_name=transaction['event_name'],
+                price=transaction['price'],
+                seller_email=transaction['seller_email'],
+                payment_deadline=payment_deadline
+            )
+            
+            # Seller will see deadline on their dashboard - no email needed
+            
+            return flask.jsonify({
+                'success': True, 
+                'message': 'Ticket verified! Buyer notified and payment deadline set.',
+                'payment_deadline': payment_deadline_str
+            })
+        
+        else:
+            return flask.jsonify({'success': False, 'error': 'Invalid action'}), 400
+            
+    except Exception as e:
+        print(f"❌ TICKET VERIFICATION ERROR: {e}")
+        return flask.jsonify({'success': False, 'error': str(e)}), 500
+
+
+@insta485.app.route('/api/transactions/<int:transaction_id>/cancel', methods=['POST'])
+def cancel_transaction_api(transaction_id):
+    """Cancel a transaction via API."""
+    try:
+        if 'email' not in flask.session:
+            return flask.jsonify({'success': False, 'error': 'Not logged in'}), 401
+        
+        connection = insta485.model.get_db()
+        
+        # Get transaction details and verify ownership
+        transaction = connection.execute(
+            """SELECT seller_email, buyer_email, status 
+               FROM transactions 
+               WHERE transaction_id = ?""",
+            (transaction_id,)
+        ).fetchone()
+        
+        if not transaction:
+            return flask.jsonify({'success': False, 'error': 'Transaction not found'}), 404
+        
+        user_email = flask.session['email']
+        
+        # Only sellers can cancel transactions
+        if user_email != transaction['seller_email']:
+            return flask.jsonify({'success': False, 'error': 'Only sellers can cancel transactions'}), 403
+        
+        # Check if transaction can be cancelled
+        cancellable_statuses = ['waiting_for_ticket', 'waiting_for_payment', 'pending_ticket_submission']
+        if transaction['status'] not in cancellable_statuses:
+            return flask.jsonify({
+                'success': False, 
+                'error': f'Cannot cancel transaction with status: {transaction["status"]}'
+            }), 400
+        
+        # Set status as cancelled by seller
+        new_status = 'cancelled_by_seller'
+        cancel_reason = 'Seller cancelled the transaction'
+        
+        # Update transaction status
+        connection.execute(
+            """UPDATE transactions 
+               SET status = ?, verification_notes = ? 
+               WHERE transaction_id = ?""",
+            (new_status, cancel_reason, transaction_id)
+        )
+        connection.commit()
+        
+        # Get transaction details for email
+        transaction_details = connection.execute(
+            """SELECT t.*, e.name as event_name, e.location, e.event_datetime
+               FROM transactions t 
+               JOIN events e ON t.event_id = e.event_id
+               WHERE t.transaction_id = ?""",
+            (transaction_id,)
+        ).fetchone()
+        
+        # Send cancellation emails (only seller can cancel)
+        if transaction_details:
+            send_cancellation_emails(
+                transaction_id=transaction_id,
+                seller_email=transaction_details['seller_email'],
+                buyer_email=transaction_details['buyer_email'],
+                event_name=transaction_details['event_name'],
+                event_location=transaction_details['location'],
+                event_datetime=transaction_details['event_datetime'],
+                price=transaction_details['price'],
+                cancelled_by=transaction_details['seller_email']  # Always seller since only sellers can cancel
+            )
+        
+        print(f"[CANCEL] Transaction {transaction_id} cancelled by {user_email}: {new_status}")
+        
+        return flask.jsonify({
+            'success': True,
+            'message': f'Transaction cancelled successfully',
+            'new_status': new_status
+        })
+        
+    except Exception as e:
+        print(f"❌ CANCEL TRANSACTION ERROR: {e}")
+        return flask.jsonify({'success': False, 'error': str(e)}), 500
+
+
+def send_cancellation_emails(transaction_id, seller_email, buyer_email, event_name, event_location, event_datetime, price, cancelled_by):
+    """Send cancellation notification emails to both buyer and seller."""
+    try:
+        from flask_mail import Message
+        import insta485
+        import datetime
+        
+        # Format event datetime nicely
+        try:
+            event_dt = datetime.datetime.strptime(event_datetime, '%Y-%m-%d %H:%M:%S')
+            formatted_datetime = event_dt.strftime('%A, %B %d, %Y at %I:%M %p')
+        except:
+            formatted_datetime = event_datetime
+        
+        # Only sellers can cancel, so this is always a seller cancellation
+        cancellation_message = '<p><strong>The seller has cancelled this transaction.</strong></p>'
+        next_steps_section = '<div class="next-steps"><h3>🚀 What You Can Do Next:</h3><ul><li>Contact the seller to see if they can create a new listing</li><li>Look for other tickets to the same event on Safe Transaction</li><li>All new listings come with our full security guarantee</li></ul></div>'
+        
+        # Email to Buyer
+        buyer_subject = f"🚫 Transaction Cancelled - {event_name}"
+        
+        buyer_html = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }}
+                .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
+                .header {{ background: linear-gradient(135deg, #ef4444, #dc2626); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }}
+                .content {{ background: white; padding: 30px; border: 1px solid #ddd; border-top: none; }}
+                .event-details {{ background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0; }}
+                .cancellation-notice {{ background: #fef2f2; padding: 20px; border-radius: 8px; border-left: 4px solid #ef4444; margin: 20px 0; }}
+                .apology-section {{ background: #fff7ed; padding: 20px; border-radius: 8px; border-left: 4px solid #f59e0b; margin: 20px 0; }}
+                .next-steps {{ background: #ecfdf5; padding: 20px; border-radius: 8px; border-left: 4px solid #10b981; margin: 20px 0; }}
+                .footer {{ text-align: center; padding: 20px; color: #666; font-size: 14px; }}
+                ul {{ list-style-type: none; padding: 0; }}
+                li {{ margin: 8px 0; }}
+                li:before {{ content: "✓ "; color: #10b981; font-weight: bold; }}
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>🛡️ Safe Transaction</h1>
+                    <p>Transaction Cancellation Notice</p>
+                </div>
+                <div class="content">
+                    <div class="cancellation-notice">
+                        <h2>🚫 Transaction Cancelled</h2>
+                        {cancellation_message}
+                    </div>
+                    
+                    <h3>📋 Transaction Details:</h3>
+                    <div class="event-details">
+                        <ul>
+                            <li><strong>Event:</strong> {event_name}</li>
+                            <li><strong>Location:</strong> {event_location}</li>
+                            <li><strong>Date:</strong> {formatted_datetime}</li>
+                            <li><strong>Price:</strong> ${price}</li>
+                            <li><strong>Transaction ID:</strong> ST-{transaction_id}</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="apology-section">
+                        <h3>💝 We're Sorry This Didn't Work Out</h3>
+                        <p>We understand how disappointing this can be, especially when you're looking forward to an event.</p>
+                        <p>Sometimes plans change, and we appreciate your understanding during this process.</p>
+                    </div>
+                    
+                    {next_steps_section}
+                </div>
+                <div class="footer">
+                    <p>Safe Transaction - Secure Ticket Marketplace</p>
+                    <p>Questions? Contact us anytime for support.</p>
+                </div>
+            </div>
+        </body>
+        </html>
+        """
+        
+        # Prepare text email content
+        # Only sellers can cancel
+        text_intro = '🚫 The seller has cancelled your transaction for:'
+        text_next_steps = '''🚀 What You Can Do Next:
+• Contact the seller for a potential new listing
+• Look for other tickets on Safe Transaction
+• All new listings come with our security guarantee'''
+        
+        buyer_text = f"""
+        🛡️ SAFE TRANSACTION - Transaction Cancelled
+        
+        {text_intro}
+        
+        📋 Event Details:
+        • Event: {event_name}
+        • Location: {event_location}
+        • Date: {formatted_datetime}
+        • Price: ${price}
+        • Transaction ID: ST-{transaction_id}
+        
+        💝 We're Sorry This Didn't Work Out
+        We understand how disappointing this can be, especially when you're looking forward to an event.
+        
+        {text_next_steps}
+        
+        Safe Transaction Team
+        """
+        
+        # Email to Seller
+        seller_subject = f"✅ Transaction Cancelled - {event_name}"
+        
+        seller_html = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }}
+                .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
+                .header {{ background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }}
+                .content {{ background: white; padding: 30px; border: 1px solid #ddd; border-top: none; }}
+                .event-details {{ background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0; }}
+                .confirmation-notice {{ background: #ecfdf5; padding: 20px; border-radius: 8px; border-left: 4px solid #10b981; margin: 20px 0; }}
+                .next-steps {{ background: #fff7ed; padding: 20px; border-radius: 8px; border-left: 4px solid #f59e0b; margin: 20px 0; }}
+                .footer {{ text-align: center; padding: 20px; color: #666; font-size: 14px; }}
+                ul {{ list-style-type: none; padding: 0; }}
+                li {{ margin: 8px 0; }}
+                li:before {{ content: "✓ "; color: #10b981; font-weight: bold; }}
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>🛡️ Safe Transaction</h1>
+                    <p>Cancellation Confirmation</p>
+                </div>
+                <div class="content">
+                    <div class="confirmation-notice">
+                        <h2>✅ Transaction Cancelled Successfully</h2>
+                        <p><strong>You have cancelled the transaction and your ticket is now available again.</strong></p>
+                    </div>
+                    
+                    <h3>📋 Cancelled Transaction Details:</h3>
+                    <div class="event-details">
+                        <ul>
+                            <li><strong>Event:</strong> {event_name}</li>
+                            <li><strong>Location:</strong> {event_location}</li>
+                            <li><strong>Date:</strong> {formatted_datetime}</li>
+                            <li><strong>Price:</strong> ${price}</li>
+                            <li><strong>Buyer:</strong> {buyer_email}</li>
+                            <li><strong>Transaction ID:</strong> ST-{transaction_id}</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="next-steps">
+                        <h3>🚀 What Happens Next:</h3>
+                        <ul>
+                            <li>Your ticket is now available for a new listing</li>
+                            <li>The buyer has been notified of the cancellation</li>
+                            <li>You can create a new listing anytime on Safe Transaction</li>
+                            <li>If the buyer is still interested, they may contact you directly</li>
+                        </ul>
+                    </div>
+                    
+                    <p style="text-align: center; margin: 30px 0;">
+                        We're sorry this transaction didn't work out as planned.<br>
+                        Thank you for using Safe Transaction's secure platform.
+                    </p>
+                </div>
+                <div class="footer">
+                    <p>Safe Transaction - Secure Ticket Marketplace</p>
+                    <p>Questions? Contact us anytime for support.</p>
+                </div>
+            </div>
+        </body>
+        </html>
+        """
+        
+        seller_text = f"""
+        🛡️ SAFE TRANSACTION - Cancellation Confirmation
+        
+        ✅ You have successfully cancelled your transaction for:
+        
+        📋 Cancelled Transaction Details:
+        • Event: {event_name}
+        • Location: {event_location}
+        • Date: {formatted_datetime}
+        • Price: ${price}
+        • Buyer: {buyer_email}
+        • Transaction ID: ST-{transaction_id}
+        
+        🚀 What Happens Next:
+        • Your ticket is now available for a new listing
+        • The buyer has been notified of the cancellation
+        • You can create a new listing anytime on Safe Transaction
+        • If the buyer is still interested, they may contact you directly
+        
+        We're sorry this transaction didn't work out as planned.
+        Thank you for using Safe Transaction's secure platform.
+        
+        Safe Transaction Team
+        """
+        
+        # Send buyer email
+        buyer_msg = Message(
+            subject=buyer_subject,
+            recipients=[buyer_email],
+            html=buyer_html,
+            body=buyer_text
+        )
+        insta485.mail.send(buyer_msg)
+        
+        # Send seller email
+        seller_msg = Message(
+            subject=seller_subject,
+            recipients=[seller_email],
+            html=seller_html,
+            body=seller_text
+        )
+        insta485.mail.send(seller_msg)
+        
+        print(f"📧 Sent cancellation emails for transaction {transaction_id}")
+        print(f"   - Buyer email sent to: {buyer_email}")
+        print(f"   - Seller email sent to: {seller_email}")
+        
+    except Exception as e:
+        print(f"❌ Failed to send cancellation emails for transaction {transaction_id}: {e}")
+
+

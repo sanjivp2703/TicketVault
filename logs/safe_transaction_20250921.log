@@ -1,0 +1,474 @@
+2025-09-21 13:54:53 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-09-21 13:54:53 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-09-21 13:54:53 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-21 13:54:54 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-21 13:54:54 - werkzeug - INFO - _log:187 -  * Debugger PIN: 100-651-201
+2025-09-21 13:54:59 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 13:54:59] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-21 13:54:59 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 13:54:59] "GET /index HTTP/1.1" 200 -
+2025-09-21 13:55:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 13:55:00] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 13:58:48 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 13:58:48] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 13:59:53 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:04:53 EDT)" (scheduled at 2025-09-21 13:59:53.651286-04:00)
+2025-09-21 13:59:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:04:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 13:59:54 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:04:54 EDT)" (scheduled at 2025-09-21 13:59:54.555529-04:00)
+2025-09-21 13:59:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:04:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:04:53 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:09:53 EDT)" (scheduled at 2025-09-21 14:04:53.651286-04:00)
+2025-09-21 14:04:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:09:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:04:54 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:09:54 EDT)" (scheduled at 2025-09-21 14:04:54.555529-04:00)
+2025-09-21 14:04:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:09:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:09:53 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:14:53 EDT)" (scheduled at 2025-09-21 14:09:53.651286-04:00)
+2025-09-21 14:09:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:14:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:09:54 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:14:54 EDT)" (scheduled at 2025-09-21 14:09:54.555529-04:00)
+2025-09-21 14:09:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:14:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:14:53 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:19:53 EDT)" (scheduled at 2025-09-21 14:14:53.651286-04:00)
+2025-09-21 14:14:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:19:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:14:54 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:19:54 EDT)" (scheduled at 2025-09-21 14:14:54.555529-04:00)
+2025-09-21 14:14:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:19:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:15:42 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:15:42] "GET /index HTTP/1.1" 200 -
+2025-09-21 14:15:42 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:15:42] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 14:18:25 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:18:25] "GET /index HTTP/1.1" 200 -
+2025-09-21 14:18:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:18:26] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 14:18:27 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:18:27] "GET /index HTTP/1.1" 200 -
+2025-09-21 14:18:27 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:18:27] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 14:19:53 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:24:53 EDT)" (scheduled at 2025-09-21 14:19:53.651286-04:00)
+2025-09-21 14:19:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:24:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:19:54 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:24:54 EDT)" (scheduled at 2025-09-21 14:19:54.555529-04:00)
+2025-09-21 14:19:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:24:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:21:56 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:21:56] "GET /index HTTP/1.1" 200 -
+2025-09-21 14:21:56 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:21:56] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 14:24:53 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:29:53 EDT)" (scheduled at 2025-09-21 14:24:53.651286-04:00)
+2025-09-21 14:24:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:29:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:24:54 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:29:54 EDT)" (scheduled at 2025-09-21 14:24:54.555529-04:00)
+2025-09-21 14:24:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:29:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:25:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:25:37] "GET /index HTTP/1.1" 200 -
+2025-09-21 14:25:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:25:37] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 14:27:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:27:26] "GET /api/events?q=mich HTTP/1.1" 200 -
+2025-09-21 14:27:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:27:28] "GET /api/events?q=flor HTTP/1.1" 200 -
+2025-09-21 14:27:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:27:35] "GET /api/events?q=ge HTTP/1.1" 200 -
+2025-09-21 14:28:03 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:28:03] "GET /index HTTP/1.1" 200 -
+2025-09-21 14:28:03 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:28:03] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 14:29:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:29:15] "GET /index HTTP/1.1" 200 -
+2025-09-21 14:29:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:29:15] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 14:29:53 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:34:53 EDT)" (scheduled at 2025-09-21 14:29:53.651286-04:00)
+2025-09-21 14:29:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:34:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:29:54 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:34:54 EDT)" (scheduled at 2025-09-21 14:29:54.555529-04:00)
+2025-09-21 14:29:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:34:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:33:42 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:33:42] "GET /index HTTP/1.1" 200 -
+2025-09-21 14:33:42 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:33:42] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 14:34:53 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:39:53 EDT)" (scheduled at 2025-09-21 14:34:53.651286-04:00)
+2025-09-21 14:34:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:39:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:34:54 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:39:54 EDT)" (scheduled at 2025-09-21 14:34:54.555529-04:00)
+2025-09-21 14:34:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:39:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:35:02 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:35:02] "GET /index HTTP/1.1" 200 -
+2025-09-21 14:35:02 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:35:02] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 14:36:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:36:23] "GET /index HTTP/1.1" 200 -
+2025-09-21 14:36:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:36:23] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 14:37:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:37:55] "GET /index HTTP/1.1" 200 -
+2025-09-21 14:37:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:37:55] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 14:38:03 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:38:03] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-09-21 14:39:16 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:39:16] "GET /index HTTP/1.1" 200 -
+2025-09-21 14:39:16 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:39:16] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-09-21 14:39:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:39:17] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 14:39:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:39:23] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-09-21 14:39:53 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:44:53 EDT)" (scheduled at 2025-09-21 14:39:53.651286-04:00)
+2025-09-21 14:39:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:44:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:39:54 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:44:54 EDT)" (scheduled at 2025-09-21 14:39:54.555529-04:00)
+2025-09-21 14:39:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:44:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:44:53 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:49:53 EDT)" (scheduled at 2025-09-21 14:44:53.651286-04:00)
+2025-09-21 14:44:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:49:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:44:54 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:49:54 EDT)" (scheduled at 2025-09-21 14:44:54.555529-04:00)
+2025-09-21 14:44:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:49:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:48:08 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:48:08] "GET /index HTTP/1.1" 200 -
+2025-09-21 14:48:08 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:48:08] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-09-21 14:48:08 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:48:08] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 14:49:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:49:35] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-21 14:49:36 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:49:36] "GET /index HTTP/1.1" 200 -
+2025-09-21 14:49:38 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:49:38] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 14:49:44 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:49:44] "GET /index HTTP/1.1" 200 -
+2025-09-21 14:49:44 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:49:44] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 14:49:46 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:49:46] "[32mGET / HTTP/1.1[0m" 302 -
+2025-09-21 14:49:46 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:49:46] "GET /index HTTP/1.1" 200 -
+2025-09-21 14:49:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:49:47] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 14:50:18 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:50:18] "GET /api/events?q=ohio HTTP/1.1" 200 -
+2025-09-21 14:50:20 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:50:20] "GET /api/events?q=flor HTTP/1.1" 200 -
+2025-09-21 14:50:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:50:23] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 14:52:29 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:54:53 EDT)" was missed by 0:02:36.229539
+2025-09-21 14:52:30 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:54:54 EDT)" was missed by 0:02:36.223882
+2025-09-21 14:53:12 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-21 14:53:13 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-21 14:53:15 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-21 14:53:15 - werkzeug - INFO - _log:187 -  * Debugger PIN: 100-651-201
+2025-09-21 14:54:01 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-21 14:54:02 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-21 14:54:03 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-21 14:54:03 - werkzeug - INFO - _log:187 -  * Debugger PIN: 100-651-201
+2025-09-21 14:54:21 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py', reloading
+2025-09-21 14:54:21 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-21 14:54:22 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-21 14:54:22 - werkzeug - INFO - _log:187 -  * Debugger PIN: 100-651-201
+2025-09-21 14:54:30 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py', reloading
+2025-09-21 14:54:30 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-21 14:54:31 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-21 14:54:31 - werkzeug - INFO - _log:187 -  * Debugger PIN: 100-651-201
+2025-09-21 14:54:38 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-21 14:54:38 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-21 14:54:39 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-21 14:54:39 - werkzeug - INFO - _log:187 -  * Debugger PIN: 100-651-201
+2025-09-21 14:54:53 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:59:53 EDT)" (scheduled at 2025-09-21 14:54:53.651286-04:00)
+2025-09-21 14:54:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:59:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    # Check ticket deadlines
+                      ^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:54:55 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/apply_school_migration.py', reloading
+2025-09-21 14:54:55 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/apply_school_migration.py', reloading
+2025-09-21 14:54:57 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-21 14:54:59 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-21 14:54:59 - werkzeug - INFO - _log:187 -  * Debugger PIN: 100-651-201
+2025-09-21 14:55:29 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-21 14:55:29 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py', reloading
+2025-09-21 14:55:29 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/apply_school_migration.py', reloading
+2025-09-21 14:55:29 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/views/index.py', reloading
+2025-09-21 14:55:29 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/apply_school_migration.py', reloading
+2025-09-21 14:55:29 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py', reloading
+2025-09-21 14:55:30 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-09-21 14:55:31 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-09-21 14:55:31 - werkzeug - INFO - _log:187 -  * Debugger PIN: 100-651-201
+2025-09-21 14:55:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:55:37] "GET /index HTTP/1.1" 200 -
+2025-09-21 14:55:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:55:37] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-09-21 14:55:46 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:55:46] "GET /api/events?q=flor&school=michigan HTTP/1.1" 200 -
+2025-09-21 14:55:48 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:55:48] "GET /api/events?q=ohio&school=michigan HTTP/1.1" 200 -
+2025-09-21 14:55:51 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:55:51] "GET /api/events?q=wis&school=michigan HTTP/1.1" 200 -
+2025-09-21 14:55:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:55:54] "GET /api/events?q=mich&school=florida HTTP/1.1" 200 -
+2025-09-21 14:55:58 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [21/Sep/2025 14:55:58] "GET /api/events?q=georgi&school=florida HTTP/1.1" 200 -
+2025-09-21 16:33:45 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 16:34:53 EDT)" was missed by 0:03:52.341662
+2025-09-21 18:20:05 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 18:20:31 EDT)" was missed by 0:04:34.115960
+2025-09-21 18:45:00 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 18:45:31 EDT)" was missed by 0:04:29.126785
+2025-09-21 18:45:04 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 18:49:53 EDT)" was missed by 0:00:10.902303
+2025-09-21 18:45:52 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 18:50:31 EDT)" was missed by 0:00:20.883065
+2025-09-21 19:47:44 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 19:49:53 EDT)" was missed by 0:02:51.313786
+2025-09-21 20:08:29 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 20:10:31 EDT)" was missed by 0:02:57.724068
+2025-09-21 20:37:49 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 20:39:53 EDT)" was missed by 0:02:56.299911
+2025-09-21 20:38:24 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 20:40:31 EDT)" was missed by 0:02:53.686801
+2025-09-21 21:22:29 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 21:24:53 EDT)" was missed by 0:02:35.472922
+2025-09-21 21:33:48 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 21:35:31 EDT)" was missed by 0:03:17.247063
+2025-09-21 22:10:45 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 22:15:31 EDT)" was missed by 0:00:14.579559
+2025-09-21 22:16:12 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 22:19:53 EDT)" was missed by 0:01:19.037100
+2025-09-21 23:36:50 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 23:39:53 EDT)" was missed by 0:01:56.771606
+2025-09-21 23:39:31 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 23:40:31 EDT)" was missed by 0:03:59.809839
+2025-09-22 00:04:36 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:05:31 EDT)" was missed by 0:04:05.188336
+2025-09-22 00:05:31 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:10:31 EDT)" (scheduled at 2025-09-22 00:05:31.281027-04:00)
+2025-09-22 00:05:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:10:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 558, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:11:04 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:14:53 EDT)" was missed by 0:01:11.334984
+2025-09-22 00:27:15 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:29:53 EDT)" was missed by 0:02:22.038931
+2025-09-22 00:27:54 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:30:31 EDT)" was missed by 0:02:22.955145
+2025-09-22 00:29:53 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:34:53 EDT)" (scheduled at 2025-09-22 00:29:53.651286-04:00)
+2025-09-22 00:29:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:34:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    # Check ticket deadlines
+                      ^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:30:31 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:35:31 EDT)" (scheduled at 2025-09-22 00:30:31.281027-04:00)
+2025-09-22 00:30:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:35:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 558, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:34:53 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:39:53 EDT)" (scheduled at 2025-09-22 00:34:53.651286-04:00)
+2025-09-22 00:34:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:39:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    # Check ticket deadlines
+                      ^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:35:31 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:40:31 EDT)" (scheduled at 2025-09-22 00:35:31.281027-04:00)
+2025-09-22 00:35:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:40:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 558, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:39:53 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:44:53 EDT)" (scheduled at 2025-09-22 00:39:53.651286-04:00)
+2025-09-22 00:39:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:44:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    # Check ticket deadlines
+                      ^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:40:31 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:45:31 EDT)" (scheduled at 2025-09-22 00:40:31.281027-04:00)
+2025-09-22 00:40:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:45:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 558, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:44:53 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:49:53 EDT)" (scheduled at 2025-09-22 00:44:53.651286-04:00)
+2025-09-22 00:44:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:49:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    # Check ticket deadlines
+                      ^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:45:31 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:50:31 EDT)" (scheduled at 2025-09-22 00:45:31.281027-04:00)
+2025-09-22 00:45:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:50:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 558, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:49:53 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:54:53 EDT)" (scheduled at 2025-09-22 00:49:53.651286-04:00)
+2025-09-22 00:49:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:54:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    # Check ticket deadlines
+                      ^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:50:31 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:55:31 EDT)" (scheduled at 2025-09-22 00:50:31.281027-04:00)
+2025-09-22 00:50:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:55:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 558, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 03:21:29 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 03:24:53 EDT)" was missed by 0:01:35.465858
+2025-09-22 04:01:29 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 04:05:31 EDT)" was missed by 0:00:58.081255
+2025-09-22 07:04:41 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 07:04:53 EDT)" was missed by 0:04:47.576535
+2025-09-22 07:05:04 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 07:09:53 EDT)" was missed by 0:00:11.129865
+2025-09-22 08:13:03 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 08:15:31 EDT)" was missed by 0:02:32.182614
+2025-09-22 09:53:17 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 09:55:31 EDT)" was missed by 0:02:45.742605
+2025-09-22 10:32:50 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 10:34:53 EDT)" was missed by 0:02:57.067850
+2025-09-22 11:18:44 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 11:20:31 EDT)" was missed by 0:03:13.713360
+2025-09-22 11:53:03 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 11:54:53 EDT)" was missed by 0:03:09.614898
+2025-09-22 12:05:04 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 12:05:31 EDT)" was missed by 0:04:33.449392
+2025-09-22 12:20:31 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 12:25:31 EDT)" (scheduled at 2025-09-22 12:20:31.281027-04:00)
+2025-09-22 12:20:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 12:25:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 558, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 12:23:08 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 12:24:53 EDT)" was missed by 0:03:14.359038
+2025-09-22 12:53:04 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 12:54:53 EDT)" was missed by 0:03:10.883431
+2025-09-22 13:27:46 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 13:29:53 EDT)" was missed by 0:02:53.318031
+2025-09-22 13:44:42 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 13:45:31 EDT)" was missed by 0:04:10.730048
+2025-09-22 14:04:43 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 14:05:31 EDT)" was missed by 0:04:11.950472
+2025-09-22 14:05:20 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 14:09:53 EDT)" was missed by 0:00:26.556959
+2025-09-22 14:05:31 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 14:10:31 EDT)" (scheduled at 2025-09-22 14:05:31.281027-04:00)
+2025-09-22 14:05:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 14:10:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 558, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'

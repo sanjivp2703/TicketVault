@@ -6499,7 +6499,7 @@
                         <button class="btn-details" onclick="showTransactionDetails({{ transaction.transaction_id }})">
                                     <i class="fas fa-info-circle"></i> View Details
                                 </button>
-                        {% if transaction.status in ['waiting_for_ticket', 'waiting_for_payment'] %}
+                        {% if transaction.status in ['waiting_for_ticket', 'waiting_for_payment', 'pending_ticket_submission'] %}
                         <button class="btn-cancel" onclick="cancelTransaction({{ transaction.transaction_id }})">
                                     <i class="fas fa-times"></i> Cancel
                                 </button>
@@ -9241,7 +9241,7 @@
         };
 
         window.cancelTransaction = function(transactionId) {
-            if (confirm('Are you sure you want to cancel this transaction? This action cannot be undone.')) {
+            if (confirm('Are you sure you want to cancel this transaction?')) {
                 fetch(`/api/transactions/${transactionId}/cancel`, {
                     method: 'POST',
                     headers: {

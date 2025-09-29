@@ -6499,7 +6499,7 @@
                         <button class="btn-details" onclick="showTransactionDetails({{ transaction.transaction_id }})">
                                     <i class="fas fa-info-circle"></i> View Details
                                 </button>
-                        {% if transaction.status in ['waiting_for_ticket', 'waiting_for_payment'] %}
+                        {% if transaction.status in ['waiting_for_ticket', 'waiting_for_payment', 'pending_ticket_submission'] %}
                         <button class="btn-cancel" onclick="cancelTransaction({{ transaction.transaction_id }})">
                                     <i class="fas fa-times"></i> Cancel
                                 </button>

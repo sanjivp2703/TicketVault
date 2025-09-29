@@ -1,0 +1,306 @@
+2025-09-21 13:59:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:04:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 13:59:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:04:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:04:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:09:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:04:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:09:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:09:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:14:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:09:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:14:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:14:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:19:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:14:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:19:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:19:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:24:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:19:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:24:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:24:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:29:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:24:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:29:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:29:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:34:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:29:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:34:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:34:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:39:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:34:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:39:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:39:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:44:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:39:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:44:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:44:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:49:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:44:54 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:49:54 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-21 14:54:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-21 14:59:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    # Check ticket deadlines
+                      ^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:05:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:10:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 558, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:29:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:34:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    # Check ticket deadlines
+                      ^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:30:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:35:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 558, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:34:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:39:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    # Check ticket deadlines
+                      ^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:35:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:40:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 558, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:39:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:44:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    # Check ticket deadlines
+                      ^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:40:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:45:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 558, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:44:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:49:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    # Check ticket deadlines
+                      ^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:45:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:50:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 558, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:49:53 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:54:53 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 557, in check_scheduled_deadlines
+    # Check ticket deadlines
+                      ^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 00:50:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 00:55:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 558, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 12:20:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 12:25:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 558, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-09-22 14:05:31 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-09-22 14:10:31 EDT)" raised an exception
+Traceback (most recent call last):
+  File "/Users/sanjivp27/anaconda3/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanjivp27/Documents/2023_2024/EECS/projects/Safe-Transaction/insta485/transaction_manager.py", line 558, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
