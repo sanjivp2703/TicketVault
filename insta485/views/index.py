@@ -502,8 +502,8 @@ def get_events():
         # Default behavior - show all events
         events = connection.execute(
             "SELECT name, location, event_datetime, is_tbd, max_ticket_price FROM events WHERE name LIKE ? OR location LIKE ? LIMIT 10",
-            (f"%{query}%", f"%{query}%")
-        ).fetchall()
+        (f"%{query}%", f"%{query}%")
+    ).fetchall()
     results = []
     for row in events:
         try:
@@ -1600,10 +1600,13 @@ def send_seller_notification(transaction_id, seller_email):
     try:
         # Render the beautiful template
         html_body = flask.render_template('seller_payment_received.html', **template_context)
-        
-        # Create plain text version
-        text_body = f"""
-        Great news! Your buyer has paid for Transaction #{transaction_id}.
+    except Exception as e:
+        # Fallback if template rendering fails
+        html_body = f"<p>Payment received for Transaction #{transaction_id}. Please check your dashboard.</p>"
+    
+    # Create plain text version
+    text_body = f"""
+    Great news! Your buyer has paid for Transaction #{transaction_id}.
 
         Event: {transaction_details['event_name']}
         Location: {transaction_details['location']}
@@ -1611,16 +1614,17 @@ def send_seller_notification(transaction_id, seller_email):
         Amount: ${transaction_details['price']}
         Buyer: {transaction_details['buyer_email']}
 
-        Next Steps:
-        1. Transfer the ticket to the buyer via your ticket platform
-        2. Log into Safe Transaction and mark the ticket as 'sent'
-        3. Get paid once the buyer confirms receipt
+    Next Steps:
+    1. Transfer the ticket to the buyer via your ticket platform
+    2. Log into Safe Transaction and mark the ticket as 'sent'
+    3. Get paid once the buyer confirms receipt
 
-        Dashboard: http://localhost:8000/seller
+    Dashboard: http://localhost:8000/seller
 
-        Safe Transaction Team
-        """
-        
+    Safe Transaction Team
+    """
+    
+    try:
         # Create and send email
         msg = Message(
             subject=subject,
