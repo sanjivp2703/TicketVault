@@ -1238,3 +1238,27 @@ Traceback (most recent call last):
 AttributeError: 'TransactionManager' object has no attribute 'connection'
 2025-10-06 18:52:52 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-10-06 18:57:48 EDT)" was missed by 0:00:03.951612
 2025-10-06 19:04:49 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\__init__.py', reloading
+2025-10-06 19:04:50 - werkzeug - INFO - _log:187 -  * Restarting with stat
+2025-10-06 19:05:09 - apscheduler.executors.default - WARNING - run_job:126 - Run time of job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-10-06 19:06:24 EDT)" was missed by 0:03:45.612276
+2025-10-06 19:06:24 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-10-06 19:11:24 EDT)" (scheduled at 2025-10-06 19:06:24.252358-04:00)
+2025-10-06 19:06:24 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-10-06 19:11:24 EDT)" raised an exception
+Traceback (most recent call last):
+  File "C:\Users\vedav\OneDrive\Documents\GitHub\Safe-Transaction\env\Lib\site-packages\apscheduler\executors\base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vedav\OneDrive\Documents\GitHub\Safe-Transaction\insta485\transaction_manager.py", line 558, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
+2025-10-06 19:06:51 - werkzeug - INFO - _log:187 -  * Restarting with stat
+2025-10-06 19:07:58 - werkzeug - INFO - _log:187 -  * Restarting with stat
+2025-10-06 19:11:24 - apscheduler.executors.default - INFO - run_job:129 - Running job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-10-06 19:16:24 EDT)" (scheduled at 2025-10-06 19:11:24.252358-04:00)
+2025-10-06 19:11:24 - apscheduler.executors.default - ERROR - run_job:145 - Job "TransactionManager.check_scheduled_deadlines (trigger: interval[0:05:00], next run at: 2025-10-06 19:16:24 EDT)" raised an exception
+Traceback (most recent call last):
+  File "C:\Users\vedav\OneDrive\Documents\GitHub\Safe-Transaction\env\Lib\site-packages\apscheduler\executors\base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vedav\OneDrive\Documents\GitHub\Safe-Transaction\insta485\transaction_manager.py", line 558, in check_scheduled_deadlines
+    expired_tickets = self.connection.execute("""
+                      ^^^^^^^^^^^^^^^
+AttributeError: 'TransactionManager' object has no attribute 'connection'
