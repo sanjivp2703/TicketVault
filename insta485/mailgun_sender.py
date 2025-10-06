@@ -644,10 +644,10 @@ class MailgunSender:
     def send_buyer_payment_notification(self, buyer_email, transaction_id, event_name, event_location, event_datetime, price, payment_deadline, payment_url):
         """Send payment notification to buyer"""
         subject = f"🎫 Secure Payment Required - {event_name} | TX-{transaction_id:06d}"
-
+        
         deadline_str = payment_deadline.strftime('%B %d, %Y at %I:%M %p') if payment_deadline else "24 hours"
         event_date_str = event_datetime.strftime('%B %d, %Y at %I:%M %p') if isinstance(event_datetime, datetime) else str(event_datetime)
-
+        
         html_content = f"""
         <!DOCTYPE html>
         <html>
@@ -746,9 +746,9 @@ class MailgunSender:
         </body>
         </html>
         """
-
-        return self.send_email(buyer_email, subject, html_content)
         
+        return self.send_email(buyer_email, subject, html_content)
+    
     def send_ticket_to_buyer(self, buyer_email, transaction_id, event_name, seller_email):
         """Send ticket to buyer after payment"""
         subject = f"🎫 Your Tickets - {event_name} | TX-{transaction_id:06d}"
@@ -862,8 +862,8 @@ class MailgunSender:
                         <a href="http://localhost:8000/balance" style="background: #10b981; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold; font-size: 16px;">
                             💰 View Balance & Withdraw
                         </a>
-                            </div>
-                            
+                    </div>
+                    
                     <p style="text-align: center; color: #6b7280; margin-top: 30px;">
                         Thanks for using Safe Transaction! 🎉<br>
                         - Safe Transaction Team

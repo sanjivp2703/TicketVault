@@ -65,8 +65,8 @@ def start_automated_jobs():
     except Exception as e:
         print(f"❌ Error starting background jobs: {e}")
 
-# Start background jobs when app initializes
-start_automated_jobs()
+# Start background jobs when app initializes - DISABLED FOR MANUAL OPERATIONS
+# start_automated_jobs()
 
 # Tell our app about views and model.  This is dangerously close to a
 # circular import, which is naughty, but Flask was designed that way.
@@ -76,8 +76,9 @@ import insta485.model  # noqa: E402  pylint: disable=wrong-import-position
 import insta485.views  # noqa: E402  pylint: disable=wrong-import-position
 import insta485.api  # noqa: E402  pylint: disable=wrong-import-position
 import insta485.email_webhook  # noqa: E402  pylint: disable=wrong-import-position
-import insta485.deadline_manager  # noqa: E402  pylint: disable=wrong-import-position
-import insta485.email_monitor  # noqa: E402  pylint: disable=wrong-import-position
+# DISABLED FOR MANUAL OPERATIONS
+# import insta485.deadline_manager  # noqa: E402  pylint: disable=wrong-import-position
+# import insta485.email_monitor  # noqa: E402  pylint: disable=wrong-import-position
 
 # Add custom template filter for datetime formatting
 from datetime import datetime
