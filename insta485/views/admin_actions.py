@@ -3,8 +3,39 @@ Admin action routes for Safe-Transaction.
 """
 import flask
 import insta485
+import requests
+import os
 from insta485.views.balance import add_earnings, deduct_withdrawal
 from flask_mail import Message
+
+def send_mailgun_email(to_email, subject, html_body, text_body=None):
+    """Send email using Mailgun HTTP API (more reliable than SMTP)."""
+    try:
+        api_key = os.environ.get('MAILGUN_API_KEY', 'd3fac427288306d90280459b2faddb07-1ae02a08-43aa9974')
+        domain = os.environ.get('MAILGUN_DOMAIN', 'safetransaction.app')
+        
+        response = requests.post(
+            f"https://api.mailgun.net/v3/{domain}/messages",
+            auth=("api", api_key),
+            data={
+                "from": f"Safe Transaction <noreply@{domain}>",
+                "to": to_email,
+                "subject": subject,
+                "html": html_body,
+                "text": text_body or "Please view this email in HTML format."
+            }
+        )
+        
+        if response.status_code == 200:
+            print(f"✅ Email sent successfully to {to_email}")
+            return True
+        else:
+            print(f"❌ Email failed: {response.status_code} - {response.text}")
+            return False
+            
+    except Exception as e:
+        print(f"❌ Email error: {e}")
+        return False
 
 @insta485.app.route('/admin/verify-ticket/<int:transaction_id>', methods=['POST'])
 def admin_verify_ticket(transaction_id):
@@ -101,15 +132,18 @@ def admin_verify_ticket(transaction_id):
         Questions? Contact us at safetransactiontix@gmail.com
         """
         
-        msg = Message(
+        # Use Mailgun HTTP API instead of SMTP
+        email_sent = send_mailgun_email(
+            to_email=transaction['buyer_email'],
             subject=subject,
-            recipients=[transaction['buyer_email']],
-            html=html_body,
-            body=text_body
+            html_body=html_body,
+            text_body=text_body
         )
-        insta485.mail.send(msg)
         
-        flask.flash(f'✅ Ticket verified and payment email sent to {transaction["buyer_email"]}', 'success')
+        if email_sent:
+            flask.flash(f'✅ Ticket verified and payment email sent to {transaction["buyer_email"]}', 'success')
+        else:
+            flask.flash(f'✅ Ticket verified but email failed to send to {transaction["buyer_email"]}', 'warning')
         
     except Exception as e:
         flask.flash(f'Ticket verified but email failed: {str(e)}', 'warning')
