@@ -58,7 +58,8 @@ class TransactionManager:
         transaction_id = cursor.lastrowid
         
         # Generate unique email for ticket submission
-        ticket_email = f"tx-{transaction_id:06d}@safetransaction.com"
+        # Use central email for manual operations
+        ticket_email = "safetransactiontix@gmail.com"
         
         # Update with the ticket email
         connection.execute(
