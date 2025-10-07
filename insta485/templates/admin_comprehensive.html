@@ -334,6 +334,76 @@
             </div>
         </div>
 
+        <!-- Action Needed Section (Priority) -->
+        {% if action_needed %}
+        <div class="section" style="border-left: 4px solid #ff6b35; background: linear-gradient(135deg, #fff5f5 0%, #fef2f2 100%);">
+            <div class="section-header" style="background: linear-gradient(135deg, #ff6b35 0%, #f56565 100%); color: white;">
+                <h2><i class="fas fa-exclamation-triangle"></i> 🚨 ACTION NEEDED ({{ action_needed|length }})</h2>
+                <p>Transactions requiring immediate attention</p>
+            </div>
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Event</th>
+                            <th>Buyer</th>
+                            <th>Seller</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>🔥 ACTION REQUIRED</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transaction in action_needed %}
+                        <tr style="background: {% if transaction.status == 'pending_ticket_submission' %}#fff3cd{% elif transaction.status == 'both_received_processing' %}#d1ecf1{% else %}#f8f9fa{% endif %};">
+                            <td><strong>#{{ transaction.transaction_id }}</strong></td>
+                            <td>
+                                <div class="event-info">
+                                    <strong>{{ transaction.ticket_description }}</strong><br>
+                                    <small>{{ transaction.location }}</small><br>
+                                    <small>{{ transaction.event_datetime }}</small>
+                                </div>
+                            </td>
+                            <td>{{ transaction.buyer_email }}</td>
+                            <td>{{ transaction.seller_email }}</td>
+                            <td><strong>${{ transaction.price }}</strong></td>
+                            <td>
+                                {% if transaction.status == 'pending_ticket_submission' %}
+                                    <span class="badge warning">🎫 Waiting for Ticket</span>
+                                {% elif transaction.status == 'both_received_processing' %}
+                                    <span class="badge info">💳 Ready to Forward</span>
+                                {% elif transaction.status == 'waiting_for_payment' %}
+                                    <span class="badge warning">💰 Waiting for Payment</span>
+                                {% else %}
+                                    <span class="badge">{{ transaction.status }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="timestamp">{{ transaction.created_time }}</span>
+                            </td>
+                            <td>
+                                {% if transaction.status == 'pending_ticket_submission' %}
+                                    <button class="verify-ticket-btn" onclick="verifyTicket({{ transaction.transaction_id }})">
+                                        ✅ Verify Ticket & Send Payment Email
+                                    </button>
+                                {% elif transaction.status in ['both_received_processing'] or (transaction.payment_received == 1) %}
+                                    <button class="declare-ticket-btn" onclick="declareTicketSent({{ transaction.transaction_id }})">
+                                        📨 Declare Ticket Sent
+                                    </button>
+                                {% elif transaction.status == 'waiting_for_payment' %}
+                                    <span class="badge info">⏳ Waiting for buyer payment</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
         <!-- Tabbed Content -->
         <div class="section">
             <div class="tabs">

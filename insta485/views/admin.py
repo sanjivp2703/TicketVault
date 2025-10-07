@@ -26,6 +26,19 @@ def admin_dashboard():
            FROM users ORDER BY created DESC"""
     ).fetchall()
     
+    # Get transactions that need action (priority)
+    action_needed = connection.execute(
+        """SELECT t.*, e.name AS ticket_description, e.location, e.event_datetime,
+                  u1.firstname || ' ' || u1.lastname AS buyer_name,
+                  u2.firstname || ' ' || u2.lastname AS seller_name
+           FROM transactions t 
+           LEFT JOIN events e ON t.event_id = e.event_id
+           LEFT JOIN users u1 ON t.buyer_email = u1.email
+           LEFT JOIN users u2 ON t.seller_email = u2.email
+           WHERE t.status IN ('pending_ticket_submission', 'both_received_processing', 'waiting_for_payment')
+           ORDER BY t.created_time DESC"""
+    ).fetchall()
+    
     # Get all transactions
     transactions = connection.execute(
         """SELECT t.*, e.name AS ticket_description, e.location, e.event_datetime,
@@ -77,6 +90,7 @@ def admin_dashboard():
         'logemail': flask.session['email'],
         'users': users,
         'transactions': transactions,
+        'action_needed': action_needed,
         'complaints': complaints,
         'verification_codes': verification_codes,
         'stats': stats,
