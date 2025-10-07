@@ -384,10 +384,14 @@
                                     <button class="verify-ticket-btn" onclick="verifyTicket({{ transaction.transaction_id }})" style="background: #ff9800; padding: 12px 20px; font-size: 14px; font-weight: 600; border-radius: 8px; border: none; color: white; cursor: pointer;">
                                         ✅ VERIFY TICKET
                                     </button>
-                                {% elif transaction.status in ['both_received_processing'] or (transaction.payment_received == 1) %}
-                                    <button class="declare-ticket-btn" onclick="declareTicketSent({{ transaction.transaction_id }})" style="background: #4caf50; padding: 12px 20px; font-size: 14px; font-weight: 600; border-radius: 8px; border: none; color: white; cursor: pointer;">
-                                        📨 SEND TO BUYER
+                                {% elif transaction.status == 'both_received_processing' and transaction.payment_received == 1 %}
+                                    <button class="release-funds-btn" onclick="releaseFunds({{ transaction.transaction_id }})" style="background: #4caf50; padding: 12px 20px; font-size: 14px; font-weight: 600; border-radius: 8px; border: none; color: white; cursor: pointer;">
+                                        💰 RELEASE FUNDS
                                     </button>
+                                {% elif transaction.status == 'both_received_processing' %}
+                                    <div style="background: #fff3cd; padding: 10px; border-radius: 6px; text-align: center; font-size: 12px; color: #856404;">
+                                        ⏳ Waiting for payment completion
+                                    </div>
                                 {% elif transaction.status == 'waiting_for_payment' %}
                                     <div style="background: #e3f2fd; padding: 10px; border-radius: 6px; text-align: center; font-size: 12px; color: #1976d2;">
                                         ⏳ Waiting for buyer to pay
@@ -700,6 +704,17 @@
                 const form = document.createElement('form');
                 form.method = 'POST';
                 form.action = `/admin/verify-ticket/${transactionId}`;
+                
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+
+        function releaseFunds(transactionId) {
+            if (confirm(`Are you sure you want to release funds for transaction #${transactionId}?\n\n💰 This will:\n- Mark transaction as completed\n- Release funds to the seller\n- Close the transaction\n\n⚠️ Only do this AFTER you've forwarded the ticket to the buyer!`)) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/admin/release-funds/${transactionId}`;
                 
                 document.body.appendChild(form);
                 form.submit();

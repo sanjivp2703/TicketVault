@@ -150,6 +150,51 @@ def admin_verify_ticket(transaction_id):
     
     return flask.redirect(flask.url_for('admin_dashboard'))
 
+@insta485.app.route('/admin/release-funds/<int:transaction_id>', methods=['POST'])
+def admin_release_funds(transaction_id):
+    """Admin releases funds to seller after ticket is confirmed sent."""
+    if 'email' not in flask.session:
+        return flask.abort(403)
+    
+    connection = insta485.model.get_db()
+    user = connection.execute(
+        'SELECT is_admin FROM users WHERE email = ?',
+        (flask.session['email'],)
+    ).fetchone()
+    if not user or not user['is_admin']:
+        return flask.abort(403)
+    
+    # Get transaction details
+    transaction = connection.execute(
+        'SELECT * FROM transactions WHERE transaction_id = ?',
+        (transaction_id,)
+    ).fetchone()
+    
+    if not transaction:
+        flask.flash('Transaction not found', 'error')
+        return flask.redirect(flask.url_for('admin_dashboard'))
+    
+    try:
+        # Update transaction to completed and release funds
+        connection.execute(
+            '''UPDATE transactions 
+               SET status = 'completed', 
+                   funds_released = 1,
+                   funds_released_time = CURRENT_TIMESTAMP
+               WHERE transaction_id = ?''',
+            (transaction_id,)
+        )
+        
+        # Add earnings to seller (you can implement this)
+        # add_earnings(transaction['seller_email'], transaction['price'])
+        
+        flask.flash(f'✅ Funds released to seller for transaction #{transaction_id}', 'success')
+        
+    except Exception as e:
+        flask.flash(f'Error releasing funds: {str(e)}', 'error')
+    
+    return flask.redirect(flask.url_for('admin_dashboard'))
+
 @insta485.app.route('/admin/refund-buyer/<int:transaction_id>', methods=['POST'])
 def admin_refund_buyer(transaction_id):
     """Admin refunds buyer for a transaction."""

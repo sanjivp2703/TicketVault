@@ -608,6 +608,51 @@ Ticketmaster Support
         return flask.jsonify({'success': False, 'error': str(e)}), 500
 
 
+@insta485.app.route('/pay/<int:transaction_id>')
+def show_payment_page(transaction_id):
+    """Show payment page for a specific transaction."""
+    import os
+    connection = insta485.model.get_db()
+    
+    # Get transaction details
+    transaction = connection.execute(
+        '''SELECT t.*, e.name as event_name, e.location, e.event_datetime 
+           FROM transactions t 
+           JOIN events e ON t.event_id = e.event_id 
+           WHERE t.transaction_id = ?''',
+        (transaction_id,)
+    ).fetchone()
+    
+    if not transaction:
+        flask.abort(404)
+    
+    if transaction['status'] != 'waiting_for_payment':
+        flask.flash('This transaction is not available for payment.', 'error')
+        return flask.redirect(flask.url_for('show_index'))
+    
+    # Create Stripe payment intent
+    try:
+        import stripe
+        stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
+        
+        intent = stripe.PaymentIntent.create(
+            amount=int(transaction['price'] * 100),  # Convert to cents
+            currency='usd',
+            metadata={'transaction_id': transaction_id}
+        )
+        
+        context = {
+            'transaction': transaction,
+            'client_secret': intent.client_secret,
+            'stripe_publishable_key': os.environ.get('STRIPE_PUBLISHABLE_KEY')
+        }
+        
+        return flask.render_template('payment_page.html', **context)
+        
+    except Exception as e:
+        flask.flash(f'Payment setup failed: {str(e)}', 'error')
+        return flask.redirect(flask.url_for('show_index'))
+
 @insta485.app.route('/pay/<int:transaction_id>/process', methods=['POST'])
 def process_buyer_payment(transaction_id):
     """Process buyer payment through Stripe"""
