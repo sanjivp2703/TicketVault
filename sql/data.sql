@@ -6,6 +6,7 @@ INSERT INTO events (name, location, event_datetime, is_tbd, max_ticket_price) VA
 ('Washington vs Michigan', 'Ann Arbor, MI', '2024-10-18 00:00:00', 1, 20000),
 ('Purdue vs Michigan', 'Ann Arbor, MI', '2024-11-01 00:00:00', 1, 20000),
 ('Ohio vs Michigan', 'Ann Arbor, MI', '2024-11-29 00:00:00', 1, 60000),
+('Michigan vs Ohio State', 'Michigan Stadium', '2024-11-30 12:00:00', 0, 50000),
 
 -- Florida Football Events (Gainesville, FL)
 ('Texas vs Florida', 'Gainesville, FL', '2024-10-04 00:00:00', 1, 20000),

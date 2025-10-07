@@ -156,7 +156,11 @@ def show_index():
         trans_dict['ticket_email'] = 'system@safe-transaction.com'
 
         # Pass the event datetime as a formatted string, handling TBD times
-        event_dt = datetime.datetime.strptime(trans_dict['event_datetime'], '%Y-%m-%d %H:%M:%S')
+        try:
+            event_dt = datetime.datetime.strptime(trans_dict['event_datetime'], '%Y-%m-%d %H:%M:%S')
+        except (ValueError, TypeError):
+            # Handle empty or invalid datetime - use a default
+            event_dt = datetime.datetime(2024, 12, 1, 12, 0, 0)
         if trans_dict.get('is_tbd', 0):
             # For TBD times, show only the date
             trans_dict['event_datetime_str'] = event_dt.strftime('%Y-%m-%d') + ' TBD'
