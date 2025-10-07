@@ -4,6 +4,117 @@ Admin action routes for Safe-Transaction.
 import flask
 import insta485
 from insta485.views.balance import add_earnings, deduct_withdrawal
+from flask_mail import Message
+
+@insta485.app.route('/admin/verify-ticket/<int:transaction_id>', methods=['POST'])
+def admin_verify_ticket(transaction_id):
+    """Admin verifies ticket and sends payment email to buyer."""
+    if 'email' not in flask.session:
+        return flask.abort(403)
+    
+    connection = insta485.model.get_db()
+    user = connection.execute(
+        'SELECT is_admin FROM users WHERE email = ?',
+        (flask.session['email'],)
+    ).fetchone()
+    if not user or not user['is_admin']:
+        return flask.abort(403)
+    
+    # Get transaction details
+    transaction = connection.execute(
+        '''SELECT t.*, e.name as event_name, e.location, e.event_datetime 
+           FROM transactions t 
+           JOIN events e ON t.event_id = e.event_id 
+           WHERE t.transaction_id = ?''',
+        (transaction_id,)
+    ).fetchone()
+    
+    if not transaction:
+        flask.flash('Transaction not found', 'error')
+        return flask.redirect(flask.url_for('admin_dashboard'))
+    
+    # Update transaction status to waiting_for_payment
+    connection.execute(
+        'UPDATE transactions SET status = ? WHERE transaction_id = ?',
+        ('waiting_for_payment', transaction_id)
+    )
+    
+    # Send payment email to buyer
+    try:
+        subject = f"🎫 Ticket Verified - Complete Your Payment (Transaction #{transaction_id})"
+        
+        # Create payment URL (you'll need to implement this)
+        payment_url = f"https://safetransaction.app/pay/{transaction_id}"
+        
+        html_body = f"""
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #4caf50;">✅ Great News! Your Ticket is Verified</h2>
+            
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3>Event Details:</h3>
+                <p><strong>Event:</strong> {transaction['event_name']}</p>
+                <p><strong>Location:</strong> {transaction['location']}</p>
+                <p><strong>Date:</strong> {transaction['event_datetime']}</p>
+                <p><strong>Price:</strong> ${transaction['price']}</p>
+            </div>
+            
+            <div style="background: #e8f5e8; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3>✅ Ticket Status: VERIFIED</h3>
+                <p>We've received and verified the ticket from the seller. The ticket matches your requested event and seating details.</p>
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="{payment_url}" style="background: #4caf50; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-size: 18px; font-weight: bold;">
+                    💳 Complete Payment - ${transaction['price']}
+                </a>
+            </div>
+            
+            <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                <h4>What happens next:</h4>
+                <ol>
+                    <li>Click the payment button above</li>
+                    <li>Complete your secure payment via Stripe</li>
+                    <li>We'll immediately forward your ticket</li>
+                    <li>You'll receive your ticket within minutes!</li>
+                </ol>
+            </div>
+            
+            <p style="color: #666; font-size: 14px;">
+                Questions? Contact us at <a href="mailto:safetransactiontix@gmail.com">safetransactiontix@gmail.com</a>
+            </p>
+        </div>
+        """
+        
+        text_body = f"""
+        Great News! Your Ticket is Verified
+        
+        Event: {transaction['event_name']}
+        Location: {transaction['location']}
+        Date: {transaction['event_datetime']}
+        Price: ${transaction['price']}
+        
+        ✅ Ticket Status: VERIFIED
+        We've received and verified the ticket from the seller.
+        
+        Complete your payment: {payment_url}
+        
+        Questions? Contact us at safetransactiontix@gmail.com
+        """
+        
+        msg = Message(
+            subject=subject,
+            recipients=[transaction['buyer_email']],
+            html=html_body,
+            body=text_body
+        )
+        insta485.mail.send(msg)
+        
+        flask.flash(f'✅ Ticket verified and payment email sent to {transaction["buyer_email"]}', 'success')
+        
+    except Exception as e:
+        flask.flash(f'Ticket verified but email failed: {str(e)}', 'warning')
+    
+    return flask.redirect(flask.url_for('admin_dashboard'))
 
 @insta485.app.route('/admin/refund-buyer/<int:transaction_id>', methods=['POST'])
 def admin_refund_buyer(transaction_id):

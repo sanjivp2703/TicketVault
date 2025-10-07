@@ -461,7 +461,11 @@
                                     <span class="timestamp">{{ transaction.created_time }}</span>
                                 </td>
                                 <td>
-                                    {% if transaction.status in ['both_received_processing'] or (transaction.payment_received == 1) %}
+                                    {% if transaction.status == 'pending_ticket_submission' %}
+                                        <button class="verify-ticket-btn" onclick="verifyTicket({{ transaction.transaction_id }})">
+                                            ✅ Verify Ticket & Send Payment Email
+                                        </button>
+                                    {% elif transaction.status in ['both_received_processing'] or (transaction.payment_received == 1) %}
                                         <button class="declare-ticket-btn" onclick="declareTicketSent({{ transaction.transaction_id }})">
                                             📨 Declare Ticket Sent
                                         </button>
@@ -622,6 +626,17 @@
                 form.submit();
             }
         }
+
+        function verifyTicket(transactionId) {
+            if (confirm(`Are you sure you want to verify the ticket for transaction #${transactionId}?\n\n✅ This will:\n- Mark the ticket as verified\n- Send payment email to the buyer\n- Change status to "waiting_for_payment"\n\n⚠️ Only do this AFTER you've received and verified the ticket from the seller!`)) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/admin/verify-ticket/${transactionId}`;
+                
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
     </script>
 
     <style>
@@ -659,6 +674,27 @@
         .declare-ticket-btn:hover {
             background: #15803d;
             transform: translateY(-1px);
+        }
+
+        .verify-ticket-btn {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 600;
+        }
+
+        .verify-ticket-btn:hover {
+            background: #45a049;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
         }
     </style>
 </body>
