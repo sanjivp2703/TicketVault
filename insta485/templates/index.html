@@ -2627,10 +2627,10 @@
                 font-size: 18px; /* Smaller on mobile */
             }
 
-        .disclaimer-text {
-            font-size: 13px;
+            .disclaimer-text {
+                font-size: 13px;
+            }
         }
-    }
 
     /* Finished Listing Cards - Simplified Design */
     .finished-listing-card {
@@ -2830,8 +2830,8 @@
         justify-content: center;
     }
 
-    /* Smooth scroll behavior */
-    html {
+        /* Smooth scroll behavior */
+        html {
             scroll-behavior: smooth;
             scroll-padding-top: 100px;
         }
@@ -6055,9 +6055,9 @@
                 
 
                 </div>
-            </div>
+                    </div>
 
-    </div>
+                    </div>
 
     <!-- Sell Michigan Football Student Tickets Section -->
     <div class="sell-tickets-section">
@@ -6090,8 +6090,8 @@
                     <div class="step-content-horizontal">
                         <h3 class="step-title-horizontal">Send Tickets</h3>
                         <p class="step-description-horizontal">Transfer tickets to our secure account</p>
-                    </div>
                 </div>
+            </div>
                 
                 <div class="step-arrow-horizontal">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -7420,9 +7420,9 @@
         
         if (shouldShow) {
             console.log('🎉 Showing introduction modal (fresh visit or login)');
-            const overlay = document.getElementById('welcomeOverlay');
-            if (overlay) {
-                overlay.style.display = 'flex';
+        const overlay = document.getElementById('welcomeOverlay');
+        if (overlay) {
+            overlay.style.display = 'flex';
                 // Mark as seen for this session
                 sessionStorage.setItem('hasSeenIntroductionThisSession', 'true');
             }
@@ -8222,7 +8222,7 @@
                     console.error('Error:', error);
                     alert('Error simulating ticket transfer');
                 });
-            }
+    }
         };
     });
 

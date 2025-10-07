@@ -74,8 +74,8 @@ def admin_verify_ticket(transaction_id):
     try:
         subject = f"🎫 Ticket Verified - Complete Your Payment (Transaction #{transaction_id})"
         
-        # Create payment URL (you'll need to implement this)
-        payment_url = f"https://safetransaction.app/pay/{transaction_id}"
+        # Create direct Stripe checkout URL
+        payment_url = f"https://safetransaction.app/api/transactions/{transaction_id}/pay"
         
         html_body = f"""
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

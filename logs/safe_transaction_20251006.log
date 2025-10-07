@@ -63,3 +63,16 @@
 2025-10-06 21:41:36 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\views\\admin_actions.py', reloading
 2025-10-06 21:41:38 - werkzeug - WARNING - _log:187 -  * Debugger is active!
 2025-10-06 21:41:38 - werkzeug - INFO - _log:187 -  * Debugger PIN: 106-121-401
+2025-10-06 21:42:21 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\views\\index.py', reloading
+2025-10-06 21:42:23 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-10-06 21:42:23 - werkzeug - INFO - _log:187 -  * Debugger PIN: 106-121-401
+2025-10-06 21:42:42 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\views\\index.py', reloading
+2025-10-06 21:42:45 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-10-06 21:42:45 - werkzeug - INFO - _log:187 -  * Debugger PIN: 106-121-401
+2025-10-06 21:50:42 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\mailgun_sender.py', reloading
+2025-10-06 21:50:47 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-10-06 21:50:47 - werkzeug - INFO - _log:187 -  * Debugger PIN: 106-121-401
+2025-10-06 21:51:41 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\views\\admin_actions.py', reloading
+2025-10-06 21:51:45 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-10-06 21:51:45 - werkzeug - INFO - _log:187 -  * Debugger PIN: 106-121-401
+2025-10-06 21:52:02 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\views\\index.py', reloading

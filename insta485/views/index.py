@@ -609,9 +609,11 @@ Ticketmaster Support
 
 
 @insta485.app.route('/pay/<int:transaction_id>')
-def show_payment_page(transaction_id):
-    """Show payment page for a specific transaction."""
+def redirect_to_stripe_checkout(transaction_id):
+    """Redirect directly to Stripe checkout for a transaction."""
     import os
+    import stripe
+    
     connection = insta485.model.get_db()
     
     # Get transaction details
@@ -630,24 +632,31 @@ def show_payment_page(transaction_id):
         flask.flash('This transaction is not available for payment.', 'error')
         return flask.redirect(flask.url_for('show_index'))
     
-    # Create Stripe payment intent
+    # Create Stripe checkout session and redirect directly
     try:
-        import stripe
         stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
         
-        intent = stripe.PaymentIntent.create(
-            amount=int(transaction['price'] * 100),  # Convert to cents
-            currency='usd',
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': f'Tickets for {transaction["event_name"]}',
+                        'description': f'{transaction["location"]} - {transaction["event_datetime"]}'
+                    },
+                    'unit_amount': int(transaction['price'] * 100),  # Convert to cents
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url=f'https://safetransaction.app/payment-success/{transaction_id}',
+            cancel_url=f'https://safetransaction.app/payment-cancel',
             metadata={'transaction_id': transaction_id}
         )
         
-        context = {
-            'transaction': transaction,
-            'client_secret': intent.client_secret,
-            'stripe_publishable_key': os.environ.get('STRIPE_PUBLISHABLE_KEY')
-        }
-        
-        return flask.render_template('payment_page.html', **context)
+        # Redirect directly to Stripe checkout
+        return flask.redirect(session.url)
         
     except Exception as e:
         flask.flash(f'Payment setup failed: {str(e)}', 'error')
