@@ -73,13 +73,13 @@ def create_transaction_api():
         return flask.jsonify({'error': str(e)}), 500
 
 
-@insta485.app.route('/api/transactions/<int:transaction_id>/pay', methods=['POST'])
+@insta485.app.route('/api/transactions/<int:transaction_id>/pay', methods=['GET', 'POST'])
 def get_payment_checkout_url(transaction_id):
     """
     Get Stripe checkout URL for buyer payment
     
-    POST /api/transactions/123/pay
-    Returns: {"success": true, "checkout_url": "https://checkout.stripe.com/..."}
+    GET /api/transactions/123/pay - Redirects directly to Stripe (for email links)
+    POST /api/transactions/123/pay - Returns JSON with checkout_url (for AJAX)
     """
     try:
         connection = insta485.model.get_db()
@@ -113,6 +113,11 @@ def get_payment_checkout_url(transaction_id):
         # Store transaction_id in session for success page
         flask.session['transaction_id'] = transaction_id
         
+        # Handle GET requests (from email links) - redirect directly to Stripe
+        if flask.request.method == 'GET':
+            return flask.redirect(session.url)
+        
+        # Handle POST requests (from AJAX) - return JSON
         return flask.jsonify({
             'success': True,
             'checkout_url': session.url
