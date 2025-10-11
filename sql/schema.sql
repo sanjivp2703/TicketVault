@@ -80,7 +80,6 @@ CREATE TABLE transactions(
   -- School association
   school VARCHAR(50) DEFAULT 'michigan',
 
-  FOREIGN KEY (buyer_email) REFERENCES users(email),
   FOREIGN KEY (seller_email) REFERENCES users(email),
   FOREIGN KEY (event_id) REFERENCES events(event_id),
   CHECK (status IN (

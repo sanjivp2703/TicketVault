@@ -149,3 +149,34 @@
 2025-10-06 23:51:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Oct/2025 23:51:12] "GET /api/events?q=ohio&school=michigan HTTP/1.1" 200 -
 2025-10-06 23:52:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Oct/2025 23:52:22] "GET /index HTTP/1.1" 200 -
 2025-10-06 23:52:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Oct/2025 23:52:22] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-06 23:56:18 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://10.62.166.73:8000
+2025-10-06 23:56:18 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-10-06 23:56:18 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-10-06 23:56:19 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-10-06 23:56:19 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-10-06 23:56:19 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Oct/2025 23:56:19] "GET /index HTTP/1.1" 200 -
+2025-10-06 23:56:20 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Oct/2025 23:56:20] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-06 23:56:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Oct/2025 23:56:22] "GET /api/events?q=loc&school=michigan HTTP/1.1" 200 -
+2025-10-06 23:56:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Oct/2025 23:56:23] "GET /api/events?q=ohio&school=michigan HTTP/1.1" 200 -
+2025-10-06 23:56:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Oct/2025 23:56:26] "GET /api/events?q=ohim&school=michigan HTTP/1.1" 200 -
+2025-10-06 23:56:27 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Oct/2025 23:56:27] "GET /api/events?q=michigan&school=michigan HTTP/1.1" 200 -
+2025-10-06 23:56:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [06/Oct/2025 23:56:35] "GET /api/events?q=ohio&school=michigan HTTP/1.1" 200 -
+2025-10-07 00:00:07 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [07/Oct/2025 00:00:07] "GET /index HTTP/1.1" 200 -
+2025-10-07 00:00:07 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [07/Oct/2025 00:00:07] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-07 00:00:40 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [07/Oct/2025 00:00:40] "GET /api/events?q=san&school=michigan HTTP/1.1" 200 -
+2025-10-07 00:00:42 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [07/Oct/2025 00:00:42] "GET /api/events?q=ohio&school=michigan HTTP/1.1" 200 -
+2025-10-07 00:00:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [07/Oct/2025 00:00:47] "[32mPOST /create-transaction HTTP/1.1[0m" 302 -
+2025-10-07 00:00:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [07/Oct/2025 00:00:47] "GET /index HTTP/1.1" 200 -
+2025-10-07 00:01:57 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [07/Oct/2025 00:01:57] "[32mPOST /create-transaction HTTP/1.1[0m" 302 -
+2025-10-07 00:01:57 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [07/Oct/2025 00:01:57] "GET /index HTTP/1.1" 200 -
+2025-10-07 00:02:16 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [07/Oct/2025 00:02:16] "GET /api/events?q=flor&school=florida HTTP/1.1" 200 -
+2025-10-07 00:02:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [07/Oct/2025 00:02:17] "GET /index HTTP/1.1" 200 -
+2025-10-07 00:02:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [07/Oct/2025 00:02:17] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-07 00:02:20 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [07/Oct/2025 00:02:20] "GET /api/events?q=fl&school=florida HTTP/1.1" 200 -
+2025-10-07 00:02:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [07/Oct/2025 00:02:35] "[32mPOST /create-transaction HTTP/1.1[0m" 302 -
+2025-10-07 00:02:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [07/Oct/2025 00:02:35] "GET /index HTTP/1.1" 200 -
+2025-10-07 00:02:50 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [07/Oct/2025 00:02:50] "GET /index HTTP/1.1" 200 -
+2025-10-07 00:02:50 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [07/Oct/2025 00:02:50] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -

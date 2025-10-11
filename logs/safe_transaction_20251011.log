@@ -66,3 +66,173 @@
 2025-10-11 15:00:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 15:00:47] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
 2025-10-11 15:02:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 15:02:30] "GET /withdraw HTTP/1.1" 200 -
 2025-10-11 15:02:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 15:02:30] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 17:32:22 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-10-11 17:32:22 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-10-11 17:32:22 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-10-11 17:32:23 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-10-11 17:32:23 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-10-11 17:32:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:32:23] "[32mGET / HTTP/1.1[0m" 302 -
+2025-10-11 17:32:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:32:23] "GET /accounts/login/ HTTP/1.1" 200 -
+2025-10-11 17:32:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:32:26] "[32mGET /dev/skip-login/seller HTTP/1.1[0m" 302 -
+2025-10-11 17:32:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:32:26] "GET /index HTTP/1.1" 200 -
+2025-10-11 17:32:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:32:26] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 17:33:57 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:33:57] "GET /index HTTP/1.1" 200 -
+2025-10-11 17:33:58 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:33:58] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 17:33:59 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:33:59] "GET /index HTTP/1.1" 200 -
+2025-10-11 17:33:59 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:33:59] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 17:34:02 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:34:02] "[32mGET / HTTP/1.1[0m" 302 -
+2025-10-11 17:34:02 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:34:02] "GET /index HTTP/1.1" 200 -
+2025-10-11 17:34:03 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:34:03] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 17:40:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:40:35] "GET /index HTTP/1.1" 200 -
+2025-10-11 17:40:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:40:35] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 17:40:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:40:37] "[32mGET / HTTP/1.1[0m" 302 -
+2025-10-11 17:40:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:40:37] "GET /index HTTP/1.1" 200 -
+2025-10-11 17:40:38 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:40:38] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 17:42:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:42:15] "[32mGET / HTTP/1.1[0m" 302 -
+2025-10-11 17:42:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:42:15] "GET /index HTTP/1.1" 200 -
+2025-10-11 17:42:15 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:42:15] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 17:45:42 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:45:42] "GET /index HTTP/1.1" 200 -
+2025-10-11 17:45:42 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:45:42] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 17:45:46 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:45:46] "[32mGET / HTTP/1.1[0m" 302 -
+2025-10-11 17:45:46 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:45:46] "GET /index HTTP/1.1" 200 -
+2025-10-11 17:45:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:45:47] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 17:48:09 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:48:09] "GET /index HTTP/1.1" 200 -
+2025-10-11 17:48:10 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:48:10] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 17:48:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:48:22] "[32mGET / HTTP/1.1[0m" 302 -
+2025-10-11 17:48:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:48:22] "GET /index HTTP/1.1" 200 -
+2025-10-11 17:48:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:48:22] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 17:55:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:55:26] "GET /index HTTP/1.1" 200 -
+2025-10-11 17:55:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:55:26] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 17:55:29 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:55:29] "[32mGET / HTTP/1.1[0m" 302 -
+2025-10-11 17:55:29 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:55:29] "GET /index HTTP/1.1" 200 -
+2025-10-11 17:55:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 17:55:30] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 18:08:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:08:55] "GET /index HTTP/1.1" 200 -
+2025-10-11 18:08:55 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:08:55] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 18:08:59 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:08:59] "[32mGET / HTTP/1.1[0m" 302 -
+2025-10-11 18:08:59 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:08:59] "GET /index HTTP/1.1" 200 -
+2025-10-11 18:08:59 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:08:59] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 18:09:57 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:09:57] "GET /api/events?q=mic&school=michigan HTTP/1.1" 200 -
+2025-10-11 18:10:09 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:10:09] "[32mPOST /create-transaction HTTP/1.1[0m" 302 -
+2025-10-11 18:10:09 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:10:09] "GET /index HTTP/1.1" 200 -
+2025-10-11 18:10:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:10:12] "[32mPOST /create-transaction HTTP/1.1[0m" 302 -
+2025-10-11 18:10:12 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:10:12] "GET /index HTTP/1.1" 200 -
+2025-10-11 18:10:14 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:10:14] "GET /index HTTP/1.1" 200 -
+2025-10-11 18:10:14 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:10:14] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 18:10:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:10:17] "GET /api/events?q=mich&school=michigan HTTP/1.1" 200 -
+2025-10-11 18:10:21 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:10:21] "[32mPOST /create-transaction HTTP/1.1[0m" 302 -
+2025-10-11 18:10:21 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:10:21] "GET /index HTTP/1.1" 200 -
+2025-10-11 18:10:40 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:10:40] "[32mPOST /create-transaction HTTP/1.1[0m" 302 -
+2025-10-11 18:10:41 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:10:41] "GET /index HTTP/1.1" 200 -
+2025-10-11 18:14:29 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:14:29] "GET /index HTTP/1.1" 200 -
+2025-10-11 18:14:29 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:14:29] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 18:14:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:14:32] "[32mGET / HTTP/1.1[0m" 302 -
+2025-10-11 18:14:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:14:32] "GET /index HTTP/1.1" 200 -
+2025-10-11 18:14:33 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:14:33] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 18:15:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:15:22] "GET /index HTTP/1.1" 200 -
+2025-10-11 18:15:22 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:15:22] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 18:24:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:24:30] "GET /index HTTP/1.1" 200 -
+2025-10-11 18:24:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:24:30] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 18:24:42 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:24:42] "GET /api/events?q=ni&school=michigan HTTP/1.1" 200 -
+2025-10-11 18:24:43 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:24:43] "GET /api/events?q=mi&school=michigan HTTP/1.1" 200 -
+2025-10-11 18:24:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:24:49] "[32mPOST /create-transaction HTTP/1.1[0m" 302 -
+2025-10-11 18:24:49 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:24:49] "GET /index HTTP/1.1" 200 -
+2025-10-11 18:42:18 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:42:18] "GET /index HTTP/1.1" 200 -
+2025-10-11 18:42:19 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:42:19] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 18:42:21 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:42:21] "GET /api/events?q=mi&school=michigan HTTP/1.1" 200 -
+2025-10-11 18:42:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:42:26] "[31m[1mPOST /api/transactions/create HTTP/1.1[0m" 400 -
+2025-10-11 18:44:19 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:44:19] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-11 18:44:25 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:44:25] "[31m[1mPOST /api/transactions/create HTTP/1.1[0m" 400 -
+2025-10-11 18:44:33 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:44:33] "[31m[1mPOST /api/transactions/create HTTP/1.1[0m" 400 -
+2025-10-11 18:44:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:44:37] "GET /index HTTP/1.1" 200 -
+2025-10-11 18:44:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:44:37] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 18:44:39 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:44:39] "GET /api/events?q=ihg&school=michigan HTTP/1.1" 200 -
+2025-10-11 18:44:40 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:44:40] "GET /api/events?q=mich&school=michigan HTTP/1.1" 200 -
+2025-10-11 18:44:46 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:44:46] "[31m[1mPOST /api/transactions/create HTTP/1.1[0m" 400 -
+2025-10-11 18:47:16 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:47:16] "GET /index HTTP/1.1" 200 -
+2025-10-11 18:47:17 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:47:17] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 18:47:19 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:47:19] "GET /api/events?q=ohio&school=michigan HTTP/1.1" 200 -
+2025-10-11 18:47:23 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:47:23] "[31m[1mPOST /api/transactions/create HTTP/1.1[0m" 400 -
+2025-10-11 18:47:37 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:47:37] "[35m[1mPOST /api/transactions/create HTTP/1.1[0m" 500 -
+2025-10-11 18:48:16 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/GitHub/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-10-11 18:48:17 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-10-11 18:48:19 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-10-11 18:48:19 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-10-11 18:48:30 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/GitHub/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-10-11 18:48:31 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-10-11 18:48:34 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-10-11 18:48:34 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-10-11 18:48:56 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-10-11 18:48:56 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-10-11 18:48:56 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-10-11 18:48:59 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-10-11 18:48:59 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-10-11 18:48:59 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:48:59] "GET /index HTTP/1.1" 200 -
+2025-10-11 18:48:59 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:48:59] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 18:49:02 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:49:02] "GET /api/events?q=mic&school=michigan HTTP/1.1" 200 -
+2025-10-11 18:49:08 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:49:08] "[35m[1mPOST /api/transactions/create HTTP/1.1[0m" 500 -
+2025-10-11 18:51:18 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-10-11 18:51:18 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-10-11 18:51:18 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-10-11 18:51:19 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-10-11 18:51:19 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-10-11 18:51:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:51:26] "GET /index HTTP/1.1" 200 -
+2025-10-11 18:51:27 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:51:27] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 18:51:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:51:30] "GET /api/events?q=mi&school=michigan HTTP/1.1" 200 -
+2025-10-11 18:51:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:51:35] "POST /api/transactions/create HTTP/1.1" 200 -
+2025-10-11 18:51:43 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:51:43] "[32mGET / HTTP/1.1[0m" 302 -
+2025-10-11 18:51:43 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:51:43] "GET /accounts/login/ HTTP/1.1" 200 -
+2025-10-11 18:51:44 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:51:44] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 18:51:45 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:51:45] "[32mGET /dev/skip-login/admin HTTP/1.1[0m" 302 -
+2025-10-11 18:51:45 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:51:45] "GET /admin HTTP/1.1" 200 -
+2025-10-11 18:51:45 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:51:45] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 18:51:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:51:54] "[35m[1mGET /index HTTP/1.1[0m" 500 -
+2025-10-11 18:51:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:51:54] "[36mGET /index?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-10-11 18:51:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:51:54] "[36mGET /index?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-10-11 18:51:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:51:54] "[36mGET /index?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-10-11 18:51:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:51:54] "[36mGET /index?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-10-11 18:53:46 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-10-11 18:53:46 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-10-11 18:53:46 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-10-11 18:53:47 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-10-11 18:53:47 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-10-11 18:53:52 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.205:8000
+2025-10-11 18:53:52 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-10-11 18:53:52 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-10-11 18:53:53 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-10-11 18:53:53 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-10-11 18:53:53 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:53:53] "[32mGET / HTTP/1.1[0m" 302 -
+2025-10-11 18:53:53 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:53:53] "[32mGET / HTTP/1.1[0m" 302 -
+2025-10-11 18:53:53 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:53:53] "GET /index HTTP/1.1" 200 -
+2025-10-11 18:53:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:53:54] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 18:53:58 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:53:58] "GET /api/events?q=mich&school=michigan HTTP/1.1" 200 -
+2025-10-11 18:54:02 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:54:02] "POST /api/transactions/create HTTP/1.1" 200 -
+2025-10-11 18:54:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:54:05] "GET /index HTTP/1.1" 200 -
+2025-10-11 18:54:05 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:54:05] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 18:55:25 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:55:25] "[33mPOST /api/test-ticket-sent HTTP/1.1[0m" 404 -
+2025-10-11 18:56:02 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 18:56:02] "[33mPOST /api/test-ticket-sent HTTP/1.1[0m" 404 -
+2025-10-11 18:58:22 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/GitHub/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-10-11 18:58:23 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-10-11 18:58:25 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-10-11 18:58:25 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-10-11 19:00:01 - werkzeug - INFO - _log:187 -  * Detected change in '/Users/sanjivp27/Documents/GitHub/Safe-Transaction/insta485/api/transactions.py', reloading
+2025-10-11 19:00:02 - werkzeug - INFO - _log:187 -  * Restarting with watchdog (fsevents)
+2025-10-11 19:00:04 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-10-11 19:00:04 - werkzeug - INFO - _log:187 -  * Debugger PIN: 872-014-902
+2025-10-11 19:00:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 19:00:34] "GET /index HTTP/1.1" 200 -
+2025-10-11 19:00:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 19:00:34] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-11 19:00:39 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [11/Oct/2025 19:00:39] "[35m[1mPOST /api/test-ticket-sent HTTP/1.1[0m" 500 -

@@ -43,12 +43,39 @@ def create_transaction_api():
         return flask.jsonify({'error': 'Cannot create transaction with yourself'}), 400
     
     try:
+        # Validate and create buyer user if doesn't exist
+        connection = insta485.model.get_db()
+        buyer_exists = connection.execute(
+            "SELECT email FROM users WHERE email = ?",
+            (data['buyer_email'],)
+        ).fetchone()
+        
+        if not buyer_exists:
+            # Create placeholder user for buyer
+            password_hash = 'sha512$placeholder$placeholder_hash_needs_reset'
+            connection.execute(
+                "INSERT INTO users (email, firstname, lastname, password) VALUES (?, ?, ?, ?)",
+                (data['buyer_email'], 'New', 'User', password_hash)
+            )
+            connection.commit()
+        
+        # Fix datetime format - convert from HTML5 datetime-local to SQLite format
+        event_datetime_raw = data['event_datetime']
+        if 'T' in event_datetime_raw:
+            # Format: "2025-10-04T00:00" -> "2025-10-04 00:00:00"
+            event_datetime = event_datetime_raw.replace('T', ' ')
+            # Add seconds if not present
+            if len(event_datetime) == 16:
+                event_datetime += ':00'
+        else:
+            event_datetime = event_datetime_raw
+        
         transaction_manager = TransactionManager()
         
         event_details = {
             'name': data['event_name'],
             'location': data['event_location'],
-            'datetime': data['event_datetime']
+            'datetime': event_datetime
         }
         
         result = transaction_manager.create_listing(
@@ -56,17 +83,15 @@ def create_transaction_api():
             buyer_email=data['buyer_email'],
             price=float(data['price']),
             event_details=event_details,
-            ticket_deadline_hours=data.get('ticket_deadline_hours', 24),
-            payment_deadline_hours=data.get('payment_deadline_hours', 48)
+            school=data.get('school', 'michigan')
         )
         
         return flask.jsonify({
             'success': True,
             'transaction_id': result['transaction_id'],
             'ticket_email': result['ticket_email'],
-            'ticket_deadline': result['ticket_deadline'].isoformat(),
-            'payment_deadline': result['payment_deadline'].isoformat(),
-            'instructions': f"Send your tickets to: {result['ticket_email']}"
+            'status': result['status'],
+            'message': result['message']
         })
         
     except Exception as e:
@@ -1083,5 +1108,56 @@ def send_cancellation_emails(transaction_id, seller_email, buyer_email, event_na
         
     except Exception as e:
         print(f"❌ Failed to send cancellation emails for transaction {transaction_id}: {e}")
+
+
+@insta485.app.route('/api/test-ticket-sent', methods=['POST'])
+def test_ticket_sent():
+    """Test endpoint to simulate seller marking ticket as sent."""
+    if 'email' not in flask.session:
+        return flask.jsonify({'success': False, 'error': 'Not logged in'}), 401
+    
+    data = flask.request.get_json()
+    transaction_id = data.get('transaction_id')
+    
+    if not transaction_id:
+        return flask.jsonify({'success': False, 'error': 'Transaction ID required'}), 400
+    
+    try:
+        connection = insta485.model.get_db()
+        
+        # Get transaction details
+        transaction = connection.execute("""
+            SELECT t.*, e.name as event_name, e.location, e.event_datetime
+            FROM transactions t 
+            JOIN events e ON t.event_id = e.event_id
+            WHERE t.transaction_id = ? AND t.seller_email = ?
+        """, (transaction_id, flask.session['email'])).fetchone()
+        
+        if not transaction:
+            return flask.jsonify({'success': False, 'error': 'Transaction not found or access denied'}), 404
+        
+        # Check if transaction is in correct status
+        if transaction['status'] != 'pending_ticket_submission':
+            return flask.jsonify({
+                'success': False, 
+                'error': f'Transaction is in status: {transaction["status"]}. Expected: pending_ticket_submission'
+            }), 400
+        
+        # Update status to waiting_for_ticket (simulating that seller sent ticket to Safe Transaction)
+        connection.execute(
+            "UPDATE transactions SET status = 'waiting_for_ticket', ticket_received = 1 WHERE transaction_id = ?",
+            (transaction_id,)
+        )
+        connection.commit()
+        
+        return flask.jsonify({
+            'success': True,
+            'message': 'Ticket marked as sent successfully',
+            'new_status': 'waiting_for_ticket'
+        })
+        
+    except Exception as e:
+        print(f"Error in test-ticket-sent: {e}")
+        return flask.jsonify({'success': False, 'error': str(e)}), 500
 
 
