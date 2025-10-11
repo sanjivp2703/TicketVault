@@ -494,20 +494,20 @@ def get_events():
     # Filter events based on school
     if school == 'michigan':
         events = connection.execute(
-            "SELECT name, location, event_datetime, is_tbd, max_ticket_price FROM events WHERE (name LIKE ? OR location LIKE ?) AND (name LIKE '%Michigan%' OR name LIKE '%michigan%') LIMIT 10",
+            "SELECT name, location, event_datetime, is_tbd, max_ticket_price FROM events WHERE (name LIKE ? OR location LIKE ?) AND school = 'michigan' LIMIT 10",
             (f"%{query}%", f"%{query}%")
         ).fetchall()
     elif school == 'florida':
         events = connection.execute(
-            "SELECT name, location, event_datetime, is_tbd, max_ticket_price FROM events WHERE (name LIKE ? OR location LIKE ?) AND (name LIKE '%Florida%' OR name LIKE '%florida%') LIMIT 10",
+            "SELECT name, location, event_datetime, is_tbd, max_ticket_price FROM events WHERE (name LIKE ? OR location LIKE ?) AND school = 'florida' LIMIT 10",
             (f"%{query}%", f"%{query}%")
         ).fetchall()
     else:
         # Default behavior - show all events
         events = connection.execute(
             "SELECT name, location, event_datetime, is_tbd, max_ticket_price FROM events WHERE name LIKE ? OR location LIKE ? LIMIT 10",
-        (f"%{query}%", f"%{query}%")
-    ).fetchall()
+            (f"%{query}%", f"%{query}%")
+        ).fetchall()
     results = []
     for row in events:
         try:

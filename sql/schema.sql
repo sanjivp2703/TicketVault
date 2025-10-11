@@ -23,7 +23,8 @@ CREATE TABLE events(
     location VARCHAR(256),
     event_datetime DATETIME,
     is_tbd BOOLEAN DEFAULT 0,
-    max_ticket_price INTEGER DEFAULT 20000
+    max_ticket_price INTEGER DEFAULT 20000,
+    school VARCHAR(50) DEFAULT 'michigan'
 );
 
 CREATE TABLE transactions(
@@ -75,6 +76,9 @@ CREATE TABLE transactions(
   ticket_reminder_sent_5m INTEGER DEFAULT 0,
   payment_reminder_sent_4h INTEGER DEFAULT 0,
   payment_reminder_sent_1h INTEGER DEFAULT 0,
+  
+  -- School association
+  school VARCHAR(50) DEFAULT 'michigan',
 
   FOREIGN KEY (buyer_email) REFERENCES users(email),
   FOREIGN KEY (seller_email) REFERENCES users(email),

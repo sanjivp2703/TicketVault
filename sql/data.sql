@@ -1,19 +1,19 @@
 PRAGMA foreign_keys = ON;
 
 -- Michigan Football Events (Ann Arbor, MI)
-INSERT INTO events (name, location, event_datetime, is_tbd, max_ticket_price) VALUES
-('Wisconsin vs Michigan', 'Ann Arbor, MI', '2025-10-04 00:00:00', 1, 20000),
-('Washington vs Michigan', 'Ann Arbor, MI', '2025-10-18 00:00:00', 1, 20000),
-('Purdue vs Michigan', 'Ann Arbor, MI', '2025-11-01 00:00:00', 1, 20000),
-('Ohio vs Michigan', 'Ann Arbor, MI', '2025-11-29 00:00:00', 1, 60000),
+INSERT INTO events (name, location, event_datetime, is_tbd, max_ticket_price, school) VALUES
+('Wisconsin vs Michigan', 'Ann Arbor, MI', '2025-10-04 00:00:00', 1, 20000, 'michigan'),
+('Washington vs Michigan', 'Ann Arbor, MI', '2025-10-18 00:00:00', 1, 20000, 'michigan'),
+('Purdue vs Michigan', 'Ann Arbor, MI', '2025-11-01 00:00:00', 1, 20000, 'michigan'),
+('Ohio vs Michigan', 'Ann Arbor, MI', '2025-11-29 00:00:00', 1, 60000, 'michigan'),
 
 -- Florida Football Events (Gainesville, FL)
-('Texas vs Florida', 'Gainesville, FL', '2025-10-04 00:00:00', 1, 20000),
-('Mississippi State vs Florida', 'Gainesville, FL', '2025-10-18 00:00:00', 1, 20000),
-('Georgia vs Florida', 'Gainesville, FL', '2025-11-01 15:30:00', 0, 20000),
-('Kentucky vs Florida', 'Gainesville, FL', '2025-11-08 00:00:00', 1, 20000),
-('Tennessee vs Florida', 'Gainesville, FL', '2025-11-22 00:00:00', 1, 20000),
-('Florida State vs Florida', 'Gainesville, FL', '2025-11-29 00:00:00', 1, 20000);
+('Texas vs Florida', 'Gainesville, FL', '2025-10-04 00:00:00', 1, 20000, 'florida'),
+('Mississippi State vs Florida', 'Gainesville, FL', '2025-10-18 00:00:00', 1, 20000, 'florida'),
+('Georgia vs Florida', 'Gainesville, FL', '2025-11-01 15:30:00', 0, 20000, 'florida'),
+('Kentucky vs Florida', 'Gainesville, FL', '2025-11-08 00:00:00', 1, 20000, 'florida'),
+('Tennessee vs Florida', 'Gainesville, FL', '2025-11-22 00:00:00', 1, 20000, 'florida'),
+('Florida State vs Florida', 'Gainesville, FL', '2025-11-29 00:00:00', 1, 20000, 'florida');
 
 INSERT INTO users(email, firstname, lastname, password, stripe_id, is_admin, balance)
 VALUES 
