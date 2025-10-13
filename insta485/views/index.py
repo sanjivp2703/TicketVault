@@ -119,8 +119,8 @@ def show_index():
         # --- AUTO-UPDATE STATUS TO 'completed' IF EVENT TIME PASSED ---
         if trans['event_datetime'] and trans['event_datetime'].strip():
             event_dt = datetime.datetime.strptime(trans['event_datetime'], '%Y-%m-%d %H:%M:%S')
-            # 1. Promote to completed if event time passed and tickets were sent
-            if trans['status'] in ('waiting_for_ticket', 'ticket_forwarded_funds_held') and now >= event_dt:
+            # 1. Promote to completed if event time passed, tickets were sent, AND payment was received
+            if trans['status'] in ('ticket_forwarded_funds_held') and now >= event_dt and trans.get('payment_received'):
                 connection.execute(
                     "UPDATE transactions SET status = 'completed' WHERE transaction_id = ?",
                     (trans['transaction_id'],)

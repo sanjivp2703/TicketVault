@@ -6389,32 +6389,25 @@
                                 </div>
                             </div>
                         {% elif transaction.status == 'waiting_for_ticket' %}
-                        <div class="action-required">
-                                <div class="action-header">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <strong>Action Required</strong>
+                        <div class="action-waiting" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-left: 4px solid #0ea5e9; padding: var(--space-md); border-radius: var(--radius-md); margin-top: var(--space-md);">
+                                <div class="action-header" style="color: #0369a1; margin-bottom: 12px;">
+                                <i class="fas fa-hourglass-half"></i>
+                                <strong>Verifying Your Ticket</strong>
                                 </div>
-                            <p>Forward your ticket email to: <code>{{ transaction.ticket_email }}</code></p>
-                                <div class="deadline-info">
-                                    <i class="fas fa-clock"></i>
-                                Deadline: {{ transaction.ticket_deadline.strftime('%m/%d %I:%M %p') if transaction.ticket_deadline else 'N/A' }}
+                            <p style="color: #0c4a6e; margin: 12px 0; line-height: 1.6;">
+                                <strong>We are currently verifying the ticket you sent.</strong> This process is usually quick and automated.
+                            </p>
+                            <p style="color: #0c4a6e; margin: 12px 0; line-height: 1.6;">
+                                📧 <strong>Once verified:</strong> We will email the buyer with a payment link for this transaction.
+                            </p>
+                            <p style="color: #0c4a6e; margin: 12px 0; line-height: 1.6;">
+                                ❌ <strong>If the ticket is incorrect:</strong> We will send it back to you and you can resubmit a corrected version.
+                            </p>
+                                <div class="deadline-info" style="margin-top: 16px; color: #075985;">
+                                    <i class="fas fa-info-circle"></i>
+                                Expected verification time: <strong>Usually within a 10 minutes</strong>
                                 </div>
-                            <!-- Add special buttons for waiting_for_ticket status -->
-                            <div class="listing-actions" style="margin-top: var(--space-md);">
-                                <button class="btn-ticket-incorrect" onclick="markTicketIncorrect({{ transaction.transaction_id }})">
-                                    <i class="fas fa-times-circle"></i> Ticket Sent Was Incorrect (TEMP)
-                                </button>
-                                <button class="btn-ticket-correct" onclick="markTicketCorrect({{ transaction.transaction_id }})">
-                                    <i class="fas fa-check-circle"></i> Ticket Sent Was Correct (TEMP)
-                                </button>
-                            </div>
-                            
-                            <!-- Ticket Sent Action Button -->
-                            <div class="test-actions" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0;">
-                                <button class="btn-test-ticket-sent" onclick="testTicketSent({{ transaction.transaction_id }})">
-                                    <i class="fas fa-check-circle"></i> I've Sent the Ticket
-                                </button>
-                            </div>
+
                         </div>
                         {% elif transaction.status == 'waiting_for_payment' %}
                         <div class="action-waiting">
@@ -6488,11 +6481,6 @@
                         {% if transaction.status in ['waiting_for_ticket', 'waiting_for_payment', 'pending_ticket_submission'] %}
                         <button class="btn-cancel" onclick="cancelTransaction({{ transaction.transaction_id }})">
                                     <i class="fas fa-times"></i> Cancel
-                                </button>
-                                {% endif %}
-                        {% if transaction.status in ['waiting_for_ticket', 'waiting_for_payment', 'both_received_processing'] %}
-                        <button class="btn-simulate" onclick="simulateTicketSent({{ transaction.transaction_id }})">
-                                    <i class="fas fa-paper-plane"></i> Test Simulate Ticket Sent
                                 </button>
                                 {% endif %}
                         {% if transaction.status in ['both_received_processing', 'ticket_forwarded_funds_held'] %}

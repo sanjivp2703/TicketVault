@@ -384,6 +384,15 @@
                                     <button class="verify-ticket-btn" onclick="verifyTicket({{ transaction.transaction_id }})" style="background: #ff9800; padding: 12px 20px; font-size: 14px; font-weight: 600; border-radius: 8px; border: none; color: white; cursor: pointer;">
                                         ✅ VERIFY TICKET
                                     </button>
+                                {% elif transaction.status == 'waiting_for_ticket' %}
+                                    <div style="display: flex; gap: 8px; justify-content: center;">
+                                        <button class="approve-ticket-btn" onclick="approveTicket({{ transaction.transaction_id }})" style="background: #22c55e; padding: 10px 16px; font-size: 13px; font-weight: 600; border-radius: 8px; border: none; color: white; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                                            ✅ Approve
+                                        </button>
+                                        <button class="reject-ticket-btn" onclick="rejectTicket({{ transaction.transaction_id }})" style="background: #ef4444; padding: 10px 16px; font-size: 13px; font-weight: 600; border-radius: 8px; border: none; color: white; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                                            ❌ Reject
+                                        </button>
+                                    </div>
                                 {% elif transaction.status == 'both_received_processing' and transaction.payment_received == 1 %}
                                     <button class="release-funds-btn" onclick="releaseFunds({{ transaction.transaction_id }})" style="background: #4caf50; padding: 12px 20px; font-size: 14px; font-weight: 600; border-radius: 8px; border: none; color: white; cursor: pointer;">
                                         💰 RELEASE FUNDS
@@ -537,6 +546,15 @@
                                         <button class="verify-ticket-btn" onclick="verifyTicket({{ transaction.transaction_id }})">
                                             ✅ Verify Ticket & Send Payment Email
                                         </button>
+                                    {% elif transaction.status == 'waiting_for_ticket' %}
+                                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                            <button class="approve-ticket-btn" onclick="approveTicket({{ transaction.transaction_id }})">
+                                                ✅ Approve Ticket
+                                            </button>
+                                            <button class="reject-ticket-btn" onclick="rejectTicket({{ transaction.transaction_id }})">
+                                                ❌ Reject Ticket
+                                            </button>
+                                        </div>
                                     {% elif transaction.status in ['both_received_processing'] or (transaction.payment_received == 1) %}
                                         <button class="declare-ticket-btn" onclick="declareTicketSent({{ transaction.transaction_id }})">
                                             📨 Declare Ticket Sent
@@ -720,6 +738,40 @@
                 form.submit();
             }
         }
+
+        function approveTicket(transactionId) {
+            if (confirm(`✅ Approve ticket for transaction #${transactionId}?\n\nThis will:\n- Mark the ticket as verified\n- Send payment email to the buyer\n- Change status to "waiting_for_payment"\n\n⚠️ Only approve if the ticket is valid and matches the event details!`)) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/admin/approve-ticket/${transactionId}`;
+                
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+
+        function rejectTicket(transactionId) {
+            const reason = prompt(`❌ Reject ticket for transaction #${transactionId}\n\nPlease enter the reason for rejection (this will be sent to the seller):`);
+            
+            if (reason && reason.trim()) {
+                if (confirm(`Are you sure you want to reject this ticket?\n\nReason: ${reason}\n\nThis will:\n- Return status to "pending_ticket_submission"\n- Send rejection email to seller with your reason\n- Seller will need to resubmit a corrected ticket`)) {
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = `/admin/reject-ticket/${transactionId}`;
+                    
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'reason';
+                    input.value = reason.trim();
+                    form.appendChild(input);
+                    
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            } else if (reason !== null) {
+                alert('Please provide a reason for rejection.');
+            }
+        }
     </script>
 
     <style>
@@ -778,6 +830,42 @@
             background: #45a049;
             transform: translateY(-1px);
             box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .approve-ticket-btn {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .approve-ticket-btn:hover {
+            background: #16a34a;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(34, 197, 94, 0.3);
+        }
+
+        .reject-ticket-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reject-ticket-btn:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
         }
     </style>
 </body>

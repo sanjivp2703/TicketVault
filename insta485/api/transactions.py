@@ -1143,9 +1143,10 @@ def test_ticket_sent():
                 'error': f'Transaction is in status: {transaction["status"]}. Expected: pending_ticket_submission'
             }), 400
         
-        # Update status to waiting_for_ticket (simulating that seller sent ticket to Safe Transaction)
+        # Update status to waiting_for_ticket (seller confirms they sent ticket to Safe Transaction)
+        # Also set ticket_email_received to 1 to mark that we received the ticket
         connection.execute(
-            "UPDATE transactions SET status = 'waiting_for_ticket', ticket_received = 1 WHERE transaction_id = ?",
+            "UPDATE transactions SET status = 'waiting_for_ticket', ticket_email_received = 1, ticket_received_time = CURRENT_TIMESTAMP WHERE transaction_id = ?",
             (transaction_id,)
         )
         connection.commit()

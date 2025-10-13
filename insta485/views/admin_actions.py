@@ -529,3 +529,180 @@ The Safe Transaction Team
     except Exception as e:
         print(f"❌ Failed to send ticket delivery emails: {e}")
         # Don't raise the exception since the main transaction update should still succeed
+
+
+@insta485.app.route('/admin/approve-ticket/<int:transaction_id>', methods=['POST'])
+def admin_approve_ticket(transaction_id):
+    """Admin approves the ticket submitted by seller."""
+    if 'email' not in flask.session:
+        return flask.abort(403)
+    
+    connection = insta485.model.get_db()
+    user = connection.execute(
+        'SELECT is_admin FROM users WHERE email = ?',
+        (flask.session['email'],)
+    ).fetchone()
+    if not user or not user['is_admin']:
+        return flask.abort(403)
+    
+    # Get transaction details
+    transaction = connection.execute(
+        '''SELECT t.*, e.name as event_name, e.location, e.event_datetime 
+           FROM transactions t 
+           JOIN events e ON t.event_id = e.event_id 
+           WHERE t.transaction_id = ?''',
+        (transaction_id,)
+    ).fetchone()
+    
+    if not transaction:
+        flask.flash('Transaction not found', 'error')
+        return flask.redirect(flask.url_for('admin_dashboard'))
+    
+    # Update transaction status to waiting_for_payment
+    connection.execute(
+        'UPDATE transactions SET status = ? WHERE transaction_id = ?',
+        ('waiting_for_payment', transaction_id)
+    )
+    connection.commit()
+    
+    # Send payment email to buyer
+    try:
+        subject = f"✅ Ticket Verified - Complete Your Payment (Transaction #{transaction_id})"
+        payment_url = f"https://safetransaction.app/api/transactions/{transaction_id}/pay"
+        
+        html_body = f"""
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+            <h2 style="color: #22c55e;">✅ Great News! Your Ticket is Verified</h2>
+            
+            <div style="background: #f0f9ff; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #22c55e;">
+                <h3 style="margin-top: 0;">Event Details:</h3>
+                <p><strong>Event:</strong> {transaction['event_name']}</p>
+                <p><strong>Location:</strong> {transaction['location']}</p>
+                <p><strong>Date:</strong> {transaction['event_datetime']}</p>
+                <p><strong>Price:</strong> ${transaction['price']}</p>
+            </div>
+            
+            <div style="background: #dcfce7; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="color: #16a34a; margin-top: 0;">✅ Ticket Status: VERIFIED</h3>
+                <p>We've received and verified the ticket from the seller. The ticket matches your requested event details and is ready to be transferred to you!</p>
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="{payment_url}" style="background: #22c55e; color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; font-size: 16px; font-weight: bold; display: inline-block;">
+                    💳 Complete Payment - ${transaction['price']}
+                </a>
+            </div>
+            
+            <div style="background: #fef3c7; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                <h4 style="margin-top: 0;">What happens next:</h4>
+                <ol style="margin: 10px 0; padding-left: 20px;">
+                    <li>Click the payment button above</li>
+                    <li>Complete your secure payment via Stripe</li>
+                    <li>We'll immediately forward your ticket</li>
+                    <li>You'll receive your ticket within minutes!</li>
+                </ol>
+            </div>
+            
+            <p style="color: #666; font-size: 14px; text-align: center;">
+                Questions? Contact us at <a href="mailto:safetransactiontix@gmail.com" style="color: #22c55e;">safetransactiontix@gmail.com</a>
+            </p>
+        </div>
+        """
+        
+        send_mailgun_email(transaction['buyer_email'], subject, html_body)
+        flask.flash(f'Ticket approved! Payment email sent to {transaction["buyer_email"]}', 'success')
+        
+    except Exception as e:
+        print(f"Error sending approval email: {e}")
+        flask.flash('Ticket approved but failed to send email', 'warning')
+    
+    return flask.redirect(flask.url_for('admin_dashboard'))
+
+
+@insta485.app.route('/admin/reject-ticket/<int:transaction_id>', methods=['POST'])
+def admin_reject_ticket(transaction_id):
+    """Admin rejects the ticket submitted by seller."""
+    if 'email' not in flask.session:
+        return flask.abort(403)
+    
+    connection = insta485.model.get_db()
+    user = connection.execute(
+        'SELECT is_admin FROM users WHERE email = ?',
+        (flask.session['email'],)
+    ).fetchone()
+    if not user or not user['is_admin']:
+        return flask.abort(403)
+    
+    reason = flask.request.form.get('reason', 'No reason provided')
+    
+    # Get transaction details
+    transaction = connection.execute(
+        '''SELECT t.*, e.name as event_name, e.location, e.event_datetime 
+           FROM transactions t 
+           JOIN events e ON t.event_id = e.event_id 
+           WHERE t.transaction_id = ?''',
+        (transaction_id,)
+    ).fetchone()
+    
+    if not transaction:
+        flask.flash('Transaction not found', 'error')
+        return flask.redirect(flask.url_for('admin_dashboard'))
+    
+    # Update transaction status back to pending_ticket_submission
+    connection.execute(
+        'UPDATE transactions SET status = ?, ticket_email_received = 0 WHERE transaction_id = ?',
+        ('pending_ticket_submission', transaction_id)
+    )
+    connection.commit()
+    
+    # Send rejection email to seller
+    try:
+        subject = f"❌ Ticket Rejected - Action Required (Transaction #{transaction_id})"
+        
+        html_body = f"""
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+            <h2 style="color: #ef4444;">❌ Ticket Verification Failed</h2>
+            
+            <div style="background: #fef2f2; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ef4444;">
+                <h3 style="color: #dc2626; margin-top: 0;">Transaction #{transaction_id}</h3>
+                <p><strong>Event:</strong> {transaction['event_name']}</p>
+                <p><strong>Location:</strong> {transaction['location']}</p>
+                <p><strong>Date:</strong> {transaction['event_datetime']}</p>
+                <p><strong>Price:</strong> ${transaction['price']}</p>
+            </div>
+            
+            <div style="background: #fff7ed; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="color: #ea580c; margin-top: 0;">⚠️ Reason for Rejection:</h3>
+                <p style="font-size: 16px; color: #9a3412;"><strong>{reason}</strong></p>
+            </div>
+            
+            <div style="background: #f0f9ff; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="margin-top: 0;">📋 What You Need To Do:</h3>
+                <ol style="margin: 10px 0; padding-left: 20px;">
+                    <li>Review the rejection reason above</li>
+                    <li>Obtain a corrected/valid ticket for this event</li>
+                    <li>Send the new ticket to: <strong>{transaction['awaiting_ticket_email']}</strong></li>
+                    <li>Click "I've Sent the Ticket" on your dashboard when done</li>
+                </ol>
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="https://safetransaction.app" style="background: #3b82f6; color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; font-size: 16px; font-weight: bold; display: inline-block;">
+                    Go to Dashboard
+                </a>
+            </div>
+            
+            <p style="color: #666; font-size: 14px; text-align: center;">
+                Questions? Contact us at <a href="mailto:safetransactiontix@gmail.com" style="color: #3b82f6;">safetransactiontix@gmail.com</a>
+            </p>
+        </div>
+        """
+        
+        send_mailgun_email(transaction['seller_email'], subject, html_body)
+        flask.flash(f'Ticket rejected! Seller has been notified. Reason: {reason}', 'success')
+        
+    except Exception as e:
+        print(f"Error sending rejection email: {e}")
+        flask.flash('Ticket rejected but failed to send email', 'warning')
+    
+    return flask.redirect(flask.url_for('admin_dashboard'))
