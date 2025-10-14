@@ -310,7 +310,7 @@ def payment_complete(transaction_id):
             UPDATE transactions 
             SET payment_received = 1,
                 payment_received_time = CURRENT_TIMESTAMP,
-                status = 'both_received_processing'
+                status = 'waiting_for_payment_processing'
             WHERE transaction_id = ?
         """, (transaction_id,))
         connection.commit()
@@ -661,7 +661,7 @@ def simulate_ticket_sent(transaction_id):
             return flask.jsonify({'success': False, 'error': 'Transaction not found'})
         
         # Check if transaction is in a valid state for ticket simulation
-        valid_statuses = ['waiting_for_ticket', 'waiting_for_payment', 'both_received_processing']
+        valid_statuses = ['waiting_for_ticket', 'waiting_for_payment', 'waiting_for_payment_processing']
         if transaction['status'] not in valid_statuses:
             return flask.jsonify({'success': False, 'error': f'Cannot simulate ticket transfer for status: {transaction["status"]}'})
         
@@ -1143,10 +1143,10 @@ def test_ticket_sent():
                 'error': f'Transaction is in status: {transaction["status"]}. Expected: pending_ticket_submission'
             }), 400
         
-        # Update status to waiting_for_ticket (seller confirms they sent ticket to Safe Transaction)
+        # Update status to waiting_for_verification (seller confirms they sent ticket to Safe Transaction)
         # Also set ticket_email_received to 1 to mark that we received the ticket
         connection.execute(
-            "UPDATE transactions SET status = 'waiting_for_ticket', ticket_email_received = 1, ticket_received_time = CURRENT_TIMESTAMP WHERE transaction_id = ?",
+            "UPDATE transactions SET status = 'waiting_for_verification', ticket_email_received = 1, ticket_received_time = CURRENT_TIMESTAMP WHERE transaction_id = ?",
             (transaction_id,)
         )
         connection.commit()
@@ -1154,7 +1154,7 @@ def test_ticket_sent():
         return flask.jsonify({
             'success': True,
             'message': 'Ticket marked as sent successfully',
-            'new_status': 'waiting_for_ticket'
+            'new_status': 'waiting_for_verification'
         })
         
     except Exception as e:

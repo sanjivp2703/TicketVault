@@ -6289,6 +6289,8 @@
                                     <span class="current-step">
                                 {% if transaction.status == 'pending_ticket_submission' %}
                                     ⚡ Waiting for You to Send Tickets
+                                {% elif transaction.status == 'waiting_for_verification' %}
+                                    ⏳ Verifying Your Ticket
                                 {% elif transaction.status == 'waiting_for_ticket' %}
                                             Step 1: Send Your Tickets
                                 {% elif transaction.status == 'waiting_for_payment' %}
@@ -6298,7 +6300,7 @@
                                 {% elif transaction.status == 'cancelled_by_seller' %}
                                     ❌ Transaction Cancelled
                                     ❌ Cancelled by Buyer
-                                {% elif transaction.status == 'both_received_processing' %}
+                                {% elif transaction.status == 'waiting_for_payment_processing' %}
                                             Step 3: Processing Payment
                                 {% elif transaction.status == 'ticket_forwarded_funds_held' %}
                                             Step 4: Tickets Delivered
@@ -6318,11 +6320,12 @@
                                 <div class="progress-bar">
                                     {% set progress = 0 %}
                             {% if transaction.status == 'pending_ticket_submission' %}{% set progress = 15 %}
+                            {% elif transaction.status == 'waiting_for_verification' %}{% set progress = 30 %}
                             {% elif transaction.status == 'waiting_for_ticket' %}{% set progress = 25 %}
                             {% elif transaction.status == 'waiting_for_payment' %}{% set progress = 50 %}
                             {% elif transaction.status == 'payment_deadline_expired' %}{% set progress = 30 %}
                             {% elif transaction.status == 'cancelled_by_seller' %}{% set progress = 10 %}
-                            {% elif transaction.status == 'both_received_processing' %}{% set progress = 75 %}
+                            {% elif transaction.status == 'waiting_for_payment_processing' %}{% set progress = 75 %}
                             {% elif transaction.status == 'ticket_forwarded_funds_held' %}{% set progress = 90 %}
                             {% elif transaction.status == 'completed' %}{% set progress = 100 %}
         {% endif %}
@@ -6388,7 +6391,7 @@
                                     </button>
                                 </div>
                             </div>
-                        {% elif transaction.status == 'waiting_for_ticket' %}
+                        {% elif transaction.status == 'waiting_for_verification' %}
                         <div class="action-waiting" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-left: 4px solid #0ea5e9; padding: var(--space-md); border-radius: var(--radius-md); margin-top: var(--space-md);">
                                 <div class="action-header" style="color: #0369a1; margin-bottom: 12px;">
                                 <i class="fas fa-hourglass-half"></i>
@@ -6405,9 +6408,21 @@
                             </p>
                                 <div class="deadline-info" style="margin-top: 16px; color: #075985;">
                                     <i class="fas fa-info-circle"></i>
-                                Expected verification time: <strong>Usually within a 10 minutes</strong>
+                                Expected verification time: <strong>Usually within a few minutes</strong>
                                 </div>
 
+                        </div>
+                        {% elif transaction.status == 'waiting_for_ticket' %}
+                        <div class="action-required">
+                                <div class="action-header">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <strong>Action Required</strong>
+                                </div>
+                            <p>Send your tickets to: <code>{{ transaction.awaiting_ticket_email }}</code></p>
+                                <div class="deadline-info">
+                                    <i class="fas fa-clock"></i>
+                                Deadline: {{ transaction.ticket_deadline.strftime('%m/%d %I:%M %p') if transaction.ticket_deadline else 'N/A' }}
+                                </div>
                         </div>
                         {% elif transaction.status == 'waiting_for_payment' %}
                         <div class="action-waiting">
@@ -6483,7 +6498,7 @@
                                     <i class="fas fa-times"></i> Cancel
                                 </button>
                                 {% endif %}
-                        {% if transaction.status in ['both_received_processing', 'ticket_forwarded_funds_held'] %}
+                        {% if transaction.status in ['waiting_for_payment_processing', 'ticket_forwarded_funds_held'] %}
                         <button class="btn-send-email" onclick="sendTicketSentEmail({{ transaction.transaction_id }})">
                                     <i class="fas fa-envelope"></i> Send "Ticket Sent" Email
                                 </button>

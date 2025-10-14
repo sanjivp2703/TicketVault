@@ -35,7 +35,7 @@ def admin_dashboard():
            LEFT JOIN events e ON t.event_id = e.event_id
            LEFT JOIN users u1 ON t.buyer_email = u1.email
            LEFT JOIN users u2 ON t.seller_email = u2.email
-           WHERE t.status IN ('pending_ticket_submission', 'both_received_processing', 'waiting_for_payment', 'ticket_forwarded_funds_held')
+           WHERE t.status IN ('pending_ticket_submission', 'waiting_for_verification', 'waiting_for_ticket', 'waiting_for_payment_processing', 'waiting_for_payment', 'ticket_forwarded_funds_held')
            ORDER BY t.created_time DESC"""
     ).fetchall()
     

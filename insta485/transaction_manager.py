@@ -324,7 +324,7 @@ class TransactionManager:
                     payment_received = 1,
                     payment_received_time = CURRENT_TIMESTAMP,
                     payment_intent_id = ?,
-                    status = 'both_received_processing'
+                    status = 'waiting_for_payment_processing'
                 WHERE transaction_id = ?
             """, (payment_intent.id, transaction_id))
             

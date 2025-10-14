@@ -175,7 +175,7 @@ def show_index():
         trans_dict['problem_report_deadline_str'] = problem_report_deadline.strftime('%Y-%m-%d %I:%M %p')
 
         # Add status category for filtering
-        if trans_dict['status'] in ['pending_ticket_submission', 'waiting_for_ticket', 'waiting_for_payment', 'both_received_processing', 'ticket_forwarded_funds_held', 'complaint_filed']:
+        if trans_dict['status'] in ['pending_ticket_submission', 'waiting_for_verification', 'waiting_for_ticket', 'waiting_for_payment', 'waiting_for_payment_processing', 'ticket_forwarded_funds_held', 'complaint_filed']:
             trans_dict['status_category'] = 'active'
         elif trans_dict['status'] in ['payment_deadline_expired', 'cancelled_by_seller']:
             trans_dict['status_category'] = 'cancelled'
@@ -738,7 +738,7 @@ def payment_success(transaction_id):
             UPDATE transactions 
             SET payment_received = 1,
                 payment_received_time = CURRENT_TIMESTAMP,
-                status = 'both_received_processing'
+                status = 'waiting_for_payment_processing'
             WHERE transaction_id = ?
         """, (transaction_id,))
         connection.commit()

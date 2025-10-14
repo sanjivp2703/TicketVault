@@ -271,9 +271,59 @@ function markAsTransferred() {
 }
 
 function markAsTransferredAndClose() {
-    console.log('🚀 User marked transfer as complete - closing popup');
-    // Close the popup immediately
-    closePendingPopup();
+    const transactionId = getCurrentTransactionId();
+    
+    if (!transactionId) {
+        alert('Error: No transaction ID found');
+        return;
+    }
+    
+    if (confirm('Confirm that you have sent the ticket to Safe Transaction. The transaction will move to verification.')) {
+        const button = event.target;
+        if (button) {
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            button.style.opacity = '0.6';
+        }
+
+        fetch('/api/test-ticket-sent', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                transaction_id: transactionId,
+                test_mode: false
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('✅ Ticket marked as sent successfully');
+                closePendingPopup();
+                // Reload page to show updated status
+                setTimeout(() => {
+                    location.reload();
+                }, 500);
+            } else {
+                alert('Error: ' + (data.error || 'Unable to process request'));
+                if (button) {
+                    button.disabled = false;
+                    button.innerHTML = 'I\'ve completed the transfer';
+                    button.style.opacity = '1';
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error processing request. Please try again.');
+            if (button) {
+                button.disabled = false;
+                button.innerHTML = 'I\'ve completed the transfer';
+                button.style.opacity = '1';
+            }
+        });
+    }
 }
 
 function getCurrentTransactionId() {
