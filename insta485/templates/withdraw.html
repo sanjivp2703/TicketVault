@@ -706,12 +706,12 @@
                             <span class="summary-value">${{ "%.2f"|format(balance / 100) }}</span>
                         </div>
                         <div class="summary-row">
-                            <span class="summary-label">Processing fee</span>
-                            <span class="summary-value">$0.00</span>
+                            <span class="summary-label">Safe Transaction fee (5%)</span>
+                            <span class="summary-value" style="color: #f59e0b;">-${{ "%.2f"|format((balance * 0.05) / 100) }}</span>
                         </div>
                         <div class="summary-row">
                             <span class="summary-label">Total you'll receive</span>
-                            <span class="summary-value">${{ "%.2f"|format(balance / 100) }}</span>
+                            <span class="summary-value" style="color: #10b981; font-size: 18px;">${{ "%.2f"|format((balance * 0.95) / 100) }}</span>
                         </div>
                     </div>
 

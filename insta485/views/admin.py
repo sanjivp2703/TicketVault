@@ -75,6 +75,19 @@ def admin_dashboard():
     except:
         pass  # Table might not exist yet
     
+    # Get pending withdrawals
+    pending_withdrawals = []
+    try:
+        pending_withdrawals = connection.execute(
+            """SELECT wr.*, u.firstname, u.lastname
+               FROM withdrawal_requests wr
+               JOIN users u ON wr.user_email = u.email
+               WHERE wr.status = 'pending'
+               ORDER BY wr.created_at ASC"""
+        ).fetchall()
+    except:
+        pass  # Table might not exist yet
+    
     # Calculate statistics
     stats = {
         'total_users': len(users),
@@ -83,6 +96,7 @@ def admin_dashboard():
         'total_transactions': len(transactions),
         'active_complaints': len(complaints),
         'total_balance': sum(u['balance'] for u in users if u['balance']),
+        'pending_withdrawals': len(pending_withdrawals),
     }
     
     context = {
@@ -93,10 +107,34 @@ def admin_dashboard():
         'action_needed': action_needed,
         'complaints': complaints,
         'verification_codes': verification_codes,
+        'pending_withdrawals': pending_withdrawals,
         'stats': stats,
         'user_type': 'admin',
     }
     return flask.render_template('admin_comprehensive.html', **context)
+
+@insta485.app.route('/admin/complete-withdrawal/<int:withdrawal_id>', methods=['POST'])
+def complete_withdrawal(withdrawal_id):
+    """Mark a withdrawal as completed."""
+    if 'email' not in flask.session:
+        return flask.abort(403)
+    connection = insta485.model.get_db()
+    user = connection.execute(
+        'SELECT is_admin FROM users WHERE email = ?',
+        (flask.session['email'],)
+    ).fetchone()
+    if not user or not user['is_admin']:
+        return flask.abort(403)
+    
+    # Update withdrawal status
+    connection.execute(
+        "UPDATE withdrawal_requests SET status = 'completed', completed_at = datetime('now') WHERE id = ?",
+        (withdrawal_id,)
+    )
+    connection.commit()
+    
+    flask.flash(f"✅ Withdrawal #{withdrawal_id} marked as completed!", "success")
+    return flask.redirect(flask.url_for('admin_dashboard'))
 
 @insta485.app.route('/admin/create-admin', methods=['POST'])
 def create_admin_user():

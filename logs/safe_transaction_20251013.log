@@ -704,3 +704,65 @@
 2025-10-13 19:56:02 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 19:56:02] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
 2025-10-13 19:57:08 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 19:57:08] "GET /payment-success/1 HTTP/1.1" 200 -
 2025-10-13 19:57:08 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 19:57:08] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-13 21:39:26 - werkzeug - INFO - _log:187 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://10.0.0.61:8000
+2025-10-13 21:39:26 - werkzeug - INFO - _log:187 - [33mPress CTRL+C to quit[0m
+2025-10-13 21:39:26 - werkzeug - INFO - _log:187 -  * Restarting with stat
+2025-10-13 21:39:29 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-10-13 21:39:29 - werkzeug - INFO - _log:187 -  * Debugger PIN: 106-121-401
+2025-10-13 21:39:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:39:35] "[32mGET / HTTP/1.1[0m" 302 -
+2025-10-13 21:39:35 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:39:35] "GET /accounts/login/ HTTP/1.1" 200 -
+2025-10-13 21:39:36 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:39:36] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-13 21:39:38 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:39:38] "[32mGET /dev/skip-login/seller HTTP/1.1[0m" 302 -
+2025-10-13 21:39:38 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:39:38] "GET /index HTTP/1.1" 200 -
+2025-10-13 21:39:39 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:39:39] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-13 21:39:47 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:39:47] "GET /api/events?q=oh&school=michigan HTTP/1.1" 200 -
+2025-10-13 21:39:53 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:39:53] "POST /api/transactions/create HTTP/1.1" 200 -
+2025-10-13 21:40:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:40:00] "POST /api/test-ticket-sent HTTP/1.1" 200 -
+2025-10-13 21:40:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:40:00] "GET /index HTTP/1.1" 200 -
+2025-10-13 21:40:00 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:40:00] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-13 21:40:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:40:28] "[32mGET / HTTP/1.1[0m" 302 -
+2025-10-13 21:40:28 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:40:28] "GET /index HTTP/1.1" 200 -
+2025-10-13 21:40:29 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:40:29] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-13 21:40:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:40:34] "[32mGET / HTTP/1.1[0m" 302 -
+2025-10-13 21:40:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:40:34] "GET /accounts/login/ HTTP/1.1" 200 -
+2025-10-13 21:40:34 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:40:34] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-13 21:40:38 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:40:38] "[32mGET /dev/skip-login/admin HTTP/1.1[0m" 302 -
+2025-10-13 21:40:38 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:40:38] "GET /admin HTTP/1.1" 200 -
+2025-10-13 21:40:38 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:40:38] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-13 21:40:46 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:40:46] "[32mPOST /admin/accept-ticket/2 HTTP/1.1[0m" 302 -
+2025-10-13 21:40:46 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:40:46] "GET /admin HTTP/1.1" 200 -
+2025-10-13 21:40:46 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:40:46] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-13 21:41:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:41:26] "GET /index HTTP/1.1" 200 -
+2025-10-13 21:41:26 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:41:26] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-13 21:41:32 - stripe - INFO - log_info:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2025-10-13 21:41:32 - stripe - INFO - log_info:128 - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2025-10-13 21:41:32 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:41:32] "POST /api/transactions/2/pay HTTP/1.1" 200 -
+2025-10-13 21:41:39 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:41:39] "GET /payment-success/2 HTTP/1.1" 200 -
+2025-10-13 21:41:40 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:41:40] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-13 21:41:43 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:41:43] "[35m[1mGET /receipt/2 HTTP/1.1[0m" 500 -
+2025-10-13 21:41:51 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:41:51] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-13 21:41:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:41:54] "GET /index HTTP/1.1" 200 -
+2025-10-13 21:41:54 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:41:54] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-13 21:42:04 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:42:04] "POST /send-ticket-sent-email/2 HTTP/1.1" 200 -
+2025-10-13 21:42:25 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:42:25] "GET /index HTTP/1.1" 200 -
+2025-10-13 21:42:25 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:42:25] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-13 21:42:29 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:42:29] "GET /withdraw HTTP/1.1" 200 -
+2025-10-13 21:42:29 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:42:29] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-13 21:42:30 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:42:30] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-13 21:55:31 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:55:31] "GET /index HTTP/1.1" 200 -
+2025-10-13 21:55:31 - werkzeug - INFO - _log:187 - 127.0.0.1 - - [13/Oct/2025 21:55:31] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-10-13 22:04:19 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\views\\index.py', reloading
+2025-10-13 22:04:20 - werkzeug - INFO - _log:187 -  * Restarting with stat
+2025-10-13 22:04:23 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-10-13 22:04:23 - werkzeug - INFO - _log:187 -  * Debugger PIN: 106-121-401
+2025-10-13 22:05:01 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\email_automation.py', reloading
+2025-10-13 22:05:02 - werkzeug - INFO - _log:187 -  * Restarting with stat
+2025-10-13 22:05:04 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-10-13 22:05:04 - werkzeug - INFO - _log:187 -  * Debugger PIN: 106-121-401
+2025-10-13 22:05:24 - werkzeug - INFO - _log:187 -  * Detected change in 'C:\\Users\\vedav\\OneDrive\\Documents\\GitHub\\Safe-Transaction\\insta485\\views\\index.py', reloading
+2025-10-13 22:05:25 - werkzeug - INFO - _log:187 -  * Restarting with stat
+2025-10-13 22:05:28 - werkzeug - WARNING - _log:187 -  * Debugger is active!
+2025-10-13 22:05:28 - werkzeug - INFO - _log:187 -  * Debugger PIN: 106-121-401

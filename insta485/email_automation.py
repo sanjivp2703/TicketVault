@@ -1643,3 +1643,738 @@ def send_listing_expired_notification(transaction_id, seller_email, buyer_email,
 def send_ticket_returned_notification(transaction_id, seller_email, buyer_email, event_name):
     """Modern ticket return notification"""
     send_expiration_notification(transaction_id, seller_email, buyer_email, event_name, "buyer payment deadline exceeded")
+
+
+def send_payment_deadline_expired_emails(transaction_id, seller_email, buyer_email, event_name, price):
+    """Send notifications to both parties when payment deadline expires"""
+    
+    # Email to SELLER
+    seller_subject = f"🔄 Payment Deadline Expired - Transaction #{transaction_id} | Ticket Will Be Returned"
+    
+    seller_html_body = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+            
+            body {{
+                font-family: 'Inter', sans-serif;
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+                color: #f1f5f9;
+                margin: 0;
+                padding: 40px 20px;
+            }}
+            
+            .notification-container {{
+                max-width: 600px;
+                margin: 0 auto;
+                background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+                border-radius: 24px;
+                overflow: hidden;
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+                border: 1px solid rgba(239, 68, 68, 0.3);
+            }}
+            
+            .notification-header {{
+                background: linear-gradient(135deg, #ef4444, #dc2626);
+                padding: 40px;
+                text-align: center;
+                color: white;
+            }}
+            
+            .notification-content {{
+                padding: 40px;
+            }}
+            
+            .info-box {{
+                background: rgba(59, 130, 246, 0.1);
+                border-left: 4px solid #3b82f6;
+                padding: 20px;
+                margin: 20px 0;
+                border-radius: 8px;
+            }}
+            
+            .warning-box {{
+                background: rgba(245, 158, 11, 0.1);
+                border-left: 4px solid #f59e0b;
+                padding: 20px;
+                margin: 20px 0;
+                border-radius: 8px;
+            }}
+            
+            .action-button {{
+                display: inline-block;
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
+                padding: 16px 32px;
+                border-radius: 12px;
+                text-decoration: none;
+                font-weight: 700;
+                margin: 20px 0;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="notification-container">
+            <div class="notification-header">
+                <h1 style="margin: 0; font-size: 28px; font-weight: 800;">⏰ Payment Deadline Expired</h1>
+                <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;">Transaction #{transaction_id:06d}</p>
+            </div>
+            
+            <div class="notification-content">
+                <h2 style="color: #f59e0b; margin-top: 0;">Transaction Automatically Cancelled</h2>
+                
+                <p style="font-size: 16px; line-height: 1.6;">
+                    The buyer did not complete payment within the 1-hour deadline for your ticket listing:
+                </p>
+                
+                <div class="info-box">
+                    <strong style="color: #3b82f6;">📋 Transaction Details:</strong><br>
+                    <strong>Event:</strong> {event_name}<br>
+                    <strong>Price:</strong> ${price}<br>
+                    <strong>Buyer:</strong> {buyer_email}<br>
+                    <strong>Status:</strong> <span style="color: #ef4444;">Payment Deadline Expired</span>
+                </div>
+                
+                <div class="warning-box">
+                    <strong style="color: #f59e0b;">🎫 What Happens Next:</strong><br><br>
+                    <strong>Safe Transaction will automatically transfer your ticket back to you.</strong><br><br>
+                    You should receive the ticket back at your Michigan Athletics account within the next few hours.<br><br>
+                    Once you receive it back, you can:
+                    <ul style="margin: 10px 0;">
+                        <li>Create a new listing if the buyer is still interested</li>
+                        <li>List it for a different buyer</li>
+                        <li>Keep the ticket for yourself</li>
+                    </ul>
+                </div>
+                
+                <p style="font-size: 14px; color: #94a3b8; margin-top: 30px;">
+                    <strong>Why did this happen?</strong><br>
+                    The buyer didn't complete payment within our 1-hour payment window. This protects sellers by ensuring tickets aren't held indefinitely.
+                </p>
+                
+                <p style="font-size: 14px; color: #94a3b8; margin-top: 20px;">
+                    If you have any questions, please contact our support team.
+                </p>
+                
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="https://safetransaction.app/seller" class="action-button">View Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+    
+    # Email to BUYER
+    buyer_subject = f"⏰ Payment Deadline Expired - Transaction #{transaction_id} Cancelled"
+    
+    buyer_html_body = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+            
+            body {{
+                font-family: 'Inter', sans-serif;
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+                color: #f1f5f9;
+                margin: 0;
+                padding: 40px 20px;
+            }}
+            
+            .notification-container {{
+                max-width: 600px;
+                margin: 0 auto;
+                background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+                border-radius: 24px;
+                overflow: hidden;
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+                border: 1px solid rgba(239, 68, 68, 0.3);
+            }}
+            
+            .notification-header {{
+                background: linear-gradient(135deg, #ef4444, #dc2626);
+                padding: 40px;
+                text-align: center;
+                color: white;
+            }}
+            
+            .notification-content {{
+                padding: 40px;
+            }}
+            
+            .info-box {{
+                background: rgba(59, 130, 246, 0.1);
+                border-left: 4px solid #3b82f6;
+                padding: 20px;
+                margin: 20px 0;
+                border-radius: 8px;
+            }}
+            
+            .warning-box {{
+                background: rgba(245, 158, 11, 0.1);
+                border-left: 4px solid #f59e0b;
+                padding: 20px;
+                margin: 20px 0;
+                border-radius: 8px;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="notification-container">
+            <div class="notification-header">
+                <h1 style="margin: 0; font-size: 28px; font-weight: 800;">⏰ Payment Deadline Expired</h1>
+                <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;">Transaction #{transaction_id:06d}</p>
+            </div>
+            
+            <div class="notification-content">
+                <h2 style="color: #f59e0b; margin-top: 0;">Transaction Cancelled - Payment Window Closed</h2>
+                
+                <p style="font-size: 16px; line-height: 1.6;">
+                    The payment deadline for this ticket transaction has expired:
+                </p>
+                
+                <div class="info-box">
+                    <strong style="color: #3b82f6;">📋 Transaction Details:</strong><br>
+                    <strong>Event:</strong> {event_name}<br>
+                    <strong>Price:</strong> ${price}<br>
+                    <strong>Seller:</strong> {seller_email}<br>
+                    <strong>Status:</strong> <span style="color: #ef4444;">Cancelled - Payment Not Received</span>
+                </div>
+                
+                <div class="warning-box">
+                    <strong style="color: #f59e0b;">❌ What This Means:</strong><br><br>
+                    • The transaction has been automatically cancelled<br>
+                    • The payment link is no longer valid<br>
+                    • The ticket is being returned to the seller<br>
+                    • No charges will be made to your account
+                </div>
+                
+                <p style="font-size: 14px; color: #94a3b8; margin-top: 30px;">
+                    <strong>Still interested in this ticket?</strong><br>
+                    Contact the seller directly to arrange a new transaction. Safe Transaction protects sellers by limiting the payment window to 1 hour after ticket verification.
+                </p>
+                
+                <p style="font-size: 14px; color: #94a3b8; margin-top: 20px;">
+                    If you have any questions or if this was an error, please contact our support team.
+                </p>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+    
+    # Send emails using mailgun
+    try:
+        from insta485.mailgun_sender import send_email_mailgun
+        
+        # Send to seller
+        send_email_mailgun(
+            to_email=seller_email,
+            subject=seller_subject,
+            html_body=seller_html_body,
+            text_body=f"Payment Deadline Expired - Transaction #{transaction_id}\n\nThe buyer did not complete payment within the deadline. The ticket will be automatically returned to your Michigan Athletics account.\n\nEvent: {event_name}\nPrice: ${price}\n\nYou can create a new listing once you receive the ticket back."
+        )
+        print(f"[PAYMENT-EXPIRED] Sent seller notification to {seller_email}")
+        
+        # Send to buyer
+        send_email_mailgun(
+            to_email=buyer_email,
+            subject=buyer_subject,
+            html_body=buyer_html_body,
+            text_body=f"Payment Deadline Expired - Transaction #{transaction_id}\n\nThe payment deadline has expired and the transaction has been cancelled.\n\nEvent: {event_name}\nPrice: ${price}\n\nContact the seller if you're still interested in purchasing this ticket."
+        )
+        print(f"[PAYMENT-EXPIRED] Sent buyer notification to {buyer_email}")
+        
+    except Exception as e:
+        print(f"[PAYMENT-EXPIRED ERROR] Failed to send emails: {e}")
+        raise
+
+
+def send_payment_received_notification(transaction_id, seller_email, buyer_email, price, event_name, bonus_amount):
+    """Send notification to seller when they receive payment for a ticket sale"""
+    
+    subject = f"💰 Payment Received - ${price:.2f} + ${bonus_amount:.2f} Bonus! | Transaction #{transaction_id}"
+    
+    html_body = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+            
+            body {{
+                font-family: 'Inter', sans-serif;
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+                color: #f1f5f9;
+                margin: 0;
+                padding: 40px 20px;
+            }}
+            
+            .notification-container {{
+                max-width: 600px;
+                margin: 0 auto;
+                background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+                border-radius: 24px;
+                overflow: hidden;
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+                border: 1px solid rgba(16, 185, 129, 0.3);
+            }}
+            
+            .notification-header {{
+                background: linear-gradient(135deg, #10b981, #059669);
+                padding: 40px;
+                text-align: center;
+                color: white;
+            }}
+            
+            .notification-content {{
+                padding: 40px;
+            }}
+            
+            .success-box {{
+                background: rgba(16, 185, 129, 0.1);
+                border-left: 4px solid #10b981;
+                padding: 20px;
+                margin: 20px 0;
+                border-radius: 8px;
+            }}
+            
+            .amount-display {{
+                text-align: center;
+                padding: 30px;
+                background: rgba(16, 185, 129, 0.15);
+                border-radius: 16px;
+                margin: 20px 0;
+            }}
+            
+            .action-button {{
+                display: inline-block;
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
+                padding: 16px 32px;
+                border-radius: 12px;
+                text-decoration: none;
+                font-weight: 700;
+                margin: 20px 0;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="notification-container">
+            <div class="notification-header">
+                <h1 style="margin: 0; font-size: 32px; font-weight: 800;">🎉 Payment Received!</h1>
+                <p style="margin: 10px 0 0 0; font-size: 18px; opacity: 0.95;">Transaction #{transaction_id:06d}</p>
+            </div>
+            
+            <div class="notification-content">
+                <h2 style="color: #10b981; margin-top: 0;">Funds Added to Your Balance</h2>
+                
+                <p style="font-size: 16px; line-height: 1.6;">
+                    Great news! The buyer has completed payment for your ticket listing. Your funds have been added to your Safe Transaction balance.
+                </p>
+                
+                <div class="amount-display">
+                    <div style="font-size: 14px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Total Earnings</div>
+                    <div style="font-size: 48px; font-weight: 900; color: #10b981; margin: 10px 0;">${(price + bonus_amount):.2f}</div>
+                    <div style="font-size: 16px; color: #cbd5e1; margin-top: 10px;">
+                        ${price:.2f} ticket price + <span style="color: #fbbf24; font-weight: 700;">${bonus_amount:.2f} bonus</span>
+                    </div>
+                </div>
+                
+                <div class="success-box">
+                    <strong style="color: #10b981;">📋 Transaction Details:</strong><br>
+                    <strong>Event:</strong> {event_name}<br>
+                    <strong>Buyer:</strong> {buyer_email}<br>
+                    <strong>Ticket Price:</strong> ${price:.2f}<br>
+                    <strong>10% Bonus:</strong> <span style="color: #fbbf24;">+${bonus_amount:.2f}</span><br>
+                    <strong>Total Credited:</strong> <span style="color: #10b981; font-weight: 700;">${(price + bonus_amount):.2f}</span>
+                </div>
+                
+                <div style="background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; padding: 20px; margin: 20px 0; border-radius: 8px;">
+                    <strong style="color: #3b82f6;">🎫 Next Steps:</strong><br><br>
+                    • Ticket will be automatically transferred to buyer within 1 hour<br>
+                    • Funds are now in your Safe Transaction balance<br>
+                    • You can withdraw funds anytime from your dashboard<br>
+                    • Want to sell more tickets? Create another listing!
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <a href="https://safetransaction.app/" class="action-button">
+                        View Dashboard & Withdraw Funds
+                    </a>
+                </div>
+                
+                <p style="font-size: 14px; color: #94a3b8; margin-top: 30px; text-align: center;">
+                    Thank you for using Safe Transaction!<br>
+                    <a href="mailto:support@safetransaction.app" style="color: #3b82f6;">support@safetransaction.app</a>
+                </p>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+    
+    try:
+        from insta485.mailgun_sender import send_email_mailgun
+        
+        send_email_mailgun(
+            to_email=seller_email,
+            subject=subject,
+            html_body=html_body,
+            text_body=f"Payment Received - Transaction #{transaction_id}\n\nGreat news! The buyer has completed payment.\n\nTotal Earnings: ${(price + bonus_amount):.2f}\n- Ticket Price: ${price:.2f}\n- 10% Bonus: +${bonus_amount:.2f}\n\nEvent: {event_name}\nBuyer: {buyer_email}\n\nFunds have been added to your balance. You can withdraw them anytime from your dashboard."
+        )
+        print(f"[PAYMENT-RECEIVED] Sent notification to {seller_email} for ${(price + bonus_amount):.2f}")
+        
+    except Exception as e:
+        print(f"[PAYMENT-RECEIVED ERROR] Failed to send email: {e}")
+        raise
+
+
+def send_withdrawal_confirmation(user_email, amount, fee_amount, transfer_amount, transfer_id=None, payment_method=None, destination=None):
+    """Send confirmation email when user withdraws funds"""
+    
+    # Determine method name for display
+    if payment_method == 'venmo':
+        method_display = "Venmo"
+    elif payment_method == 'cashapp':
+        method_display = "Cash App"
+    elif payment_method == 'stripe':
+        method_display = "Bank Account"
+    else:
+        method_display = "Payment Method"
+    
+    subject = f"✅ Withdrawal Request Received - ${transfer_amount:.2f} to {destination if destination else method_display}"
+    
+    html_body = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+            
+            body {{
+                font-family: 'Inter', sans-serif;
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+                color: #f1f5f9;
+                margin: 0;
+                padding: 40px 20px;
+            }}
+            
+            .notification-container {{
+                max-width: 600px;
+                margin: 0 auto;
+                background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+                border-radius: 24px;
+                overflow: hidden;
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+                border: 1px solid rgba(59, 130, 246, 0.3);
+            }}
+            
+            .notification-header {{
+                background: linear-gradient(135deg, #3b82f6, #2563eb);
+                padding: 40px;
+                text-align: center;
+                color: white;
+            }}
+            
+            .notification-content {{
+                padding: 40px;
+            }}
+            
+            .info-box {{
+                background: rgba(59, 130, 246, 0.1);
+                border-left: 4px solid #3b82f6;
+                padding: 20px;
+                margin: 20px 0;
+                border-radius: 8px;
+            }}
+            
+            .amount-display {{
+                text-align: center;
+                padding: 30px;
+                background: rgba(59, 130, 246, 0.15);
+                border-radius: 16px;
+                margin: 20px 0;
+            }}
+            
+            .breakdown-row {{
+                display: flex;
+                justify-content: space-between;
+                padding: 12px 0;
+                border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            }}
+            
+            .breakdown-total {{
+                display: flex;
+                justify-content: space-between;
+                padding: 16px 0;
+                font-weight: 700;
+                font-size: 18px;
+                color: #3b82f6;
+                margin-top: 8px;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="notification-container">
+            <div class="notification-header">
+                <h1 style="margin: 0; font-size: 32px; font-weight: 800;">💸 Withdrawal Confirmed</h1>
+                <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.95;">Funds are on their way!</p>
+            </div>
+            
+            <div class="notification-content">
+                <h2 style="color: #3b82f6; margin-top: 0;">Withdrawal Request Received</h2>
+                
+                <p style="font-size: 16px; line-height: 1.6;">
+                    Your withdrawal request has been received and will be processed. The funds will be sent to:
+                </p>
+                
+                {f'<div style="background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; padding: 16px; border-radius: 8px; margin: 20px 0;"><strong style="color: #3b82f6; font-size: 18px;">{method_display}: {destination}</strong></div>' if destination else ''}
+                
+                <div class="amount-display">
+                    <div style="font-size: 14px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Amount You'll Receive</div>
+                    <div style="font-size: 48px; font-weight: 900; color: #3b82f6; margin: 10px 0;">${transfer_amount:.2f}</div>
+                </div>
+                
+                <div style="background: rgba(148, 163, 184, 0.1); padding: 24px; border-radius: 12px; margin: 20px 0;">
+                    <strong style="color: #cbd5e1; font-size: 16px; margin-bottom: 16px; display: block;">Transaction Breakdown</strong>
+                    
+                    <div class="breakdown-row">
+                        <span style="color: #94a3b8;">Withdrawal Amount</span>
+                        <span style="color: #f1f5f9; font-weight: 600;">${amount:.2f}</span>
+                    </div>
+                    
+                    <div class="breakdown-row">
+                        <span style="color: #94a3b8;">Safe Transaction Fee (5%)</span>
+                        <span style="color: #f59e0b; font-weight: 600;">-${fee_amount:.2f}</span>
+                    </div>
+                    
+                    <div class="breakdown-total">
+                        <span>Total Transferred</span>
+                        <span style="color: #3b82f6;">${transfer_amount:.2f}</span>
+                    </div>
+                </div>
+                
+                <div style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 20px; margin: 20px 0; border-radius: 8px;">
+                    <strong style="color: #ef4444;">⚠️ CRITICAL - Made a Mistake?</strong><br><br>
+                    <span style="color: #dc2626;">If you entered the wrong {method_display if method_display != "Bank Account" else "bank account"} and realize it IMMEDIATELY, email us at <strong><a href="mailto:support@safetransaction.app" style="color: #dc2626;">support@safetransaction.app</a></strong> right away!</span><br><br>
+                    <span style="color: #991b1b; font-weight: 600;">⚠️ WARNING: If we already sent the money to the wrong account, there is NOTHING we can do to recover it. Contact us ASAP if you made an error!</span>
+                </div>
+                
+                <div class="info-box">
+                    <strong style="color: #3b82f6;">⏱️ What to Expect:</strong><br><br>
+                    • Funds typically arrive within one business day<br>
+                    • You'll receive an email when processed<br>
+                    {f'• Request ID: <code style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;">{transfer_id}</code><br>' if transfer_id else ''}
+                    • Check your {method_display if destination else "payment method"}
+                </div>
+                
+                <div style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; padding: 20px; margin: 20px 0; border-radius: 8px;">
+                    <strong style="color: #10b981;">💡 Pro Tip:</strong><br><br>
+                    Keep selling tickets to earn more! Every completed sale includes a 10% bonus from Safe Transaction. The more you sell, the more you earn!
+                </div>
+                
+                <p style="font-size: 14px; color: #94a3b8; margin-top: 30px; text-align: center;">
+                    Questions about your withdrawal?<br>
+                    Contact us at <a href="mailto:support@safetransaction.app" style="color: #3b82f6;">support@safetransaction.app</a>
+                </p>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+    
+    try:
+        from insta485.mailgun_sender import send_email_mailgun
+        
+        send_email_mailgun(
+            to_email=user_email,
+            subject=subject,
+            html_body=html_body,
+            text_body=f"Withdrawal Request Received\n\nYour withdrawal request has been received.\n\nWithdrawal Amount: ${amount:.2f}\nSafe Transaction Fee (5%): -${fee_amount:.2f}\nTotal You'll Receive: ${transfer_amount:.2f}\n\n{f'Sending to {method_display}: {destination}' if destination else ''}\n\n⚠️ CRITICAL: If you entered the wrong {method_display if method_display != 'Bank Account' else 'bank account'}, email support@safetransaction.app IMMEDIATELY!\n\n⚠️ WARNING: If we already sent the money, there is NOTHING we can do to recover it.\n\nFunds typically arrive within one business day.{f' Request ID: {transfer_id}' if transfer_id else ''}\n\nThank you for using Safe Transaction!"
+        )
+        print(f"[WITHDRAWAL-CONFIRMED] Sent notification to {user_email} for ${transfer_amount:.2f}")
+        
+    except Exception as e:
+        print(f"[WITHDRAWAL-CONFIRMED ERROR] Failed to send email: {e}")
+        raise
+
+
+def send_withdrawal_completed_email(user_email, amount, fee_amount, transfer_amount, payment_method=None, destination=None):
+    """Send email when withdrawal is completed/sent by admin"""
+    
+    # Determine method name for display
+    if payment_method == 'venmo':
+        method_display = "Venmo"
+    elif payment_method == 'cashapp':
+        method_display = "Cash App"
+    elif payment_method == 'stripe':
+        method_display = "Bank Account (Stripe)"
+    else:
+        method_display = "Payment Method"
+    
+    subject = f"✅ Withdrawal Complete - ${transfer_amount:.2f} Sent to Your {method_display}!"
+    
+    html_body = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+            
+            body {{
+                font-family: 'Inter', sans-serif;
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+                color: #f1f5f9;
+                margin: 0;
+                padding: 40px 20px;
+            }}
+            
+            .notification-container {{
+                max-width: 600px;
+                margin: 0 auto;
+                background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+                border-radius: 24px;
+                overflow: hidden;
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+                border: 1px solid rgba(16, 185, 129, 0.3);
+            }}
+            
+            .notification-header {{
+                background: linear-gradient(135deg, #10b981, #059669);
+                padding: 40px;
+                text-align: center;
+                color: white;
+            }}
+            
+            .notification-content {{
+                padding: 40px;
+            }}
+            
+            .info-box {{
+                background: rgba(16, 185, 129, 0.1);
+                border-left: 4px solid #10b981;
+                padding: 20px;
+                margin: 20px 0;
+                border-radius: 8px;
+            }}
+            
+            .amount-display {{
+                text-align: center;
+                padding: 30px;
+                background: rgba(16, 185, 129, 0.15);
+                border-radius: 16px;
+                margin: 20px 0;
+            }}
+            
+            .breakdown-row {{
+                display: flex;
+                justify-content: space-between;
+                padding: 12px 0;
+                border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            }}
+            
+            .breakdown-total {{
+                display: flex;
+                justify-content: space-between;
+                padding: 16px 0;
+                font-weight: 700;
+                font-size: 18px;
+                color: #10b981;
+                margin-top: 8px;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="notification-container">
+            <div class="notification-header">
+                <h1 style="margin: 0; font-size: 32px; font-weight: 800;">🎉 Money Sent!</h1>
+                <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.95;">Your withdrawal has been completed</p>
+            </div>
+            
+            <div class="notification-content">
+                <h2 style="color: #10b981; margin-top: 0;">✅ Withdrawal Completed Successfully</h2>
+                
+                <p style="font-size: 16px; line-height: 1.6;">
+                    Great news! Your withdrawal has been processed and sent. The funds are on their way to:
+                </p>
+                
+                {f'<div style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; padding: 16px; border-radius: 8px; margin: 20px 0;"><strong style="color: #10b981; font-size: 18px;">{method_display}: {destination}</strong></div>' if destination else ''}
+                
+                <div class="amount-display">
+                    <div style="font-size: 14px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Amount Sent</div>
+                    <div style="font-size: 48px; font-weight: 900; color: #10b981; margin: 10px 0;">${transfer_amount:.2f}</div>
+                </div>
+                
+                <div style="background: rgba(148, 163, 184, 0.1); padding: 24px; border-radius: 12px; margin: 20px 0;">
+                    <strong style="color: #cbd5e1; font-size: 16px; margin-bottom: 16px; display: block;">Transaction Summary</strong>
+                    
+                    <div class="breakdown-row">
+                        <span style="color: #94a3b8;">Withdrawal Amount</span>
+                        <span style="color: #f1f5f9; font-weight: 600;">${amount:.2f}</span>
+                    </div>
+                    
+                    <div class="breakdown-row">
+                        <span style="color: #94a3b8;">Safe Transaction Fee (5%)</span>
+                        <span style="color: #f59e0b; font-weight: 600;">-${fee_amount:.2f}</span>
+                    </div>
+                    
+                    <div class="breakdown-total">
+                        <span>Total Sent to You</span>
+                        <span style="color: #10b981;">${transfer_amount:.2f}</span>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <strong style="color: #10b981;">💰 What to Expect Next:</strong><br><br>
+                    {'• Check your Venmo app for the incoming payment<br>' if payment_method == 'venmo' else ''}
+                    {'• Check your Cash App for the incoming payment<br>' if payment_method == 'cashapp' else ''}
+                    {'• Check your bank account in 1-3 business days<br>' if payment_method == 'stripe' else ''}
+                    • The payment should appear {'instantly or within minutes' if payment_method in ['venmo', 'cashapp'] else 'within 1-3 business days'}<br>
+                    • If you don't see it, check your spam/pending transactions<br>
+                    • Contact us if you have any issues
+                </div>
+                
+                <div style="background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; padding: 20px; margin: 20px 0; border-radius: 8px;">
+                    <strong style="color: #3b82f6;">💡 Keep Earning!</strong><br><br>
+                    Keep selling tickets to earn more! Remember: every completed sale includes a 10% bonus from Safe Transaction. The more you sell, the more you earn!
+                </div>
+                
+                <p style="font-size: 14px; color: #94a3b8; margin-top: 30px; text-align: center;">
+                    Questions about your withdrawal?<br>
+                    Contact us at <a href="mailto:support@safetransaction.app" style="color: #3b82f6;">support@safetransaction.app</a>
+                </p>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+    
+    try:
+        from insta485.mailgun_sender import send_email_mailgun
+        
+        send_email_mailgun(
+            to_email=user_email,
+            subject=subject,
+            html_body=html_body,
+            text_body=f"Withdrawal Completed!\n\nYour withdrawal has been processed and sent.\n\nWithdrawal Amount: ${amount:.2f}\nSafe Transaction Fee (5%): -${fee_amount:.2f}\nTotal Sent to You: ${transfer_amount:.2f}\n\n{f'Sent to {method_display}: {destination}' if destination else ''}\n\nThe payment should appear {'instantly or within minutes' if payment_method in ['venmo', 'cashapp'] else 'within 1-3 business days'}.\n\nThank you for using Safe Transaction!"
+        )
+        print(f"[WITHDRAWAL-COMPLETED] Sent notification to {user_email} for ${transfer_amount:.2f}")
+        
+    except Exception as e:
+        print(f"[WITHDRAWAL-COMPLETED ERROR] Failed to send email: {e}")
+        raise

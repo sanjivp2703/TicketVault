@@ -42,9 +42,19 @@ def send_payment_buyer(transaction_id):
     amount = int(transaction['price'] * 100)  # Convert to cents as integer
     payment_logger.info(f"Creating Stripe checkout session for transaction {transaction_id}, amount: ${transaction['price']}")
     
+    # Set expiration time to 1 hour from now (Unix timestamp)
+    expires_at = int((datetime.datetime.now() + datetime.timedelta(hours=1)).timestamp())
+    
     try:
         session = stripe.checkout.Session.create(
+            # Enable all available payment methods including Apple Pay, Google Pay, cards
             payment_method_types=['card'],
+            # Automatic payment methods will enable Apple Pay, Google Pay on compatible devices
+            payment_method_options={
+                'card': {
+                    'request_three_d_secure': 'automatic'
+                }
+            },
             line_items=[{
                 'price_data': {
                     'currency': 'usd',
@@ -58,6 +68,8 @@ def send_payment_buyer(transaction_id):
             mode='payment',
             success_url=flask.url_for('payment_success', transaction_id=transaction_id, _external=True),
             cancel_url=flask.url_for('payment_cancel', _external=True),
+            # Expire the payment link after 1 hour
+            expires_at=expires_at,
         )
         payment_logger.info(f"Stripe checkout session created successfully for transaction {transaction_id}, session_id: {session.id}")
         return flask.redirect(session.url, code=303)

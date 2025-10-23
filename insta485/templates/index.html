@@ -1281,12 +1281,11 @@
         .welcome-modal {
             background: linear-gradient(145deg, #ffffff 0%, #fafbfc 100%);
             border-radius: 20px;
-            padding: 16px 24px;
+            padding: 0;
             max-width: min(850px, 90vw);
             width: 100%;
             max-height: 90vh;
-            overflow-y: auto;
-            overflow-x: hidden;
+            overflow: hidden; /* Changed from overflow-y: auto */
             text-align: center;
             box-shadow: 
                 0 20px 40px rgba(0, 0, 0, 0.12),
@@ -1300,29 +1299,93 @@
             flex-direction: column;
         }
 
-        /* Custom scrollbar styling for welcome modal */
-        .welcome-modal::-webkit-scrollbar {
+        /* Modal Header - Fixed at top */
+        .welcome-modal > .close-button {
+            position: sticky;
+            top: 12px;
+            right: 12px;
+            margin-left: auto;
+            z-index: 10;
+            flex-shrink: 0;
+        }
+        
+        /* Modal Content - Scrollable middle section */
+        .modal-scrollable-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 16px 24px 8px 24px;
+            min-height: 0; /* Important for flex scrolling */
+        }
+        
+        /* Modal Footer - Sticky at bottom with buttons */
+        .modal-footer-sticky {
+            flex-shrink: 0;
+            padding: 12px 24px 16px 24px;
+            background: linear-gradient(to top, #ffffff 80%, transparent);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            position: sticky;
+            bottom: 0;
+            z-index: 5;
+        }
+
+        /* Custom scrollbar styling for modal scrollable content */
+        .modal-scrollable-content::-webkit-scrollbar {
             width: 8px;
         }
 
-        .welcome-modal::-webkit-scrollbar-track {
+        .modal-scrollable-content::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.05);
             border-radius: 10px;
         }
 
-        .welcome-modal::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .modal-scrollable-content::-webkit-scrollbar-thumb {
+            background: rgba(102, 126, 234, 0.5);
             border-radius: 10px;
         }
 
-        .welcome-modal::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #5568d3 0%, #653a8b 100%);
+        .modal-scrollable-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(102, 126, 234, 0.7);
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-height: 700px) {
+        .welcome-modal {
+                max-height: 95vh;
+            }
+            
+            .modal-scrollable-content {
+                padding: 12px 20px 6px 20px;
+            }
+            
+            .modal-footer-sticky {
+                padding: 8px 20px 12px 20px;
+            }
+            
+            /* Reduce spacing in content */
+            .welcome-hero {
+                margin-bottom: 12px !important;
+                padding-top: 0 !important;
+            }
+            
+            .fitin-section, .benefits-section {
+                margin-bottom: 12px !important;
+            }
+            
+            .popup-title {
+                font-size: 1.5rem !important;
+                margin-bottom: 4px !important;
+            }
+            
+            .popup-subtitle {
+                font-size: 0.9rem !important;
+            }
         }
 
         /* Firefox scrollbar styling */
-        .welcome-modal {
+        .modal-scrollable-content {
             scrollbar-width: thin;
-            scrollbar-color: #667eea rgba(0, 0, 0, 0.05);
+            scrollbar-color: rgba(102, 126, 234, 0.5) rgba(0, 0, 0, 0.05);
         }
 
         /* Special handling for very small viewports or high zoom */
@@ -4547,7 +4610,7 @@
             justify-content: space-between;
             gap: 20px;
             padding: 12px 16px;
-            margin-top: 10px;
+            margin-top: 0; /* Removed since it's in sticky footer now */
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             border: 2px solid #e2e8f0;
             border-radius: 14px;
@@ -5552,6 +5615,8 @@
                  <i class="fas fa-times"></i>
              </button>
              
+             <!-- Scrollable Content -->
+             <div class="modal-scrollable-content">
              <!-- Header -->
              <div class="welcome-hero">
                  <div class="brand-mark"></div>
@@ -5580,7 +5645,7 @@
                          <div class="step-number">2</div>
                          <div class="step-content">
                              <h3>We Handle Everything Else</h3>
-                             <p>Follow our directions and we'll ensure a safe transaction or your ticket/money back.
+                            <p>Our process ensures you're always paid or we send your ticket back.
                             </p>
                          </div>
                      </div>
@@ -5600,7 +5665,10 @@
                      </div>
                  </div>
              </div>
+             </div><!-- End modal-scrollable-content -->
 
+             <!-- Sticky Footer with Action Button -->
+             <div class="modal-footer-sticky">
              <!-- Modern Bottom Action Bar (matching How It Works style) -->
              <div class="bottom-action-bar">
                  <div class="terms-section">
@@ -5619,6 +5687,7 @@
                      </div>
                  </button>
              </div>
+             </div><!-- End modal-footer-sticky -->
          </div>
      </div>
 
@@ -5629,6 +5698,8 @@
                 <i class="fas fa-times"></i>
             </button>
             
+            <!-- Scrollable Content -->
+            <div class="modal-scrollable-content">
             <!-- Header -->
             <div class="welcome-hero" style="flex-shrink: 0; margin-bottom: 4px; padding-top: 4px;">
                 <h1 class="popup-title welcome-heading" style="font-size: 1.7rem; margin-bottom: 2px; margin-top: 0;">How It Works</h1>
@@ -5793,12 +5864,12 @@
                         <div class="step-visual-content">
                             <div class="mockup-device">
                                 <div class="device-screen">
-                                    <div class="screen-header">Secure Email Portal</div>
+                                    <div class="screen-header">Transfer To:</div>
                                     <div class="form-mockup">
                                         <div class="checklist-item email-step">
                                             <div class="checklist-icon">📧</div>
                                             <div class="checklist-content">
-                                                <div class="checklist-text">Secure Ticket Holding</div>
+                                                <div class="checklist-text email-text">safetransactiontix@gmail.com</div>
                                             </div>
                                         </div>
                                         <div class="checklist-item email-step">
@@ -5810,7 +5881,7 @@
                                         <div class="checklist-item email-step">
                                             <div class="checklist-icon">🛡️</div>
                                             <div class="checklist-content">
-                                                <div class="checklist-text">Full Protection Guarantee</div>
+                                                <div class="checklist-text"><a href="/how-it-works/#guarantee" style="color: #6366f1; text-decoration: none; font-weight: 600;">Full Protection Guarantee</a></div>
                                             </div>
                                         </div>
                                         <div class="mock-button email-button">Tickets Secured</div>
@@ -5892,7 +5963,7 @@
                             <div class="step-bullets">
                                 <div class="bullet-item">
                                     <span class="bullet-icon">💰</span>
-                                    <span>Once buyer pays in full, we'll immediately pay you + 10% ticket sale</span>
+                                    <span>We'll immediately pay you + 10% ticket sale</span>
                                 </div>
                                 <div class="bullet-item">
                                     <span class="bullet-icon">🎫</span>
@@ -5900,7 +5971,7 @@
                                 </div>
                                 <div class="bullet-item">
                                     <span class="bullet-icon">🛡️</span>
-                                    <span>Something goes wrong? We'll provide repayment to all affected parties</span>
+                                    <span>Something goes wrong? We'll provide repayment to both parties</span>
                                 </div>
                             </div>
                         </div>
@@ -6059,7 +6130,10 @@
                 <div class="progress-dot" data-step="5"></div>
                 <div class="progress-dot" data-step="6"></div>
             </div>
+            </div><!-- End modal-scrollable-content -->
 
+            <!-- Sticky Footer with Action Button -->
+            <div class="modal-footer-sticky">
             <!-- Modern Bottom Action Bar -->
             <div class="bottom-action-bar">
                 <div class="guarantee-section">
@@ -6079,6 +6153,7 @@
                     </div>
                 </button>
             </div>
+            </div><!-- End modal-footer-sticky -->
         </div>
     </div>
 
@@ -6132,7 +6207,7 @@
         <!-- Hero Section -->
         <div class="hero-section">
             <div class="hero-content">
-                <h1 class="hero-title">Sell College Football Student Tickets</h1>
+                <h1 class="hero-title">Sell Michigan Football Student Tickets</h1>
                 <p class="hero-subtitle">Safe, Verified, and Backed by Our Guarantee</p>
                 <p class="hero-description">We securely hold your ticket, verify it, and guarantee you get paid</p>
                 
@@ -6222,24 +6297,8 @@
                         <div class="step-number-horizontal">4</div>
                     </div>
                     <div class="step-content-horizontal">
-                        <h3 class="step-title-horizontal">Buyer Pays</h3>
-                        <p class="step-description-horizontal">Buyer pays through the payment link in their email<br></p>
-                    </div>
-                </div>
-                
-                <div class="step-arrow-horizontal">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                </div>
-                
-                <div class="step-item-horizontal">
-                    <div class="step-icon-container">
-                        <div class="step-number-horizontal">5</div>
-                    </div>
-                    <div class="step-content-horizontal">
                         <h3 class="step-title-horizontal">Get Paid</h3>
-                        <p class="step-description-horizontal">You receive funds + 10% Bonus on Us! Buyer gets ticket transferred to them!</p>
+                        <p class="step-description-horizontal">Buyer pays, you receive funds + 10% Bonus On Us!</p>
                     </div>
                 </div>
             </div>
@@ -6252,15 +6311,139 @@
         <!-- Main Content Area -->
         <div class="main-content">
             
+            <!-- Create New Listing Section - Always show, positioned second -->
+            <div class="create-listing-section">
+                <div class="create-listing-header">
+                    <h2 class="create-listing-title"><i class="fas fa-ticket-alt"></i> Create New Listing</h2>
+                    <p class="create-listing-subtitle">List your tickets for sale on our secure platform</p>
+                </div>
+                
+                <!-- School Selection -->
+                <div class="school-selection-container">
+                    <label class="school-selection-label">Select Your School</label>
+                    <div class="school-toggle-group">
+                        <input type="radio" id="school-michigan" name="school" value="michigan" class="school-toggle-input" checked>
+                        <label for="school-michigan" class="school-toggle-btn">Michigan</label>
+                        
+                        <input type="radio" id="school-florida" name="school" value="florida" class="school-toggle-input">
+                        <label for="school-florida" class="school-toggle-btn">Florida</label>
+                    </div>
+                </div>
+                
+                <form id="createListingFormBottom" action="{{ url_for('create_transaction') }}" method="post" class="listing-form" onsubmit="return handleCreateListing(event)">
+                    
+                    <!-- Hidden school field -->
+                    <input type="hidden" id="selected_school" name="school" value="michigan">
+
+                    <!-- Event Information -->
+                    <div class="form-group">
+                        <label for="event_name_bottom">Event Name</label>
+                        <div class="event-search">
+                            <input type="text" id="event_name_bottom" name="event_name" required placeholder="e.g., Wisconsin vs Michigan" autocomplete="off">
+                            <div id="event_suggestions_bottom" class="event-suggestions"></div>
+            </div>
+                </div>
+                
+                    <!-- Event Details Display (Hidden until event selected) -->
+                    <div id="event_details_container_bottom" class="event-details-container" style="display: none;">
+                        <div class="event-details-grid">
+                            <div class="event-detail-card venue-card">
+                                <div class="detail-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <label class="detail-label">Venue/Location</label>
+                                    <div id="event_location_display_bottom" class="detail-value">Select an event to see venue</div>
+                                </div>
+                            </div>
+                            
+                            <div class="event-detail-card datetime-card">
+                                <div class="detail-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <label class="detail-label">Date & Time</label>
+                                    <div id="event_datetime_display_bottom" class="detail-value">Select an event to see date</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Hidden fields for event details -->
+                    <input type="hidden" id="event_location_bottom" name="event_location">
+                    <input type="hidden" id="event_datetime_bottom" name="event_datetime">
+                    <input type="hidden" id="event_description_bottom" name="event_description">
+                
+                    <!-- Ticket Information -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ticket_price_bottom">Ticket Price ($)</label>
+                            <input type="number" id="ticket_price_bottom" name="ticket_price" step="0.01" min="0" required placeholder="100.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="buyer_email_bottom">Buyer Michigan Athletics Email</label>
+                            <input type="email" id="buyer_email_bottom" name="buyer_email" required placeholder="buyer@umich.edu">
+                        </div>
+                    </div>
+                
+                    <!-- Submit Button -->
+                    <button type="submit" class="create-listing-btn">
+                        <i class="fas fa-plus"></i>
+                        Create Listing & Send to Buyer
+                    </button>
+                </form>
+            </div>
+            
+
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Balance Card -->
+            <div class="balance-card">
+                <div class="balance-amount">${{ user_balance }}</div>
+                <div class="balance-label">Available Balance</div>
+                <div class="balance-status">
+                    <i class="fas fa-check-circle"></i>
+                    Ready to Withdraw
+                                </div>
+            </div>
+            
+            <!-- Bottom Cards Container for Equal Height -->
+            <div class="sidebar-bottom-cards">
+                <!-- Withdrawal Section -->
+                <div class="withdrawal-section">
+                    <div class="withdrawal-header">
+                        <h3 class="withdrawal-title">
+                            <i class="fas fa-university"></i>
+                            Withdraw Funds
+                        </h3>
+                        <p class="withdrawal-subtitle">
+                            Withdraw your available balance of ${{ user_balance }}
+                        </p>
+                    </div>
+                    
+                    <div class="withdrawal-actions">
+                        <a href="{{ url_for('withdraw_funds') }}" class="withdraw-btn" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-university"></i>
+                            Withdraw Now
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+            
             <!-- Active Listings Section - Only show when there are transactions -->
             {% if transactions %}
-            <div class="listings-section-fullwidth" style="margin: 0; grid-column: auto;">
+    <div class="listings-section-fullwidth" style="max-width: 1400px; margin: 0 auto; padding: var(--space-2xl) var(--space-xl);">
                 <div class="listings-header">
                     <h2 class="listings-title"><i class="fas fa-list"></i> Your Active Listings</h2>
                     <p class="listings-subtitle">Manage your ticket listings and track transaction status</p>
                     </div>
                 
-                <div class="listings-container">
+        <div class="listings-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: var(--space-lg);">
                         {% for transaction in transactions %}
                         <div class="listing-card" data-transaction-id="{{ transaction.transaction_id }}">
                             <div class="listing-header">
@@ -6510,129 +6693,6 @@
             </div>
             {% endif %}
             
-            <!-- Create New Listing Section - Always show, positioned second -->
-            <div class="create-listing-section">
-                <div class="create-listing-header">
-                    <h2 class="create-listing-title"><i class="fas fa-ticket-alt"></i> Create New Listing</h2>
-                    <p class="create-listing-subtitle">List your tickets for sale on our secure platform</p>
-                </div>
-                
-                <!-- School Selection -->
-                <div class="school-selection-container">
-                    <label class="school-selection-label">Select Your School</label>
-                    <div class="school-toggle-group">
-                        <input type="radio" id="school-michigan" name="school" value="michigan" class="school-toggle-input" checked>
-                        <label for="school-michigan" class="school-toggle-btn">Michigan</label>
-                        
-                        <input type="radio" id="school-florida" name="school" value="florida" class="school-toggle-input">
-                        <label for="school-florida" class="school-toggle-btn">Florida</label>
-                    </div>
-                </div>
-                
-                <form id="createListingFormBottom" action="{{ url_for('create_transaction') }}" method="post" class="listing-form" onsubmit="return handleCreateListing(event)">
-                    
-                    <!-- Hidden school field -->
-                    <input type="hidden" id="selected_school" name="school" value="michigan">
-
-                    <!-- Event Information -->
-                    <div class="form-group">
-                        <label for="event_name_bottom">Event Name</label>
-                        <div class="event-search">
-                            <input type="text" id="event_name_bottom" name="event_name" required placeholder="e.g., Wisconsin vs Michigan" autocomplete="off">
-                            <div id="event_suggestions_bottom" class="event-suggestions"></div>
-            </div>
-                </div>
-                
-                    <!-- Event Details Display (Hidden until event selected) -->
-                    <div id="event_details_container_bottom" class="event-details-container" style="display: none;">
-                        <div class="event-details-grid">
-                            <div class="event-detail-card venue-card">
-                                <div class="detail-icon">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                                <div class="detail-content">
-                                    <label class="detail-label">Venue/Location</label>
-                                    <div id="event_location_display_bottom" class="detail-value">Select an event to see venue</div>
-                                </div>
-                            </div>
-                            
-                            <div class="event-detail-card datetime-card">
-                                <div class="detail-icon">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                                <div class="detail-content">
-                                    <label class="detail-label">Date & Time</label>
-                                    <div id="event_datetime_display_bottom" class="detail-value">Select an event to see date</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <!-- Hidden fields for event details -->
-                    <input type="hidden" id="event_location_bottom" name="event_location">
-                    <input type="hidden" id="event_datetime_bottom" name="event_datetime">
-                    <input type="hidden" id="event_description_bottom" name="event_description">
-                
-                    <!-- Ticket Information -->
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="ticket_price_bottom">Ticket Price ($)</label>
-                            <input type="number" id="ticket_price_bottom" name="ticket_price" step="0.01" min="0" required placeholder="100.00">
-                        </div>
-                        <div class="form-group">
-                            <label for="buyer_email_bottom">Buyer Michigan Athletics Email</label>
-                            <input type="email" id="buyer_email_bottom" name="buyer_email" required placeholder="buyer@umich.edu">
-                        </div>
-                    </div>
-                
-                    <!-- Submit Button -->
-                    <button type="submit" class="create-listing-btn">
-                        <i class="fas fa-plus"></i>
-                        Create Listing & Send to Buyer
-                    </button>
-                </form>
-            </div>
-            
-
-        </div>
-
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <!-- Balance Card -->
-            <div class="balance-card">
-                <div class="balance-amount">${{ user_balance }}</div>
-                <div class="balance-label">Available Balance</div>
-                <div class="balance-status">
-                    <i class="fas fa-check-circle"></i>
-                    Ready to Withdraw
-                                </div>
-            </div>
-            
-            <!-- Bottom Cards Container for Equal Height -->
-            <div class="sidebar-bottom-cards">
-                <!-- Withdrawal Section -->
-                <div class="withdrawal-section">
-                    <div class="withdrawal-header">
-                        <h3 class="withdrawal-title">
-                            <i class="fas fa-university"></i>
-                            Withdraw Funds
-                        </h3>
-                        <p class="withdrawal-subtitle">
-                            Withdraw your available balance of ${{ user_balance }}
-                        </p>
-                    </div>
-                    
-                    <div class="withdrawal-actions">
-                        <a href="{{ url_for('withdraw_funds') }}" class="withdraw-btn" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-university"></i>
-                            Withdraw Now
-                        </a>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-    </div>
 
     <!-- Ultra-Modern Creative Scroll Catalyst -->
     <div class="scroll-catalyst" id="scrollCatalyst" onclick="simpleScroll()">

@@ -19,14 +19,19 @@ class MailgunSender:
         self.domain = insta485.app.config['MAILGUN_DOMAIN']
     
     def send_email(self, to_email, subject, html_content, from_name="Safe Transaction"):
-        """Send email via Mailgun"""
+        """Send email via Mailgun with professional sender"""
         url = f"{self.base_url}/messages"
         
+        # Use professional sender email that looks legitimate
         data = {
-            'from': f'{from_name} <noreply@{self.domain}>',
+            'from': f'{from_name} <hello@{self.domain}>',  # Changed from noreply to hello - more friendly and trustworthy
             'to': to_email,
             'subject': subject,
-            'html': html_content
+            'html': html_content,
+            # Headers to help prevent spam filtering
+            'h:Reply-To': f'support@{self.domain}',  # Allow replies to go to support
+            'h:X-Mailgun-Track-Clicks': 'yes',
+            'h:X-Mailgun-Track-Opens': 'yes'
         }
         
         try:
@@ -530,7 +535,7 @@ class MailgunSender:
                                 <div class="check-icon">
                                     <span style="color: white; font-size: 12px; font-weight: bold;">✓</span>
                                 </div>
-                                Funds are 100% guaranteed — no risk of chargebacks or scams
+                                Funds are securely held and protected from chargebacks
                             </li>
                             <li class="protection-item">
                                 <div class="check-icon">
@@ -552,7 +557,7 @@ class MailgunSender:
                         <div class="help-text">
                             Questions? We're here to help! If something goes wrong, let us know and we'll attempt to make it right.
                         </div>
-                        <a href="mailto:support@safetransaction.com" class="help-link">
+                        <a href="mailto:support@safetransaction.app" class="help-link">
                             💬 Contact our support team 24/7
                         </a>
                     </div>
@@ -561,7 +566,7 @@ class MailgunSender:
                 <div class="footer-section">
                     <div class="footer-text">Transaction ID: #{transaction_id:06d}</div>
                     <div class="footer-text">
-                        Need help? <a href="mailto:support@safetransaction.com" class="footer-link">Contact Support</a>
+                        Need help? <a href="mailto:support@safetransaction.app" class="footer-link">Contact Support</a>
                     </div>
                     <div class="footer-brand">Safe Transaction</div>
                 </div>
@@ -1293,7 +1298,7 @@ class MailgunSender:
                             🎉 Thank you for choosing Safe Transaction! Hope we've made your ticket purchase seamless and secure.
                         </div>
                         <div style="font-size: 14px; color: #717171;">
-                            Questions? <a href="mailto:support@safetransaction.com" style="color: #3b82f6; text-decoration: none;">Contact our support team</a>
+                            Questions? <a href="mailto:support@safetransaction.app" style="color: #3b82f6; text-decoration: none;">Contact our support team</a>
                         </div>
                     </div>
                 </div>
@@ -1301,7 +1306,7 @@ class MailgunSender:
                 <div class="footer-section">
                     <div class="footer-text">Transaction ID: #{transaction_id:06d}</div>
                     <div class="footer-text">
-                        Need help? <a href="mailto:support@safetransaction.com" class="footer-link">Contact Support</a>
+                        Need help? <a href="mailto:support@safetransaction.app" class="footer-link">Contact Support</a>
                     </div>
                     <div class="footer-brand">Safe Transaction</div>
                 </div>

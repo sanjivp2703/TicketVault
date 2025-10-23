@@ -113,6 +113,22 @@ def show_index():
                         (trans['transaction_id'],)
                     )
                     trans_dict['status'] = 'payment_deadline_expired'
+                    
+                    # Send email notifications to both buyer and seller
+                    try:
+                        from insta485.email_automation import send_payment_deadline_expired_emails
+                        event_name = trans.get('ticket_description', 'Event')
+                        send_payment_deadline_expired_emails(
+                            trans['transaction_id'],
+                            trans['seller_email'],
+                            trans['buyer_email'],
+                            event_name,
+                            trans['price']
+                        )
+                        print(f"[AUTO-EXPIRE] Sent payment deadline expired emails for transaction {trans['transaction_id']}")
+                    except Exception as email_error:
+                        print(f"[AUTO-EXPIRE ERROR] Failed to send emails for transaction {trans['transaction_id']}: {email_error}")
+                        
             except ValueError:
                 pass  # Invalid datetime format, continue normally
         

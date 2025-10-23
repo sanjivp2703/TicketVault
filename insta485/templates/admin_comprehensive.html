@@ -328,6 +328,10 @@
                 <div class="stat-number">{{ stats.active_complaints }}</div>
                 <div class="stat-label">Active Complaints</div>
             </div>
+            <div class="stat-card" style="{% if stats.pending_withdrawals > 0 %}border: 2px solid #f59e0b; box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);{% endif %}">
+                <div class="stat-number" style="{% if stats.pending_withdrawals > 0 %}color: #f59e0b;{% endif %}">{{ stats.pending_withdrawals }}</div>
+                <div class="stat-label">💸 Pending Withdrawals</div>
+            </div>
             <div class="stat-card">
                 <div class="stat-number">${{ stats.total_balance }}</div>
                 <div class="stat-label">Total Balance</div>
@@ -412,6 +416,120 @@
                                 {% elif transaction.status == 'waiting_for_payment' %}
                                     <div style="background: #e3f2fd; padding: 10px; border-radius: 6px; text-align: center; font-size: 12px; color: #1976d2;">
                                         ⏳ Waiting for buyer to pay
+                                        {% if transaction.payment_deadline %}
+                                        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #90caf9;">
+                                            <div style="font-weight: 600; color: #0d47a1;">Payment Deadline:</div>
+                                            <div style="font-size: 11px; color: #1565c0; margin-top: 4px;">{{ transaction.payment_deadline }}</div>
+                                            <div class="countdown-timer" data-deadline="{{ transaction.payment_deadline }}" style="font-weight: 700; color: #d32f2f; margin-top: 4px; font-size: 13px;"></div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Pending Withdrawals Section -->
+        {% if pending_withdrawals %}
+        <div class="section" style="border: 3px solid #f59e0b; background: #fff; box-shadow: 0 8px 32px rgba(245, 158, 11, 0.2); margin-bottom: 30px;">
+            <div class="section-header" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 20px; text-align: center;">
+                <h2 style="font-size: 24px; margin: 0;"><i class="fas fa-money-bill-wave"></i> 💸 Pending Withdrawals - Manual Processing Required</h2>
+                <p style="margin: 8px 0 0 0; font-size: 16px; opacity: 0.9;">{{ pending_withdrawals|length }} withdrawal{{ 's' if pending_withdrawals|length != 1 else '' }} waiting for you to process</p>
+            </div>
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User</th>
+                            <th>Method</th>
+                            <th>Send To</th>
+                            <th>Amount Requested</th>
+                            <th>5% Fee</th>
+                            <th>💰 Send Amount</th>
+                            <th>Created</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for withdrawal in pending_withdrawals %}
+                        <tr style="background: #fff; border-left: 5px solid {% if withdrawal.bank_name == 'STRIPE' %}#635bff{% elif withdrawal.bank_name == 'VENMO' %}#3d95ce{% else %}#00d632{% endif %};">
+                            <td style="font-size: 16px; font-weight: bold;">#{{ withdrawal.id }}</td>
+                            <td>
+                                <div style="font-weight: 600; color: #333;">{{ withdrawal.firstname }} {{ withdrawal.lastname }}</div>
+                                <div style="font-size: 12px; color: #666;">{{ withdrawal.user_email }}</div>
+                            </td>
+                            <td>
+                                {% if withdrawal.bank_name == 'VENMO' %}
+                                    <span style="background: linear-gradient(135deg, #3d95ce, #2f7fb5); color: white; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; display: inline-block;">
+                                        💳 Venmo
+                                    </span>
+                                {% elif withdrawal.bank_name == 'CASHAPP' %}
+                                    <span style="background: linear-gradient(135deg, #00d632, #00c02b); color: white; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; display: inline-block;">
+                                        💚 Cash App
+                                    </span>
+                                {% elif withdrawal.bank_name == 'STRIPE' %}
+                                    <span style="background: linear-gradient(135deg, #635bff, #0073e6); color: white; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; display: inline-block;">
+                                        🔒 Stripe (Auto-Failed)
+                                    </span>
+                                {% else %}
+                                    <span style="background: #666; color: white; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; display: inline-block;">
+                                        {{ withdrawal.bank_name }}
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div style="font-weight: 700; color: #333; font-size: 14px; font-family: monospace; background: #f3f4f6; padding: 4px 8px; border-radius: 4px; display: inline-block;">
+                                    {{ withdrawal.account_number_last4 }}
+                                </div>
+                            </td>
+                            <td style="font-size: 14px; color: #666;">${{ "%.2f"|format(withdrawal.amount / 100) }}</td>
+                            <td style="font-size: 14px; color: #f59e0b; font-weight: 600;">-${{ "%.2f"|format(withdrawal.fee_amount / 100) }}</td>
+                            <td style="font-size: 20px; font-weight: 800; color: #10b981; background: linear-gradient(135deg, #dcfce7, #f0fdf4); padding: 12px; text-align: center; border-radius: 8px;">
+                                ${{ "%.2f"|format(withdrawal.transfer_amount / 100) }}
+                            </td>
+                            <td style="font-size: 12px; color: #666;">{{ withdrawal.created_at }}</td>
+                            <td>
+                                {% if withdrawal.bank_name == 'VENMO' %}
+                                    <div style="background: #e0f2fe; padding: 12px; border-radius: 8px; border-left: 4px solid #3d95ce;">
+                                        <div style="font-weight: 700; color: #075985; margin-bottom: 8px;">📱 Action Required:</div>
+                                        <div style="font-size: 13px; color: #0c4a6e; line-height: 1.4;">
+                                            1. Open <strong>Venmo</strong> app<br>
+                                            2. Send <strong>${{ "%.2f"|format(withdrawal.transfer_amount / 100) }}</strong> to:<br>
+                                            <div style="background: white; padding: 6px; margin: 6px 0; border-radius: 4px; font-family: monospace; font-weight: 700;">{{ withdrawal.account_number_last4 }}</div>
+                                            3. After sending, click below:
+                                        </div>
+                                        <button onclick="markWithdrawalComplete({{ withdrawal.id }})" style="background: #10b981; color: white; padding: 10px 16px; border-radius: 8px; border: none; cursor: pointer; margin-top: 10px; font-weight: 600; width: 100%;">
+                                            ✅ Mark as Sent
+                                        </button>
+                                    </div>
+                                {% elif withdrawal.bank_name == 'CASHAPP' %}
+                                    <div style="background: #dcfce7; padding: 12px; border-radius: 8px; border-left: 4px solid #00d632;">
+                                        <div style="font-weight: 700; color: #065f46; margin-bottom: 8px;">💚 Action Required:</div>
+                                        <div style="font-size: 13px; color: #064e3b; line-height: 1.4;">
+                                            1. Open <strong>Cash App</strong><br>
+                                            2. Send <strong>${{ "%.2f"|format(withdrawal.transfer_amount / 100) }}</strong> to:<br>
+                                            <div style="background: white; padding: 6px; margin: 6px 0; border-radius: 4px; font-family: monospace; font-weight: 700;">{{ withdrawal.account_number_last4 }}</div>
+                                            3. After sending, click below:
+                                        </div>
+                                        <button onclick="markWithdrawalComplete({{ withdrawal.id }})" style="background: #10b981; color: white; padding: 10px 16px; border-radius: 8px; border: none; cursor: pointer; margin-top: 10px; font-weight: 600; width: 100%;">
+                                            ✅ Mark as Sent
+                                        </button>
+                                    </div>
+                                {% elif withdrawal.bank_name == 'STRIPE' %}
+                                    <div style="background: #fef3c7; padding: 12px; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                                        <div style="font-weight: 700; color: #92400e; margin-bottom: 8px;">⚠️ Stripe Auto-Transfer Failed</div>
+                                        <div style="font-size: 13px; color: #78350f; line-height: 1.4;">
+                                            Process manually via bank transfer or contact user to reconnect Stripe.
+                                        </div>
+                                        <button onclick="markWithdrawalComplete({{ withdrawal.id }})" style="background: #10b981; color: white; padding: 10px 16px; border-radius: 8px; border: none; cursor: pointer; margin-top: 10px; font-weight: 600; width: 100%;">
+                                            ✅ Mark as Completed
+                                        </button>
                                     </div>
                                 {% endif %}
                             </td>
@@ -786,6 +904,101 @@
                 alert('Please provide a reason for rejection.');
             }
         }
+
+        function markWithdrawalComplete(withdrawalId) {
+            if (confirm(`✅ Mark withdrawal #${withdrawalId} as complete?\n\n⚠️ Make sure you have already sent the money to the user before clicking OK!\n\nThis will:\n- Mark the withdrawal as completed\n- Send completion email to the user\n- Remove from pending list`)) {
+                // Show loading state
+                const button = event.target;
+                const originalText = button.innerHTML;
+                button.innerHTML = '⏳ Processing...';
+                button.disabled = true;
+                
+                // Send AJAX request
+                fetch(`/admin/withdrawal/complete/${withdrawalId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('✅ Withdrawal marked as complete! Completion email sent to user.');
+                        location.reload(); // Reload page to update the pending withdrawals list
+                    } else {
+                        alert('❌ Error: ' + (data.error || 'Failed to mark withdrawal as complete'));
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('❌ Network error. Please try again.');
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                });
+            }
+        }
+
+        // Countdown timer for payment deadlines
+        function updateCountdownTimers() {
+            const timers = document.querySelectorAll('.countdown-timer');
+            timers.forEach(timer => {
+                const deadline = timer.getAttribute('data-deadline');
+                if (!deadline) return;
+
+                try {
+                    // Parse the deadline - handle both formats
+                    let deadlineDate;
+                    if (deadline.includes('T')) {
+                        deadlineDate = new Date(deadline);
+                    } else {
+                        deadlineDate = new Date(deadline.replace(/-/g, '/'));
+                    }
+
+                    const now = new Date();
+                    const diff = deadlineDate - now;
+
+                    if (diff <= 0) {
+                        timer.textContent = '⏰ EXPIRED';
+                        timer.style.color = '#c62828';
+                        timer.style.fontWeight = '800';
+                    } else {
+                        const hours = Math.floor(diff / (1000 * 60 * 60));
+                        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                        let countdownText = '';
+                        if (hours > 0) {
+                            countdownText = `⏱️ ${hours}h ${minutes}m ${seconds}s remaining`;
+                        } else if (minutes > 0) {
+                            countdownText = `⏱️ ${minutes}m ${seconds}s remaining`;
+                        } else {
+                            countdownText = `⏱️ ${seconds}s remaining`;
+                        }
+
+                        timer.textContent = countdownText;
+                        
+                        // Change color based on urgency
+                        if (diff < 5 * 60 * 1000) { // Less than 5 minutes
+                            timer.style.color = '#c62828';
+                        } else if (diff < 15 * 60 * 1000) { // Less than 15 minutes
+                            timer.style.color = '#f57c00';
+                        } else {
+                            timer.style.color = '#1976d2';
+                        }
+                    }
+                } catch (e) {
+                    timer.textContent = '⚠️ Invalid deadline format';
+                    console.error('Countdown error:', e);
+                }
+            });
+        }
+
+        // Update countdown timers every second
+        setInterval(updateCountdownTimers, 1000);
+        // Initial update
+        updateCountdownTimers();
     </script>
 
     <style>
