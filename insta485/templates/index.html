@@ -1542,8 +1542,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 32px;
-            padding: 28px 32px;
+            gap: 20px;
+            padding: 32px 24px;
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             border-radius: 20px;
             border: 2px solid #e2e8f0;
@@ -1555,9 +1555,9 @@
         .process-step {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
             flex: 1;
-            max-width: 300px;
+            max-width: 260px;
         }
 
         .step-number {
@@ -1591,15 +1591,16 @@
 
         .step-content h3 {
             margin: 0 0 6px 0;
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             font-weight: 700;
             color: #1e293b;
             line-height: 1.2;
+            white-space: nowrap;
         }
 
         .step-content p {
             margin: 0;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #64748b;
             line-height: 1.4;
             font-weight: 500;
@@ -1609,11 +1610,11 @@
             display: flex;
             align-items: center;
             flex-shrink: 0;
-            margin: 0 16px;
+            margin: 0 8px;
         }
 
         .arrow-line {
-            width: 40px;
+            width: 32px;
             height: 3px;
             background: linear-gradient(90deg, #d1d5db 0%, #9ca3af 100%);
             border-radius: 2px;
@@ -5624,33 +5625,47 @@
                  <p class="popup-subtitle welcome-tagline">Insures and Prevents Scams for UMich Football Student Ticket Selling</p>
              </div>
 
-             <!-- "How We Fit In" Row (Above benefits) -->
-             <div class="fitin-section">
-                 <div class="process-flow">
-                     <div class="process-step step-1">
-                         <div class="step-number">1</div>
-                         <div class="step-content">
-                             <h3>Find Your Buyer</h3>
-                             <p>Use GroupMe or Facebook to connect with buyers
-                            </p>
-                         </div>
-                     </div>
-                     
-                     <div class="flow-arrow">
-                         <div class="arrow-line"></div>
-                         <div class="arrow-head"></div>
-                     </div>
-                     
-                     <div class="process-step step-2">
-                         <div class="step-number">2</div>
-                         <div class="step-content">
-                             <h3>We Handle Everything Else</h3>
-                            <p>Our process ensures you're always paid or we send your ticket back.
-                            </p>
-                         </div>
-                     </div>
-                 </div>
-             </div>
+            <!-- "How We Fit In" Row (Above benefits) -->
+            <div class="fitin-section">
+                <div class="process-flow">
+                    <div class="process-step step-1">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Find Your Buyer</h3>
+                            <p>Use GroupMe or Facebook to connect with buyers
+                           </p>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-arrow">
+                        <div class="arrow-line"></div>
+                        <div class="arrow-head"></div>
+                    </div>
+                    
+                    <div class="process-step step-2">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>List Your Tickets</h3>
+                           <p>Create your listing on SafeTransaction
+                           </p>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-arrow">
+                        <div class="arrow-line"></div>
+                        <div class="arrow-head"></div>
+                    </div>
+                    
+                    <div class="process-step step-3">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>We Make It Risk Free</h3>
+                           <p>Our process ensures you're always paid or we send your ticket back.
+                           </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
              <!-- Benefits Row (Large and Prominent) -->
              <div class="benefits-section">
@@ -5794,11 +5809,11 @@
                                 </div>
                                 <div class="bullet-item">
                                     <span class="bullet-icon">💰</span>
-                                    <span>Choose your Price</span>
+                                    <span>Choose your price</span>
                                 </div>
                                 <div class="bullet-item">
                                     <span class="bullet-icon">📧</span>
-                                    <span>Add buyer's Michigan Athletics email</span>
+                                    <span>Add buyer's email (Michigan Athletics email for UMich tickets)</span>
                                 </div>
                             </div>
                         </div>
@@ -5916,7 +5931,7 @@
                                 </div>
                                 <div class="bullet-item">
                                     <span class="bullet-icon">💰</span>
-                                    <span>Seller paid immediately</span>
+                                    <span>Seller paid within an hour</span>
                                 </div>
                             </div>
                         </div>
@@ -5963,7 +5978,7 @@
                             <div class="step-bullets">
                                 <div class="bullet-item">
                                     <span class="bullet-icon">💰</span>
-                                    <span>We'll immediately pay you + 10% ticket sale</span>
+                                    <span>We'll pay you + 10% ticket sale</span>
                                 </div>
                                 <div class="bullet-item">
                                     <span class="bullet-icon">🎫</span>
@@ -6014,7 +6029,7 @@
                                 <i class="fas fa-trophy"></i>
                                 <span>Success!</span>
                             </div>
-                            <h2 class="step-section-title">You get Paid + Buyer Gets Ticket</h2>
+                            <h2 class="step-section-title">You Get Paid + Buyer Gets Ticket</h2>
                             <div class="step-bullets">
                                 <div class="bullet-item">
                                     <span class="bullet-icon">💰</span>
@@ -6022,11 +6037,11 @@
                                 </div>
                                 <div class="bullet-item">
                                     <span class="bullet-icon">🎁</span>
-                                    <span>10% Ticket Price added On Us</span>
+                                    <span>10% ticket price added on us</span>
                                 </div>
                                 <div class="bullet-item">
                                     <span class="bullet-icon">🏦</span>
-                                    <span>Withdraw to transfer to Bank Account</span>
+                                    <span>Withdraw to transfer to bank account</span>
                                 </div>
                                 <div class="bullet-item">
                                     <span class="bullet-icon">🎉</span>
@@ -6042,19 +6057,19 @@
                                         <div class="checklist-item breakdown-item">
                                             <div class="checklist-icon">💰</div>
                                             <div class="checklist-content">
-                                                <div class="checklist-text">Ticket Price: $150.00</div>
+                                                <div class="checklist-text">Ticket Price: $200.00</div>
                                             </div>
                                         </div>
                                         <div class="checklist-item breakdown-bonus">
                                             <div class="checklist-icon">🎉</div>
                                             <div class="checklist-content">
-                                                <div class="checklist-text bonus-text">Success Bonus: +$15.00</div>
+                                                <div class="checklist-text bonus-text">Success Bonus: +$20.00</div>
                                             </div>
                                         </div>
                                         <div class="checklist-item breakdown-total">
                                             <div class="checklist-icon">💵</div>
                                             <div class="checklist-content">
-                                                <div class="checklist-text total-text">Total Earned: $165.00</div>
+                                                <div class="checklist-text total-text">Total Earned: $220.00</div>
                                             </div>
                                         </div>
                                         <div class="mock-button payment-complete">💸 Transferred to Account</div>
@@ -6085,7 +6100,7 @@
                                 </div>
                                 <div class="bullet-item">
                                     <span class="bullet-icon">💰</span>
-                                    <span>Full Repayment to Rightful Party(s)</span>
+                                    <span>Full repayment to rightful party(s)</span>
                                 </div>
                             </div>
                         </div>
@@ -6250,7 +6265,7 @@
                     </div>
                     <div class="step-content-horizontal">
                         <h3 class="step-title-horizontal">Create Listing</h3>
-                        <p class="step-description-horizontal">Add event details and buyer's Michigan Athletics email</p>
+                        <p class="step-description-horizontal">Add event details and buyer's email (Michigan Athletics email for UMich tickets)</p>
                     </div>
                 </div>
                 
