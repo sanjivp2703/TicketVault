@@ -6222,7 +6222,7 @@
         <!-- Hero Section -->
         <div class="hero-section">
             <div class="hero-content">
-                <h1 class="hero-title">Sell Michigan Football Student Tickets</h1>
+                <h1 class="hero-title">Sell College Football Student Tickets</h1>
                 <p class="hero-subtitle">Safe, Verified, and Backed by Our Guarantee</p>
                 <p class="hero-description">We securely hold your ticket, verify it, and guarantee you get paid</p>
                 
@@ -6255,7 +6255,7 @@
     <div class="sell-tickets-section">
         <div class="sell-tickets-container">
             <div class="sell-tickets-header">
-                <h3 class="sell-tickets-guarantee-title">If Transaction Fails for any reason Ticket and payment Will Be Returned</h3>
+                <h3 class="sell-tickets-guarantee-title">If a SafeTransaction fails, the ticket + payment will be returned</h3>
             </div>
             
             <div class="how-it-works-steps-horizontal">
@@ -6296,8 +6296,8 @@
                         <div class="step-number-horizontal">3</div>
                     </div>
                     <div class="step-content-horizontal">
-                        <h3 class="step-title-horizontal">Auto-Verification</h3>
-                        <p class="step-description-horizontal">We verify ticket and provide buyer payment email</p>
+                        <h3 class="step-title-horizontal">Ticket Verification</h3>
+                        <p class="step-description-horizontal">Once we verify the ticket, we send the payment link to the buyer</p>
                     </div>
                 </div>
                 
@@ -6313,7 +6313,7 @@
                     </div>
                     <div class="step-content-horizontal">
                         <h3 class="step-title-horizontal">Get Paid</h3>
-                        <p class="step-description-horizontal">Buyer pays, you receive funds + 10% Bonus On Us!</p>
+                        <p class="step-description-horizontal">Buyer pays, you receive funds + 10% BONUS on us!</p>
                     </div>
                 </div>
             </div>
@@ -8534,6 +8534,20 @@
                     eventInput.placeholder = 'e.g., Ohio State vs Michigan';
                 } else if (school === 'florida') {
                     eventInput.placeholder = 'e.g., Georgia vs Florida';
+                }
+            }
+            
+            // Update buyer email label and placeholder based on school
+            const buyerEmailLabel = document.querySelector('label[for="buyer_email_bottom"]');
+            const buyerEmailInput = document.getElementById('buyer_email_bottom');
+            
+            if (buyerEmailLabel && buyerEmailInput) {
+                if (school === 'michigan') {
+                    buyerEmailLabel.textContent = 'Buyer Michigan Athletics Email';
+                    buyerEmailInput.placeholder = 'buyer@umich.edu';
+                } else if (school === 'florida') {
+                    buyerEmailLabel.textContent = 'Buyer Email';
+                    buyerEmailInput.placeholder = 'buyer@ufl.edu';
                 }
             }
             
