@@ -3,8 +3,8 @@
 Start background jobs for automated transaction processing
 Run this script to start the automated deadline checking and payment processing
 """
+
 import sys
-import os
 import pathlib
 
 # Add parent directory to path to import insta485
@@ -16,24 +16,26 @@ if __name__ == "__main__":
     print("🚀 Starting Safe Transaction Background Jobs...")
     print("This will handle:")
     print("  ✅ Automatic deadline checking")
-    print("  ✅ Payment release processing") 
+    print("  ✅ Payment release processing")
     print("  ✅ Email notifications")
     print("  ✅ Transaction state management")
     print()
     print("Press Ctrl+C to stop")
     print("-" * 50)
-    
+
     try:
         start_background_jobs()
-        
+
         # Keep the script running
         import time
+
         while True:
             time.sleep(60)
-            
+
     except KeyboardInterrupt:
         print("\n🛑 Stopping background jobs...")
         from insta485.background_jobs import stop_background_jobs
+
         stop_background_jobs()
         print("✅ Background jobs stopped successfully")
     except Exception as e:

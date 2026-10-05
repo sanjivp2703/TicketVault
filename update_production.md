@@ -4,7 +4,7 @@
 - **Domain**: safetransaction.app
 - **Server IP**: 35.222.52.124
 - **Deployment Path**: /var/www/safetransaction
-- **GitHub Token**: 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
+- **GitHub Token**: <GITHUB_TOKEN>
 
 ## Step-by-Step Update Process
 
@@ -28,7 +28,7 @@ git config --global credential.helper store
 # Pull the latest changes
 sudo git pull origin main
 # OR if using the token:
-sudo git pull https://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@github.com/YOUR_USERNAME/Safe-Transaction.git main
+sudo git pull https://<GITHUB_TOKEN>@github.com/YOUR_USERNAME/Safe-Transaction.git main
 ```
 
 ### 4. Update Dependencies (if needed)

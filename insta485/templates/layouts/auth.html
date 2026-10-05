@@ -1,0 +1,27 @@
+{#- Split-screen layout shared by the sign-in, sign-up and verification pages. -#}
+{% extends "layouts/base.html" %}
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+{% block content %}
+<div class="auth">
+    <aside class="auth__aside">
+        {% with brand_class="brand--inverse" %}{% include "partials/brand.html" %}{% endwith %}
+        <div>
+            <h2 class="auth__headline">Sell student tickets without the risk.</h2>
+            <p class="auth__lede">We hold the ticket and the payment in escrow, verify both, and release them only when the deal is complete.</p>
+            <ul class="auth__features">
+                <li><i class="fa-solid fa-lock" aria-hidden="true"></i><span>Secure escrow for every sale</span></li>
+                <li><i class="fa-solid fa-ticket" aria-hidden="true"></i><span>Every ticket reviewed for authenticity</span></li>
+                <li><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span>Full protection: your ticket or your money back</span></li>
+            </ul>
+        </div>
+        <p class="auth__fineprint">Payments are processed by Stripe. We never store card details.</p>
+    </aside>
+    <main class="auth__main">
+        <div class="auth__panel">
+            <div class="auth__mobile-brand">{% include "partials/brand.html" %}</div>
+            {% block auth_content %}{% endblock %}
+        </div>
+    </main>
+</div>
+{% endblock %}

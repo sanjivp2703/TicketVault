@@ -1,361 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account | Safe Transaction</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-        }
+{% extends "layouts/auth.html" %}
+{% block title %}Create account{% endblock %}
 
-        body {
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
-        }
+{% block auth_content %}
+<h1 class="auth__title">Create your account</h1>
+<p class="auth__subtitle">Start selling tickets with escrow protection in a few minutes.</p>
 
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
-            z-index: 0;
-        }
+{% if error %}
+<div class="alert alert--danger mb-6" role="alert">
+    <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
+    <span>{{ error }}</span>
+</div>
+{% endif %}
 
-        .signup-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 24px;
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.3),
-                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-            width: 100%;
-            max-width: 420px;
-            padding: 48px 36px;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
+<form action="{{ url_for('create') }}" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="operation" value="create">
 
-        .header {
-            margin-bottom: 30px;
-        }
+    <div class="form-field">
+        <label class="label" for="firstname">Name</label>
+        <input class="input" type="text" id="firstname" name="firstname" placeholder="Jane Doe" autocomplete="name" required autofocus>
+    </div>
 
-        .header h1 {
-            font-size: 28px;
-            font-weight: 700;
-            color: #2d3748;
-            margin-bottom: 8px;
-        }
-
-        .header p {
-            color: #718096;
-            font-size: 16px;
-            font-weight: 400;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #2d3748;
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        .input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .input-wrapper input {
-            width: 100%;
-            padding: 16px 20px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        .input-wrapper input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .input-wrapper input::placeholder {
-            color: #a0aec0;
-        }
-
-        .phone-input {
-            display: flex;
-            gap: 10px;
-        }
-
-        .country-code {
-            background: #f7fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 16px 12px;
-            font-size: 16px;
-            font-weight: 500;
-            color: #2d3748;
-            min-width: 70px;
-            text-align: center;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
-            color: white;
-            border: none;
-            border-radius: 16px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            margin-top: 10px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .submit-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .submit-btn:hover::before {
-            left: 100%;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 
-                0 20px 40px rgba(99, 102, 241, 0.4),
-                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        .divider {
-            margin: 30px 0;
-            text-align: center;
-            position: relative;
-        }
-
-        .divider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: #e2e8f0;
-        }
-
-        .divider span {
-            background: white;
-            padding: 0 20px;
-            color: #718096;
-            font-size: 14px;
-        }
-
-        .social-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-
-        .social-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 2px solid #e2e8f0;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .social-btn:hover {
-            transform: translateY(-2px);
-            border-color: #667eea;
-        }
-
-        .social-btn.apple { color: #000; }
-        .social-btn.google { color: #4285f4; }
-        .social-btn.facebook { color: #1877f2; }
-
-        .login-link {
-            color: #718096;
-            font-size: 14px;
-        }
-
-        .login-link a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-
-        .error {
-            background: #fed7d7;
-            color: #c53030;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            border: 1px solid #feb2b2;
-        }
-
-        .terms {
-            font-size: 12px;
-            color: #718096;
-            margin-top: 15px;
-            line-height: 1.4;
-        }
-
-        .terms a {
-            color: #667eea;
-            text-decoration: none;
-        }
-
-        .terms a:hover {
-            text-decoration: underline;
-        }
-
-        /* Mobile responsiveness */
-        @media (max-width: 480px) {
-            .signup-container {
-                padding: 30px 20px;
-                margin: 10px;
-            }
-            
-            .header h1 {
-                font-size: 24px;
-            }
-            
-            .social-buttons {
-                gap: 10px;
-            }
-            
-            .social-btn {
-                width: 45px;
-                height: 45px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="signup-container">
-        <div class="header">
-            <h1>Create Account</h1>
-            <p>Fill your information below or register<br/>with your social account</p>
-        </div>
-
-        {% if error %}
-            <div class="error">{{ error }}</div>
-        {% endif %}
-
-        <form action="{{ url_for('create') }}" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="operation" value="create">
-            
-            <div class="form-group">
-                <label for="name">Name</label>
-                <div class="input-wrapper">
-                    <input type="text" name="firstname" placeholder="John Doe" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <div class="phone-input">
-                    <div class="country-code">+1</div>
-                    <div class="input-wrapper" style="flex: 1;">
-                        <input type="tel" name="phone_number" placeholder="Enter Phone Number" required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email</label>
-                <div class="input-wrapper">
-                    <input type="email" name="email" placeholder="example@gmail.com" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="password">Password</label>
-                <div class="input-wrapper">
-                    <input type="password" name="password" placeholder="••••••••••••" required>
-                </div>
-            </div>
-
-            <div class="terms">
-                Agree with <a href="#">Terms & Condition</a>
-            </div>
-
-            <button type="submit" class="submit-btn">Sign Up</button>
-        </form>
-
-        <div class="divider">
-            <span>Or sign up with</span>
-        </div>
-
-        <div class="social-buttons">
-            <a href="#" class="social-btn apple">
-                <i class="fab fa-apple"></i>
-            </a>
-            <a href="#" class="social-btn google">
-                <i class="fab fa-google"></i>
-            </a>
-            <a href="#" class="social-btn facebook">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-        </div>
-
-        <div class="login-link">
-            Already have an account? <a href="{{ url_for('show_accounts', url='login') }}">Sign In</a>
+    <div class="form-field">
+        <label class="label" for="phone_number">Phone number</label>
+        <div class="input-group">
+            <span class="input-group__addon" aria-hidden="true">+1</span>
+            <input class="input" type="tel" id="phone_number" name="phone_number" placeholder="(555) 123-4567" autocomplete="tel-national" required>
         </div>
     </div>
-</body>
-</html>
+
+    <div class="form-field">
+        <label class="label" for="email">Email address</label>
+        <input class="input" type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+    </div>
+
+    <div class="form-field">
+        <label class="label" for="password">Password</label>
+        <input class="input" type="password" id="password" name="password" placeholder="Create a password" autocomplete="new-password" required>
+    </div>
+
+    <button type="submit" class="btn btn--primary btn--lg btn--block">Create account</button>
+</form>
+
+<p class="auth__switch">
+    Already have an account? <a href="{{ url_for('show_accounts', url='login') }}">Sign in</a>
+</p>
+{% endblock %}

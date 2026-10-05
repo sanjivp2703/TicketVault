@@ -8,8 +8,8 @@ Run this to set up your Mailgun integration
 
 # Option 1: Sandbox Domain (for testing)
 MAILGUN_SANDBOX_DOMAIN = "sandboxb9b4c56251404e08939d238b07603aff.mailgun.org"  # Your actual sandbox domain
-MAILGUN_API_KEY = "d3fac427288306d90280459b2faddb07-1ae02a08-43aa9974"  # Your actual Mailgun API key
-MAILGUN_SENDING_KEY = "1aa861a3416ee03b5cb97a057430fe60-1ae02a08-3ab50b3d"  # Your sending API key
+MAILGUN_API_KEY = "<MAILGUN_API_KEY>"  # Your actual Mailgun API key
+MAILGUN_SENDING_KEY = "<MAILGUN_API_KEY>"  # Your sending API key
 MAILGUN_WEBHOOK_SIGNING_KEY = "491deb91a47f367eb4ad777a961dfd8d"  # Your webhook signing key
 
 # Option 2: Custom Domain (for production)

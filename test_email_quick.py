@@ -26,7 +26,7 @@ def test_mailgun_direct():
     try:
         response = requests.post(
             url,
-            auth=('api', 'd3fac427288306d90280459b2faddb07-1ae02a08-43aa9974'),
+            auth=('api', '<MAILGUN_API_KEY>'),
             data=data,
             timeout=10
         )

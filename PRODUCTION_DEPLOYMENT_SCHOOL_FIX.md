@@ -38,7 +38,7 @@ cd /var/www/safetransaction
 git pull origin main
 # If prompted for credentials, use:
 # Username: your-github-username
-# Password: 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
+# Password: <GITHUB_TOKEN>
 ```
 
 ### Step 4: Run the Migration

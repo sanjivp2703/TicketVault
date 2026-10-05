@@ -102,7 +102,7 @@ def main():
     config = get_mailgun_config(use_sandbox=True)
     
     # Add sending key to config
-    config['sending_key'] = "1aa861a3416ee03b5cb97a057430fe60-1ae02a08-3ab50b3d"
+    config['sending_key'] = "<MAILGUN_API_KEY>"
     
     print(f"🎯 Testing with domain: {config['domain']}")
     print(f"📧 Authorized recipient: safetransactiontix@gmail.com")

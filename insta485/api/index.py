@@ -1,4 +1,5 @@
 """REST API for Index."""
+
 import hashlib
 import flask
 import insta485
@@ -25,21 +26,21 @@ def check_authorization():
     connection = insta485.model.get_db()
     stored = connection.execute(
         "SELECT password FROM users WHERE username = ?", (username,)
-    ).fetchone()['password']
+    ).fetchone()["password"]
     if not stored:
         return flask.abort(403)
     # Checks if password matches
-    algorithm, salt, hash_obj = stored.split('$')
+    algorithm, salt, hash_obj = stored.split("$")
     hash_obj2 = hashlib.new(algorithm)
     password_salted = salt + password
-    hash_obj2.update(password_salted.encode('utf-8'))
+    hash_obj2.update(password_salted.encode("utf-8"))
     password_hash = hash_obj2.hexdigest()
     if password_hash != hash_obj:
         return flask.abort(403)
     return username
 
 
-@insta485.app.route('/api/v1/')
+@insta485.app.route("/api/v1/")
 def index():
     """Return API documentation."""
     context = {
@@ -49,6 +50,7 @@ def index():
         "url": flask.request.path,
     }
     return flask.jsonify(**context)
+
 
 # @insta485.app.route('/api/v1/suggested/', methods=['GET'])
 # def get_suggested():
@@ -67,7 +69,7 @@ def index():
 #     for user in not_following_users:
 #         context[user['username']] = user['filename']
 
-#     return flask.jsonify(**context) 
+#     return flask.jsonify(**context)
 
 # @insta485.app.route('/api/v1/follow/<username2>', methods=['POST'])
 # def post_follow(username2):
@@ -81,7 +83,7 @@ def index():
 #     context = {}
 #     return flask.jsonify(**context)
 
-    
+
 # @insta485.app.route('/api/v1/posts/', methods=['GET'])
 # def get_newest_posts():
 #     """Return 10 newest posts."""
@@ -195,7 +197,7 @@ def index():
 #     if len(post) == 0:
 #         return error("Not Found", 404)
 #     post = post[0]
-    
+
 #     caption = post['caption']
 #     logname_like_curr = connection.execute(
 #             "SELECT COUNT(*), likeid "

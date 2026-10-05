@@ -1,0 +1,5 @@
+{#- Brand lockup. Pass `brand_class` (e.g. "brand--inverse") and `brand_href` to customise. -#}
+<a class="brand {{ brand_class | default('') }}" href="{{ brand_href | default(url_for('show_index_orig')) }}">
+    <img class="brand__mark" src="{{ url_for('static', filename='img/logo-mark.svg') }}" alt="" width="32" height="32">
+    <span>Safe Transaction</span>
+</a>

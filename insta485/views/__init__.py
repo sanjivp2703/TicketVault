@@ -1,4 +1,5 @@
 """Views for insta485 package."""
+
 # Import modules to register routes (not using * imports)
 import insta485.views.index
 import insta485.views.admin

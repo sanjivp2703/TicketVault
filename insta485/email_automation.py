@@ -13,14 +13,16 @@ def send_email(to_email, subject, html_content):
     insta485.mail.send(msg)
 
 
-def send_seller_instructions(transaction_id, seller_email, ticket_email, deadline, event_details):
+def send_seller_instructions(
+    transaction_id, seller_email, ticket_email, deadline, event_details
+):
     """Send ultra-modern seller instructions with sleek design"""
     from datetime import datetime
-    
+
     hours_remaining = max(0, (deadline - datetime.now()).total_seconds() / 3600)
-    
+
     subject = f"🚀 MISSION BRIEFING: Deploy Tickets Now - TX-{transaction_id:06d}"
-    
+
     html_body = f"""
     <!DOCTYPE html>
     <html>
@@ -226,14 +228,14 @@ def send_seller_instructions(transaction_id, seller_email, ticket_email, deadlin
                 <h2 style="color: #f1f5f9; margin-bottom: 16px;">Agent Briefing</h2>
                 <p style="color: #cbd5e1; margin-bottom: 24px;">
                     Mission confirmed! Buyer has been notified and is cleared for payment processing of your 
-                    <strong style="color: #10b981;">{event_details['name']}</strong> tickets.
+                    <strong style="color: #10b981;">{event_details["name"]}</strong> tickets.
                 </p>
                 
                 <div class="deadline-critical">
                     <h3 style="margin-bottom: 8px;">⏰ MISSION DEADLINE</h3>
                     <div style="font-size: 1.5rem; font-weight: 900; margin: 8px 0;">{int(hours_remaining)} Hours Remaining</div>
                     <p style="font-size: 0.875rem; font-weight: 600;">
-                        Expires: {deadline.strftime('%B %d, %Y at %I:%M %p')}
+                        Expires: {deadline.strftime("%B %d, %Y at %I:%M %p")}
                     </p>
                 </div>
                 
@@ -273,7 +275,7 @@ def send_seller_instructions(transaction_id, seller_email, ticket_email, deadlin
     </body>
     </html>
     """
-    
+
     send_email(seller_email, subject, html_body)
 
 
@@ -289,7 +291,7 @@ def send_reminder_emails(transaction_id, email, email_type, hours_remaining, det
         icon = "💳"
         action = "COMPLETE PAYMENT NOW"
         color_scheme = "#f59e0b"
-    
+
     html_body = f"""
     <!DOCTYPE html>
     <html>
@@ -392,14 +394,16 @@ def send_reminder_emails(transaction_id, email, email_type, hours_remaining, det
     </body>
     </html>
     """
-    
+
     send_email(email, subject, html_body)
 
 
-def send_expiration_notification(transaction_id, seller_email, buyer_email, event_name, reason):
+def send_expiration_notification(
+    transaction_id, seller_email, buyer_email, event_name, reason
+):
     """Send ultra-modern expiration notification"""
     subject = f"🔄 Transaction Expired - TX-{transaction_id:06d} | Automatic Resolution"
-    
+
     html_body = f"""
     <!DOCTYPE html>
     <html>
@@ -495,16 +499,18 @@ def send_expiration_notification(transaction_id, seller_email, buyer_email, even
     </body>
     </html>
     """
-    
+
     send_email(seller_email, subject, html_body)
     send_email(buyer_email, subject, html_body)
 
 
-def forward_ticket_email(to_email, original_email_data, transaction_id, return_mode=False):
+def forward_ticket_email(
+    to_email, original_email_data, transaction_id, return_mode=False
+):
     """Forward ticket email with modern design wrapper"""
     action = "returned to seller" if return_mode else "delivered to buyer"
     subject = f"🎫 Tickets {action.title()} - TX-{transaction_id:06d}"
-    
+
     html_body = f"""
     <!DOCTYPE html>
     <html>
@@ -561,7 +567,7 @@ def forward_ticket_email(to_email, original_email_data, transaction_id, return_m
             </div>
             
             <div class="original-email">
-                {original_email_data.get('html_content', original_email_data.get('text_content', 'Original ticket content'))}
+                {original_email_data.get("html_content", original_email_data.get("text_content", "Original ticket content"))}
             </div>
             
             <div class="delivery-footer">
@@ -572,39 +578,56 @@ def forward_ticket_email(to_email, original_email_data, transaction_id, return_m
     </body>
     </html>
     """
-    
+
     send_email(to_email, subject, html_body)
 
 
 # Wrapper functions for compatibility
-def send_buyer_notification(transaction_id, buyer_email, seller_email, price, event_details, payment_deadline=None):
+def send_buyer_notification(
+    transaction_id,
+    buyer_email,
+    seller_email,
+    price,
+    event_details,
+    payment_deadline=None,
+):
     """Send modern, minimalistic buyer notification"""
     from datetime import datetime
-    
+
     # Calculate payment deadline if provided
     payment_hours = None
     if payment_deadline:
         # Ensure payment_deadline is a datetime object
         if isinstance(payment_deadline, str):
             from datetime import datetime
+
             try:
-                if 'T' in payment_deadline:
-                    payment_deadline = datetime.fromisoformat(payment_deadline.replace('Z', '+00:00'))
+                if "T" in payment_deadline:
+                    payment_deadline = datetime.fromisoformat(
+                        payment_deadline.replace("Z", "+00:00")
+                    )
                 else:
-                    payment_deadline = datetime.strptime(payment_deadline, '%Y-%m-%d %H:%M:%S')
+                    payment_deadline = datetime.strptime(
+                        payment_deadline, "%Y-%m-%d %H:%M:%S"
+                    )
             except ValueError:
                 payment_deadline = None
-                
+
         if payment_deadline:
-            payment_hours = max(0, (payment_deadline - datetime.now()).total_seconds() / 3600)
-    
+            payment_hours = max(
+                0, (payment_deadline - datetime.now()).total_seconds() / 3600
+            )
+
     # Format deadline text
     deadline_text = ""
     if payment_deadline:
-        deadline_text = payment_deadline.strftime('%I:%M %p on %B %d')
-    
+        deadline_text = payment_deadline.strftime("%I:%M %p on %B %d")
+
+    # Smart status check route that handles cancellation and routes to payment
+    payment_url = f"http://localhost:8000/ticket_status_check/{transaction_id}"
+
     subject = f"✅ Your {event_details['name']} Tickets Are Ready"
-    
+
     html_body = f"""
     <!DOCTYPE html>
     <html>
@@ -896,7 +919,7 @@ def send_buyer_notification(transaction_id, buyer_email, seller_email, price, ev
                 
                 <div class="ticket-card">
                     <div class="ticket-header">
-                        <div class="event-title">{event_details['name']}</div>
+                        <div class="event-title">{event_details["name"]}</div>
                         <div class="event-subtitle">Verified by Safe Transaction</div>
                     </div>
                     
@@ -904,11 +927,11 @@ def send_buyer_notification(transaction_id, buyer_email, seller_email, price, ev
                         <div class="detail-grid">
                             <div class="detail-item">
                                 <div class="detail-label">Location</div>
-                                <div class="detail-value">{event_details['location']}</div>
+                                <div class="detail-value">{event_details["location"]}</div>
                             </div>
                             <div class="detail-item">
                                 <div class="detail-label">Date & Time</div>
-                                <div class="detail-value">{event_details['datetime']}</div>
+                                <div class="detail-value">{event_details["datetime"]}</div>
                             </div>
                         </div>
                         
@@ -958,33 +981,45 @@ def send_buyer_notification(transaction_id, buyer_email, seller_email, price, ev
     </body>
     </html>
     """
-    
+
     send_email(buyer_email, subject, html_body)
 
 
-def send_modern_buyer_notification(transaction_id, buyer_email, seller_email, price, event_details, payment_deadline=None):
+def send_modern_buyer_notification(
+    transaction_id,
+    buyer_email,
+    seller_email,
+    price,
+    event_details,
+    payment_deadline=None,
+):
     """Send simple, accurate buyer notification"""
     from datetime import datetime
-    
+
     # Calculate payment deadline if provided
     payment_hours = None
     if payment_deadline:
         # Ensure payment_deadline is a datetime object
         if isinstance(payment_deadline, str):
             from datetime import datetime
-            payment_deadline = datetime.fromisoformat(payment_deadline.replace('Z', '+00:00'))
-        payment_hours = max(0, (payment_deadline - datetime.now()).total_seconds() / 3600)
-    
+
+            payment_deadline = datetime.fromisoformat(
+                payment_deadline.replace("Z", "+00:00")
+            )
+        payment_hours = max(
+            0, (payment_deadline - datetime.now()).total_seconds() / 3600
+        )
+
     # Format deadline text
     deadline_text = ""
     if payment_deadline:
-        deadline_text = payment_deadline.strftime('%I:%M %p on %B %d')
-    
+        deadline_text = payment_deadline.strftime("%I:%M %p on %B %d")
+
     # Use smart status check route that handles cancellation and routes to payment
     payment_url = f"http://localhost:8000/ticket_status_check/{transaction_id}"
-    
+
     subject = f"🎫 Verified Ticket Available - {event_details['name']}"
-    
+
     html_body = f"""
     <!DOCTYPE html>
     <html>
@@ -1373,15 +1408,15 @@ def send_modern_buyer_notification(transaction_id, buyer_email, seller_email, pr
                             <div class="detail-grid">
                                 <div class="detail-item">
                                     <div class="detail-label">Event</div>
-                                    <div class="detail-value">{event_details['name']}</div>
+                                    <div class="detail-value">{event_details["name"]}</div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">Location</div>
-                                    <div class="detail-value">{event_details['location']}</div>
+                                    <div class="detail-value">{event_details["location"]}</div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">Date & Time</div>
-                                    <div class="detail-value">{event_details['datetime']}</div>
+                                    <div class="detail-value">{event_details["datetime"]}</div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">Price</div>
@@ -1482,24 +1517,27 @@ def send_modern_buyer_notification(transaction_id, buyer_email, seller_email, pr
     </body>
     </html>
     """
-    
+
     # Use Mailgun sender instead of Flask-Mail to avoid context issues
     from insta485.mailgun_sender import mailgun_sender
+
     mailgun_sender.send_email(buyer_email, subject, html_body)
 
 
-def send_buyer_waiting_notification(transaction_id, buyer_email, seller_email, price, event_details, ticket_deadline):
+def send_buyer_waiting_notification(
+    transaction_id, buyer_email, seller_email, price, event_details, ticket_deadline
+):
     """Send notification to buyer that seller is preparing tickets"""
     from datetime import datetime
-    
+
     # Calculate time remaining for seller
     if isinstance(ticket_deadline, str):
-        ticket_deadline = datetime.fromisoformat(ticket_deadline.replace('Z', '+00:00'))
-    
+        ticket_deadline = datetime.fromisoformat(ticket_deadline.replace("Z", "+00:00"))
+
     minutes_remaining = max(0, (ticket_deadline - datetime.now()).total_seconds() / 60)
-    
+
     subject = f"🎫 Tickets Being Prepared - {event_details['name']}"
-    
+
     html_body = f"""
     <!DOCTYPE html>
     <html>
@@ -1585,9 +1623,9 @@ def send_buyer_waiting_notification(transaction_id, buyer_email, seller_email, p
                 </p>
                 
                 <div class="status-card">
-                    <h3 style="color: #f1f5f9; margin-bottom: 16px;">📋 {event_details['name']}</h3>
-                    <p style="color: #cbd5e1; margin-bottom: 8px;"><strong>📍 Location:</strong> {event_details['location']}</p>
-                    <p style="color: #cbd5e1; margin-bottom: 16px;"><strong>📅 Date:</strong> {event_details['datetime']}</p>
+                    <h3 style="color: #f1f5f9; margin-bottom: 16px;">📋 {event_details["name"]}</h3>
+                    <p style="color: #cbd5e1; margin-bottom: 8px;"><strong>📍 Location:</strong> {event_details["location"]}</p>
+                    <p style="color: #cbd5e1; margin-bottom: 16px;"><strong>📅 Date:</strong> {event_details["datetime"]}</p>
                     <div class="countdown-display">${price}</div>
                 </div>
                 
@@ -1617,40 +1655,63 @@ def send_buyer_waiting_notification(transaction_id, buyer_email, seller_email, p
     </body>
     </html>
     """
-    
+
     # Use Mailgun sender instead of Flask-Mail to avoid context issues
     from insta485.mailgun_sender import mailgun_sender
+
     mailgun_sender.send_email(buyer_email, subject, html_body)
 
 
-def send_ticket_deadline_reminder(transaction_id, seller_email, hours_remaining, ticket_email, event_name):
+def send_ticket_deadline_reminder(
+    transaction_id, seller_email, hours_remaining, ticket_email, event_name
+):
     """Modern ticket deadline reminder"""
     details = {"ticket_email": ticket_email, "event_name": event_name}
-    send_reminder_emails(transaction_id, seller_email, "ticket_deadline", hours_remaining, details)
+    send_reminder_emails(
+        transaction_id, seller_email, "ticket_deadline", hours_remaining, details
+    )
 
 
-def send_payment_deadline_reminder(transaction_id, buyer_email, hours_remaining, event_name, price):
+def send_payment_deadline_reminder(
+    transaction_id, buyer_email, hours_remaining, event_name, price
+):
     """Modern payment deadline reminder"""
     details = {"event_name": event_name, "price": price}
-    send_reminder_emails(transaction_id, buyer_email, "payment_deadline", hours_remaining, details)
+    send_reminder_emails(
+        transaction_id, buyer_email, "payment_deadline", hours_remaining, details
+    )
 
 
-def send_listing_expired_notification(transaction_id, seller_email, buyer_email, event_name, reason):
+def send_listing_expired_notification(
+    transaction_id, seller_email, buyer_email, event_name, reason
+):
     """Modern listing expiration notification"""
-    send_expiration_notification(transaction_id, seller_email, buyer_email, event_name, reason)
+    send_expiration_notification(
+        transaction_id, seller_email, buyer_email, event_name, reason
+    )
 
 
-def send_ticket_returned_notification(transaction_id, seller_email, buyer_email, event_name):
+def send_ticket_returned_notification(
+    transaction_id, seller_email, buyer_email, event_name
+):
     """Modern ticket return notification"""
-    send_expiration_notification(transaction_id, seller_email, buyer_email, event_name, "buyer payment deadline exceeded")
+    send_expiration_notification(
+        transaction_id,
+        seller_email,
+        buyer_email,
+        event_name,
+        "buyer payment deadline exceeded",
+    )
 
 
-def send_payment_deadline_expired_emails(transaction_id, seller_email, buyer_email, event_name, price):
+def send_payment_deadline_expired_emails(
+    transaction_id, seller_email, buyer_email, event_name, price
+):
     """Send notifications to both parties when payment deadline expires"""
-    
+
     # Email to SELLER
     seller_subject = f"🔄 Payment Deadline Expired - Transaction #{transaction_id} | Ticket Will Be Returned"
-    
+
     seller_html_body = f"""
     <!DOCTYPE html>
     <html>
@@ -1768,10 +1829,12 @@ def send_payment_deadline_expired_emails(transaction_id, seller_email, buyer_ema
     </body>
     </html>
     """
-    
+
     # Email to BUYER
-    buyer_subject = f"⏰ Payment Deadline Expired - Transaction #{transaction_id} Cancelled"
-    
+    buyer_subject = (
+        f"⏰ Payment Deadline Expired - Transaction #{transaction_id} Cancelled"
+    )
+
     buyer_html_body = f"""
     <!DOCTYPE html>
     <html>
@@ -1870,39 +1933,41 @@ def send_payment_deadline_expired_emails(transaction_id, seller_email, buyer_ema
     </body>
     </html>
     """
-    
+
     # Send emails using mailgun
     try:
         from insta485.mailgun_sender import send_email_mailgun
-        
+
         # Send to seller
         send_email_mailgun(
             to_email=seller_email,
             subject=seller_subject,
             html_body=seller_html_body,
-            text_body=f"Payment Deadline Expired - Transaction #{transaction_id}\n\nThe buyer did not complete payment within the deadline. The ticket will be automatically returned to your Michigan Athletics account.\n\nEvent: {event_name}\nPrice: ${price}\n\nYou can create a new listing once you receive the ticket back."
+            text_body=f"Payment Deadline Expired - Transaction #{transaction_id}\n\nThe buyer did not complete payment within the deadline. The ticket will be automatically returned to your Michigan Athletics account.\n\nEvent: {event_name}\nPrice: ${price}\n\nYou can create a new listing once you receive the ticket back.",
         )
         print(f"[PAYMENT-EXPIRED] Sent seller notification to {seller_email}")
-        
+
         # Send to buyer
         send_email_mailgun(
             to_email=buyer_email,
             subject=buyer_subject,
             html_body=buyer_html_body,
-            text_body=f"Payment Deadline Expired - Transaction #{transaction_id}\n\nThe payment deadline has expired and the transaction has been cancelled.\n\nEvent: {event_name}\nPrice: ${price}\n\nContact the seller if you're still interested in purchasing this ticket."
+            text_body=f"Payment Deadline Expired - Transaction #{transaction_id}\n\nThe payment deadline has expired and the transaction has been cancelled.\n\nEvent: {event_name}\nPrice: ${price}\n\nContact the seller if you're still interested in purchasing this ticket.",
         )
         print(f"[PAYMENT-EXPIRED] Sent buyer notification to {buyer_email}")
-        
+
     except Exception as e:
         print(f"[PAYMENT-EXPIRED ERROR] Failed to send emails: {e}")
         raise
 
 
-def send_payment_received_notification(transaction_id, seller_email, buyer_email, price, event_name, bonus_amount):
+def send_payment_received_notification(
+    transaction_id, seller_email, buyer_email, price, event_name, bonus_amount
+):
     """Send notification to seller when they receive payment for a ticket sale"""
-    
+
     subject = f"💰 Payment Received - ${price:.2f} + ${bonus_amount:.2f} Bonus! | Transaction #{transaction_id}"
-    
+
     html_body = f"""
     <!DOCTYPE html>
     <html>
@@ -2023,38 +2088,48 @@ def send_payment_received_notification(transaction_id, seller_email, buyer_email
     </body>
     </html>
     """
-    
+
     try:
         from insta485.mailgun_sender import send_email_mailgun
-        
+
         send_email_mailgun(
             to_email=seller_email,
             subject=subject,
             html_body=html_body,
-            text_body=f"Payment Received - Transaction #{transaction_id}\n\nGreat news! The buyer has completed payment.\n\nTotal Earnings: ${(price + bonus_amount):.2f}\n- Ticket Price: ${price:.2f}\n- 10% Bonus: +${bonus_amount:.2f}\n\nEvent: {event_name}\nBuyer: {buyer_email}\n\nFunds have been added to your balance. You can withdraw them anytime from your dashboard."
+            text_body=f"Payment Received - Transaction #{transaction_id}\n\nGreat news! The buyer has completed payment.\n\nTotal Earnings: ${(price + bonus_amount):.2f}\n- Ticket Price: ${price:.2f}\n- 10% Bonus: +${bonus_amount:.2f}\n\nEvent: {event_name}\nBuyer: {buyer_email}\n\nFunds have been added to your balance. You can withdraw them anytime from your dashboard.",
         )
-        print(f"[PAYMENT-RECEIVED] Sent notification to {seller_email} for ${(price + bonus_amount):.2f}")
-        
+        print(
+            f"[PAYMENT-RECEIVED] Sent notification to {seller_email} for ${(price + bonus_amount):.2f}"
+        )
+
     except Exception as e:
         print(f"[PAYMENT-RECEIVED ERROR] Failed to send email: {e}")
         raise
 
 
-def send_withdrawal_confirmation(user_email, amount, fee_amount, transfer_amount, transfer_id=None, payment_method=None, destination=None):
+def send_withdrawal_confirmation(
+    user_email,
+    amount,
+    fee_amount,
+    transfer_amount,
+    transfer_id=None,
+    payment_method=None,
+    destination=None,
+):
     """Send confirmation email when user withdraws funds"""
-    
+
     # Determine method name for display
-    if payment_method == 'venmo':
+    if payment_method == "venmo":
         method_display = "Venmo"
-    elif payment_method == 'cashapp':
+    elif payment_method == "cashapp":
         method_display = "Cash App"
-    elif payment_method == 'stripe':
+    elif payment_method == "stripe":
         method_display = "Bank Account"
     else:
         method_display = "Payment Method"
-    
+
     subject = f"✅ Withdrawal Request Received - ${transfer_amount:.2f} to {destination if destination else method_display}"
-    
+
     html_body = f"""
     <!DOCTYPE html>
     <html>
@@ -2141,7 +2216,7 @@ def send_withdrawal_confirmation(user_email, amount, fee_amount, transfer_amount
                     Your withdrawal request has been received and will be processed. The funds will be sent to:
                 </p>
                 
-                {f'<div style="background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; padding: 16px; border-radius: 8px; margin: 20px 0;"><strong style="color: #3b82f6; font-size: 18px;">{method_display}: {destination}</strong></div>' if destination else ''}
+                {f'<div style="background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; padding: 16px; border-radius: 8px; margin: 20px 0;"><strong style="color: #3b82f6; font-size: 18px;">{method_display}: {destination}</strong></div>' if destination else ""}
                 
                 <div class="amount-display">
                     <div style="font-size: 14px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Amount You'll Receive</div>
@@ -2177,7 +2252,7 @@ def send_withdrawal_confirmation(user_email, amount, fee_amount, transfer_amount
                     <strong style="color: #3b82f6;">⏱️ What to Expect:</strong><br><br>
                     • Funds typically arrive within one business day<br>
                     • You'll receive an email when processed<br>
-                    {f'• Request ID: <code style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;">{transfer_id}</code><br>' if transfer_id else ''}
+                    {f'• Request ID: <code style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;">{transfer_id}</code><br>' if transfer_id else ""}
                     • Check your {method_display if destination else "payment method"}
                 </div>
                 
@@ -2195,38 +2270,47 @@ def send_withdrawal_confirmation(user_email, amount, fee_amount, transfer_amount
     </body>
     </html>
     """
-    
+
     try:
         from insta485.mailgun_sender import send_email_mailgun
-        
+
         send_email_mailgun(
             to_email=user_email,
             subject=subject,
             html_body=html_body,
-            text_body=f"Withdrawal Request Received\n\nYour withdrawal request has been received.\n\nWithdrawal Amount: ${amount:.2f}\nSafe Transaction Fee (5%): -${fee_amount:.2f}\nTotal You'll Receive: ${transfer_amount:.2f}\n\n{f'Sending to {method_display}: {destination}' if destination else ''}\n\n⚠️ CRITICAL: If you entered the wrong {method_display if method_display != 'Bank Account' else 'bank account'}, email support@safetransaction.app IMMEDIATELY!\n\n⚠️ WARNING: If we already sent the money, there is NOTHING we can do to recover it.\n\nFunds typically arrive within one business day.{f' Request ID: {transfer_id}' if transfer_id else ''}\n\nThank you for using Safe Transaction!"
+            text_body=f"Withdrawal Request Received\n\nYour withdrawal request has been received.\n\nWithdrawal Amount: ${amount:.2f}\nSafe Transaction Fee (5%): -${fee_amount:.2f}\nTotal You'll Receive: ${transfer_amount:.2f}\n\n{f'Sending to {method_display}: {destination}' if destination else ''}\n\n⚠️ CRITICAL: If you entered the wrong {method_display if method_display != 'Bank Account' else 'bank account'}, email support@safetransaction.app IMMEDIATELY!\n\n⚠️ WARNING: If we already sent the money, there is NOTHING we can do to recover it.\n\nFunds typically arrive within one business day.{f' Request ID: {transfer_id}' if transfer_id else ''}\n\nThank you for using Safe Transaction!",
         )
-        print(f"[WITHDRAWAL-CONFIRMED] Sent notification to {user_email} for ${transfer_amount:.2f}")
-        
+        print(
+            f"[WITHDRAWAL-CONFIRMED] Sent notification to {user_email} for ${transfer_amount:.2f}"
+        )
+
     except Exception as e:
         print(f"[WITHDRAWAL-CONFIRMED ERROR] Failed to send email: {e}")
         raise
 
 
-def send_withdrawal_completed_email(user_email, amount, fee_amount, transfer_amount, payment_method=None, destination=None):
+def send_withdrawal_completed_email(
+    user_email,
+    amount,
+    fee_amount,
+    transfer_amount,
+    payment_method=None,
+    destination=None,
+):
     """Send email when withdrawal is completed/sent by admin"""
-    
+
     # Determine method name for display
-    if payment_method == 'venmo':
+    if payment_method == "venmo":
         method_display = "Venmo"
-    elif payment_method == 'cashapp':
+    elif payment_method == "cashapp":
         method_display = "Cash App"
-    elif payment_method == 'stripe':
+    elif payment_method == "stripe":
         method_display = "Bank Account (Stripe)"
     else:
         method_display = "Payment Method"
-    
+
     subject = f"✅ Withdrawal Complete - ${transfer_amount:.2f} Sent to Your {method_display}!"
-    
+
     html_body = f"""
     <!DOCTYPE html>
     <html>
@@ -2313,7 +2397,7 @@ def send_withdrawal_completed_email(user_email, amount, fee_amount, transfer_amo
                     Great news! Your withdrawal has been processed and sent. The funds are on their way to:
                 </p>
                 
-                {f'<div style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; padding: 16px; border-radius: 8px; margin: 20px 0;"><strong style="color: #10b981; font-size: 18px;">{method_display}: {destination}</strong></div>' if destination else ''}
+                {f'<div style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; padding: 16px; border-radius: 8px; margin: 20px 0;"><strong style="color: #10b981; font-size: 18px;">{method_display}: {destination}</strong></div>' if destination else ""}
                 
                 <div class="amount-display">
                     <div style="font-size: 14px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Amount Sent</div>
@@ -2341,10 +2425,10 @@ def send_withdrawal_completed_email(user_email, amount, fee_amount, transfer_amo
                 
                 <div class="info-box">
                     <strong style="color: #10b981;">💰 What to Expect Next:</strong><br><br>
-                    {'• Check your Venmo app for the incoming payment<br>' if payment_method == 'venmo' else ''}
-                    {'• Check your Cash App for the incoming payment<br>' if payment_method == 'cashapp' else ''}
-                    {'• Check your bank account in 1-3 business days<br>' if payment_method == 'stripe' else ''}
-                    • The payment should appear {'instantly or within minutes' if payment_method in ['venmo', 'cashapp'] else 'within 1-3 business days'}<br>
+                    {"• Check your Venmo app for the incoming payment<br>" if payment_method == "venmo" else ""}
+                    {"• Check your Cash App for the incoming payment<br>" if payment_method == "cashapp" else ""}
+                    {"• Check your bank account in 1-3 business days<br>" if payment_method == "stripe" else ""}
+                    • The payment should appear {"instantly or within minutes" if payment_method in ["venmo", "cashapp"] else "within 1-3 business days"}<br>
                     • If you don't see it, check your spam/pending transactions<br>
                     • Contact us if you have any issues
                 </div>
@@ -2363,18 +2447,20 @@ def send_withdrawal_completed_email(user_email, amount, fee_amount, transfer_amo
     </body>
     </html>
     """
-    
+
     try:
         from insta485.mailgun_sender import send_email_mailgun
-        
+
         send_email_mailgun(
             to_email=user_email,
             subject=subject,
             html_body=html_body,
-            text_body=f"Withdrawal Completed!\n\nYour withdrawal has been processed and sent.\n\nWithdrawal Amount: ${amount:.2f}\nSafe Transaction Fee (5%): -${fee_amount:.2f}\nTotal Sent to You: ${transfer_amount:.2f}\n\n{f'Sent to {method_display}: {destination}' if destination else ''}\n\nThe payment should appear {'instantly or within minutes' if payment_method in ['venmo', 'cashapp'] else 'within 1-3 business days'}.\n\nThank you for using Safe Transaction!"
+            text_body=f"Withdrawal Completed!\n\nYour withdrawal has been processed and sent.\n\nWithdrawal Amount: ${amount:.2f}\nSafe Transaction Fee (5%): -${fee_amount:.2f}\nTotal Sent to You: ${transfer_amount:.2f}\n\n{f'Sent to {method_display}: {destination}' if destination else ''}\n\nThe payment should appear {'instantly or within minutes' if payment_method in ['venmo', 'cashapp'] else 'within 1-3 business days'}.\n\nThank you for using Safe Transaction!",
         )
-        print(f"[WITHDRAWAL-COMPLETED] Sent notification to {user_email} for ${transfer_amount:.2f}")
-        
+        print(
+            f"[WITHDRAWAL-COMPLETED] Sent notification to {user_email} for ${transfer_amount:.2f}"
+        )
+
     except Exception as e:
         print(f"[WITHDRAWAL-COMPLETED ERROR] Failed to send email: {e}")
         raise

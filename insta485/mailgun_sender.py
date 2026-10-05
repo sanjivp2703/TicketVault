@@ -1,79 +1,78 @@
-
 """
 Mailgun Email Sender for Safe Transaction
 Handles all email sending with proper routing and templates
 """
 
 import requests
-import json
-from datetime import datetime, timedelta
+from datetime import datetime
 import insta485
+
 
 class MailgunSender:
     """Handles email sending via Mailgun with proper routing"""
-    
+
     def __init__(self):
         # Use Flask app configuration
-        self.base_url = insta485.app.config['MAILGUN_BASE_URL']
-        self.api_key = insta485.app.config['MAILGUN_API_KEY']
-        self.domain = insta485.app.config['MAILGUN_DOMAIN']
-    
+        self.base_url = insta485.app.config["MAILGUN_BASE_URL"]
+        self.api_key = insta485.app.config["MAILGUN_API_KEY"]
+        self.domain = insta485.app.config["MAILGUN_DOMAIN"]
+
     def send_email(self, to_email, subject, html_content, from_name="Safe Transaction"):
         """Send email via Mailgun with professional sender"""
         url = f"{self.base_url}/messages"
-        
+
         # Use professional sender email that looks legitimate
         data = {
-            'from': f'{from_name} <hello@{self.domain}>',  # Changed from noreply to hello - more friendly and trustworthy
-            'to': to_email,
-            'subject': subject,
-            'html': html_content,
+            "from": f"{from_name} <hello@{self.domain}>",  # Changed from noreply to hello - more friendly and trustworthy
+            "to": to_email,
+            "subject": subject,
+            "html": html_content,
             # Headers to help prevent spam filtering
-            'h:Reply-To': f'support@{self.domain}',  # Allow replies to go to support
-            'h:X-Mailgun-Track-Clicks': 'yes',
-            'h:X-Mailgun-Track-Opens': 'yes'
+            "h:Reply-To": f"support@{self.domain}",  # Allow replies to go to support
+            "h:X-Mailgun-Track-Clicks": "yes",
+            "h:X-Mailgun-Track-Opens": "yes",
         }
-        
+
         try:
             response = requests.post(
-                url,
-                auth=('api', self.api_key),
-                data=data,
-                timeout=10
+                url, auth=("api", self.api_key), data=data, timeout=10
             )
-            
+
             if response.status_code == 200:
                 print(f"✅ Email sent to {to_email}: {subject}")
                 return True
             else:
-                print(f"❌ Email failed to {to_email}: {response.status_code} - {response.text}")
+                print(
+                    f"❌ Email failed to {to_email}: {response.status_code} - {response.text}"
+                )
                 return False
-                
+
         except Exception as e:
             print(f"❌ Email error to {to_email}: {e}")
             return False
-    
-    def send_seller_verification_success(self, seller_email, transaction_id, event_name, buyer_email, payment_deadline):
+
+    def send_seller_verification_success(
+        self, seller_email, transaction_id, event_name, buyer_email, payment_deadline
+    ):
         """Send modern sale completion email to seller based on buyer payment design"""
         import insta485
-        
+
         # Get transaction price from database
         connection = insta485.model.get_db()
         transaction = connection.execute(
-            "SELECT price FROM transactions WHERE transaction_id = ?",
-            (transaction_id,)
+            "SELECT price FROM transactions WHERE transaction_id = ?", (transaction_id,)
         ).fetchone()
-        
+
         if not transaction:
             print(f"❌ Transaction {transaction_id} not found")
             return False
-            
-        ticket_price = float(transaction['price'])
+
+        ticket_price = float(transaction["price"])
         bonus_amount = ticket_price * 0.10  # 10% bonus
         total_amount = ticket_price + bonus_amount
-        
+
         subject = f"🎉 Your sale is complete! - {event_name}"
-        
+
         html_content = f"""
         <!DOCTYPE html>
         <html>
@@ -574,13 +573,17 @@ class MailgunSender:
         </body>
         </html>
         """
-        
+
         return self.send_email(seller_email, subject, html_content)
-    
-    def send_seller_verification_failed(self, seller_email, transaction_id, event_name, reason):
+
+    def send_seller_verification_failed(
+        self, seller_email, transaction_id, event_name, reason
+    ):
         """Send verification failure email to seller"""
-        subject = f"❌ Ticket Verification Failed - TX-{transaction_id:06d} | {event_name}"
-        
+        subject = (
+            f"❌ Ticket Verification Failed - TX-{transaction_id:06d} | {event_name}"
+        )
+
         html_content = f"""
         <!DOCTYPE html>
         <html>
@@ -642,17 +645,35 @@ class MailgunSender:
         </body>
         </html>
         """
-        
+
         return self.send_email(seller_email, subject, html_content)
-    
+
     # REMOVED: send_buyer_payment_notification - now using send_modern_buyer_notification from email_automation.py
-    def send_buyer_payment_notification(self, buyer_email, transaction_id, event_name, event_location, event_datetime, price, payment_deadline, payment_url):
+    def send_buyer_payment_notification(
+        self,
+        buyer_email,
+        transaction_id,
+        event_name,
+        event_location,
+        event_datetime,
+        price,
+        payment_deadline,
+        payment_url,
+    ):
         """Send payment notification to buyer"""
         subject = f"🎫 Secure Payment Required - {event_name} | TX-{transaction_id:06d}"
-        
-        deadline_str = payment_deadline.strftime('%B %d, %Y at %I:%M %p') if payment_deadline else "24 hours"
-        event_date_str = event_datetime.strftime('%B %d, %Y at %I:%M %p') if isinstance(event_datetime, datetime) else str(event_datetime)
-        
+
+        deadline_str = (
+            payment_deadline.strftime("%B %d, %Y at %I:%M %p")
+            if payment_deadline
+            else "24 hours"
+        )
+        event_date_str = (
+            event_datetime.strftime("%B %d, %Y at %I:%M %p")
+            if isinstance(event_datetime, datetime)
+            else str(event_datetime)
+        )
+
         html_content = f"""
         <!DOCTYPE html>
         <html>
@@ -751,13 +772,15 @@ class MailgunSender:
         </body>
         </html>
         """
-        
+
         return self.send_email(buyer_email, subject, html_content)
-    
-    def send_ticket_to_buyer(self, buyer_email, transaction_id, event_name, seller_email):
+
+    def send_ticket_to_buyer(
+        self, buyer_email, transaction_id, event_name, seller_email
+    ):
         """Send ticket to buyer after payment"""
         subject = f"🎫 Your Tickets - {event_name} | TX-{transaction_id:06d}"
-        
+
         html_content = f"""
         <!DOCTYPE html>
         <html>
@@ -812,13 +835,15 @@ class MailgunSender:
         </body>
         </html>
         """
-        
+
         return self.send_email(buyer_email, subject, html_content)
-    
-    def send_seller_payment_received(self, seller_email, transaction_id, event_name, amount, buyer_email):
+
+    def send_seller_payment_received(
+        self, seller_email, transaction_id, event_name, amount, buyer_email
+    ):
         """Send payment notification to seller"""
         subject = f"💰 Payment Received - {event_name} | TX-{transaction_id:06d}"
-        
+
         html_content = f"""
         <!DOCTYPE html>
         <html>
@@ -878,15 +903,19 @@ class MailgunSender:
         </body>
         </html>
         """
-        
+
         return self.send_email(seller_email, subject, html_content)
-    
-    def send_seller_instructions(self, seller_email, transaction_id, ticket_email, event_name, deadline):
+
+    def send_seller_instructions(
+        self, seller_email, transaction_id, ticket_email, event_name, deadline
+    ):
         """Send ticket submission instructions to seller"""
         subject = f"📧 Send Your Ticket - TX-{transaction_id:06d} | {event_name}"
-        
-        deadline_str = deadline.strftime('%B %d, %Y at %I:%M %p') if deadline else "24 hours"
-        
+
+        deadline_str = (
+            deadline.strftime("%B %d, %Y at %I:%M %p") if deadline else "24 hours"
+        )
+
         html_content = f"""
         <!DOCTYPE html>
         <html>
@@ -964,13 +993,15 @@ class MailgunSender:
         </body>
         </html>
         """
-        
+
         return self.send_email(seller_email, subject, html_content)
-    
-    def send_ticket_transfer_congratulations(self, buyer_email, transaction_id, event_name, seller_email, event_datetime_str):
+
+    def send_ticket_transfer_congratulations(
+        self, buyer_email, transaction_id, event_name, seller_email, event_datetime_str
+    ):
         """Send congratulations email to buyer when Safe Transaction transfers their ticket to them"""
         subject = f"🎫 Your {event_name} tickets have arrived!"
-        
+
         html_content = f"""
         <!DOCTYPE html>
         <html>
@@ -1314,8 +1345,9 @@ class MailgunSender:
         </body>
         </html>
         """
-        
+
         return self.send_email(buyer_email, subject, html_content)
+
 
 # Create global instance
 mailgun_sender = MailgunSender()

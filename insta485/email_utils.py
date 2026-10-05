@@ -1,6 +1,7 @@
 from flask_mail import Message
 from flask import current_app
 
+
 def send_email(to_email, subject, body, html=None):
     """
     Send an email using Flask-Mail with Gmail SMTP.
@@ -9,6 +10,7 @@ def send_email(to_email, subject, body, html=None):
     Returns True if successful, False otherwise.
     """
     from insta485 import mail  # Adjust import if mail is created elsewhere
+
     try:
         msg = Message(subject, recipients=[to_email], body=body)
         if html:
@@ -19,19 +21,22 @@ def send_email(to_email, subject, body, html=None):
         current_app.logger.error(f"Failed to send email: {e}")
         return False
 
-def send_accept_confirmation_email(buyer_email, event_name, price, seller_email, transaction_id=None):
+
+def send_accept_confirmation_email(
+    buyer_email, event_name, price, seller_email, transaction_id=None
+):
     subject = f"🎉 Payment confirmed for {event_name}!"
     body = (
         f"Hello,\n\nYour payment for '{event_name}' was successful. "
         f"Price: ${price}\nSeller: {seller_email}\n\n"
         "We're now processing your ticket.\n\nBest,\nSafe-Transaction Team"
     )
-    
+
     # Generate action URLs
     DOMAIN = "http://localhost:8000"
     ticket_status_url = f"{DOMAIN}/ticket/{transaction_id}" if transaction_id else "#"
-    
-    html = f'''
+
+    html = f"""
     <!DOCTYPE html>
     <html>
     <head>
@@ -331,31 +336,37 @@ def send_accept_confirmation_email(buyer_email, event_name, price, seller_email,
         </div>
     </body>
     </html>
-    '''
+    """
     # Use Gmail SMTP for buyer emails to bypass Mailgun sandbox restrictions
     try:
-        from gmail_sender import GmailSender
+        from insta485.gmail_sender import GmailSender
+
         gmail = GmailSender()
         success = gmail.send_email(buyer_email, subject, html)
-        
+
         if success:
             return True
         else:
-            print(f"❌ Gmail SMTP failed, trying Mailgun as fallback...")
+            print("❌ Gmail SMTP failed, trying Mailgun as fallback...")
             # Fallback to Mailgun (will work for authorized emails)
             from insta485.mailgun_sender import mailgun_sender
+
             return mailgun_sender.send_email(buyer_email, subject, html)
-            
+
     except Exception as e:
         print(f"❌ Error sending confirmation email via Gmail: {e}")
         # Fallback to Mailgun
         try:
             from insta485.mailgun_sender import mailgun_sender
+
             return mailgun_sender.send_email(buyer_email, subject, html)
         except Exception as e2:
             print(f"❌ Mailgun fallback also failed: {e2}")
             return False
-#COMMENT
+
+
+# COMMENT
+
 
 def send_reject_confirmation_email(buyer_email, event_name, seller_email):
     subject = f"You have rejected the offer for {event_name}"
@@ -363,23 +374,32 @@ def send_reject_confirmation_email(buyer_email, event_name, seller_email):
         f"Hello,\n\nYou have rejected the ticket offer for '{event_name}'. "
         f"Seller: {seller_email}\n\nIf this was a mistake, please contact the seller directly.\n\nBest,\nSafe-Transaction Team"
     )
-    html = f'''
+    html = f"""
         <p>Hello,</p>
         <p>You have rejected the ticket offer for <b>{event_name}</b>.<br>
         Seller: <b>{seller_email}</b></p>
         <p>If this was a mistake, please contact the seller directly.</p>
         <p style="margin-top:24px;">Best,<br>Safe-Transaction Team</p>
-    '''
+    """
     return send_email(buyer_email, subject, body, html=html)
 
-def send_ticket_sent_email(buyer_email, event_name, price, seller_email, event_datetime, transaction_id, validation_deadline):
+
+def send_ticket_sent_email(
+    buyer_email,
+    event_name,
+    price,
+    seller_email,
+    event_datetime,
+    transaction_id,
+    validation_deadline,
+):
     """Send Email 2: Ticket sent notification to buyer with validation options."""
     subject = f"🎫 Your {event_name} ticket has been sent!"
-    
+
     DOMAIN = "http://localhost:8000"  # CHANGE THIS to your deployed domain!
     validate_url = f"{DOMAIN}/validate-ticket/{transaction_id}"
     complaint_url = f"{DOMAIN}/ticket/{transaction_id}#complaint"
-    
+
     body = (
         f"Great news! Your ticket for '{event_name}' has been sent by the seller.\n\n"
         f"Event: {event_name}\n"
@@ -393,11 +413,11 @@ def send_ticket_sent_email(buyer_email, event_name, price, seller_email, event_d
         f"To report problem: {complaint_url}\n\n"
         "Best,\nSafe-Transaction Team"
     )
-    
+
     validate_btn = f'<a href="{validate_url}" style="background:#28a745;color:white;padding:12px 24px;border:none;border-radius:5px;text-decoration:none;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;margin-right:10px;">✅ Validate Ticket</a>'
     problem_btn = f'<a href="{complaint_url}" style="background:#dc3545;color:white;padding:12px 24px;border:none;border-radius:5px;text-decoration:none;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;">⚠️ Report Problem</a>'
-    
-    html = f'''
+
+    html = f"""
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
             <h2 style="color: #28a745;">🎫 Your ticket has been sent!</h2>
             
@@ -430,18 +450,21 @@ def send_ticket_sent_email(buyer_email, event_name, price, seller_email, event_d
             
             <p style="margin-top: 30px;">Best,<br>Safe-Transaction Team</p>
         </div>
-    '''
-    
+    """
+
     return send_email(buyer_email, subject, body, html=html)
 
-def send_ticket_received_email(buyer_email, event_name, price, seller_email, event_datetime, complaint_deadline):
+
+def send_ticket_received_email(
+    buyer_email, event_name, price, seller_email, event_datetime, complaint_deadline
+):
     subject = f"Enjoy {event_name}! Your ticket is ready."
     body = (
         f"Hello,\n\nYou have confirmed receipt of your ticket for '{event_name}'. "
         f"Price: ${price}\nSeller: {seller_email}\n\n"
         f"Enjoy the event! If you have any issues, you have until {complaint_deadline} to file a complaint.\n\nBest,\nSafe-Transaction Team"
     )
-    html = f'''
+    html = f"""
         <p>Hello,</p>
         <p>You have confirmed receipt of your ticket for <b>{event_name}</b>.<br>
         Price: <b>${price}</b><br>
@@ -449,5 +472,5 @@ def send_ticket_received_email(buyer_email, event_name, price, seller_email, eve
         <p><b>Enjoy the event!</b></p>
         <p style="margin-top:18px;">If you have any issues, you have until <b>{complaint_deadline}</b> to file a complaint.</p>
         <p style="margin-top:24px;">Best,<br>Safe-Transaction Team</p>
-    '''
+    """
     return send_email(buyer_email, subject, body, html=html)

@@ -1,4 +1,5 @@
 """Insta485 model (database) API."""
+
 import sqlite3
 import flask
 import insta485
@@ -19,8 +20,8 @@ def get_db():
     Flask docs:
     https://flask.palletsprojects.com/en/1.0.x/appcontext/#storing-data
     """
-    if 'sqlite_db' not in flask.g:
-        db_filename = insta485.app.config['DATABASE_FILENAME']
+    if "sqlite_db" not in flask.g:
+        db_filename = insta485.app.config["DATABASE_FILENAME"]
         flask.g.sqlite_db = sqlite3.connect(str(db_filename))
         flask.g.sqlite_db.row_factory = dict_factory
 
@@ -39,13 +40,14 @@ def close_db(error):
     https://flask.palletsprojects.com/en/1.0.x/appcontext/#storing-data
     """
     assert error or not error  # Needed to avoid superfluous style error
-    sqlite_db = flask.g.pop('sqlite_db', None)
+    sqlite_db = flask.g.pop("sqlite_db", None)
     if sqlite_db is not None:
         sqlite_db.commit()
         sqlite_db.close()
 
+
 def check_login():
     """Check if user is logged in."""
-    if 'email' not in flask.session:
-        return flask.redirect(flask.url_for('show_accounts', url='login'))
+    if "email" not in flask.session:
+        return flask.redirect(flask.url_for("show_accounts", url="login"))
     return False

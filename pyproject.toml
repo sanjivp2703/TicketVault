@@ -5,21 +5,45 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "insta485"
 version = "1.0.0"
-dependencies = [
-    "arrow",
-    "bs4",
-    "Flask",
-    "html5validator",
-    "pycodestyle",
-    "pydocstyle",
-    "pylint",
-    "pytest",
-    "requests",
-]
+description = "Safe Transaction: an escrow service for peer-to-peer student ticket sales."
+readme = "README.md"
 requires-python = ">=3.10"
+dependencies = [
+    "APScheduler>=3.10,<4",
+    "Flask==2.3.3",
+    "Flask-Mail>=0.9",
+    "gunicorn>=21",
+    "python-dotenv>=1.0",
+    "reportlab>=4.0",
+    "requests>=2.31",
+    "schedule>=1.2",
+    "stripe>=7",
+    "Werkzeug==2.3.7",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4", "ruff>=0.6"]
 
 [tool.setuptools]
-packages = ["insta485"]
+packages = ["insta485", "insta485.api", "insta485.views"]
 
-[tool.pylint."messages control"]
-disable = ["cyclic-import"]
+[tool.setuptools.package-data]
+insta485 = ["templates/*.html", "static/**/*"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+# Pyflakes plus syntax errors. Long lines are tolerated because the email
+# modules embed large HTML documents as string literals.
+select = ["F", "E9"]
+
+[tool.ruff.lint.per-file-ignores]
+# Modules are imported for their route-registration side effects.
+"insta485/__init__.py" = ["F401"]
+"insta485/api/__init__.py" = ["F401"]
+"insta485/views/__init__.py" = ["F401"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

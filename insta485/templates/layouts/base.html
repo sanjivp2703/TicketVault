@@ -1,0 +1,34 @@
+{#-
+  Root layout for every page.
+
+  Blocks
+    title        Page title (the " | Safe Transaction" suffix is added here).
+    head         Extra <link>/<meta> tags, e.g. a page stylesheet.
+    body_class   Class applied to <body>.
+    header       Top navigation. Override with an empty block to hide it.
+    content      Page content.
+    footer       Site footer. Override with an empty block to hide it.
+    scripts      Scripts loaded at the end of <body>.
+-#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4f46e5">
+    <title>{% block title %}Secure ticket escrow{% endblock %} | Safe Transaction</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='img/logo-mark.svg') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    {% block header %}{% include "partials/site_header.html" %}{% endblock %}
+    {% block content %}{% endblock %}
+    {% block footer %}{% include "partials/site_footer.html" %}{% endblock %}
+    {% block scripts %}{% endblock %}
+</body>
+</html>
