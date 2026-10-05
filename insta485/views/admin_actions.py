@@ -6,6 +6,9 @@ import flask
 import insta485
 import requests
 from insta485.views.balance import add_earnings
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def send_mailgun_email(to_email, subject, html_body, text_body=None):
@@ -27,14 +30,14 @@ def send_mailgun_email(to_email, subject, html_body, text_body=None):
         )
 
         if response.status_code == 200:
-            print(f"✅ Email sent successfully to {to_email}")
+            logger.info(f"✅ Email sent successfully to {to_email}")
             return True
         else:
-            print(f"❌ Email failed: {response.status_code} - {response.text}")
+            logger.error(f"❌ Email failed: {response.status_code} - {response.text}")
             return False
 
     except Exception as e:
-        print(f"❌ Email error: {e}")
+        logger.error(f"❌ Email error: {e}")
         return False
 
 
@@ -641,7 +644,7 @@ def admin_declare_ticket_sent(transaction_id):
     except Exception as e:
         connection.rollback()
         flask.flash(f"Error updating transaction: {str(e)}", "error")
-        print(f"Error in admin_declare_ticket_sent: {e}")
+        logger.error(f"Error in admin_declare_ticket_sent: {e}")
 
     return flask.redirect(flask.url_for("admin_dashboard"))
 
@@ -826,8 +829,10 @@ The Safe Transaction Team
         )
         insta485.mail.send(seller_msg)
 
-        print(f"📧 Sent ticket delivery notifications for transaction {transaction_id}")
+        logger.info(
+            f"📧 Sent ticket delivery notifications for transaction {transaction_id}"
+        )
 
     except Exception as e:
-        print(f"❌ Failed to send ticket delivery emails: {e}")
+        logger.error(f"❌ Failed to send ticket delivery emails: {e}")
         # Don't raise the exception since the main transaction update should still succeed

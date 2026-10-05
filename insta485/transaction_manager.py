@@ -10,6 +10,9 @@ import stripe
 import insta485
 import insta485.model
 from insta485.email_automation import forward_ticket_email
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class TransactionManager:
@@ -80,7 +83,7 @@ class TransactionManager:
 
         # No longer sending seller instructions email - automatic system
 
-        print(
+        logger.info(
             f"✅ Created PENDING listing {transaction_id} - awaiting ticket submission to {ticket_email}"
         )
 
@@ -168,7 +171,6 @@ class TransactionManager:
             # NOTE: Seller success email now sent after payment, not after verification
 
             # 2. Send PAYMENT notification to BUYER
-            payment_url = f"http://localhost:8000/ticket/{transaction_id}"  # Update with your domain
 
             # Parse datetime if it's a string
             event_datetime = original_details.get("datetime", "TBD")
@@ -199,7 +201,9 @@ class TransactionManager:
                 payment_deadline=payment_deadline,
             )
 
-            print(f"✅ Listing {transaction_id} ACTIVATED - buyer has 1 hour to pay")
+            logger.info(
+                f"✅ Listing {transaction_id} ACTIVATED - buyer has 1 hour to pay"
+            )
 
             return {
                 "success": True,
@@ -234,7 +238,7 @@ class TransactionManager:
 
             connection.commit()
 
-            print(
+            logger.error(
                 f"❌ Listing {transaction_id} CANCELLED - verification failed: {verification_result['reason']}"
             )
 
@@ -412,7 +416,7 @@ class TransactionManager:
 
             connection.commit()
 
-            print(
+            logger.info(
                 f"✅ Payment processed and tickets forwarded for transaction {transaction_id}"
             )
 
@@ -468,7 +472,7 @@ class TransactionManager:
         """
         transaction = self._get_transaction(transaction_id, connection)
         if not transaction or not transaction["ticket_email_data"]:
-            print(f"❌ No ticket data found for transaction {transaction_id}")
+            logger.error(f"❌ No ticket data found for transaction {transaction_id}")
             return False
 
         ticket_data = json.loads(transaction["ticket_email_data"])
@@ -496,17 +500,21 @@ class TransactionManager:
 
                 connection.commit()
 
-                print(f"📧 Tickets forwarded to buyer: {transaction['buyer_email']}")
+                logger.info(
+                    f"📧 Tickets forwarded to buyer: {transaction['buyer_email']}"
+                )
 
                 # Send confirmation emails to both parties
                 self._notify_ticket_forwarded(transaction_id, connection)
                 return True
             else:
-                print(f"❌ Failed to forward tickets for transaction {transaction_id}")
+                logger.error(
+                    f"❌ Failed to forward tickets for transaction {transaction_id}"
+                )
                 return False
 
         except Exception as e:
-            print(f"❌ Error forwarding tickets: {e}")
+            logger.error(f"❌ Error forwarding tickets: {e}")
             return False
 
     def confirm_buyer_receipt(self, transaction_id, buyer_email):
@@ -600,10 +608,12 @@ class TransactionManager:
             # Notify parties
             self._notify_funds_released(transaction_id, reason)
 
-            print(f"✅ Funds released for transaction {transaction_id}: {reason}")
+            logger.info(f"✅ Funds released for transaction {transaction_id}: {reason}")
 
         except Exception as e:
-            print(f"❌ Error releasing funds for transaction {transaction_id}: {e}")
+            logger.error(
+                f"❌ Error releasing funds for transaction {transaction_id}: {e}"
+            )
 
     def _expire_transaction(self, transaction_id, reason):
         """
@@ -827,12 +837,12 @@ class TransactionManager:
 
             send_email(transaction["seller_email"], seller_subject, seller_html)
 
-            print(
+            logger.info(
                 f"📧 Ticket forwarded notifications sent for transaction {transaction_id}"
             )
 
         except Exception as e:
-            print(f"❌ Error sending ticket forwarded notifications: {e}")
+            logger.error(f"❌ Error sending ticket forwarded notifications: {e}")
 
     def _notify_funds_released(self, transaction_id, reason):
         """Notify both parties that funds were released"""
@@ -867,38 +877,38 @@ class TransactionManager:
 
             send_email(transaction["seller_email"], seller_subject, seller_html)
 
-            print(
+            logger.info(
                 f"💰 Funds released notification sent for transaction {transaction_id}: {reason}"
             )
 
         except Exception as e:
-            print(f"❌ Error sending funds released notification: {e}")
+            logger.error(f"❌ Error sending funds released notification: {e}")
 
     def _notify_transaction_expired(
         self, transaction_id, responsible_party, deadline_type
     ):
         """Notify about transaction expiration"""
-        print(f"⏰ Transaction {transaction_id} expired: {deadline_type}")
+        logger.info(f"⏰ Transaction {transaction_id} expired: {deadline_type}")
 
     def _notify_admin_complaint(self, transaction_id, complaint_reason):
         """Notify admin about complaint"""
-        print(
+        logger.info(
             f"🚨 Complaint filed for transaction {transaction_id}: {complaint_reason}"
         )
 
     def _send_payment_reminder(self, transaction_id):
         """Send payment reminder to buyer"""
-        print(f"📧 Payment reminder sent for transaction {transaction_id}")
+        logger.info(f"📧 Payment reminder sent for transaction {transaction_id}")
 
     def _schedule_deadline_check(self, transaction_id, check_type, deadline):
         """Schedule background job for deadline checking"""
-        print(
+        logger.info(
             f"⏰ Scheduled {check_type} deadline check for transaction {transaction_id}"
         )
 
     def _schedule_payment_release(self, transaction_id, release_time):
         """Schedule automatic payment release"""
-        print(
+        logger.info(
             f"⏰ Scheduled payment release for transaction {transaction_id} at {release_time}"
         )
 

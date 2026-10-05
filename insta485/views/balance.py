@@ -4,6 +4,9 @@ import flask
 import stripe
 import insta485
 from flask import flash, redirect, url_for
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def add_earnings(
@@ -27,7 +30,7 @@ def add_earnings(
         )
 
         connection.commit()
-        print(
+        logger.info(
             f"[BALANCE] Added ${amount} to {user_email} balance (Transaction #{transaction_id})"
         )
 
@@ -54,11 +57,11 @@ def add_earnings(
                     event_name=trans_details["event_name"],
                     bonus_amount=bonus_amount,
                 )
-                print(
+                logger.info(
                     f"[PAYMENT EMAIL] Sent payment received notification to {user_email}"
                 )
         except Exception as email_error:
-            print(
+            logger.error(
                 f"[PAYMENT EMAIL ERROR] Failed to send payment notification: {email_error}"
             )
             # Don't raise - email failure shouldn't stop the payment
@@ -66,7 +69,7 @@ def add_earnings(
         return True
 
     except Exception as e:
-        print(f"[BALANCE ERROR] Failed to add earnings: {e}")
+        logger.error(f"[BALANCE ERROR] Failed to add earnings: {e}")
         connection.rollback()
         return False
 
@@ -105,13 +108,13 @@ def deduct_withdrawal(user_email, amount, withdrawal_id, description="Withdrawal
         )
 
         connection.commit()
-        print(
+        logger.info(
             f"[BALANCE] Deducted ${amount} from {user_email} balance (Withdrawal #{withdrawal_id})"
         )
         return True, "Success"
 
     except Exception as e:
-        print(f"[BALANCE ERROR] Failed to deduct withdrawal: {e}")
+        logger.error(f"[BALANCE ERROR] Failed to deduct withdrawal: {e}")
         connection.rollback()
         return False, f"Error: {e}"
 
@@ -200,7 +203,7 @@ def withdraw_funds():
                     else "active",
                 }
         except Exception as e:
-            print(f"[STRIPE INFO ERROR] Could not retrieve bank info: {e}")
+            logger.error(f"[STRIPE INFO ERROR] Could not retrieve bank info: {e}")
             # Continue without bank info
 
     return flask.render_template(
@@ -339,7 +342,7 @@ def process_withdrawal():
         fee_dollars = safe_transaction_fee / 100
         transfer_dollars = amount_to_transfer / 100
 
-        print(
+        logger.info(
             f"[WITHDRAWAL] {payment_method.upper()} withdrawal: ${transfer_dollars:.2f} to {payment_destination} for {logemail}"
         )
 
@@ -371,12 +374,14 @@ def process_withdrawal():
                     )
                     connection.commit()
 
-                    print(
+                    logger.info(
                         f"[STRIPE SUCCESS] Transfer {transfer.id} created for {logemail}"
                     )
 
             except stripe.error.StripeError as stripe_error:
-                print(f"[STRIPE ERROR] Automatic transfer failed: {stripe_error}")
+                logger.error(
+                    f"[STRIPE ERROR] Automatic transfer failed: {stripe_error}"
+                )
                 # Don't rollback - withdrawal request is valid, just needs manual processing
                 # Stripe error will be handled in the flash message below
 
@@ -395,11 +400,11 @@ def process_withdrawal():
                 payment_method=payment_method,
                 destination=payment_destination,
             )
-            print(
+            logger.info(
                 f"[WITHDRAWAL EMAIL] Sent confirmation to {logemail} for {payment_method} to {payment_destination}"
             )
         except Exception as email_error:
-            print(f"[WITHDRAWAL EMAIL ERROR] {email_error}")
+            logger.error(f"[WITHDRAWAL EMAIL ERROR] {email_error}")
 
         # Success message
         if payment_method == "stripe" and stripe_transfer_id:
@@ -422,7 +427,7 @@ def process_withdrawal():
         return redirect(url_for("show_index"))
 
     except Exception as e:
-        print(f"[WITHDRAWAL ERROR] {e}")
+        logger.error(f"[WITHDRAWAL ERROR] {e}")
         import traceback
 
         traceback.print_exc()
@@ -479,13 +484,13 @@ def stripe_connect_onboard():
             type="account_onboarding",
         )
 
-        print(f"[STRIPE CONNECT] Created account {account.id} for {logemail}")
+        logger.info(f"[STRIPE CONNECT] Created account {account.id} for {logemail}")
 
         # Redirect to Stripe onboarding
         return redirect(account_link.url)
 
     except Exception as e:
-        print(f"[STRIPE CONNECT ERROR] {e}")
+        logger.error(f"[STRIPE CONNECT ERROR] {e}")
         import traceback
 
         traceback.print_exc()
@@ -536,7 +541,7 @@ def stripe_connect_update():
 
             # If account isn't fully set up, use onboarding instead
             if not charges_enabled or not details_submitted:
-                print(
+                logger.info(
                     "[STRIPE UPDATE] Account not fully onboarded, using onboarding flow instead"
                 )
                 account_link = stripe.AccountLink.create(
@@ -554,7 +559,7 @@ def stripe_connect_update():
                     type="account_update",
                 )
         except stripe.error.StripeError as stripe_err:
-            print(f"[STRIPE UPDATE ERROR] Stripe API error: {stripe_err}")
+            logger.error(f"[STRIPE UPDATE ERROR] Stripe API error: {stripe_err}")
             # If there's an error retrieving account, try onboarding
             account_link = stripe.AccountLink.create(
                 account=user["stripe_id"],
@@ -563,13 +568,13 @@ def stripe_connect_update():
                 type="account_onboarding",
             )
 
-        print(f"[STRIPE UPDATE] Created account link for {logemail}")
+        logger.info(f"[STRIPE UPDATE] Created account link for {logemail}")
 
         # Redirect to Stripe page
         return redirect(account_link.url)
 
     except Exception as e:
-        print(f"[STRIPE UPDATE ERROR] {e}")
+        logger.error(f"[STRIPE UPDATE ERROR] {e}")
         import traceback
 
         traceback.print_exc()
@@ -652,11 +657,11 @@ def mark_withdrawal_complete(withdrawal_id):
                 payment_method=payment_method,
                 destination=withdrawal["account_number_last4"],
             )
-            print(
+            logger.info(
                 f"[WITHDRAWAL COMPLETE] Sent email to {withdrawal['user_email']} for ${withdrawal['transfer_amount'] / 100:.2f}"
             )
         except Exception as email_error:
-            print(f"[WITHDRAWAL COMPLETE EMAIL ERROR] {email_error}")
+            logger.error(f"[WITHDRAWAL COMPLETE EMAIL ERROR] {email_error}")
             # Don't fail the request if email fails
 
         return flask.jsonify(
@@ -667,7 +672,7 @@ def mark_withdrawal_complete(withdrawal_id):
         ), 200
 
     except Exception as e:
-        print(f"[MARK WITHDRAWAL COMPLETE ERROR] {e}")
+        logger.error(f"[MARK WITHDRAWAL COMPLETE ERROR] {e}")
         import traceback
 
         traceback.print_exc()

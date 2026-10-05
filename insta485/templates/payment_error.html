@@ -1,113 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Error - Safe Transaction</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #333;
-        }
-        
-        .error-container {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            padding: 48px;
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-        }
-        
-        .error-icon {
-            font-size: 64px;
-            margin-bottom: 24px;
-        }
-        
-        .error-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #dc2626;
-            margin-bottom: 16px;
-        }
-        
-        .error-message {
-            font-size: 16px;
-            color: #6b7280;
-            line-height: 1.6;
-            margin-bottom: 32px;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .btn {
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #3b82f6, #1e40af);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
-        }
-        
-        .btn-secondary {
-            background: #f3f4f6;
-            color: #374151;
-            border: 1px solid #d1d5db;
-        }
-        
-        .btn-secondary:hover {
-            background: #e5e7eb;
-        }
-    </style>
-</head>
-<body>
-    <div class="error-container">
-        <div class="error-icon">⚠️</div>
-        <h1 class="error-title">Payment Error</h1>
-        <p class="error-message">
+{% extends "layouts/base.html" %}
+{% block title %}Payment error{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/buyer.css') }}">
+{% endblock %}
+
+{% block content %}
+<main class="status-page">
+    <div class="status-card">
+        <span class="status-icon status-icon--danger"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span>
+        <h1 class="status-card__title">Payment error</h1>
+        <p class="status-card__text">
             {% if error %}
                 {{ error }}
             {% else %}
                 We encountered an issue processing your payment. This could be due to an expired payment window or a technical issue.
             {% endif %}
         </p>
-        
-        <div class="action-buttons">
-            <a href="/" class="btn btn-primary">
-                🏠 Return Home
+
+        <div class="btn-row">
+            <a href="/" class="btn btn--primary">
+                <i class="fa-solid fa-house" aria-hidden="true"></i> Return home
             </a>
-            <a href="mailto:support@safetransaction.app" class="btn btn-secondary">
-                📧 Contact Support
+            <a href="mailto:support@safetransaction.app" class="btn btn--secondary">
+                <i class="fa-regular fa-envelope" aria-hidden="true"></i> Contact support
             </a>
         </div>
     </div>
-</body>
-</html>
+</main>
+{% endblock %}

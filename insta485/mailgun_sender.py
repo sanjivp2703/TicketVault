@@ -6,6 +6,9 @@ Handles all email sending with proper routing and templates
 import requests
 from datetime import datetime
 import insta485
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class MailgunSender:
@@ -39,16 +42,16 @@ class MailgunSender:
             )
 
             if response.status_code == 200:
-                print(f"✅ Email sent to {to_email}: {subject}")
+                logger.info(f"✅ Email sent to {to_email}: {subject}")
                 return True
             else:
-                print(
+                logger.error(
                     f"❌ Email failed to {to_email}: {response.status_code} - {response.text}"
                 )
                 return False
 
         except Exception as e:
-            print(f"❌ Email error to {to_email}: {e}")
+            logger.error(f"❌ Email error to {to_email}: {e}")
             return False
 
     def send_seller_verification_success(
@@ -64,7 +67,7 @@ class MailgunSender:
         ).fetchone()
 
         if not transaction:
-            print(f"❌ Transaction {transaction_id} not found")
+            logger.error(f"❌ Transaction {transaction_id} not found")
             return False
 
         ticket_price = float(transaction["price"])

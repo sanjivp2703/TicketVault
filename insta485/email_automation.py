@@ -5,6 +5,9 @@ All emails redesigned with cutting-edge UI/UX.
 
 import insta485
 from flask_mail import Message
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def send_email(to_email, subject, html_content):
@@ -997,7 +1000,6 @@ def send_modern_buyer_notification(
     from datetime import datetime
 
     # Calculate payment deadline if provided
-    payment_hours = None
     if payment_deadline:
         # Ensure payment_deadline is a datetime object
         if isinstance(payment_deadline, str):
@@ -1006,14 +1008,6 @@ def send_modern_buyer_notification(
             payment_deadline = datetime.fromisoformat(
                 payment_deadline.replace("Z", "+00:00")
             )
-        payment_hours = max(
-            0, (payment_deadline - datetime.now()).total_seconds() / 3600
-        )
-
-    # Format deadline text
-    deadline_text = ""
-    if payment_deadline:
-        deadline_text = payment_deadline.strftime("%I:%M %p on %B %d")
 
     # Use smart status check route that handles cancellation and routes to payment
     payment_url = f"http://localhost:8000/ticket_status_check/{transaction_id}"
@@ -1945,7 +1939,7 @@ def send_payment_deadline_expired_emails(
             html_body=seller_html_body,
             text_body=f"Payment Deadline Expired - Transaction #{transaction_id}\n\nThe buyer did not complete payment within the deadline. The ticket will be automatically returned to your Michigan Athletics account.\n\nEvent: {event_name}\nPrice: ${price}\n\nYou can create a new listing once you receive the ticket back.",
         )
-        print(f"[PAYMENT-EXPIRED] Sent seller notification to {seller_email}")
+        logger.info(f"[PAYMENT-EXPIRED] Sent seller notification to {seller_email}")
 
         # Send to buyer
         send_email_mailgun(
@@ -1954,10 +1948,10 @@ def send_payment_deadline_expired_emails(
             html_body=buyer_html_body,
             text_body=f"Payment Deadline Expired - Transaction #{transaction_id}\n\nThe payment deadline has expired and the transaction has been cancelled.\n\nEvent: {event_name}\nPrice: ${price}\n\nContact the seller if you're still interested in purchasing this ticket.",
         )
-        print(f"[PAYMENT-EXPIRED] Sent buyer notification to {buyer_email}")
+        logger.info(f"[PAYMENT-EXPIRED] Sent buyer notification to {buyer_email}")
 
     except Exception as e:
-        print(f"[PAYMENT-EXPIRED ERROR] Failed to send emails: {e}")
+        logger.error(f"[PAYMENT-EXPIRED ERROR] Failed to send emails: {e}")
         raise
 
 
@@ -2098,12 +2092,12 @@ def send_payment_received_notification(
             html_body=html_body,
             text_body=f"Payment Received - Transaction #{transaction_id}\n\nGreat news! The buyer has completed payment.\n\nTotal Earnings: ${(price + bonus_amount):.2f}\n- Ticket Price: ${price:.2f}\n- 10% Bonus: +${bonus_amount:.2f}\n\nEvent: {event_name}\nBuyer: {buyer_email}\n\nFunds have been added to your balance. You can withdraw them anytime from your dashboard.",
         )
-        print(
+        logger.info(
             f"[PAYMENT-RECEIVED] Sent notification to {seller_email} for ${(price + bonus_amount):.2f}"
         )
 
     except Exception as e:
-        print(f"[PAYMENT-RECEIVED ERROR] Failed to send email: {e}")
+        logger.error(f"[PAYMENT-RECEIVED ERROR] Failed to send email: {e}")
         raise
 
 
@@ -2280,12 +2274,12 @@ def send_withdrawal_confirmation(
             html_body=html_body,
             text_body=f"Withdrawal Request Received\n\nYour withdrawal request has been received.\n\nWithdrawal Amount: ${amount:.2f}\nSafe Transaction Fee (5%): -${fee_amount:.2f}\nTotal You'll Receive: ${transfer_amount:.2f}\n\n{f'Sending to {method_display}: {destination}' if destination else ''}\n\n⚠️ CRITICAL: If you entered the wrong {method_display if method_display != 'Bank Account' else 'bank account'}, email support@safetransaction.app IMMEDIATELY!\n\n⚠️ WARNING: If we already sent the money, there is NOTHING we can do to recover it.\n\nFunds typically arrive within one business day.{f' Request ID: {transfer_id}' if transfer_id else ''}\n\nThank you for using Safe Transaction!",
         )
-        print(
+        logger.info(
             f"[WITHDRAWAL-CONFIRMED] Sent notification to {user_email} for ${transfer_amount:.2f}"
         )
 
     except Exception as e:
-        print(f"[WITHDRAWAL-CONFIRMED ERROR] Failed to send email: {e}")
+        logger.error(f"[WITHDRAWAL-CONFIRMED ERROR] Failed to send email: {e}")
         raise
 
 
@@ -2457,10 +2451,10 @@ def send_withdrawal_completed_email(
             html_body=html_body,
             text_body=f"Withdrawal Completed!\n\nYour withdrawal has been processed and sent.\n\nWithdrawal Amount: ${amount:.2f}\nSafe Transaction Fee (5%): -${fee_amount:.2f}\nTotal Sent to You: ${transfer_amount:.2f}\n\n{f'Sent to {method_display}: {destination}' if destination else ''}\n\nThe payment should appear {'instantly or within minutes' if payment_method in ['venmo', 'cashapp'] else 'within 1-3 business days'}.\n\nThank you for using Safe Transaction!",
         )
-        print(
+        logger.info(
             f"[WITHDRAWAL-COMPLETED] Sent notification to {user_email} for ${transfer_amount:.2f}"
         )
 
     except Exception as e:
-        print(f"[WITHDRAWAL-COMPLETED ERROR] Failed to send email: {e}")
+        logger.error(f"[WITHDRAWAL-COMPLETED ERROR] Failed to send email: {e}")
         raise

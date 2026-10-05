@@ -8,6 +8,9 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class GmailSender:
@@ -46,14 +49,14 @@ class GmailSender:
                 server.send_message(msg)
                 server.quit()
 
-                print(f"✅ Gmail SMTP: Email sent to {to_email}: {subject}")
+                logger.info(f"✅ Gmail SMTP: Email sent to {to_email}: {subject}")
                 return True
             else:
-                print("❌ Gmail SMTP: No app password configured")
+                logger.error("❌ Gmail SMTP: No app password configured")
                 return False
 
         except Exception as e:
-            print(f"❌ Gmail SMTP error sending to {to_email}: {e}")
+            logger.error(f"❌ Gmail SMTP error sending to {to_email}: {e}")
             return False
 
 
@@ -61,7 +64,7 @@ def test_gmail_sender():
     """Test Gmail SMTP sender"""
     gmail = GmailSender()
 
-    print("🧪 Testing Gmail SMTP sender...")
+    logger.info("🧪 Testing Gmail SMTP sender...")
 
     test_email = "testbuyer@example.com"
     test_subject = "Test Buyer Confirmation Email"
@@ -78,13 +81,15 @@ def test_gmail_sender():
     success = gmail.send_email(test_email, test_subject, test_html)
 
     if success:
-        print("✅ Gmail SMTP test successful!")
+        logger.info("✅ Gmail SMTP test successful!")
     else:
-        print("❌ Gmail SMTP test failed")
-        print("💡 To enable Gmail SMTP:")
-        print("   1. Enable 2-factor authentication on safetransactiontix@gmail.com")
-        print("   2. Generate an app password")
-        print("   3. Set GMAIL_APP_PASSWORD environment variable")
+        logger.error("❌ Gmail SMTP test failed")
+        logger.info("💡 To enable Gmail SMTP:")
+        logger.info(
+            "   1. Enable 2-factor authentication on safetransactiontix@gmail.com"
+        )
+        logger.info("   2. Generate an app password")
+        logger.info("   3. Set GMAIL_APP_PASSWORD environment variable")
 
 
 if __name__ == "__main__":

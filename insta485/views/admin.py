@@ -1,6 +1,9 @@
 import flask
 import insta485
 from insta485.views.manage import hash_password
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @insta485.app.route("/admin", methods=["GET"], endpoint="admin_dashboard")
@@ -171,9 +174,9 @@ def create_admin_user():
             (firstname, lastname, email, hash_password(password), 1),
         )
         connection.commit()
-        print(f"[ADMIN] Created admin user: {email}")
+        logger.info(f"[ADMIN] Created admin user: {email}")
     except Exception as e:
-        print(f"[ERROR] Failed to create admin user: {e}")
+        logger.error(f"[ERROR] Failed to create admin user: {e}")
 
     return flask.redirect(flask.url_for("admin_dashboard"))
 
@@ -200,7 +203,7 @@ def resolve_complaint(transaction_id):
         try:
             send_complaint_resolution_email(transaction_id, resolution, admin_notes)
         except Exception as e:
-            print(f"[EMAIL ERROR] Failed to send resolution email: {e}")
+            logger.error(f"[EMAIL ERROR] Failed to send resolution email: {e}")
 
     elif resolution == "pay_seller":
         new_status = "complaint - paid seller"
@@ -208,7 +211,7 @@ def resolve_complaint(transaction_id):
         try:
             send_complaint_resolution_email(transaction_id, resolution, admin_notes)
         except Exception as e:
-            print(f"[EMAIL ERROR] Failed to send resolution email: {e}")
+            logger.error(f"[EMAIL ERROR] Failed to send resolution email: {e}")
     else:
         flask.flash("Invalid resolution option.", "error")
         return flask.redirect(flask.url_for("admin_dashboard"))
@@ -340,4 +343,6 @@ Safe Transaction Team
         )
         mail.send(buyer_msg)
 
-    print(f"[EMAIL] Sent complaint resolution emails for transaction {transaction_id}")
+    logger.info(
+        f"[EMAIL] Sent complaint resolution emails for transaction {transaction_id}"
+    )

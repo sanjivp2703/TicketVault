@@ -104,7 +104,6 @@ def show_report_problem(transaction_id):
     # The security is maintained by the unique transaction ID in the URL
 
     if flask.request.method == "POST":
-        problem_type = flask.request.form.get("problem_type")
         problem_details = flask.request.form.get("problem_details")
 
         # Update transaction status to complaint filed

@@ -143,3 +143,25 @@ CREATE TABLE balance_changes(
   FOREIGN KEY (transaction_id_ref) REFERENCES transactions(transaction_id),
   CHECK (change_type IN ("earning", "withdrawal"))
 );
+
+-- Seller payout requests. Amounts are stored in cents.
+CREATE TABLE IF NOT EXISTS withdrawal_requests(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_email TEXT NOT NULL,
+  amount INTEGER NOT NULL,           -- Requested amount (before fee)
+  fee_amount INTEGER NOT NULL,       -- 5% platform fee
+  transfer_amount INTEGER NOT NULL,  -- Amount sent to the seller (after fee)
+  bank_name TEXT NOT NULL,
+  routing_number TEXT NOT NULL,
+  account_number_last4 TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'pending',  -- pending, completed, failed, cancelled
+  stripe_transfer_id TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  completed_at TIMESTAMP,
+  notes TEXT,
+  FOREIGN KEY (user_email) REFERENCES users(email)
+);
+
+CREATE INDEX IF NOT EXISTS idx_withdrawal_requests_user_email ON withdrawal_requests(user_email);
+CREATE INDEX IF NOT EXISTS idx_withdrawal_requests_status ON withdrawal_requests(status);
+CREATE INDEX IF NOT EXISTS idx_withdrawal_requests_created_at ON withdrawal_requests(created_at);

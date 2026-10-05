@@ -1,313 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Validate Ticket - Safe-Transaction</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f5f7fa;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 600px;
-            margin: 40px auto;
-            background: white;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .header {
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: white;
-            padding: 30px;
-            text-align: center;
-            border-radius: 10px 10px 0 0;
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .header h1 i {
-            margin-right: 10px;
-        }
-        .header p {
-            margin: 10px 0 0;
-            opacity: 0.9;
-        }
-        .ticket-id {
-            background: rgba(255, 255, 255, 0.2);
-            display: inline-block;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            margin-top: 10px;
-        }
-        .content {
-            padding: 30px;
-        }
-        .event-details {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border: 1px solid #e0e0e0;
-        }
-        .event-details h2 {
-            font-size: 20px;
-            color: #0056b3;
-            margin-top: 0;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #e0e0e0;
-            padding-bottom: 10px;
-        }
-        .detail-row {
-            display: flex;
-            margin-bottom: 12px;
-            border-bottom: 1px solid #f0f0f0;
-            padding-bottom: 8px;
-        }
-        .detail-row:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        .detail-label {
-            width: 120px;
-            font-weight: 600;
-            color: #555;
-        }
-        .detail-value {
-            flex: 1;
-        }
-        .action-section {
-            margin-top: 30px;
-            text-align: center;
-        }
-        .status-banner {
-            background: #d4edda;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #28a745;
-            margin: 20px 0;
-            display: flex;
-            align-items: center;
-        }
-        .status-banner i {
-            font-size: 24px;
-            margin-right: 15px;
-            color: #28a745;
-        }
-        .status-banner .message {
-            flex: 1;
-        }
-        .status-banner .title {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        .btn {
-            display: inline-block;
-            padding: 15px 30px;
-            font-size: 16px;
-            font-weight: 600;
-            text-align: center;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-        .btn-primary {
-            background: #28a745;
-            color: white;
-        }
-        .btn-primary:hover {
-            background: #218838;
-        }
-        .btn-secondary {
-            background: #dc3545;
-            color: white;
-        }
-        .btn-secondary:hover {
-            background: #c82333;
-        }
-        .countdown {
-            font-size: 18px;
-            font-weight: 600;
-            color: #dc3545;
-            margin: 20px 0;
-            text-align: center;
-        }
-        .price {
-            font-size: 24px;
-            font-weight: bold;
-            color: #007bff;
-            text-align: center;
-            margin: 20px 0;
-        }
-        .ticket-visual {
-            background: linear-gradient(135deg, #28a745, #218838);
-            color: white;
-            padding: 25px;
-            border-radius: 8px;
-            margin: 25px 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        .ticket-visual::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0,0 L100,100 M20,0 L100,80 M40,0 L100,60 M60,0 L100,40 M80,0 L100,20 M0,20 L80,100 M0,40 L60,100 M0,60 L40,100 M0,80 L20,100" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></svg>');
-            opacity: 0.2;
-        }
-        .ticket-visual h3 {
-            margin-top: 0;
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-        .ticket-code {
-            font-family: monospace;
-            font-size: 24px;
-            letter-spacing: 2px;
-            margin-top: 15px;
-            background: rgba(255,255,255,0.15);
-            padding: 12px;
-            border-radius: 4px;
-            display: inline-block;
-        }
-        .security-note {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 30px;
-            font-size: 14px;
-            color: #666;
-            display: flex;
-            align-items: center;
-            border: 1px solid #e0e0e0;
-        }
-        .security-note i {
-            font-size: 18px;
-            margin-right: 10px;
-            color: #6c757d;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>🛡️ Safe Transaction</h1>
-            <p>Ticket Validation</p>
-            <div class="ticket-id">Transaction #{{ transaction_id }}</div>
-        </div>
+{% extends "layouts/base.html" %}
+{% block title %}Validate ticket{% endblock %}
 
-        <div class="content">
-            <h2>Hi there! 👋</h2>
-            <p>Thanks for using <strong>Safe Transaction</strong>, our scam-free ticket platform!</p>
-            
-            <div class="status-banner">
-                <i class="fa fa-info-circle"></i>
-                <div class="message">
-                    <div class="title">Action Required</div>
-                    <div>Please validate this ticket to complete your purchase. This step confirms you've received the ticket details.</div>
-                </div>
-            </div>
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/forms.css') }}">
+{% endblock %}
 
-            <div class="ticket-visual">
-                <h3>🎫 {{ event_name }}</h3>
-                <div>📍 {{ event_location }}</div>
-                <div>🗓️ {{ event_datetime }}</div>
-                <div class="price">💰 ${{ price }}</div>
-                <div class="ticket-code">{{ ticket_code }}</div>
-            </div>
+{% block content %}
+<main class="page">
+    <div class="container container--narrow">
+        <header class="page-header">
+            <span class="badge badge--brand mb-4">Transaction #{{ transaction_id }}</span>
+            <h1 class="page-header__title">Validate your ticket</h1>
+            <p class="page-header__subtitle">Thanks for using <strong>Safe Transaction</strong>, our scam-free ticket platform.</p>
+        </header>
 
-            <div class="event-details">
-                <h2>Event Details</h2>
-                <div class="detail-row">
-                    <div class="detail-label">Event:</div>
-                    <div class="detail-value">{{ event_name }}</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Date & Time:</div>
-                    <div class="detail-value">{{ event_datetime }}</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Location:</div>
-                    <div class="detail-value">{{ event_location }}</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Price:</div>
-                    <div class="detail-value">${{ price }}</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Seller:</div>
-                    <div class="detail-value">{{ seller_email }}</div>
-                </div>
-                {% if ticket_details %}
-                <div class="detail-row">
-                    <div class="detail-label">Details:</div>
-                    <div class="detail-value">{{ ticket_details }}</div>
-                </div>
-                {% endif %}
-            </div>
-
-            <div class="countdown">⏱️ Time remaining: <span id="countdown">2:00</span></div>
-
-            <div class="action-section">
-                <form action="{{ url_for('show_validate_ticket', transaction_id=transaction_id) }}" method="post">
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Confirm & Validate Ticket</button>
-                </form>
-                <a href="{{ url_for('show_report_problem', transaction_id=transaction_id) }}" class="btn btn-secondary"><i class="fa fa-exclamation-triangle"></i> Report a Problem</a>
-            </div>
-
-            <div class="security-note">
-                <i class="fa fa-lock"></i>
-                <div>Security Note: Only validate if you've received the correct ticket. If there are any issues, use the "Report a Problem" button.</div>
+        <div class="alert alert--warning mb-6" role="status">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <div>
+                <span class="alert__title">Action required</span>
+                Please validate this ticket to complete your purchase. This step confirms you've received the ticket details.
             </div>
         </div>
+
+        <section class="card form-card" aria-labelledby="event-details-title">
+            <div class="card__body">
+                <h2 class="form-section-title" id="event-details-title">Event details</h2>
+                <dl class="detail-list">
+                    <div class="detail-list__row">
+                        <dt class="detail-list__label">Event</dt>
+                        <dd class="detail-list__value">{{ event_name }}</dd>
+                    </div>
+                    <div class="detail-list__row">
+                        <dt class="detail-list__label">Date and time</dt>
+                        <dd class="detail-list__value">{{ event_datetime }}</dd>
+                    </div>
+                    <div class="detail-list__row">
+                        <dt class="detail-list__label">Location</dt>
+                        <dd class="detail-list__value">{{ event_location }}</dd>
+                    </div>
+                    <div class="detail-list__row">
+                        <dt class="detail-list__label">Price</dt>
+                        <dd class="detail-list__value tabular">${{ price }}</dd>
+                    </div>
+                    <div class="detail-list__row">
+                        <dt class="detail-list__label">Seller</dt>
+                        <dd class="detail-list__value">{{ seller_email }}</dd>
+                    </div>
+                    {% if ticket_details %}
+                    <div class="detail-list__row">
+                        <dt class="detail-list__label">Details</dt>
+                        <dd class="detail-list__value">{{ ticket_details }}</dd>
+                    </div>
+                    {% endif %}
+                    <div class="detail-list__row">
+                        <dt class="detail-list__label">Ticket code</dt>
+                        <dd class="detail-list__value mono">{{ ticket_code }}</dd>
+                    </div>
+                </dl>
+
+                <p class="countdown">
+                    <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                    <span>Time remaining: <span id="countdown">2:00</span></span>
+                </p>
+
+                <div class="form-actions">
+                    <form action="{{ url_for('show_validate_ticket', transaction_id=transaction_id) }}" method="post">
+                        <button type="submit" class="btn btn--primary btn--lg"><i class="fa-solid fa-check" aria-hidden="true"></i> Confirm and validate ticket</button>
+                    </form>
+                    <a href="{{ url_for('show_report_problem', transaction_id=transaction_id) }}" class="btn btn--secondary btn--lg"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Report a problem</a>
+                </div>
+
+                <p class="form-note">
+                    <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                    <span>Security note: only validate if you've received the correct ticket. If there are any issues, use the "Report a problem" button.</span>
+                </p>
+            </div>
+        </section>
     </div>
+</main>
+{% endblock %}
 
-    <script>
-        // Countdown timer
-        function startCountdown(duration, display) {
-            var timer = duration, minutes, seconds;
-            var countdown = setInterval(function () {
-                minutes = parseInt(timer / 60, 10);
-                seconds = parseInt(timer % 60, 10);
-
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                display.textContent = minutes + ":" + seconds;
-
-                if (--timer < 0) {
-                    clearInterval(countdown);
-                    display.textContent = "Time expired";
-                    // You could redirect or disable buttons here
-                }
-            }, 1000);
-        }
-
-        window.onload = function () {
-            var twoMinutes = 60 * 2,
-                display = document.querySelector('#countdown');
-            startCountdown(twoMinutes, display);
-        };
-    </script>
-</body>
-</html>
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pages/validate_ticket.js') }}"></script>
+{% endblock %}

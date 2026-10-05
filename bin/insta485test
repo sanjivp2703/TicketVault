@@ -1,8 +1,11 @@
-# !/bin/bash
+#!/bin/bash
+#
+# insta485test
+#
+# Run the linter and the test suite.
 
-set -e
+set -Eeuo pipefail
 set -x
-pycodestyle insta485
-pydocstyle insta485
-pylint insta485
+
+ruff check insta485 bin tests
 pytest -v tests

@@ -7,6 +7,9 @@ import json
 from datetime import datetime, timedelta
 import re
 import insta485
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class EmailWebhookHandler:
@@ -88,7 +91,7 @@ class EmailWebhookHandler:
                 }
 
         except Exception as e:
-            print(f"Error processing email webhook: {e}")
+            logger.error(f"Error processing email webhook: {e}")
             return {"error": "Internal processing error"}
 
     def _parse_webhook_data(self, webhook_data):
@@ -249,8 +252,10 @@ class EmailWebhookHandler:
         )
 
         # Notify seller that tickets were verified
-        print(f"✅ Tickets verified for transaction {transaction_id}")
-        print(f"📧 Payment window activated for buyer: {transaction['buyer_email']}")
+        logger.info(f"✅ Tickets verified for transaction {transaction_id}")
+        logger.info(
+            f"📧 Payment window activated for buyer: {transaction['buyer_email']}"
+        )
 
 
 def create_webhook_routes():
@@ -271,7 +276,7 @@ def create_webhook_routes():
                 "timestamp": flask.request.form.get("timestamp", ""),
             }
 
-            print(
+            logger.info(
                 f"📧 MAILGUN: Received email from {webhook_data['sender']} to {webhook_data['recipient']}"
             )
 
@@ -280,14 +285,14 @@ def create_webhook_routes():
             result = handler.process_incoming_email(webhook_data)
 
             if "error" in result:
-                print(f"❌ MAILGUN: {result['error']}")
+                logger.error(f"❌ MAILGUN: {result['error']}")
                 return flask.jsonify(result), 400
             else:
-                print("✅ MAILGUN: Email processed successfully")
+                logger.info("✅ MAILGUN: Email processed successfully")
                 return flask.jsonify(result), 200
 
         except Exception as e:
-            print(f"❌ MAILGUN ERROR: {e}")
+            logger.error(f"❌ MAILGUN ERROR: {e}")
             return flask.jsonify({"error": "Webhook processing failed"}), 500
 
     @insta485.app.route("/webhook/sendgrid", methods=["POST"])
@@ -304,7 +309,7 @@ def create_webhook_routes():
                 "timestamp": "",
             }
 
-            print(
+            logger.info(
                 f"📧 SENDGRID: Received email from {webhook_data['sender']} to {webhook_data['recipient']}"
             )
 
@@ -317,7 +322,7 @@ def create_webhook_routes():
             ), 200
 
         except Exception as e:
-            print(f"❌ SENDGRID ERROR: {e}")
+            logger.error(f"❌ SENDGRID ERROR: {e}")
             return flask.jsonify({"error": "Webhook processing failed"}), 500
 
     @insta485.app.route("/api/simulate-ticket-email", methods=["POST"])
@@ -357,7 +362,7 @@ def create_webhook_routes():
                 "timestamp": datetime.now().isoformat(),
             }
 
-            print(
+            logger.info(
                 f"🧪 SIMULATION: Processing ticket email for transaction {transaction_id}"
             )
 
@@ -373,7 +378,7 @@ def create_webhook_routes():
                 ), 200
 
         except Exception as e:
-            print(f"❌ EMAIL SIMULATION ERROR: {e}")
+            logger.error(f"❌ EMAIL SIMULATION ERROR: {e}")
             return flask.jsonify({"success": False, "error": str(e)}), 500
 
 

@@ -53,7 +53,6 @@ ENABLE_DEV_LOGIN = _env_bool("ENABLE_DEV_LOGIN", False)
 # --------------------------------------------------------------------------
 
 UPLOAD_FOLDER = INSTA485_ROOT / "var" / "uploads"
-ASSET_FOLDER = INSTA485_ROOT / "assets"
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
 MAX_CONTENT_LENGTH = 16 * 1024 * 1024
 

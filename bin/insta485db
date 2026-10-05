@@ -1,13 +1,25 @@
 #!/bin/bash
+#
 # insta485db
+#
+# Manage the local SQLite database (var/insta485.sqlite3).
 
-# Stop on errors
-# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
 set -Eeuo pipefail
 
-# Sanity check command line options
+DB="var/insta485.sqlite3"
+
 usage() {
   echo "Usage: $0 (create|destroy|reset|dump)"
+}
+
+create() {
+  mkdir -p var/uploads
+  sqlite3 "$DB" < sql/schema.sql
+  sqlite3 "$DB" < sql/data.sql
+}
+
+destroy() {
+  rm -rf "$DB" var/uploads
 }
 
 if [ $# -ne 1 ]; then
@@ -15,55 +27,29 @@ if [ $# -ne 1 ]; then
   exit 1
 fi
 
-# Parse argument.  $1 is the first argument
 case $1 in
   "create")
-    if [ -e "var/insta485.sqlite3" ]; then
-        echo "Error: database already exists"
-        exit 1
+    if [ -e "$DB" ]; then
+      echo "Error: database already exists"
+      exit 1
     fi
-    mkdir -p var/uploads
-    sqlite3 var/insta485.sqlite3 < sql/schema.sql
-    sqlite3 var/insta485.sqlite3 < sql/data.sql
-    cp sql/uploads/* var/uploads/
+    create
     ;;
 
   "destroy")
-    rm -rf var/insta485.sqlite3 var/uploads
+    destroy
     ;;
 
   "reset")
-    rm -rf var/insta485.sqlite3 var/uploads
-    mkdir -p var/uploads
-    sqlite3 var/insta485.sqlite3 < sql/schema.sql
-    sqlite3 var/insta485.sqlite3 < sql/data.sql
-    cp sql/uploads/* var/uploads/
+    destroy
+    create
     ;;
 
   "dump")
-    echo "=== USERS ==="
-    sqlite3 -batch -line var/insta485.sqlite3 'SELECT * FROM users'
-    echo ""
-    echo "=== TRANSACTIONS ==="
-    sqlite3 -batch -line var/insta485.sqlite3 'SELECT * FROM transactions'
-    echo ""
-    echo "=== MONETARY TRANSACTIONS ==="
-    sqlite3 -batch -line var/insta485.sqlite3 'SELECT * FROM monetary_transactions'
-    echo ""
-    echo "=== BALANCE CHANGES ==="
-    sqlite3 -batch -line var/insta485.sqlite3 'SELECT * FROM balance_changes'
-    ;;
-  "random")
-
-    for i in $(seq 1 100); do
-      # Create random image with text "random <i>"
-      convert -size 800x600 xc:lightblue -gravity center -weight bold \
-          -pointsize 200 -annotate +0+0 "random $i" \
-          "var/uploads/random_$i.jpg"
-
-      # Insert post into database
-      echo "INSERT INTO posts (filename, owner) VALUES ('random_$i.jpg', 'awdeorio');" \
-        | sqlite3 var/insta485.sqlite3
+    for table in users transactions monetary_transactions balance_changes; do
+      echo "=== ${table} ==="
+      sqlite3 -batch -line "$DB" "SELECT * FROM ${table}"
+      echo ""
     done
     ;;
 

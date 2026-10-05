@@ -6,6 +6,9 @@ Handles all possible failure scenarios and edge cases
 import json
 import insta485
 from insta485.email_automation import send_email
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class ErrorHandler:
@@ -70,7 +73,7 @@ class ErrorHandler:
         # Return original ticket to seller
         self._return_ticket_to_seller(transaction_id, email_data, "verification_failed")
 
-        print(
+        logger.error(
             f"🚨 VERIFICATION FAILED: Transaction {transaction_id} rejected - {verification_result['reason']}"
         )
 
@@ -119,7 +122,7 @@ class ErrorHandler:
         # Send notifications
         self._notify_payment_timeout(transaction)
 
-        print(
+        logger.info(
             f"⏰ PAYMENT TIMEOUT: Transaction {transaction_id} expired - returning ticket to seller"
         )
 
@@ -161,7 +164,7 @@ class ErrorHandler:
         # Send notifications
         self._notify_ticket_timeout(transaction)
 
-        print(
+        logger.info(
             f"⏰ TICKET TIMEOUT: Transaction {transaction_id} expired - seller didn't send ticket"
         )
 
@@ -208,7 +211,9 @@ class ErrorHandler:
         # Send notifications
         self._notify_complaint_filed(transaction, complaint_reason)
 
-        print(f"🚨 COMPLAINT FILED: Transaction {transaction_id} - {complaint_reason}")
+        logger.info(
+            f"🚨 COMPLAINT FILED: Transaction {transaction_id} - {complaint_reason}"
+        )
 
         return {"success": True, "message": "Complaint filed successfully"}
 
@@ -237,14 +242,14 @@ class ErrorHandler:
             "ticket_forwarded_funds_held",
             "completed",
         ]:
-            print(
+            logger.warning(
                 f"⚠️ DUPLICATE EMAIL: Ignoring duplicate ticket email for transaction {transaction_id}"
             )
             return {"error": "Transaction already processed"}
 
         # If in pending state, allow reprocessing (seller might have sent updated ticket)
         if transaction["status"] == "pending_ticket_submission":
-            print(
+            logger.info(
                 f"🔄 UPDATED EMAIL: Processing updated ticket email for transaction {transaction_id}"
             )
             return {"success": True, "message": "Processing updated ticket email"}
@@ -260,9 +265,11 @@ class ErrorHandler:
         2. Log security incident
         3. Notify seller of unauthorized attempt
         """
-        print(f"🚨 SECURITY ALERT: Invalid sender for transaction {transaction_id}")
-        print(f"   Expected: {expected_seller}")
-        print(f"   Received: {sender_email}")
+        logger.info(
+            f"🚨 SECURITY ALERT: Invalid sender for transaction {transaction_id}"
+        )
+        logger.info(f"   Expected: {expected_seller}")
+        logger.info(f"   Received: {sender_email}")
 
         # Send security alert to legitimate seller
         try:
@@ -279,7 +286,7 @@ class ErrorHandler:
             send_email(expected_seller, subject, html_content)
 
         except Exception as e:
-            print(f"❌ Failed to send security alert: {e}")
+            logger.error(f"❌ Failed to send security alert: {e}")
 
         return {"error": "Unauthorized sender - security alert sent to seller"}
 
@@ -317,7 +324,9 @@ class ErrorHandler:
             send_email(transaction["seller_email"], subject, html_content)
 
         except Exception as e:
-            print(f"❌ Failed to send verification failure notification to seller: {e}")
+            logger.error(
+                f"❌ Failed to send verification failure notification to seller: {e}"
+            )
 
     def _notify_buyer_scam_prevented(self, transaction, verification_result):
         """Notify buyer that we prevented a potential scam"""
@@ -349,7 +358,9 @@ class ErrorHandler:
             send_email(transaction["buyer_email"], subject, html_content)
 
         except Exception as e:
-            print(f"❌ Failed to send scam prevention notification to buyer: {e}")
+            logger.error(
+                f"❌ Failed to send scam prevention notification to buyer: {e}"
+            )
 
     def _notify_payment_timeout(self, transaction):
         """Notify both parties about payment timeout"""
@@ -381,7 +392,7 @@ class ErrorHandler:
             send_email(transaction["seller_email"], seller_subject, seller_html)
 
         except Exception as e:
-            print(f"❌ Failed to send payment timeout notifications: {e}")
+            logger.error(f"❌ Failed to send payment timeout notifications: {e}")
 
     def _notify_ticket_timeout(self, transaction):
         """Notify both parties about ticket timeout"""
@@ -414,7 +425,7 @@ class ErrorHandler:
             send_email(transaction["buyer_email"], buyer_subject, buyer_html)
 
         except Exception as e:
-            print(f"❌ Failed to send ticket timeout notifications: {e}")
+            logger.error(f"❌ Failed to send ticket timeout notifications: {e}")
 
     def _notify_complaint_filed(self, transaction, complaint_reason):
         """Notify all parties about filed complaint"""
@@ -462,7 +473,7 @@ class ErrorHandler:
             send_email("admin@safetransaction.com", admin_subject, admin_html)
 
         except Exception as e:
-            print(f"❌ Failed to send complaint notifications: {e}")
+            logger.error(f"❌ Failed to send complaint notifications: {e}")
 
     def _return_ticket_to_seller(self, transaction_id, ticket_data, reason):
         """Return original ticket email to seller"""
@@ -484,16 +495,16 @@ class ErrorHandler:
                 )
 
                 if success:
-                    print(
+                    logger.info(
                         f"📧 Ticket returned to seller for transaction {transaction_id} - {reason}"
                     )
                 else:
-                    print(
+                    logger.error(
                         f"❌ Failed to return ticket to seller for transaction {transaction_id}"
                     )
 
         except Exception as e:
-            print(f"❌ Error returning ticket to seller: {e}")
+            logger.error(f"❌ Error returning ticket to seller: {e}")
 
 
 # Global error handler instance

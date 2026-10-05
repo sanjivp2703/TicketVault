@@ -1,946 +1,320 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How Safe Transaction Works • Complete Guide</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            /* Color System */
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --success-gradient: linear-gradient(135deg, #00d4aa 0%, #00c896 100%);
-            --warning-gradient: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
-            --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
-            
-            /* Backgrounds */
-            --bg-primary: #f8fafc;
-            --bg-secondary: #ffffff;
-            --bg-tertiary: #f1f5f9;
-            
-            /* Text */
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-tertiary: #94a3b8;
-            
-            /* Borders */
-            --border-light: #e2e8f0;
-            --border-medium: #cbd5e1;
-            
-            /* Spacing */
-            --space-xs: 0.5rem;
-            --space-sm: 0.75rem;
-            --space-md: 1rem;
-            --space-lg: 1.5rem;
-            --space-xl: 2rem;
-            --space-2xl: 3rem;
-            
-            /* Radius */
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 20px;
-        }
+{% extends "layouts/base.html" %}
+{% block title %}How it works{% endblock %}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/how-it-works.css') }}">
+{% endblock %}
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-        }
-
-        /* Header */
-        .header {
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border-light);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(20px);
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: var(--space-md) var(--space-lg);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-            font-weight: 800;
-            font-size: 24px;
-            color: var(--text-primary);
-            text-decoration: none;
-        }
-
-        .brand-icon {
-            width: 32px;
-            height: 32px;
-            background: var(--primary-gradient);
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 18px;
-        }
-
-        .back-to-home {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            padding: 8px 16px;
-            border-radius: var(--radius-sm);
-            transition: all 0.3s ease;
-        }
-
-        .back-to-home:hover {
-            color: #6366f1;
-            background: rgba(99, 102, 241, 0.1);
-        }
-
-        /* Main Layout */
-        .main-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: var(--space-2xl) var(--space-lg);
-        }
-
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            margin-bottom: var(--space-2xl);
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 900;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: var(--space-md);
-            line-height: 1.1;
-        }
-
-        .hero-subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: var(--space-xl);
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-
-        /* Table of Contents */
-        .toc {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-lg);
-            padding: var(--space-xl);
-            margin-bottom: var(--space-2xl);
-        }
-
-        .toc-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: var(--space-lg);
-            color: var(--text-primary);
-        }
-
-        .toc-list {
-            list-style: none;
-            display: grid;
-            gap: var(--space-sm);
-        }
-
-        .toc-item {
-            padding: var(--space-sm) var(--space-md);
-            border-radius: var(--radius-sm);
-            transition: background 0.3s ease;
-        }
-
-        .toc-item:hover {
-            background: var(--bg-tertiary);
-        }
-
-        .toc-link {
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-        }
-
-        .toc-link:hover {
-            color: #6366f1;
-        }
-
-        /* Sections */
-        .section {
-            margin-bottom: var(--space-2xl);
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: var(--space-lg);
-            display: flex;
-            align-items: center;
-            gap: var(--space-md);
-        }
-
-        .section-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--primary-gradient);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
-        }
-
-        .section-intro {
-            font-size: 1.125rem;
-            color: var(--text-secondary);
-            margin-bottom: var(--space-xl);
-            line-height: 1.7;
-        }
-
-        /* Step Cards */
-        .steps-grid {
-            display: grid;
-            gap: var(--space-xl);
-            margin-bottom: var(--space-xl);
-        }
-
-        .step-card {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .step-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .step-header {
-            background: var(--primary-gradient);
-            color: white;
-            padding: var(--space-lg);
-            display: flex;
-            align-items: center;
-            gap: var(--space-md);
-        }
-
-        .step-number {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.125rem;
-        }
-
-        .step-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .step-content {
-            padding: var(--space-xl);
-        }
-
-        .step-description {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            margin-bottom: var(--space-lg);
-            line-height: 1.7;
-        }
-
-        .step-details {
-            list-style: none;
-        }
-
-        .step-detail {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--space-md);
-            margin-bottom: var(--space-md);
-            padding: var(--space-sm);
-            border-radius: var(--radius-sm);
-            background: var(--bg-tertiary);
-        }
-
-        .detail-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: #6366f1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 12px;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .detail-text {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
-        /* Safety Features */
-        .safety-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: var(--space-lg);
-        }
-
-        .safety-feature {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-lg);
-            padding: var(--space-xl);
-            text-align: center;
-        }
-
-        .safety-icon {
-            width: 64px;
-            height: 64px;
-            background: var(--success-gradient);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto var(--space-lg);
-            color: white;
-            font-size: 24px;
-        }
-
-        .safety-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: var(--space-sm);
-        }
-
-        .safety-description {
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        /* Guarantee Section */
-        .guarantee-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .guarantee-text {
-            font-size: 1.125rem;
-            line-height: 1.7;
-            color: var(--text-primary);
-            background: var(--bg-secondary);
-            border: 2px solid var(--primary-500);
-            border-radius: var(--radius-lg);
-            padding: var(--space-xl);
-            margin-bottom: var(--space-xl);
-            text-align: center;
-        }
-
-        .guarantee-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: var(--space-lg);
-        }
-
-        .guarantee-feature {
-            display: flex;
-            align-items: center;
-            gap: var(--space-md);
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-md);
-            padding: var(--space-lg);
-        }
-
-        .guarantee-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--primary-gradient);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
-            flex-shrink: 0;
-        }
-
-        .guarantee-details h4 {
-            margin: 0 0 var(--space-xs);
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .guarantee-details p {
-            margin: 0;
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-            line-height: 1.5;
-        }
-
-        /* FAQ */
-        .faq-item {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--space-md);
-            overflow: hidden;
-        }
-
-        .faq-question {
-            padding: var(--space-lg);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .faq-question:hover {
-            background: var(--bg-tertiary);
-        }
-
-        .faq-answer {
-            padding: 0 var(--space-lg) var(--space-lg);
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            background: var(--primary-gradient);
-            border-radius: var(--radius-xl);
-            padding: var(--space-2xl);
-            text-align: center;
-            color: white;
-            margin-top: var(--space-2xl);
-        }
-
-        .cta-title {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: var(--space-md);
-        }
-
-        .cta-subtitle {
-            font-size: 1.125rem;
-            opacity: 0.9;
-            margin-bottom: var(--space-xl);
-        }
-
-        .cta-button {
-            background: white;
-            color: #6366f1;
-            padding: var(--space-lg) var(--space-2xl);
-            border-radius: var(--radius-md);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.125rem;
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
-            
-            .main-content {
-                padding: var(--space-xl) var(--space-md);
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <a href="/" class="brand">
-                <div class="brand-icon">
-                    <i class="fas fa-shield-check"></i>
-                </div>
-                Safe Transaction
+{% block content %}
+<main class="hiw">
+    <header class="hiw-hero">
+        <div class="container">
+            <a href="/" class="hiw-back">
+                <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                Back to home
             </a>
-            <a href="/" class="back-to-home">
-                <i class="fas fa-arrow-left"></i>
-                Back to Home
-            </a>
+            <h1 class="hiw-hero__title">How Safe Transaction works</h1>
+            <p class="hiw-hero__lede">
+                A comprehensive guide to secure ticket selling that protects sellers and guarantees payments.
+            </p>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Hero Section -->
-        <section class="hero">
-            <h1 class="hero-title">How Safe Transaction Works</h1>
-            <p class="hero-subtitle">
-                A comprehensive guide to secure ticket selling that protects sellers and guarantees payments
-            </p>
-        </section>
-
-        <!-- Table of Contents -->
-        <section class="toc">
-            <h2 class="toc-title">Quick Navigation</h2>
-            <ul class="toc-list">
-                <li class="toc-item">
-                    <a href="#overview" class="toc-link">
-                        <i class="fas fa-eye"></i>
-                        Platform Overview
-                    </a>
+    <div class="container hiw-layout">
+        <nav class="hiw-toc" aria-labelledby="hiw-toc-title">
+            <h2 class="hiw-toc__title" id="hiw-toc-title">Quick navigation</h2>
+            <ul class="hiw-toc__list">
+                <li><a href="#overview" class="hiw-toc__link">Platform overview</a></li>
+                <li><a href="#guarantee" class="hiw-toc__link">Full protection guarantee</a></li>
+                <li>
+                    <a href="#process" class="hiw-toc__link">6-step process</a>
+                    <ul class="hiw-toc__list hiw-toc__list--sub">
+                        <li><a href="#dispute-resolution" class="hiw-toc__link">Dispute resolution</a></li>
+                    </ul>
                 </li>
-                <li class="toc-item">
-                    <a href="#process" class="toc-link">
-                        <i class="fas fa-list-ol"></i>
-                        6-Step Process
-                    </a>
-                </li>
-                <li class="toc-item">
-                    <a href="#faq" class="toc-link">
-                        <i class="fas fa-question-circle"></i>
-                        Frequently Asked Questions
-                    </a>
-                </li>
+                <li><a href="#faq" class="hiw-toc__link">Frequently asked questions</a></li>
             </ul>
-        </section>
+        </nav>
 
-        <!-- Platform Overview -->
-        <section id="overview" class="section">
-            <h2 class="section-title">
-                <div class="section-icon">
-                    <i class="fas fa-eye"></i>
-                </div>
-                Platform Overview
-            </h2>
-            <p class="section-intro">
-                Safe transaction is a secure escrow platform specifically designed for ticket resellers. We guarantee full payment to sellers and the promised ticket to the buyers or their assets back.
-            </p>
-            
-            <div class="safety-grid">
-                <div class="safety-feature">
-                    <div class="safety-icon">
-                        <i class="fas fa-university"></i>
-                    </div>
-                    <h3 class="safety-title">Guaranteed Payment</h3>
-                    <p class="safety-description">
-                        You're guaranteed to receive payment once tickets are delivered. Our escrow system protects your earnings from fraud.
-                    </p>
-                </div>
-                <div class="safety-feature">
-                    <div class="safety-icon">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <h3 class="safety-title">Buyer Verification</h3>
-                    <p class="safety-description">
-                        We verify all buyers and their payment methods before allowing them to purchase, ensuring legitimate transactions.
-                    </p>
-                </div>
-                <div class="safety-feature">
-                    <div class="safety-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3 class="safety-title">Seller Protection</h3>
-                    <p class="safety-description">
-                        Our dispute resolution system protects sellers from fraudulent buyers and ensures fair resolution of any issues with proof provided outlined below.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Full Protection Guarantee -->
-        <section id="guarantee" class="section" style="scroll-margin-top: 120px;">
-            <h2 class="section-title">
-                <div class="section-icon">
-                    <i class="fas fa-shield-check"></i>
-                </div>
-                Full Protection Guarantee
-            </h2>
-            <div class="guarantee-content">
-                <p class="guarantee-text">
-                    If a user provides proof that they were scammed—resulting in the loss of their ticket or the equivalent ticket price—and they completed the transaction through our platform as outlined on our website, we will reimburse them for the ticket price (or the amount lost).
+        <article class="hiw-article">
+            <!-- Platform overview -->
+            <section id="overview" class="hiw-section" aria-labelledby="overview-title">
+                <h2 class="hiw-section__title" id="overview-title">Platform overview</h2>
+                <p class="hiw-section__intro">
+                    Safe Transaction is a secure escrow platform specifically designed for ticket resellers. We guarantee full payment to sellers and the promised ticket to buyers, or their assets back.
                 </p>
-                <div class="guarantee-features">
-                    <div class="guarantee-feature">
-                        <div class="guarantee-icon">
-                            <i class="fas fa-money-bill-wave"></i>
+
+                <ul class="hiw-features card">
+                    <li class="hiw-feature">
+                        <span class="hiw-feature__icon" aria-hidden="true"><i class="fa-solid fa-building-columns"></i></span>
+                        <div>
+                            <h3 class="hiw-feature__title">Guaranteed payment</h3>
+                            <p class="hiw-feature__text">
+                                You're guaranteed to receive payment once tickets are delivered. Our escrow system protects your earnings from fraud.
+                            </p>
                         </div>
-                        <div class="guarantee-details">
-                            <h4>Full Reimbursement</h4>
-                            <p>Complete coverage for ticket price or amount lost</p>
+                    </li>
+                    <li class="hiw-feature">
+                        <span class="hiw-feature__icon" aria-hidden="true"><i class="fa-solid fa-certificate"></i></span>
+                        <div>
+                            <h3 class="hiw-feature__title">Buyer verification</h3>
+                            <p class="hiw-feature__text">
+                                We verify all buyers and their payment methods before allowing them to purchase, ensuring legitimate transactions.
+                            </p>
                         </div>
-                    </div>
-                    <div class="guarantee-feature">
-                        <div class="guarantee-icon">
-                            <i class="fas fa-clipboard-check"></i>
+                    </li>
+                    <li class="hiw-feature">
+                        <span class="hiw-feature__icon" aria-hidden="true"><i class="fa-solid fa-users"></i></span>
+                        <div>
+                            <h3 class="hiw-feature__title">Seller protection</h3>
+                            <p class="hiw-feature__text">
+                                Our dispute resolution system protects sellers from fraudulent buyers and ensures fair resolution of any issues once proof is provided, as outlined below.
+                            </p>
                         </div>
-                        <div class="guarantee-details">
-                            <h4>Proof Required</h4>
-                            <p>Documentation of scam must be provided</p>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Full protection guarantee -->
+            <section id="guarantee" class="hiw-section" aria-labelledby="guarantee-title">
+                <h2 class="hiw-section__title" id="guarantee-title">Full protection guarantee</h2>
+                <div class="alert alert--success hiw-guarantee">
+                    <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                    <p>
+                        If a user provides proof that they were scammed, resulting in the loss of their ticket or the equivalent ticket price, and they completed the transaction through our platform as outlined on our website, we will reimburse them for the ticket price (or the amount lost).
+                    </p>
+                </div>
+                <dl class="detail-list hiw-terms">
+                    <div class="detail-list__row">
+                        <dt class="detail-list__label">Full reimbursement</dt>
+                        <dd class="detail-list__value">Complete coverage for ticket price or amount lost</dd>
+                    </div>
+                    <div class="detail-list__row">
+                        <dt class="detail-list__label">Proof required</dt>
+                        <dd class="detail-list__value">Documentation of scam must be provided</dd>
+                    </div>
+                    <div class="detail-list__row">
+                        <dt class="detail-list__label">Platform compliance</dt>
+                        <dd class="detail-list__value">Transaction must follow our outlined process</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <!-- 6-step process -->
+            <section id="process" class="hiw-section" aria-labelledby="process-title">
+                <h2 class="hiw-section__title" id="process-title">Complete process guide</h2>
+                <p class="hiw-section__intro">
+                    Our 6-step process ensures secure transactions and guaranteed payments for sellers. Here's exactly how it works.
+                </p>
+
+                <ol class="hiw-timeline">
+                    <!-- Step 1 -->
+                    <li class="hiw-step">
+                        <span class="hiw-step__number" aria-hidden="true">1</span>
+                        <div class="hiw-step__body card">
+                            <div class="hiw-step__meta">
+                                <span class="badge badge--brand">Seller</span>
+                            </div>
+                            <h3 class="hiw-step__title"><span class="visually-hidden">Step 1: </span>Create your listing</h3>
+                            <p class="hiw-step__text">Sellers start by submitting a listing with event information.</p>
+                            <ul class="hiw-list">
+                                <li>Select the event</li>
+                                <li>Set your ticket price</li>
+                                <li>Enter the buyer's email (Michigan Athletics email for UMich tickets)</li>
+                            </ul>
                         </div>
-                    </div>
-                    <div class="guarantee-feature">
-                        <div class="guarantee-icon">
-                            <i class="fas fa-check-circle"></i>
+                    </li>
+
+                    <!-- Step 2 -->
+                    <li class="hiw-step">
+                        <span class="hiw-step__number" aria-hidden="true">2</span>
+                        <div class="hiw-step__body card">
+                            <div class="hiw-step__meta">
+                                <span class="badge badge--brand">Seller</span>
+                            </div>
+                            <h3 class="hiw-step__title"><span class="visually-hidden">Step 2: </span>Submit your tickets</h3>
+                            <p class="hiw-step__text">Transfer your ticket to us to verify it.</p>
+                            <ul class="hiw-list">
+                                <li>Go to the appropriate ticket transfer page (e.g. Michigan Athletics for UMich).</li>
+                                <li>Enter our information and transfer the ticket:
+                                    <dl class="detail-list hiw-recipient">
+                                        <div class="detail-list__row">
+                                            <dt class="detail-list__label">First name</dt>
+                                            <dd class="detail-list__value">Safe</dd>
+                                        </div>
+                                        <div class="detail-list__row">
+                                            <dt class="detail-list__label">Last name</dt>
+                                            <dd class="detail-list__value">Transaction</dd>
+                                        </div>
+                                        <div class="detail-list__row">
+                                            <dt class="detail-list__label">Email</dt>
+                                            <dd class="detail-list__value">safetransactiontix@gmail</dd>
+                                        </div>
+                                    </dl>
+                                </li>
+                                <li>Our system automatically verifies ticket authenticity.</li>
+                            </ul>
+                            <div class="alert">
+                                <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                                <p>If anything goes wrong in the process, we'll send the ticket back to you. If that's not possible, we will supply the ticket price.</p>
+                            </div>
                         </div>
-                        <div class="guarantee-details">
-                            <h4>Platform Compliance</h4>
-                            <p>Transaction must follow our outlined process</p>
+                    </li>
+
+                    <!-- Step 3 -->
+                    <li class="hiw-step">
+                        <span class="hiw-step__number" aria-hidden="true">3</span>
+                        <div class="hiw-step__body card">
+                            <div class="hiw-step__meta">
+                                <span class="badge badge--brand">Buyer</span>
+                                <span class="badge"><i class="fa-regular fa-clock" aria-hidden="true"></i> Within 1 hour</span>
+                            </div>
+                            <h3 class="hiw-step__title"><span class="visually-hidden">Step 3: </span>Buyer makes payment</h3>
+                            <p class="hiw-step__text">Once the ticket is verified, we'll email the buyer a payment link.</p>
+                            <ul class="hiw-list">
+                                <li>The buyer has to pay within 1 hour, so that the seller is not left waiting without ownership of their ticket.</li>
+                            </ul>
+                            <div class="alert alert--warning">
+                                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                                <p>If full payment is not submitted within an hour, the ticket is sent back to the seller and we no longer accept payment.</p>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+                    </li>
 
-        <!-- 6-Step Process -->
-        <section id="process" class="section">
-            <h2 class="section-title">
-                <div class="section-icon">
-                    <i class="fas fa-list-ol"></i>
-                </div>
-                Complete Process Guide
-            </h2>
-            <p class="section-intro">
-                Our 6-step process ensures secure transactions and guaranteed payments for sellers. Here's exactly how it works:
-            </p>
+                    <!-- Step 4 -->
+                    <li class="hiw-step">
+                        <span class="hiw-step__number" aria-hidden="true">4</span>
+                        <div class="hiw-step__body card">
+                            <div class="hiw-step__meta">
+                                <span class="badge badge--brand">Safe Transaction</span>
+                                <span class="badge"><i class="fa-regular fa-clock" aria-hidden="true"></i> Within an hour of payment</span>
+                            </div>
+                            <h3 class="hiw-step__title"><span class="visually-hidden">Step 4: </span>Automatic delivery</h3>
+                            <p class="hiw-step__text">Once payment is confirmed, tickets are automatically delivered to the buyer.</p>
+                            <ul class="hiw-list">
+                                <li>Delivery within an hour of payment confirmation</li>
+                                <li>Buyer receives the original ticket email with all attachments</li>
+                                <li>Transaction security maintained throughout the process</li>
+                                <li>Buyer can access mobile tickets or PDFs within an hour</li>
+                            </ul>
+                        </div>
+                    </li>
 
-            <div class="steps-grid">
-                <!-- Step 1 -->
-                <div class="step-card">
-                    <div class="step-header">
-                        <div class="step-number">1</div>
-                        <div class="step-title">Create Your Listing</div>
-                    </div>
-                    <div class="step-content">
-                        <p class="step-description">
-                            Sellers start by submitting a listing with event information.
-                        </p>
-                        <ul class="step-details">
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-edit"></i></div>
-                                <div class="detail-text">Select the event</div>
-                            </li>
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-dollar-sign"></i></div>
-                                <div class="detail-text">Set your ticket price</div>
-                            </li>
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-envelope"></i></div>
-                                <div class="detail-text">Enter buyer's email (Michigan Athletics email for UMich tickets)</div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                    <!-- Step 5 -->
+                    <li class="hiw-step">
+                        <span class="hiw-step__number" aria-hidden="true">5</span>
+                        <div class="hiw-step__body card">
+                            <div class="hiw-step__meta">
+                                <span class="badge badge--brand">Seller and buyer</span>
+                            </div>
+                            <h3 class="hiw-step__title"><span class="visually-hidden">Step 5: </span>Seller gets paid and buyer gets their ticket</h3>
+                            <p class="hiw-step__text">Once the buyer submits payment, the seller will be paid plus a 10% bonus on Safe Transaction.</p>
+                            <ul class="hiw-list">
+                                <li>The seller receives the price of the ticket plus 10% in their balance, shown on the homepage.</li>
+                                <li>The seller can choose to withdraw funds from their Safe Transaction account, and the money is sent through the available options.</li>
+                                <li>The ticket is transferred to the buyer's account (e.g. Michigan Athletics for UMich).</li>
+                            </ul>
+                            <div class="alert alert--warning">
+                                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                                <p><strong>At any point after this until 24 hours after the start of the event, the buyer or seller can submit a complaint if a scam has occurred.</strong></p>
+                            </div>
+                        </div>
+                    </li>
 
-                <!-- Step 2 -->
-                <div class="step-card">
-                    <div class="step-header">
-                        <div class="step-number">2</div>
-                        <div class="step-title">Submit Your Tickets</div>
-                    </div>
-                    <div class="step-content">
-                        <p class="step-description">
-                            Transfer your ticket to us to verify it.
-                        </p>
-                        <ul class="step-details">
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-lock"></i></div>
-                                <div class="detail-text">Go to appropriate ticket transfer page (e.g., Michigan Athletics for UMich)</div>
-                            </li>
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-forward"></i></div>
-                                <div class="detail-text">Input our information (Firstname: Safe, Lastname: Transaction, email: safetransactiontix@gmail) and transfer the ticket.</div>
-                            </li>
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-search"></i></div>
-                                <div class="detail-text">Our system automatically verifies ticket authenticity.</div>
-                            </li>
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-exclamation-triangle"></i></div>
-                                <div class="detail-text">If anything goes wrong in the process we'll send the ticket back to you. If that's not possible we will supply the ticket price</div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                    <!-- Step 6 -->
+                    <li class="hiw-step" id="dispute-resolution">
+                        <span class="hiw-step__number" aria-hidden="true">6</span>
+                        <div class="hiw-step__body card">
+                            <div class="hiw-step__meta">
+                                <span class="badge badge--brand">Seller or buyer</span>
+                                <span class="badge">If needed</span>
+                            </div>
+                            <h3 class="hiw-step__title"><span class="visually-hidden">Step 6: </span>Dispute resolution (if needed)</h3>
+                            <p class="hiw-step__text">
+                                Our platform is made to prevent any possible scam from occurring. In the off chance that this happens, follow this procedure. The goal is for the impacted user to be fully compensated.
+                            </p>
+                            <ul class="hiw-list">
+                                <li>File a complaint from the homepage or send an email to <a href="mailto:safetransactiontix@gmail.com?subject=Filing%20a%20Dispute">safetransactiontix@gmail.com</a> with the subject line: <strong>Filing a Dispute</strong></li>
+                                <li>We will email both parties and request specific proof from each based on the case.</li>
+                                <li>We will be impartial in our decision.</li>
+                                <li>In the unlikely scenario that funds or a ticket are proven to have been taken through a scam and can't be recovered, we will provide repayment in the form of the price of the ticket and the fraudulent user will be banned from our platform.</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ol>
+            </section>
 
-                <!-- Step 3 -->
-                <div class="step-card">
-                    <div class="step-header">
-                        <div class="step-number">3</div>
-                        <div class="step-title">Buyer Makes Payment</div>
-                    </div>
-                    <div class="step-content">
-                        <p class="step-description">
-                            Once ticket is verified, we'll email the buyer a payment link.
-                        </p>
-                        <ul class="step-details">
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-bell"></i></div>
-                                <div class="detail-text">Ticket is verified and an email with a payment link is sent to the buyer.</div>
-                            </li>
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-credit-card"></i></div>
-                                <div class="detail-text">Buyer has to pay within 1 hour to avoid seller waiting for a while without ownership of their ticket.</div>
-                            </li>
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-bank"></i></div>
-                                <div class="detail-text">If full payment is not submitted within an hour, the ticket is sent back to the seller and we no longer accept payment.</div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+            <!-- FAQ -->
+            <section id="faq" class="hiw-section" aria-labelledby="faq-title">
+                <h2 class="hiw-section__title" id="faq-title">Frequently asked questions</h2>
 
-                <!-- Step 4 -->
-                <div class="step-card">
-                    <div class="step-header">
-                        <div class="step-number">4</div>
-                        <div class="step-title">Automatic Delivery</div>
-                    </div>
-                    <div class="step-content">
-                        <p class="step-description">
-                            Once payment is confirmed, tickets are automatically delivered to the buyer.
-                        </p>
-                        <ul class="step-details">
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-bolt"></i></div>
-                                <div class="detail-text">Delivery within an hour of payment confirmation</div>
-                            </li>
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-envelope-open"></i></div>
-                                <div class="detail-text">Buyer receives the original ticket email with all attachments</div>
-                            </li>
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-shield-check"></i></div>
-                                <div class="detail-text">Transaction security maintained throughout the process</div>
-                            </li>
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-mobile-alt"></i></div>
-                                <div class="detail-text">Buyer can access mobile tickets or PDFs within an hour</div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                <div class="hiw-faq card">
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span>How much does Safe Transaction cost for sellers?</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </summary>
+                        <div class="faq-answer">
+                            Safe Transaction is completely free for sellers, and you actually earn an extra 10% bonus on successful sales.
+                            There are no listing fees, no hidden charges, and no deductions from your ticket price.
+                        </div>
+                    </details>
 
-                <!-- Step 5 -->
-                <div class="step-card">
-                    <div class="step-header">
-                        <div class="step-number">5</div>
-                        <div class="step-title">Seller Gets Paid & Buyer Gets Their Ticket</div>
-                    </div>
-                    <div class="step-content">
-                        <p class="step-description">
-                            Once buyer submits payment, seller will be paid plus a 10% bonus on SafeTransaction.
-                        </p>
-                        <ul class="step-details">
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-hourglass-half"></i></div>
-                                <div class="detail-text">Seller receives price of ticket plus 10% to their balance located in the homepage.</div>
-                            </li>
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-check-circle"></i></div>
-                                <div class="detail-text">Seller can choose to withdraw funds from SafeTransaction account and money is sent through the available options.</div>
-                            </li>
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-gift"></i></div>
-                                <div class="detail-text">Ticket is transferred to the buyer's account (e.g., Michigan Athletics for UMich)</div>
-                            </li>
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-exclamation-triangle"></i></div>
-                                <div class="detail-text"><strong>At any point after this until 24 hours after the start of the event, the buyer or seller can submit a complaint if a scam has occured.</strong></div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span>What if my tickets are rejected during verification?</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </summary>
+                        <div class="faq-answer">
+                            If tickets don't pass verification, you'll be notified of the failure with the specific reason. We will send the ticket back to the original seller. The listing will be cancelled, but you can submit another listing with the correct ticket.
+                        </div>
+                    </details>
 
-                <!-- Step 6 -->
-                <div class="step-card" id="dispute-resolution" style="scroll-margin-top: 100px;">
-                    <div class="step-header">
-                        <div class="step-number">6</div>
-                        <div class="step-title">Dispute Resolution (If Needed)</div>
-                    </div>
-                    <div class="step-content">
-                        <p class="step-description">
-                            Our platform made to prevent any possible scam from occurring. In the off chance that this happens, follow this procedure. The goal is for the impacted user to be fully compensated.
-                        </p>
-                        <ul class="step-details">
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-clipboard-list"></i></div>
-                                <div class="detail-text">File a complaint from the homepage or send an email to safetransactiontix@gmail.com with the Subject Line: Filing a Dispute</div>
-                            </li>
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-balance-scale"></i></div>
-                                <div class="detail-text">We will email both parties and request specific proof from each based on the case.</div>
-                            </li>
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-gavel"></i></div>
-                                <div class="detail-text">We will be impartial in our decision.</div>
-                            </li>
-                            <li class="step-detail">
-                                <div class="detail-icon"><i class="fas fa-handshake"></i></div>
-                                <div class="detail-text">In the unlikely scenario that funds or a ticket are proven to have been taken through a scam and can't be recovered, we will provide repayment in the form of the price of the ticket and the fraudulent user will be banned from our platform.</div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span>How long does the verification process take?</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </summary>
+                        <div class="faq-answer">
+                            Most tickets will be verified within an hour. If you don't receive a verification result (it would be shown on the homepage), email us and we'll return the ticket to you.
+                        </div>
+                    </details>
 
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span>What happens if the buyer doesn't pay?</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </summary>
+                        <div class="faq-answer">
+                            If payment isn't received by the deadline (1 hour after ticket verification), the transaction automatically cancels.
+                            We will send the ticket back to you and you can create a new listing immediately. There's no penalty for unpaid transactions.
+                        </div>
+                    </details>
 
-        <!-- FAQ -->
-        <section id="faq" class="section">
-            <h2 class="section-title">
-                <div class="section-icon">
-                    <i class="fas fa-question-circle"></i>
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span>Can I cancel a transaction after creating it?</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </summary>
+                        <div class="faq-answer">
+                            Once you send the ticket to us, unfortunately you can't cancel it, as the buyer is able to purchase the ticket at that point. However, if you sent the wrong ticket it will be automatically returned. If you would like to cancel the transaction, inform the buyer so that they won't pay before the deadline. The transaction will then be cancelled and the ticket sent back to you.
+                        </div>
+                    </details>
                 </div>
-                Frequently Asked Questions
-            </h2>
+            </section>
 
-            <div class="faq-item">
-                <div class="faq-question">
-                    <span>How much does Safe Transaction cost for sellers?</span>
-                    <i class="fas fa-chevron-down"></i>
+            <!-- Call to action -->
+            <section class="hiw-cta card" aria-labelledby="cta-title">
+                <div>
+                    <h2 class="hiw-cta__title" id="cta-title">Ready to start selling safely?</h2>
+                    <p class="hiw-cta__text">Earn extra money selling tickets securely with guaranteed payments.</p>
                 </div>
-                <div class="faq-answer">
-                    Safe Transaction is completely free for sellers - you actually earn an extra 10% bonus on successful sales. 
-                    There are no listing fees, no hidden charges, and no deductions from your ticket price.
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <span>What if my tickets are rejected during verification?</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    If tickets don't pass verification, you'll be notified when failed with the specific reason. We will send the ticket back to the origin seller. The listing will be cancelled but you can submit another listing with the correct ticket.
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <span>How long does the verification process take?</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    Most tickets will be verified within an hour. If you don't receive a result of the verification that would be shown in the homepage, email us and we'll return the ticket back to you.
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <span>What happens if the buyer doesn't pay?</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    If payment isn't received by the deadline (1 hour after ticket verification), the transaction automatically cancels. 
-                    We will send the ticket back to you and you can create a new listing immediately. There's no penalty for unpaid transactions.
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <span>Can I cancel a transaction after creating it?</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    Once you send the ticket to us, unfortunately you can't cancel it as the buyer is able to purchase the ticket at that point. However, if you sent the wrong ticket it will be automatically returned. If you would like to cancel the transaction, inform the buyer so that they won't pay before the deadline. The transaction will then be cancelled and the ticket sent back to you.
-                </div>
-            </div>
-
-        </section>
-
-        <!-- CTA Section -->
-        <section class="cta-section">
-            <h2 class="cta-title">Ready to Start Selling Safely?</h2>
-            <p class="cta-subtitle">
-                Earn extra money selling tickets securely with guaranteed payments
-            </p>
-            <a href="/" class="cta-button">
-                <i class="fas fa-rocket"></i>
-                Start Your First Listing
-            </a>
-        </section>
-    </main>
-
-    <script>
-        // Simple FAQ accordion
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const answer = question.nextElementSibling;
-                const icon = question.querySelector('i');
-                
-                if (answer.style.display === 'block') {
-                    answer.style.display = 'none';
-                    icon.classList.remove('fa-chevron-up');
-                    icon.classList.add('fa-chevron-down');
-                } else {
-                    answer.style.display = 'block';
-                    icon.classList.remove('fa-chevron-down');
-                    icon.classList.add('fa-chevron-up');
-                }
-            });
-        });
-
-        // Smooth scrolling for TOC links
-        document.querySelectorAll('.toc-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const target = document.querySelector(link.getAttribute('href'));
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            });
-        });
-    </script>
-</body>
-</html>
+                <a href="/" class="btn btn--primary btn--lg">
+                    Start your first listing
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </a>
+            </section>
+        </article>
+    </div>
+</main>
+{% endblock %}

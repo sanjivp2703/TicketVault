@@ -8,6 +8,9 @@ import stripe
 from datetime import datetime, timedelta
 import insta485
 from insta485.transaction_manager import TransactionManager
+import logging
+
+logger = logging.getLogger(__name__)
 # Email processing functionality will be added later
 
 
@@ -388,12 +391,14 @@ def simulate_verification(transaction_id):
         result = transaction_manager.process_incoming_ticket(transaction_id, email_data)
 
         if result["success"]:
-            print(f"🧪 SIMULATION: Transaction {transaction_id} activated successfully")
-            print("📧 SIMULATION: Buyer notification would be sent")
-            print(
+            logger.info(
+                f"🧪 SIMULATION: Transaction {transaction_id} activated successfully"
+            )
+            logger.info("📧 SIMULATION: Buyer notification would be sent")
+            logger.info(
                 f"⏰ SIMULATION: Payment deadline set to {result.get('payment_deadline', 'N/A')}"
             )
-            print(
+            logger.info(
                 f"🔍 SIMULATION: Verification score: {result.get('verification_score', 'N/A')}"
             )
 
@@ -411,7 +416,7 @@ def simulate_verification(transaction_id):
             )
 
     except Exception as e:
-        print(f"❌ SIMULATION ERROR: {e}")
+        logger.error(f"❌ SIMULATION ERROR: {e}")
         return flask.jsonify({"success": False, "error": str(e)})
 
 
@@ -490,17 +495,19 @@ def mark_as_verified(transaction_id):
                 event_details=event_details,
                 payment_deadline=payment_deadline,
             )
-            print(f"📧 TEST: Buyer notification sent to {transaction['buyer_email']}")
+            logger.info(
+                f"📧 TEST: Buyer notification sent to {transaction['buyer_email']}"
+            )
         except Exception as e:
-            print(f"📧 TEST: Failed to send buyer notification: {e}")
+            logger.error(f"📧 TEST: Failed to send buyer notification: {e}")
             import traceback
 
             traceback.print_exc()
 
-        print(
+        logger.info(
             f"✅ TEST: Transaction {transaction_id} manually marked as verified and activated"
         )
-        print(f"⏰ TEST: Payment deadline set to {payment_deadline}")
+        logger.info(f"⏰ TEST: Payment deadline set to {payment_deadline}")
 
         return flask.jsonify(
             {
@@ -513,7 +520,7 @@ def mark_as_verified(transaction_id):
         )
 
     except Exception as e:
-        print(f"❌ TEST ERROR: {e}")
+        logger.error(f"❌ TEST ERROR: {e}")
         return flask.jsonify({"success": False, "error": str(e)})
 
 
@@ -586,7 +593,6 @@ def test_verify_transaction():
             # NOTE: Seller success email now sent after payment, not after verification
 
             # 2. Send PAYMENT notification to BUYER
-            payment_url = f"http://localhost:8000/ticket/{transaction_id}"
 
             # Parse datetime if it's a string
             event_datetime = original_details.get("datetime", "TBD")
@@ -617,23 +623,25 @@ def test_verify_transaction():
                 payment_deadline=payment_deadline,
             )
 
-            print(
+            logger.info(
                 f"📧 TEST VERIFY: Notifications sent to seller ({transaction['seller_email']}) and buyer ({transaction['buyer_email']})"
             )
             email_sent = True
 
         except Exception as e:
-            print(f"📧 TEST VERIFY: Failed to send buyer notification: {e}")
+            logger.error(f"📧 TEST VERIFY: Failed to send buyer notification: {e}")
             import traceback
 
             traceback.print_exc()
             email_sent = False
 
         # Log the test verification
-        print(f"⚡ TEST VERIFY: Transaction {transaction_id} instantly verified")
-        print("📈 TEST VERIFY: Verification score set to 100%")
-        print(f"⏰ TEST VERIFY: Payment deadline set to {payment_deadline}")
-        print("🔄 TEST VERIFY: Status: pending_ticket_submission → waiting_for_payment")
+        logger.info(f"⚡ TEST VERIFY: Transaction {transaction_id} instantly verified")
+        logger.info("📈 TEST VERIFY: Verification score set to 100%")
+        logger.info(f"⏰ TEST VERIFY: Payment deadline set to {payment_deadline}")
+        logger.info(
+            "🔄 TEST VERIFY: Status: pending_ticket_submission → waiting_for_payment"
+        )
 
         return flask.jsonify(
             {
@@ -654,7 +662,7 @@ def test_verify_transaction():
         )
 
     except Exception as e:
-        print(f"❌ TEST VERIFY ERROR: {e}")
+        logger.error(f"❌ TEST VERIFY ERROR: {e}")
         import traceback
 
         traceback.print_exc()
@@ -690,7 +698,7 @@ def get_transaction_status(transaction_id):
         return flask.jsonify({"success": True, "transaction": transaction_dict})
 
     except Exception as e:
-        print(f"❌ STATUS API ERROR: {e}")
+        logger.error(f"❌ STATUS API ERROR: {e}")
         return flask.jsonify({"success": False, "error": str(e)})
 
 
@@ -771,12 +779,12 @@ def simulate_ticket_sent(transaction_id):
                 event_datetime_str=event_datetime_str,
             )
 
-            print(
+            logger.info(
                 f"📧 Sent ticket received email to buyer {transaction['buyer_email']}"
             )
 
         except Exception as e:
-            print(f"❌ Failed to send congratulations email: {e}")
+            logger.error(f"❌ Failed to send congratulations email: {e}")
             # Don't fail the whole operation if email fails
 
         return flask.jsonify(
@@ -788,7 +796,7 @@ def simulate_ticket_sent(transaction_id):
         )
 
     except Exception as e:
-        print(f"❌ SIMULATE TICKET SENT API ERROR: {e}")
+        logger.error(f"❌ SIMULATE TICKET SENT API ERROR: {e}")
         return flask.jsonify({"success": False, "error": str(e)})
 
 
@@ -886,7 +894,7 @@ def ticket_verification():
             return flask.jsonify({"success": False, "error": "Invalid action"}), 400
 
     except Exception as e:
-        print(f"❌ TICKET VERIFICATION ERROR: {e}")
+        logger.error(f"❌ TICKET VERIFICATION ERROR: {e}")
         return flask.jsonify({"success": False, "error": str(e)}), 500
 
 
@@ -971,7 +979,7 @@ def cancel_transaction_api(transaction_id):
                 ],  # Always seller since only sellers can cancel
             )
 
-        print(
+        logger.info(
             f"[CANCEL] Transaction {transaction_id} cancelled by {user_email}: {new_status}"
         )
 
@@ -984,7 +992,7 @@ def cancel_transaction_api(transaction_id):
         )
 
     except Exception as e:
-        print(f"❌ CANCEL TRANSACTION ERROR: {e}")
+        logger.error(f"❌ CANCEL TRANSACTION ERROR: {e}")
         return flask.jsonify({"success": False, "error": str(e)}), 500
 
 
@@ -1219,12 +1227,12 @@ def send_cancellation_emails(
         )
         insta485.mail.send(seller_msg)
 
-        print(f"📧 Sent cancellation emails for transaction {transaction_id}")
-        print(f"   - Buyer email sent to: {buyer_email}")
-        print(f"   - Seller email sent to: {seller_email}")
+        logger.info(f"📧 Sent cancellation emails for transaction {transaction_id}")
+        logger.info(f"   - Buyer email sent to: {buyer_email}")
+        logger.info(f"   - Seller email sent to: {seller_email}")
 
     except Exception as e:
-        print(
+        logger.error(
             f"❌ Failed to send cancellation emails for transaction {transaction_id}: {e}"
         )
 
@@ -1288,5 +1296,5 @@ def test_ticket_sent():
         )
 
     except Exception as e:
-        print(f"Error in test-ticket-sent: {e}")
+        logger.error(f"Error in test-ticket-sent: {e}")
         return flask.jsonify({"success": False, "error": str(e)}), 500

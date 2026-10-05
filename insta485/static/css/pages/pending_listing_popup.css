@@ -1,0 +1,187 @@
+/*
+ * Pending listing popup (templates/pending_listing_popup.html).
+ * pending_listing_popup.js shows it by setting display:flex inline.
+ */
+
+.pending-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  background: rgba(15, 23, 42, 0.55);
+}
+
+.pending-popup__modal {
+  width: 100%;
+  max-width: 500px;
+  max-height: calc(100vh - var(--space-8));
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+}
+
+.pending-popup__header {
+  padding: var(--space-8) var(--space-6) var(--space-5);
+  text-align: center;
+}
+
+.pending-popup__title {
+  margin-bottom: var(--space-2);
+  font-size: var(--text-2xl);
+}
+
+.pending-popup__body {
+  display: grid;
+  gap: var(--space-6);
+  padding: 0 var(--space-6) var(--space-6);
+}
+
+.pending-step__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  font-size: var(--text-lg);
+}
+
+.pending-step__number {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--color-brand-soft);
+  color: var(--color-brand-strong);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.pending-step__panel {
+  margin: 0;
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-alt);
+  font-size: var(--text-sm);
+}
+
+.pending-step__panel a {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.pending-copy-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.pending-copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.pending-copy--wide {
+  grid-column: 1 / -1;
+}
+
+.pending-copy__row {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.pending-copy__row .input {
+  min-width: 0;
+  font-size: var(--text-sm);
+}
+
+/* The script sets an inline background on this button after copying; keep it on the brand colour. */
+.pending-copy__btn {
+  flex: none;
+  min-height: 44px;
+  min-width: 76px;
+  padding-inline: var(--space-3);
+  background: var(--color-brand) !important;
+}
+
+.pending-copy__btn:hover {
+  background: var(--color-brand-strong) !important;
+}
+
+.pending-checklist {
+  display: grid;
+  gap: var(--space-3);
+  list-style: none;
+}
+
+.pending-checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  color: var(--color-text);
+}
+
+.pending-checklist i {
+  margin-top: 3px;
+  color: var(--color-success);
+}
+
+.pending-popup__actions {
+  padding: 0 var(--space-6) var(--space-6);
+}
+
+.pending-popup__test {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.pending-popup__test-note {
+  margin-top: var(--space-2);
+  color: var(--color-muted);
+  font-size: var(--text-xs);
+  text-align: center;
+}
+
+.pending-popup__status {
+  margin-top: var(--space-4);
+}
+
+@media (max-width: 560px) {
+  .pending-popup {
+    padding: var(--space-2);
+  }
+
+  .pending-popup__modal {
+    max-height: calc(100vh - var(--space-4));
+  }
+
+  .pending-popup__header,
+  .pending-popup__body,
+  .pending-popup__actions {
+    padding-inline: var(--space-4);
+  }
+
+  .pending-step__panel {
+    padding: var(--space-4);
+  }
+
+  .pending-copy-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-height: 700px) {
+  .pending-popup {
+    align-items: flex-start;
+  }
+}

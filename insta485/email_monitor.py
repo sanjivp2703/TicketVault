@@ -11,6 +11,9 @@ from datetime import datetime
 import insta485
 import insta485.model
 from insta485.transaction_manager import TransactionManager
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class EmailMonitor:
@@ -26,14 +29,14 @@ class EmailMonitor:
             self.running = True
             self.thread = threading.Thread(target=self._monitor_emails, daemon=True)
             self.thread.start()
-            print("📧 Email Monitor started - checking for incoming tickets")
+            logger.info("📧 Email Monitor started - checking for incoming tickets")
 
     def stop(self):
         """Stop email monitoring"""
         self.running = False
         if self.thread:
             self.thread.join()
-        print("📧 Email Monitor stopped")
+        logger.info("📧 Email Monitor stopped")
 
     def _monitor_emails(self):
         """Main monitoring loop - checks for emails every 10 seconds"""
@@ -43,7 +46,7 @@ class EmailMonitor:
                     self._check_incoming_emails()
                 time.sleep(10)  # Check every 10 seconds
             except Exception as e:
-                print(f"Error in email monitoring: {e}")
+                logger.error(f"Error in email monitoring: {e}")
                 time.sleep(30)  # Wait longer on error
 
     def _check_incoming_emails(self):
@@ -69,7 +72,7 @@ class EmailMonitor:
         """).fetchall()
 
         if pending_transactions:
-            print(
+            logger.info(
                 f"📧 Monitoring {len(pending_transactions)} pending listings for ticket emails..."
             )
 
@@ -90,7 +93,6 @@ class EmailMonitor:
         3. Process any new emails found
         """
         transaction_id = transaction["transaction_id"]
-        ticket_email = transaction["awaiting_ticket_email"]
 
         # For testing, we'll check if there's a test file
         test_email_file = f"test_emails/tx-{transaction_id:06d}.json"
@@ -101,7 +103,7 @@ class EmailMonitor:
             with open(test_email_file, "r") as f:
                 email_data = json.load(f)
 
-            print(f"📧 Found test email for transaction {transaction_id}")
+            logger.info(f"📧 Found test email for transaction {transaction_id}")
 
             # Process the email
             transaction_manager = TransactionManager()
@@ -110,13 +112,13 @@ class EmailMonitor:
             )
 
             if result["success"]:
-                print(f"✅ Successfully activated listing {transaction_id}")
+                logger.info(f"✅ Successfully activated listing {transaction_id}")
                 # Remove test file after processing
                 import os
 
                 os.remove(test_email_file)
             else:
-                print(
+                logger.error(
                     f"❌ Failed to activate listing {transaction_id}: {result['error']}"
                 )
 
@@ -124,7 +126,9 @@ class EmailMonitor:
             # No email found - this is normal
             pass
         except Exception as e:
-            print(f"Error processing email for transaction {transaction_id}: {e}")
+            logger.error(
+                f"Error processing email for transaction {transaction_id}: {e}"
+            )
 
 
 # Production Email Integration Classes
@@ -160,8 +164,6 @@ class MailgunEmailMonitor(EmailMonitor):
         match = re.search(r"tx-(\d+)@", recipient)
 
         if match:
-            transaction_id = int(match.group(1))
-
             # Get the stored message
             message_url = event.get("storage", {}).get("url")
             if message_url:
@@ -222,7 +224,7 @@ Ticketmaster Support
     with open(f"test_emails/tx-{transaction_id:06d}.json", "w") as f:
         json.dump(test_email, f, indent=2)
 
-    print(f"📧 Created test email file for transaction {transaction_id}")
+    logger.info(f"📧 Created test email file for transaction {transaction_id}")
 
 
 # Global email monitor instance

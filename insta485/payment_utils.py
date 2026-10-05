@@ -2,11 +2,14 @@
 
 import insta485
 import insta485.model
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def send_payment_seller(transaction_id):
     """Send payment to seller via Stripe after a 1-minute delay."""
-    print(f"Scheduler: Processing payment for transaction {transaction_id}")
+    logger.info(f"Scheduler: Processing payment for transaction {transaction_id}")
 
     # Always use a fresh DB connection to avoid sqlite locked errors
     with insta485.app.app_context():
@@ -24,11 +27,11 @@ def send_payment_seller(transaction_id):
         ).fetchone()
 
         if not transaction:
-            print(f"[ERROR] Transaction {transaction_id} not found")
+            logger.error(f"[ERROR] Transaction {transaction_id} not found")
             return
 
         if transaction["status"] != "waiting_for_payment":
-            print(
+            logger.error(
                 f"[ERROR] Transaction {transaction_id} not in correct status: {transaction['status']}"
             )
             return
@@ -40,7 +43,7 @@ def send_payment_seller(transaction_id):
                 (transaction_id,),
             )
             connection.commit()
-            print(
+            logger.info(
                 f"[PAYMENT] Updated transaction {transaction_id} to waiting_for_ticket"
             )
 
@@ -50,7 +53,7 @@ def send_payment_seller(transaction_id):
             send_seller_notification(transaction_id, transaction["seller_email"])
 
         except Exception as e:
-            print(
+            logger.error(
                 f"[PAYMENT ERROR] Error processing payment for transaction {transaction_id}: {e}"
             )
             connection.rollback()

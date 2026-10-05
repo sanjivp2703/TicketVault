@@ -170,7 +170,9 @@ def create_verification_code(email, code_type, connection):
             if user and user["phone_number"]:
                 send_verification_sms(user["phone_number"], code)
         except Exception:
-            print(f"[SMS] Could not send SMS - phone number not available for {email}")
+            logger.error(
+                f"[SMS] Could not send SMS - phone number not available for {email}"
+            )
 
     return code
 
@@ -258,19 +260,19 @@ def manage_create(target, connection):
             (actual_firstname, actual_lastname, email, hash_password(password)),
         )
         connection.commit()
-        print(f"[SUCCESS] User created: {email}")
+        logger.info(f"[SUCCESS] User created: {email}")
 
         # Set session
         flask.session["email"] = email
-        print(f"[SUCCESS] Session set for: {email}")
+        logger.info(f"[SUCCESS] Session set for: {email}")
 
         # Redirect to main page
         redirect_url = flask.url_for("show_index")
-        print(f"[DEBUG] Redirecting to: {redirect_url}")
+        logger.info(f"[DEBUG] Redirecting to: {redirect_url}")
         return flask.redirect(redirect_url)
 
     except Exception as e:
-        print(f"[ERROR] Failed to create user: {e}")
+        logger.error(f"[ERROR] Failed to create user: {e}")
         return flask.render_template(
             "create.html", error="Failed to create account. Please try again."
         )
@@ -281,10 +283,10 @@ def manage_login(connection, target):
     email = flask.request.form.get("email", "").strip().lower()
     password = flask.request.form.get("password", "")
 
-    print(f"[DEBUG] Login attempt for: {email}")
+    logger.info(f"[DEBUG] Login attempt for: {email}")
 
     if not email or not password:
-        print("[ERROR] Missing email or password")
+        logger.error("[ERROR] Missing email or password")
         return flask.render_template(
             "login.html", error="Email and password are required."
         )
@@ -296,7 +298,7 @@ def manage_login(connection, target):
         ).fetchone()
 
         if not row:
-            print(f"[ERROR] User not found: {email}")
+            logger.error(f"[ERROR] User not found: {email}")
             return flask.render_template(
                 "login.html", error="Invalid email or password."
             )
@@ -304,16 +306,16 @@ def manage_login(connection, target):
         # Verify password
         if verify_pw(row["password"], password):
             flask.session["email"] = email
-            print(f"[SUCCESS] Login successful for: {email}")
+            logger.info(f"[SUCCESS] Login successful for: {email}")
             return flask.redirect(target if target else flask.url_for("show_index"))
         else:
-            print(f"[ERROR] Invalid password for: {email}")
+            logger.error(f"[ERROR] Invalid password for: {email}")
             return flask.render_template(
                 "login.html", error="Invalid email or password."
             )
 
     except Exception as e:
-        print(f"[ERROR] Login failed: {e}")
+        logger.error(f"[ERROR] Login failed: {e}")
         return flask.render_template(
             "login.html", error="Login failed. Please try again."
         )
@@ -329,11 +331,11 @@ def seller_onboarding():
     """Handle seller onboarding with Stripe."""
     try:
         if "email" not in flask.session:
-            print("[DEBUG] No email in session, redirecting to login")
+            logger.info("[DEBUG] No email in session, redirecting to login")
             return flask.redirect(flask.url_for("show_accounts", url="login"))
 
         email = flask.session["email"]
-        print(f"[DEBUG] Starting seller onboarding for: {email}")
+        logger.info(f"[DEBUG] Starting seller onboarding for: {email}")
 
         connection = insta485.model.get_db()
         user = connection.execute(
@@ -341,13 +343,13 @@ def seller_onboarding():
         ).fetchone()
 
         if not user:
-            print(f"[ERROR] User not found in database: {email}")
+            logger.error(f"[ERROR] User not found in database: {email}")
             flask.abort(404)
 
-        print(f"[DEBUG] Found user: {user['firstname']} {user['lastname']}")
+        logger.info(f"[DEBUG] Found user: {user['firstname']} {user['lastname']}")
 
     except Exception as e:
-        print(f"[ERROR] Error in seller_onboarding: {e}")
+        logger.error(f"[ERROR] Error in seller_onboarding: {e}")
         return flask.redirect(flask.url_for("show_index"))
 
     account = stripe.Account.create(
@@ -398,7 +400,7 @@ def onboarding_complete():
 
 def send_payment_seller(transaction_id):
     """Send payment to seller via Stripe after a 1-minute delay."""
-    print(f"Scheduler: Processing payment for transaction {transaction_id}")
+    logger.info(f"Scheduler: Processing payment for transaction {transaction_id}")
     import insta485.model
     import stripe
 
@@ -417,24 +419,23 @@ def send_payment_seller(transaction_id):
             (transaction_id,),
         ).fetchone()
         if not transaction:
-            print(f"Scheduler: Transaction {transaction_id} not found.")
+            logger.info(f"Scheduler: Transaction {transaction_id} not found.")
             return
         seller_email = transaction["seller_email"]
         price = transaction["price"]
-        status = transaction["status"]
-        payment_received_time = transaction["payment_received_time"]
-        event_datetime = transaction["event_datetime"]
         # Get seller's Stripe ID
         seller = connection.execute(
             "SELECT stripe_id FROM users WHERE email = ?", (seller_email,)
         ).fetchone()
         if not seller or not seller["stripe_id"]:
-            print(f"Scheduler: Seller {seller_email} does not have a Stripe account.")
+            logger.info(
+                f"Scheduler: Seller {seller_email} does not have a Stripe account."
+            )
             return
         stripe_id = seller["stripe_id"]
         # Send payment via Stripe
         try:
-            print(
+            logger.info(
                 f"Scheduler: Sending payment of ${price:.2f} to {seller_email} (Stripe ID: {stripe_id})"
             )
             stripe.Transfer.create(
@@ -453,21 +454,23 @@ def send_payment_seller(transaction_id):
                     (transaction_id,),
                 )
                 connection2.commit()
-                print(
+                logger.info(
                     f"Scheduler: Status updated to 'success' for transaction {transaction_id}."
                 )
-                print(
+                logger.info(
                     f"[PAYMENT] Safe-Transaction paid seller for transaction {transaction_id}."
                 )
             except Exception as db_err:
-                print(
+                logger.error(
                     f"[ERROR] Failed to update status to 'success' for transaction {transaction_id}: {db_err}"
                 )
-            print(
+            logger.info(
                 f"Scheduler: Successfully transferred ${price} for transaction {transaction_id}."
             )
         except stripe.error.StripeError as e:
-            print(f"Scheduler: Stripe Error for transaction {transaction_id}: {e}")
+            logger.error(
+                f"Scheduler: Stripe Error for transaction {transaction_id}: {e}"
+            )
 
 
 # Removed the complex manage_accounts route - using simplified individual routes instead

@@ -1,20 +1,26 @@
-# !/bin/bash
+#!/bin/bash
+#
+# insta485install
+#
+# Create a virtual environment, install dependencies and prepare a local
+# .env file. Safe to re-run.
 
-# Stop on errors, print commands
 set -Eeuo pipefail
-set -x
 
-# Create a Python virtual environment
-python3 -m venv env
+python3 -m venv .venv
+# shellcheck disable=SC1091
+source .venv/bin/activate
 
-# Activate Python virtual environment
-source env/bin/activate
-
-# Install back end
-pip install -r requirements.txt
+pip install --upgrade pip
+pip install -r requirements-dev.txt
 pip install -e .
 
-# Install front end
-npm ci .
+if [ ! -f .env ]; then
+  cp .env.example .env
+  secret_key="$(python -c 'import secrets; print(secrets.token_hex(32))')"
+  # Portable in-place edit (BSD and GNU sed)
+  sed -i.bak "s/^SECRET_KEY=$/SECRET_KEY=${secret_key}/" .env && rm -f .env.bak
+  echo "Created .env with a generated SECRET_KEY. Add your Stripe and Mailgun keys to it."
+fi
 
-echo "Installation complete!"
+echo "Installation complete. Next: ./bin/insta485db create && ./bin/insta485run"

@@ -1,176 +1,91 @@
-<!-- Pending Listing Popup -->
-<div id="pendingListingPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.8); backdrop-filter: blur(16px); z-index: 9999; justify-content: center; align-items: center; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 20px;">
-    <div id="pendingListingModal" style="background: #ffffff; border-radius: 20px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15); max-width: 480px; width: 90%; margin: auto; position: relative; max-height: 90vh; overflow-y: auto; overflow-x: hidden; border: 1px solid #e2e8f0;">
-        
-        
-        <!-- Header -->
-        <div style="padding: 40px 32px 20px 32px; text-align: center;">
-            <h2 style="font-size: 28px; font-weight: 800; color: #0f172a; margin: 0 0 8px 0; letter-spacing: -0.02em;">
-                Safe Transfer Instructions
-            </h2>
-            <p style="color: #475569; font-size: 16px; margin: 0; font-weight: 500;">
-                Follow these steps to securely transfer your ticket
-            </p>
+{#-
+  Pending listing popup. Included by index.html and opened by
+  showPendingListingPopup(ticketEmail, transactionId) after a listing is created.
+  Styles: static/css/pages/pending_listing_popup.css (linked from the including page's head block).
+  There is deliberately no close button: the popup closes through its actions.
+-#}
+<div id="pendingListingPopup" class="pending-popup" style="display: none;">
+    <div id="pendingListingModal" class="pending-popup__modal" role="dialog" aria-modal="true" aria-labelledby="pendingListingTitle">
+
+        <div class="pending-popup__header">
+            <h2 class="pending-popup__title" id="pendingListingTitle">Safe transfer instructions</h2>
+            <p class="text-muted">Follow these steps to securely transfer your ticket</p>
         </div>
-        
-        <!-- Content -->
-        <div style="padding: 0 32px 32px 32px;">
-            
+
+        <div class="pending-popup__body">
+
             <!-- Step 1 -->
-            <div style="margin-bottom: 24px;">
-                <div style="display: flex; align-items: center; gap:16px; margin-bottom: 20px;">
-                    <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0;">1</div>
-                    <h3 style="font-size: 20px; font-weight: 700; color: #0f172a; margin: 0; letter-spacing: -0.01em;">Transfer Your Ticket</h3>
-                </div>
-                
-                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px;">
-                    <p style="color: #475569; font-size: 15px; margin: 0 0 20px 0; font-weight: 500;">
-                        Go to <a href="https://mgoblue.evenue.net/myaccount/transfers/seasons" target="_blank" style="color: #667eea; font-weight: 600; text-decoration: none; border-bottom: 1px solid #667eea;">Michigan Athletics Ticket Transfer Page</a> and enter these details:
+            <section class="pending-step">
+                <h3 class="pending-step__title"><span class="pending-step__number" aria-hidden="true">1</span>Transfer your ticket</h3>
+
+                <div class="pending-step__panel">
+                    <p>
+                        Go to the <a href="https://mgoblue.evenue.net/myaccount/transfers/seasons" target="_blank">Michigan Athletics ticket transfer page</a> and enter these details:
                     </p>
-                    
-                    <!-- Input Fields -->
-                    <div style="margin-bottom: 16px;">
-                        <!-- First Name and Last Name Row -->
-                        <div style="display: flex; align-items: end; margin-bottom: 16px;">
-                            <!-- First Name -->
-                            <div style="width: 185px;">
-                                <label style="display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 8px;">First Name</label>
-                                <div style="display: flex; align-items: center; gap: 8px;">
-                                    <input type="text" readonly value="Ticket" 
-                                           style="width: 105px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 12px 14px; font-size: 14px; font-weight: 500; color: #0f172a; text-align: left;">
-                                    <button onclick="copyToClipboard('Ticket', this)" 
-                                            style="background: #667eea; color: white; padding: 12px 12px; border-radius: 12px; font-size: 12px; border: none; cursor: pointer; transition: all 0.2s; font-weight: 600; width: 54px;">
-                                        Copy
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <!-- 16px Gap -->
-                            <div style="width: 16px;"></div>
-                            
-                            <!-- Last Name -->
-                            <div style="width: 185px;">
-                                <label style="display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 8px;">Last Name</label>
-                                <div style="display: flex; align-items: center; gap: 8px;">
-                                    <input type="text" readonly value="Swap" 
-                                           style="width: 105px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 12px 14px; font-size: 14px; font-weight: 500; color: #0f172a; text-align: left;">
-                                    <button onclick="copyToClipboard('Swap', this)" 
-                                            style="background: #667eea; color: white; padding: 12px 12px; border-radius: 12px; font-size: 12px; border: none; cursor: pointer; transition: all 0.2s; font-weight: 600; width: 54px;">
-                                        Copy
-                                    </button>
-                                </div>
+
+                    <div class="pending-copy-grid">
+                        <div class="pending-copy">
+                            <label class="label" for="transferFirstName">First name</label>
+                            <div class="pending-copy__row">
+                                <input class="input" id="transferFirstName" type="text" readonly value="Ticket">
+                                <button type="button" class="btn btn--primary pending-copy__btn" onclick="copyToClipboard('Ticket', this)">Copy</button>
                             </div>
                         </div>
-                    </div>
-            
-                    <!-- Email - Full Width -->
-                    <div>
-                        <label style="display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 8px;">Email Address</label>
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <input id="ticketEmail" type="text" readonly value="ticketswap@gmail.com" 
-                                   style="flex: 1; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 12px 14px; font-size: 14px; font-weight: 500; color: #0f172a; font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;">
-                            <button onclick="copyToClipboard(document.getElementById('ticketEmail').value, this)" 
-                                    style="background: #667eea; color: white; padding: 12px 14px; border-radius: 12px; font-size: 12px; border: none; cursor: pointer; transition: all 0.2s; font-weight: 600;">
-                                Copy
-                            </button>
+
+                        <div class="pending-copy">
+                            <label class="label" for="transferLastName">Last name</label>
+                            <div class="pending-copy__row">
+                                <input class="input" id="transferLastName" type="text" readonly value="Swap">
+                                <button type="button" class="btn btn--primary pending-copy__btn" onclick="copyToClipboard('Swap', this)">Copy</button>
+                            </div>
+                        </div>
+
+                        <div class="pending-copy pending-copy--wide">
+                            <label class="label" for="ticketEmail">Email address</label>
+                            <div class="pending-copy__row">
+                                <input class="input mono" id="ticketEmail" type="text" readonly value="ticketswap@gmail.com">
+                                <button type="button" class="btn btn--primary pending-copy__btn" onclick="copyToClipboard(document.getElementById('ticketEmail').value, this)">Copy</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
+            </section>
+
             <!-- Step 2 -->
-            <div style="margin-bottom: 24px;">
-                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
-                    <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0;">2</div>
-                    <h3 style="font-size: 20px; font-weight: 700; color: #0f172a; margin: 0; letter-spacing: -0.01em;">What Happens Next</h3>
-                </div>
-                
-                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px;">
-                    <div style="space-y: 16px;">
-                        <div style="display: flex; align-items: start; gap: 12px; margin-bottom: 16px;">
-                            <div style="width: 24px; height: 24px; background: #00d4aa; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-top: 2px; flex-shrink: 0;">
-                                <svg style="width: 14px; height: 14px; color: white;" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                            <p style="color: #475569; font-size: 15px; margin: 0; font-weight: 500; line-height: 1.5;">
-                                We verify the ticket for authenticity
-                            </p>
-                        </div>
-                        <div style="display: flex; align-items: start; gap: 12px; margin-bottom: 16px;">
-                            <div style="width: 24px; height: 24px; background: #00d4aa; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-top: 2px; flex-shrink: 0;">
-                                <svg style="width: 14px; height: 14px; color: white;" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                            <p style="color: #475569; font-size: 15px; margin: 0; font-weight: 500; line-height: 1.5;">
-                                We notify you and send the buyer a payment link
-                            </p>
-                        </div>
-                        <div style="display: flex; align-items: start; gap: 12px; margin-bottom: 0;">
-                            <div style="width: 24px; height: 24px; background: #00d4aa; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-top: 2px; flex-shrink: 0;">
-                                <svg style="width: 14px; height: 14px; color: white;" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                            <p style="color: #475569; font-size: 15px; margin: 0; font-weight: 500; line-height: 1.5;">
-                                Once payment completes, we transfer the ticket and you get paid
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Reassurance Box -->
-            <div style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 16px; padding: 20px; margin-bottom: 32px;">
-                <div style="display: flex; align-items: start; gap: 12px;">
-                    <div style="width: 24px; height: 24px; background: #64748b; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-top: 1px; flex-shrink: 0;">
-                        <svg style="width: 14px; height: 14px; color: white;" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <p style="color: #475569; font-size: 15px; margin: 0; font-weight: 500; line-height: 1.5;">
-                        Don't worry — if the buyer doesn't pay within 1 hour, we'll automatically send your ticket back to you.
-                    </p>
-                </div>
+            <section class="pending-step">
+                <h3 class="pending-step__title"><span class="pending-step__number" aria-hidden="true">2</span>What happens next</h3>
+
+                <ul class="pending-step__panel pending-checklist">
+                    <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>We verify the ticket for authenticity</span></li>
+                    <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>We notify you and send the buyer a payment link</span></li>
+                    <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>Once payment completes, we transfer the ticket and you get paid</span></li>
+                </ul>
+            </section>
+
+            <!-- Reassurance -->
+            <div class="alert">
+                <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                <span>Don't worry: if the buyer doesn't pay within 1 hour, we'll automatically send your ticket back to you.</span>
             </div>
         </div>
-        
-        <!-- Action Buttons -->
-        <div style="padding: 0 32px 32px 32px;">
-            <div style="space-y: 12px;">
-                <button onclick="markAsTransferredAndClose()" 
-                        style="width: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 16px 24px; border-radius: 16px; border: none; cursor: pointer; transition: all 0.2s; font-weight: 700; font-size: 16px; box-shadow: 0 4px 6px -1px rgba(102, 126, 234, 0.3);">
-                    I've completed the transfer
-                </button>
-                
-                <!-- Test Verify Button (Minimal) -->
-                <div style="border-top: 1px solid #e2e8f0; padding-top: 16px; margin-top: 16px;">
-                    <button id="testVerifyButton" onclick="testVerifyFromPopup()" 
-                            style="width: 100%; background: #64748b; color: white; padding: 12px 20px; border-radius: 12px; border: none; cursor: pointer; transition: all 0.2s; font-weight: 600; font-size: 14px;">
-                        TEST: Instant Verify
-                    </button>
-                    <p style="font-size: 12px; color: #94a3b8; margin: 8px 0 0 0; text-align: center;">
-                        Development tool - instantly verifies listing
-                    </p>
-                </div>
+
+        <!-- Actions -->
+        <div class="pending-popup__actions">
+            <button type="button" class="btn btn--primary btn--lg btn--block" onclick="markAsTransferredAndClose()">I've completed the transfer</button>
+
+            <!-- Test verify button -->
+            <div class="pending-popup__test">
+                <button type="button" class="btn btn--secondary btn--block" id="testVerifyButton" onclick="testVerifyFromPopup()">TEST: Instant Verify</button>
+                <p class="pending-popup__test-note">Development tool: instantly verifies listing</p>
             </div>
-            
-            <!-- Status Message -->
-            <div id="sentStatus" style="display: none; background: #f0f9ff; border: 1px solid #cbd5e1; border-radius: 16px; padding: 20px; margin: 16px 32px 0 32px;">
-                <div style="display: flex; align-items: start; gap: 12px;">
-                    <div style="width: 24px; height: 24px; background: #00d4aa; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-top: 1px; flex-shrink: 0;">
-                        <svg style="width: 14px; height: 14px; color: white;" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
+
+            <!-- Status message -->
+            <div id="sentStatus" class="pending-popup__status" style="display: none;">
+                <div class="alert alert--success">
+                    <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
                     <div>
-                        <p style="color: #0f172a; font-size: 15px; margin: 0 0 4px 0; font-weight: 600;">
-                            Transfer submitted successfully
-                        </p>
-                        <p style="color: #475569; font-size: 13px; margin: 0;">
-                            We're monitoring for verification. You can close this window.
-                        </p>
+                        <strong class="alert__title">Transfer submitted successfully</strong>
+                        <span>We're monitoring for verification. You can close this window.</span>
                     </div>
                 </div>
             </div>
@@ -178,311 +93,4 @@
     </div>
 </div>
 
-<script>
-let currentTicketEmail = '';
-
-function showPendingListingPopup(ticketEmail, transactionId) {
-    currentTicketEmail = ticketEmail;
-    window.currentTransactionId = transactionId;
-    document.getElementById('ticketEmail').value = ticketEmail;
-    const popup = document.getElementById('pendingListingPopup');
-    popup.style.display = 'flex';
-    popup.style.justifyContent = 'center';
-    popup.style.alignItems = 'center';
-}
-
-function closePendingPopup() {
-    console.log(`🔄 CLOSING POPUP at ${new Date().toLocaleTimeString()} - NO EMAIL SENT NOW (emails are sent during verification, not during popup close)`);
-    document.getElementById('pendingListingPopup').style.display = 'none';
-    // Refresh the page to show updated listings
-    window.location.reload();
-}
-
-function copyToClipboard(text, button) {
-    // Use the modern clipboard API if available
-    if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(text).then(() => {
-            showCopyFeedback(button);
-        }).catch(err => {
-            // Fallback for clipboard API failure
-            fallbackCopyToClipboard(text, button);
-        });
-    } else {
-        // Fallback for older browsers or non-secure contexts
-        fallbackCopyToClipboard(text, button);
-    }
-}
-
-function fallbackCopyToClipboard(text, button) {
-    // Create a temporary textarea element
-    const textArea = document.createElement('textarea');
-    textArea.value = text;
-    textArea.style.position = 'fixed';
-    textArea.style.left = '-999999px';
-    textArea.style.top = '-999999px';
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    
-    try {
-    document.execCommand('copy');
-        showCopyFeedback(button);
-    } catch (err) {
-        console.error('Fallback: Could not copy text: ', err);
-    }
-    
-    document.body.removeChild(textArea);
-}
-
-function showCopyFeedback(button) {
-    const originalText = button.textContent;
-    button.textContent = 'Copied!';
-    button.style.background = '#00d4aa';
-    button.style.color = 'white';
-    
-    setTimeout(() => {
-        button.textContent = originalText;
-        button.style.background = '#667eea';
-        button.style.color = 'white';
-    }, 2000);
-}
-
-function openMichiganAthletics() {
-    // Open Michigan Athletics ticket transfer page
-    window.open('https://mgoblue.evenue.net/account/login', '_blank');
-    
-    // Show a helpful message
-    setTimeout(() => {
-        alert('🎟️ Michigan Athletics page opened!\n\nUse the transfer details from this popup to complete your ticket transfer.');
-    }, 500);
-}
-
-function markAsTransferred() {
-    // Show confirmation message
-    document.getElementById('sentStatus').style.display = 'block';
-    
-    // Hide the action buttons
-    const actionButtons = document.querySelectorAll('button[onclick*="Michigan"], button[onclick*="markAsTransferred"]');
-    actionButtons.forEach(button => {
-        button.style.display = 'none';
-    });
-    
-    console.log('🚀 User marked transfer as complete - monitoring for verification');
-}
-
-function markAsTransferredAndClose() {
-    const transactionId = getCurrentTransactionId();
-    
-    if (!transactionId) {
-        alert('Error: No transaction ID found');
-        return;
-    }
-    
-    if (confirm('Confirm that you have sent the ticket to Safe Transaction. The transaction will move to verification.')) {
-        const button = event.target;
-        if (button) {
-            button.disabled = true;
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-            button.style.opacity = '0.6';
-        }
-
-        fetch('/api/test-ticket-sent', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                transaction_id: transactionId,
-                test_mode: false
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                console.log('✅ Ticket marked as sent successfully');
-                closePendingPopup();
-                // Reload page to show updated status
-                setTimeout(() => {
-                    location.reload();
-                }, 500);
-            } else {
-                alert('Error: ' + (data.error || 'Unable to process request'));
-                if (button) {
-                    button.disabled = false;
-                    button.innerHTML = 'I\'ve completed the transfer';
-                    button.style.opacity = '1';
-                }
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error processing request. Please try again.');
-            if (button) {
-                button.disabled = false;
-                button.innerHTML = 'I\'ve completed the transfer';
-                button.style.opacity = '1';
-            }
-        });
-    }
-}
-
-function getCurrentTransactionId() {
-    // This will be set when the popup is shown
-    return window.currentTransactionId || null;
-}
-
-// Test Verify Function for Popup
-function testVerifyFromPopup() {
-    const transactionId = getCurrentTransactionId();
-    
-    if (!transactionId) {
-        alert('Error: No transaction ID found');
-        return;
-    }
-    
-    if (confirm('⚡ TEST MODE: This will instantly verify the listing and send buyer notification. Continue?')) {
-        const button = document.getElementById('testVerifyButton');
-        if (button) {
-            button.disabled = true;
-            button.innerHTML = 'Verifying...';
-            button.style.opacity = '0.6';
-        }
-
-        fetch('/api/test-verify', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                transaction_id: transactionId,
-                test_mode: true
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('✅ TEST VERIFICATION COMPLETE!\n\n' + 
-                      '• Listing instantly verified\n' + 
-                      '• Buyer notification email sent\n' + 
-                      '• Payment deadline set\n' + 
-                      '• Status updated to waiting for payment');
-                
-                // Close popup and refresh page to show updated status
-                closePendingPopup();
-            } else {
-                alert('Error: ' + data.error);
-                // Reset button state
-                if (button) {
-                    button.disabled = false;
-                    button.innerHTML = 'TEST: Instant Verify';
-                    button.style.opacity = '1';
-                }
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error processing test verification');
-            // Reset button state
-            if (button) {
-                button.disabled = false;
-                button.innerHTML = 'TEST: Instant Verify';
-                button.style.opacity = '1';
-            }
-        });
-    }
-}
-
-// Note: Popup no longer closes when clicking outside since there's no X button
-
-// Add hover effects for buttons
-document.addEventListener('DOMContentLoaded', function() {
-    // Add hover effect to primary button
-    const primaryButton = document.querySelector('button[onclick="markAsTransferredAndClose()"]');
-    if (primaryButton) {
-        primaryButton.addEventListener('mouseenter', function() {
-            this.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
-            this.style.transform = 'translateY(-1px)';
-        });
-        primaryButton.addEventListener('mouseleave', function() {
-            this.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1)';
-            this.style.transform = 'translateY(0)';
-        });
-    }
-});
-</script>
-
-<style>
-/* Custom scrollbar styling for pending listing modal */
-#pendingListingModal::-webkit-scrollbar {
-    width: 8px;
-}
-
-#pendingListingModal::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 10px;
-}
-
-#pendingListingModal::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 10px;
-}
-
-#pendingListingModal::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #5568d3 0%, #653a8b 100%);
-}
-
-/* Firefox scrollbar styling */
-#pendingListingModal {
-    scrollbar-width: thin;
-    scrollbar-color: #667eea rgba(0, 0, 0, 0.05);
-}
-
-/* Responsive adjustments for pending listing popup */
-@media (max-width: 768px) {
-    #pendingListingPopup {
-        padding: 12px !important;
-    }
-    
-    #pendingListingModal {
-        max-height: 92vh !important;
-        width: 95% !important;
-    }
-}
-
-@media (max-width: 480px) {
-    #pendingListingPopup {
-        padding: 8px !important;
-    }
-    
-    #pendingListingModal {
-        max-height: 94vh !important;
-        width: 96% !important;
-        border-radius: 16px !important;
-    }
-}
-
-/* Responsive adjustments for small viewport heights */
-@media (max-height: 700px) {
-    #pendingListingPopup {
-        padding: 10px !important;
-        align-items: flex-start !important;
-        padding-top: 10px !important;
-    }
-    
-    #pendingListingModal {
-        max-height: calc(100vh - 20px) !important;
-    }
-}
-
-@media (max-height: 500px) {
-    #pendingListingPopup {
-        padding: 5px !important;
-        padding-top: 5px !important;
-    }
-    
-    #pendingListingModal {
-        max-height: calc(100vh - 10px) !important;
-        border-radius: 12px !important;
-    }
-}
-</style>
+<script src="{{ url_for('static', filename='js/pages/pending_listing_popup.js') }}"></script>

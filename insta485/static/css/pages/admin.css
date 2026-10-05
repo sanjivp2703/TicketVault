@@ -1,0 +1,416 @@
+/*
+ * Admin console (admin_comprehensive.html). Dense internal layout built on
+ * the shared tokens in app.css.
+ */
+
+/* Layout ------------------------------------------------------------------ */
+
+.admin {
+  padding-block: var(--space-8) var(--space-16);
+}
+
+.admin__container,
+.site-header .container,
+.site-footer .container {
+  max-width: 1480px;
+}
+
+.admin__header {
+  margin-bottom: var(--space-6);
+}
+
+.admin__identity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  margin-top: var(--space-2);
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+  overflow-wrap: anywhere;
+}
+
+/* Stat tiles --------------------------------------------------------------- */
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.admin-stat {
+  padding: var(--space-4);
+  min-width: 0;
+}
+
+.admin-stat__label {
+  color: var(--color-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.admin-stat__value {
+  margin-top: var(--space-1);
+  color: var(--color-ink);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.admin-stat__value--money {
+  color: var(--color-success);
+}
+
+.admin-stat--attention {
+  border-color: var(--color-warning-border);
+  background: var(--color-warning-soft);
+}
+
+.admin-stat--attention .admin-stat__label,
+.admin-stat--attention .admin-stat__value {
+  color: var(--color-warning);
+}
+
+/* Sections ------------------------------------------------------------------ */
+
+.admin-section {
+  margin-bottom: var(--space-6);
+  overflow: hidden;
+}
+
+.admin-section__header {
+  align-items: flex-start;
+  padding: var(--space-4) var(--space-5);
+}
+
+.admin-section__subtitle {
+  margin-top: var(--space-1);
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+}
+
+.admin-section--urgent {
+  border-color: var(--color-danger-border);
+  border-top: 3px solid var(--color-danger);
+}
+
+.admin-section--urgent .admin-section__header {
+  background: var(--color-danger-soft);
+  border-bottom-color: var(--color-danger-border);
+}
+
+.admin-section--urgent .card__title {
+  color: var(--color-danger);
+}
+
+.admin-section--attention {
+  border-color: var(--color-warning-border);
+  border-top: 3px solid var(--color-warning);
+}
+
+.admin-section--attention .admin-section__header {
+  background: var(--color-warning-soft);
+  border-bottom-color: var(--color-warning-border);
+}
+
+.admin-section--attention .card__title {
+  color: var(--color-warning);
+}
+
+/* Tables -------------------------------------------------------------------- */
+
+.admin-table th,
+.admin-table td {
+  padding: var(--space-3);
+}
+
+.admin-table th:first-child,
+.admin-table td:first-child {
+  padding-left: var(--space-5);
+}
+
+.admin-table th:last-child,
+.admin-table td:last-child {
+  padding-right: var(--space-5);
+}
+
+.admin-table--wide {
+  min-width: 1040px;
+}
+
+.admin-row > td:first-child {
+  box-shadow: inset 3px 0 0 var(--color-info);
+}
+
+.admin-row--warning > td:first-child,
+.admin-row--stripe > td:first-child {
+  box-shadow: inset 3px 0 0 var(--color-warning);
+}
+
+.admin-row--success > td:first-child,
+.admin-row--cashapp > td:first-child {
+  box-shadow: inset 3px 0 0 var(--color-success);
+}
+
+.admin-id {
+  color: var(--color-ink);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.admin-event__name {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.admin-table td:has(> .admin-event__name) {
+  min-width: 180px;
+}
+
+.admin-meta,
+.admin-table .timestamp {
+  white-space: nowrap;
+}
+
+.admin-meta {
+  color: var(--color-muted);
+  font-size: var(--text-xs);
+}
+
+.admin-meta i {
+  width: 14px;
+  text-align: center;
+}
+
+.admin-reason {
+  min-width: 180px;
+  max-width: 320px;
+  overflow-wrap: anywhere;
+}
+
+.email,
+.phone,
+.admin-handle {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.email {
+  color: var(--color-text);
+  overflow-wrap: break-word;
+}
+
+.phone {
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.balance {
+  color: var(--color-success);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.timestamp {
+  color: var(--color-muted);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.admin-handle {
+  display: inline-block;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-alt);
+  color: var(--color-ink);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.admin-handle--block {
+  display: block;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  margin-block: var(--space-1);
+  background: var(--color-surface);
+}
+
+.admin-fee {
+  color: var(--color-warning);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.admin-send-amount {
+  display: inline-block;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-success-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-success-soft);
+  color: var(--color-success);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Action cells --------------------------------------------------------------- */
+
+.admin-action-cell {
+  min-width: 200px;
+}
+
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* The page script reads event.target, so clicks must land on the control itself. */
+.admin .btn i,
+.admin .tab i {
+  pointer-events: none;
+}
+
+.admin-note {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+
+.admin-note--warning {
+  border-color: var(--color-warning-border);
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+
+.admin-note--info {
+  border-color: var(--color-info-border);
+  background: var(--color-info-soft);
+  color: var(--color-info);
+}
+
+.admin-note--success {
+  border-color: var(--color-success-border);
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.admin-note--steps {
+  min-width: 240px;
+  padding: var(--space-3);
+}
+
+.admin-note__label {
+  font-weight: 700;
+}
+
+.admin-note__deadline {
+  margin-top: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-info-border);
+}
+
+.admin-note__list {
+  margin: var(--space-2) 0 var(--space-3);
+  padding-left: var(--space-5);
+  color: var(--color-text);
+}
+
+.admin-note__text {
+  margin: var(--space-2) 0 var(--space-3);
+  color: var(--color-text);
+}
+
+.countdown-timer {
+  margin-top: var(--space-1);
+  color: var(--color-info);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tabs ---------------------------------------------------------------------- */
+
+.tabs {
+  display: flex;
+  gap: var(--space-2);
+  padding: 0 var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface-alt);
+  overflow-x: auto;
+}
+
+.tab {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 48px;
+  margin-bottom: -1px;
+  padding: 0 var(--space-3);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--color-muted);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.tab:hover {
+  color: var(--color-ink);
+}
+
+.tab.active {
+  border-bottom-color: var(--color-brand);
+  color: var(--color-brand-strong);
+}
+
+.tab:focus-visible {
+  outline-offset: -3px;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Responsive ----------------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .admin {
+    padding-block: var(--space-6) var(--space-12);
+  }
+
+  .admin-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-section__header {
+    padding: var(--space-4);
+  }
+
+  .admin .btn--sm {
+    min-height: 40px;
+  }
+}

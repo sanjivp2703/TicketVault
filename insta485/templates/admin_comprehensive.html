@@ -1,426 +1,142 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Safe Transaction</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+{% extends "layouts/base.html" %}
+{% block title %}Admin dashboard{% endblock %}
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-        }
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/admin.css') }}">
+{% endblock %}
 
-        .admin-header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 20px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
+{% block content %}
+<main class="page admin">
+    <div class="container admin__container">
 
-        .admin-header .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .admin-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #2d3748;
-        }
-
-        .admin-user {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .admin-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-        }
-
-        .logout-btn {
-            background: #ef4444;
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .logout-btn:hover {
-            background: #dc2626;
-            transform: translateY(-1px);
-        }
-
-        .dashboard-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 30px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 16px;
-            padding: 25px;
-            text-align: center;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .stat-number {
-            font-size: 36px;
-            font-weight: 700;
-            color: #667eea;
-            margin-bottom: 8px;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: #718096;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 16px;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            overflow: hidden;
-        }
-
-        .section-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px 30px;
-            font-size: 20px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-content {
-            padding: 0;
-        }
-
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .table th,
-        .table td {
-            padding: 15px 20px;
-            text-align: left;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .table th {
-            background: #f8fafc;
-            font-weight: 600;
-            color: #4a5568;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .table tr:hover {
-            background: #f8fafc;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .badge.admin {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-
-        .badge.user {
-            background: #e0f2fe;
-            color: #0277bd;
-        }
-
-        .badge.verified {
-            background: #dcfce7;
-            color: #16a34a;
-        }
-
-        .badge.unverified {
-            background: #fef3c7;
-            color: #d97706;
-        }
-
-        .badge.success {
-            background: #dcfce7;
-            color: #16a34a;
-        }
-
-        .badge.warning {
-            background: #fef3c7;
-            color: #d97706;
-        }
-
-        .badge.danger {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-
-        .tabs {
-            display: flex;
-            background: #f8fafc;
-            border-radius: 12px 12px 0 0;
-            padding: 20px 30px 0;
-            gap: 30px;
-        }
-
-        .tab {
-            padding: 12px 0;
-            border-bottom: 3px solid transparent;
-            cursor: pointer;
-            font-weight: 500;
-            color: #64748b;
-            transition: all 0.3s ease;
-        }
-
-        .tab.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .email {
-            font-family: monospace;
-            background: #f1f5f9;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-        }
-
-        .phone {
-            font-family: monospace;
-            color: #6b7280;
-        }
-
-        .balance {
-            font-weight: 600;
-            color: #16a34a;
-        }
-
-        .timestamp {
-            color: #6b7280;
-            font-size: 12px;
-        }
-
-        @media (max-width: 768px) {
-            .dashboard-container {
-                padding: 20px;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                gap: 15px;
-            }
-
-            .table th,
-            .table td {
-                padding: 10px 15px;
-                font-size: 14px;
-            }
-
-            .tabs {
-                flex-wrap: wrap;
-                gap: 15px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Admin Header -->
-    <div class="admin-header">
-        <div class="container">
-            <div class="admin-title">
-                <i class="fas fa-shield-alt"></i> Admin Dashboard
+        <header class="page-header admin__header">
+            <div>
+                <h1 class="page-header__title">Admin dashboard</h1>
+                <p class="admin__identity">
+                    <span class="badge badge--brand"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Administrator</span>
+                    <span class="mono">{{ logemail }}</span>
+                </p>
             </div>
-            <div class="admin-user">
-                <div class="admin-avatar">{{ logemail[0].upper() }}</div>
-                <div>
-                    <div style="font-weight: 600;">{{ logemail }}</div>
-                    <div style="font-size: 12px; color: #6b7280;">Administrator</div>
-                </div>
-                <a href="{{ url_for('logout') }}" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
-            </div>
-        </div>
-    </div>
+        </header>
 
-    <!-- Dashboard Content -->
-    <div class="dashboard-container">
-        <!-- Statistics Overview -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number">{{ stats.total_users }}</div>
-                <div class="stat-label">Total Users</div>
+        {# Statistics overview #}
+        <section class="admin-stats" aria-label="Overview">
+            <div class="card admin-stat">
+                <div class="admin-stat__label">Total users</div>
+                <div class="admin-stat__value">{{ stats.total_users }}</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number">{{ stats.admin_users }}</div>
-                <div class="stat-label">Admin Users</div>
+            <div class="card admin-stat">
+                <div class="admin-stat__label">Admin users</div>
+                <div class="admin-stat__value">{{ stats.admin_users }}</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number">{{ stats.verified_users }}</div>
-                <div class="stat-label">Verified Users</div>
+            <div class="card admin-stat">
+                <div class="admin-stat__label">Verified users</div>
+                <div class="admin-stat__value">{{ stats.verified_users }}</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number">{{ stats.total_transactions }}</div>
-                <div class="stat-label">Transactions</div>
+            <div class="card admin-stat">
+                <div class="admin-stat__label">Transactions</div>
+                <div class="admin-stat__value">{{ stats.total_transactions }}</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number">{{ stats.active_complaints }}</div>
-                <div class="stat-label">Active Complaints</div>
+            <div class="card admin-stat">
+                <div class="admin-stat__label">Active complaints</div>
+                <div class="admin-stat__value">{{ stats.active_complaints }}</div>
             </div>
-            <div class="stat-card" style="{% if stats.pending_withdrawals > 0 %}border: 2px solid #f59e0b; box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);{% endif %}">
-                <div class="stat-number" style="{% if stats.pending_withdrawals > 0 %}color: #f59e0b;{% endif %}">{{ stats.pending_withdrawals }}</div>
-                <div class="stat-label">💸 Pending Withdrawals</div>
+            <div class="card admin-stat{% if stats.pending_withdrawals > 0 %} admin-stat--attention{% endif %}">
+                <div class="admin-stat__label">Pending withdrawals</div>
+                <div class="admin-stat__value">{{ stats.pending_withdrawals }}</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number">${{ stats.total_balance }}</div>
-                <div class="stat-label">Total Balance</div>
+            <div class="card admin-stat">
+                <div class="admin-stat__label">Total balance</div>
+                <div class="admin-stat__value admin-stat__value--money">${{ "%.2f"|format(stats.total_balance / 100) }}</div>
             </div>
-        </div>
+        </section>
 
-        <!-- Action Needed Section (Priority) -->
+        {# Action needed (priority) #}
         {% if action_needed %}
-        <div class="section" style="border: 3px solid #ff4444; background: #fff; box-shadow: 0 8px 32px rgba(255, 68, 68, 0.2); margin-bottom: 30px;">
-            <div class="section-header" style="background: #ff4444; color: white; padding: 20px; text-align: center;">
-                <h2 style="font-size: 24px; margin: 0;"><i class="fas fa-exclamation-triangle"></i> 🚨 ACTION NEEDED</h2>
-                <p style="margin: 8px 0 0 0; font-size: 16px; opacity: 0.9;">{{ action_needed|length }} transactions require your immediate attention</p>
+        <section class="card card--raised admin-section admin-section--urgent" aria-labelledby="action-needed-title">
+            <div class="card__header admin-section__header">
+                <div>
+                    <h2 class="card__title" id="action-needed-title"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Action needed</h2>
+                    <p class="admin-section__subtitle">{{ action_needed|length }} transactions require your immediate attention</p>
+                </div>
+                <span class="badge badge--danger">{{ action_needed|length }}</span>
             </div>
-            <div class="table-container">
-                <table class="admin-table">
+            <div class="table-wrap table-container">
+                <table class="table admin-table admin-table--wide">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Event</th>
-                            <th>Buyer</th>
-                            <th>Seller</th>
-                            <th>Price</th>
-                            <th>Status</th>
-                            <th>Created</th>
-                            <th>🔥 ACTION REQUIRED</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Event</th>
+                            <th scope="col">Buyer</th>
+                            <th scope="col">Seller</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Created</th>
+                            <th scope="col">Action required</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for transaction in action_needed %}
-                        <tr style="background: #fff; border-left: 5px solid {% if transaction.status == 'pending_ticket_submission' %}#ff9800{% elif transaction.status == 'waiting_for_payment_processing' %}#4caf50{% else %}#2196f3{% endif %}; padding: 15px;">
-                            <td style="font-size: 18px; font-weight: bold; color: #333;"><strong>#{{ transaction.transaction_id }}</strong></td>
-                            <td style="padding: 15px;">
-                                <div style="font-size: 16px; font-weight: 600; color: #333; margin-bottom: 5px;">{{ transaction.ticket_description }}</div>
-                                <div style="font-size: 14px; color: #666;">📍 {{ transaction.location }}</div>
-                                <div style="font-size: 14px; color: #666;">📅 {{ transaction.event_datetime }}</div>
+                        <tr class="admin-row {% if transaction.status == 'pending_ticket_submission' %}admin-row--warning{% elif transaction.status == 'waiting_for_payment_processing' %}admin-row--success{% else %}admin-row--info{% endif %}">
+                            <td class="admin-id">#{{ transaction.transaction_id }}</td>
+                            <td>
+                                <div class="admin-event__name">{{ transaction.ticket_description }}</div>
+                                <div class="admin-meta"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> {{ transaction.location }}</div>
+                                <div class="admin-meta"><i class="fa-regular fa-calendar" aria-hidden="true"></i> {{ transaction.event_datetime }}</div>
                             </td>
-                            <td style="font-size: 14px; color: #333;">{{ transaction.buyer_email }}</td>
-                            <td style="font-size: 14px; color: #333;">{{ transaction.seller_email }}</td>
-                            <td style="font-size: 18px; font-weight: bold; color: #4caf50;">${{ transaction.price }}</td>
+                            <td><span class="email">{{ transaction.buyer_email }}</span></td>
+                            <td><span class="email">{{ transaction.seller_email }}</span></td>
+                            <td><span class="balance">${{ transaction.price }}</span></td>
                             <td>
                                 {% if transaction.status == 'pending_ticket_submission' %}
-                                    <span style="background: #ff9800; color: white; padding: 8px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">🎫 TICKET NEEDED</span>
+                                    <span class="badge badge--warning"><i class="fa-solid fa-ticket" aria-hidden="true"></i> Ticket needed</span>
                                 {% elif transaction.status == 'waiting_for_verification' %}
-                                    <span style="background: #0ea5e9; color: white; padding: 8px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">⏳ VERIFYING TICKET</span>
+                                    <span class="badge badge--info"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Verifying ticket</span>
                                 {% elif transaction.status == 'waiting_for_ticket' %}
-                                    <span style="background: #ff9800; color: white; padding: 8px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">🎫 AWAITING TICKET</span>
+                                    <span class="badge badge--warning"><i class="fa-solid fa-ticket" aria-hidden="true"></i> Awaiting ticket</span>
                                 {% elif transaction.status == 'waiting_for_payment_processing' %}
-                                    <span style="background: #4caf50; color: white; padding: 8px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">💳 PROCESSING PAYMENT</span>
+                                    <span class="badge badge--success"><i class="fa-solid fa-credit-card" aria-hidden="true"></i> Processing payment</span>
                                 {% elif transaction.status == 'waiting_for_payment' %}
-                                    <span style="background: #2196f3; color: white; padding: 8px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">💰 AWAITING PAYMENT</span>
+                                    <span class="badge badge--brand"><i class="fa-solid fa-hourglass-half" aria-hidden="true"></i> Awaiting payment</span>
                                 {% else %}
-                                    <span style="background: #666; color: white; padding: 8px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">{{ transaction.status }}</span>
+                                    <span class="badge">{{ transaction.status }}</span>
                                 {% endif %}
                             </td>
-                            <td style="font-size: 12px; color: #666;">{{ transaction.created_time }}</td>
-                            <td style="text-align: center;">
+                            <td><span class="timestamp">{{ transaction.created_time }}</span></td>
+                            <td class="admin-action-cell">
                                 {% if transaction.status == 'pending_ticket_submission' %}
-                                    <div style="background: #fff3cd; padding: 10px; border-radius: 6px; text-align: center; font-size: 12px; color: #856404;">
-                                        ⏳ Waiting for seller to send ticket
+                                    <div class="admin-note admin-note--warning">
+                                        <i class="fa-regular fa-clock" aria-hidden="true"></i> Waiting for seller to send ticket
                                     </div>
                                 {% elif transaction.status == 'waiting_for_verification' %}
-                                    <div style="display: flex; gap: 10px; justify-content: center;">
-                                        <button class="verify-ticket-btn" onclick="acceptTicket({{ transaction.transaction_id }})" style="background: #10b981; padding: 12px 20px; font-size: 14px; font-weight: 600; border-radius: 8px; border: none; color: white; cursor: pointer;">
-                                            ✅ ACCEPT & SEND PAYMENT LINK
+                                    <div class="admin-actions">
+                                        <button type="button" class="btn btn--success btn--sm verify-ticket-btn" onclick="acceptTicket({{ transaction.transaction_id }})">
+                                            <i class="fa-solid fa-check" aria-hidden="true"></i> Accept and send payment link
                                         </button>
-                                        <button class="reject-ticket-btn" onclick="rejectTicket({{ transaction.transaction_id }})" style="background: #ef4444; padding: 12px 20px; font-size: 14px; font-weight: 600; border-radius: 8px; border: none; color: white; cursor: pointer;">
-                                            ❌ REJECT TICKET
+                                        <button type="button" class="btn btn--danger-outline btn--sm reject-ticket-btn" onclick="rejectTicket({{ transaction.transaction_id }})">
+                                            <i class="fa-solid fa-xmark" aria-hidden="true"></i> Reject ticket
                                         </button>
                                     </div>
                                 {% elif transaction.status == 'waiting_for_ticket' %}
-                                    <div style="background: #fff3cd; padding: 10px; border-radius: 6px; text-align: center; font-size: 12px; color: #856404;">
-                                        ⏳ Waiting for seller to send ticket
+                                    <div class="admin-note admin-note--warning">
+                                        <i class="fa-regular fa-clock" aria-hidden="true"></i> Waiting for seller to send ticket
                                     </div>
                                 {% elif transaction.status == 'waiting_for_payment_processing' and transaction.payment_received == 1 %}
-                                    <button class="release-funds-btn" onclick="releaseFunds({{ transaction.transaction_id }})" style="background: #4caf50; padding: 12px 20px; font-size: 14px; font-weight: 600; border-radius: 8px; border: none; color: white; cursor: pointer;">
-                                        💰 RELEASE FUNDS
+                                    <button type="button" class="btn btn--success btn--sm release-funds-btn" onclick="releaseFunds({{ transaction.transaction_id }})">
+                                        <i class="fa-solid fa-money-bill-transfer" aria-hidden="true"></i> Release funds
                                     </button>
                                 {% elif transaction.status == 'waiting_for_payment_processing' %}
-                                    <div style="background: #fff3cd; padding: 10px; border-radius: 6px; text-align: center; font-size: 12px; color: #856404;">
-                                        ⏳ Waiting for payment completion
+                                    <div class="admin-note admin-note--warning">
+                                        <i class="fa-regular fa-clock" aria-hidden="true"></i> Waiting for payment completion
                                     </div>
                                 {% elif transaction.status == 'waiting_for_payment' %}
-                                    <div style="background: #e3f2fd; padding: 10px; border-radius: 6px; text-align: center; font-size: 12px; color: #1976d2;">
-                                        ⏳ Waiting for buyer to pay
+                                    <div class="admin-note admin-note--info">
+                                        <i class="fa-regular fa-clock" aria-hidden="true"></i> Waiting for buyer to pay
                                         {% if transaction.payment_deadline %}
-                                        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #90caf9;">
-                                            <div style="font-weight: 600; color: #0d47a1;">Payment Deadline:</div>
-                                            <div style="font-size: 11px; color: #1565c0; margin-top: 4px;">{{ transaction.payment_deadline }}</div>
-                                            <div class="countdown-timer" data-deadline="{{ transaction.payment_deadline }}" style="font-weight: 700; color: #d32f2f; margin-top: 4px; font-size: 13px;"></div>
+                                        <div class="admin-note__deadline">
+                                            <div class="admin-note__label">Payment deadline</div>
+                                            <div class="timestamp">{{ transaction.payment_deadline }}</div>
+                                            <div class="countdown-timer" data-deadline="{{ transaction.payment_deadline }}"></div>
                                         </div>
                                         {% endif %}
                                     </div>
@@ -431,104 +147,99 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </section>
         {% endif %}
 
-        <!-- Pending Withdrawals Section -->
+        {# Pending withdrawals #}
         {% if pending_withdrawals %}
-        <div class="section" style="border: 3px solid #f59e0b; background: #fff; box-shadow: 0 8px 32px rgba(245, 158, 11, 0.2); margin-bottom: 30px;">
-            <div class="section-header" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 20px; text-align: center;">
-                <h2 style="font-size: 24px; margin: 0;"><i class="fas fa-money-bill-wave"></i> 💸 Pending Withdrawals - Manual Processing Required</h2>
-                <p style="margin: 8px 0 0 0; font-size: 16px; opacity: 0.9;">{{ pending_withdrawals|length }} withdrawal{{ 's' if pending_withdrawals|length != 1 else '' }} waiting for you to process</p>
+        <section class="card admin-section admin-section--attention" aria-labelledby="withdrawals-title">
+            <div class="card__header admin-section__header">
+                <div>
+                    <h2 class="card__title" id="withdrawals-title"><i class="fa-solid fa-money-bill-wave" aria-hidden="true"></i> Pending withdrawals: manual processing required</h2>
+                    <p class="admin-section__subtitle">{{ pending_withdrawals|length }} withdrawal{{ 's' if pending_withdrawals|length != 1 else '' }} waiting for you to process</p>
+                </div>
+                <span class="badge badge--warning">{{ pending_withdrawals|length }}</span>
             </div>
-            <div class="table-container">
-                <table class="admin-table">
+            <div class="table-wrap table-container">
+                <table class="table admin-table admin-table--wide">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>User</th>
-                            <th>Method</th>
-                            <th>Send To</th>
-                            <th>Amount Requested</th>
-                            <th>5% Fee</th>
-                            <th>💰 Send Amount</th>
-                            <th>Created</th>
-                            <th>Action</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Method</th>
+                            <th scope="col">Send to</th>
+                            <th scope="col">Amount requested</th>
+                            <th scope="col">5% fee</th>
+                            <th scope="col">Send amount</th>
+                            <th scope="col">Created</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for withdrawal in pending_withdrawals %}
-                        <tr style="background: #fff; border-left: 5px solid {% if withdrawal.bank_name == 'STRIPE' %}#635bff{% elif withdrawal.bank_name == 'VENMO' %}#3d95ce{% else %}#00d632{% endif %};">
-                            <td style="font-size: 16px; font-weight: bold;">#{{ withdrawal.id }}</td>
+                        <tr class="admin-row {% if withdrawal.bank_name == 'STRIPE' %}admin-row--stripe{% elif withdrawal.bank_name == 'VENMO' %}admin-row--venmo{% else %}admin-row--cashapp{% endif %}">
+                            <td class="admin-id">#{{ withdrawal.id }}</td>
                             <td>
-                                <div style="font-weight: 600; color: #333;">{{ withdrawal.firstname }} {{ withdrawal.lastname }}</div>
-                                <div style="font-size: 12px; color: #666;">{{ withdrawal.user_email }}</div>
+                                <div class="admin-event__name">{{ withdrawal.firstname }} {{ withdrawal.lastname }}</div>
+                                <span class="email">{{ withdrawal.user_email }}</span>
                             </td>
                             <td>
                                 {% if withdrawal.bank_name == 'VENMO' %}
-                                    <span style="background: linear-gradient(135deg, #3d95ce, #2f7fb5); color: white; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; display: inline-block;">
-                                        💳 Venmo
-                                    </span>
+                                    <span class="badge badge--info"><i class="fa-solid fa-mobile-screen" aria-hidden="true"></i> Venmo</span>
                                 {% elif withdrawal.bank_name == 'CASHAPP' %}
-                                    <span style="background: linear-gradient(135deg, #00d632, #00c02b); color: white; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; display: inline-block;">
-                                        💚 Cash App
-                                    </span>
+                                    <span class="badge badge--success"><i class="fa-solid fa-dollar-sign" aria-hidden="true"></i> Cash App</span>
                                 {% elif withdrawal.bank_name == 'STRIPE' %}
-                                    <span style="background: linear-gradient(135deg, #635bff, #0073e6); color: white; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; display: inline-block;">
-                                        🔒 Stripe (Auto-Failed)
-                                    </span>
+                                    <span class="badge badge--warning"><i class="fa-brands fa-stripe-s" aria-hidden="true"></i> Stripe (auto-failed)</span>
                                 {% else %}
-                                    <span style="background: #666; color: white; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; display: inline-block;">
-                                        {{ withdrawal.bank_name }}
-                                    </span>
+                                    <span class="badge">{{ withdrawal.bank_name }}</span>
                                 {% endif %}
                             </td>
                             <td>
-                                <div style="font-weight: 700; color: #333; font-size: 14px; font-family: monospace; background: #f3f4f6; padding: 4px 8px; border-radius: 4px; display: inline-block;">
-                                    {{ withdrawal.account_number_last4 }}
-                                </div>
+                                <span class="admin-handle">{{ withdrawal.account_number_last4 }}</span>
                             </td>
-                            <td style="font-size: 14px; color: #666;">${{ "%.2f"|format(withdrawal.amount / 100) }}</td>
-                            <td style="font-size: 14px; color: #f59e0b; font-weight: 600;">-${{ "%.2f"|format(withdrawal.fee_amount / 100) }}</td>
-                            <td style="font-size: 20px; font-weight: 800; color: #10b981; background: linear-gradient(135deg, #dcfce7, #f0fdf4); padding: 12px; text-align: center; border-radius: 8px;">
-                                ${{ "%.2f"|format(withdrawal.transfer_amount / 100) }}
-                            </td>
-                            <td style="font-size: 12px; color: #666;">{{ withdrawal.created_at }}</td>
+                            <td class="tabular">${{ "%.2f"|format(withdrawal.amount / 100) }}</td>
+                            <td class="tabular admin-fee">-${{ "%.2f"|format(withdrawal.fee_amount / 100) }}</td>
                             <td>
+                                <span class="admin-send-amount">${{ "%.2f"|format(withdrawal.transfer_amount / 100) }}</span>
+                            </td>
+                            <td><span class="timestamp">{{ withdrawal.created_at }}</span></td>
+                            <td class="admin-action-cell">
                                 {% if withdrawal.bank_name == 'VENMO' %}
-                                    <div style="background: #e0f2fe; padding: 12px; border-radius: 8px; border-left: 4px solid #3d95ce;">
-                                        <div style="font-weight: 700; color: #075985; margin-bottom: 8px;">📱 Action Required:</div>
-                                        <div style="font-size: 13px; color: #0c4a6e; line-height: 1.4;">
-                                            1. Open <strong>Venmo</strong> app<br>
-                                            2. Send <strong>${{ "%.2f"|format(withdrawal.transfer_amount / 100) }}</strong> to:<br>
-                                            <div style="background: white; padding: 6px; margin: 6px 0; border-radius: 4px; font-family: monospace; font-weight: 700;">{{ withdrawal.account_number_last4 }}</div>
-                                            3. After sending, click below:
-                                        </div>
-                                        <button onclick="markWithdrawalComplete({{ withdrawal.id }})" style="background: #10b981; color: white; padding: 10px 16px; border-radius: 8px; border: none; cursor: pointer; margin-top: 10px; font-weight: 600; width: 100%;">
-                                            ✅ Mark as Sent
+                                    <div class="admin-note admin-note--info admin-note--steps">
+                                        <div class="admin-note__label"><i class="fa-solid fa-mobile-screen" aria-hidden="true"></i> Action required</div>
+                                        <ol class="admin-note__list">
+                                            <li>Open the <strong>Venmo</strong> app</li>
+                                            <li>Send <strong>${{ "%.2f"|format(withdrawal.transfer_amount / 100) }}</strong> to:
+                                                <div class="admin-handle admin-handle--block">{{ withdrawal.account_number_last4 }}</div>
+                                            </li>
+                                            <li>After sending, click below:</li>
+                                        </ol>
+                                        <button type="button" class="btn btn--success btn--sm btn--block" onclick="markWithdrawalComplete({{ withdrawal.id }})">
+                                            <i class="fa-solid fa-check" aria-hidden="true"></i> Mark as sent
                                         </button>
                                     </div>
                                 {% elif withdrawal.bank_name == 'CASHAPP' %}
-                                    <div style="background: #dcfce7; padding: 12px; border-radius: 8px; border-left: 4px solid #00d632;">
-                                        <div style="font-weight: 700; color: #065f46; margin-bottom: 8px;">💚 Action Required:</div>
-                                        <div style="font-size: 13px; color: #064e3b; line-height: 1.4;">
-                                            1. Open <strong>Cash App</strong><br>
-                                            2. Send <strong>${{ "%.2f"|format(withdrawal.transfer_amount / 100) }}</strong> to:<br>
-                                            <div style="background: white; padding: 6px; margin: 6px 0; border-radius: 4px; font-family: monospace; font-weight: 700;">{{ withdrawal.account_number_last4 }}</div>
-                                            3. After sending, click below:
-                                        </div>
-                                        <button onclick="markWithdrawalComplete({{ withdrawal.id }})" style="background: #10b981; color: white; padding: 10px 16px; border-radius: 8px; border: none; cursor: pointer; margin-top: 10px; font-weight: 600; width: 100%;">
-                                            ✅ Mark as Sent
+                                    <div class="admin-note admin-note--success admin-note--steps">
+                                        <div class="admin-note__label"><i class="fa-solid fa-dollar-sign" aria-hidden="true"></i> Action required</div>
+                                        <ol class="admin-note__list">
+                                            <li>Open <strong>Cash App</strong></li>
+                                            <li>Send <strong>${{ "%.2f"|format(withdrawal.transfer_amount / 100) }}</strong> to:
+                                                <div class="admin-handle admin-handle--block">{{ withdrawal.account_number_last4 }}</div>
+                                            </li>
+                                            <li>After sending, click below:</li>
+                                        </ol>
+                                        <button type="button" class="btn btn--success btn--sm btn--block" onclick="markWithdrawalComplete({{ withdrawal.id }})">
+                                            <i class="fa-solid fa-check" aria-hidden="true"></i> Mark as sent
                                         </button>
                                     </div>
                                 {% elif withdrawal.bank_name == 'STRIPE' %}
-                                    <div style="background: #fef3c7; padding: 12px; border-radius: 8px; border-left: 4px solid #f59e0b;">
-                                        <div style="font-weight: 700; color: #92400e; margin-bottom: 8px;">⚠️ Stripe Auto-Transfer Failed</div>
-                                        <div style="font-size: 13px; color: #78350f; line-height: 1.4;">
+                                    <div class="admin-note admin-note--warning admin-note--steps">
+                                        <div class="admin-note__label"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Stripe auto-transfer failed</div>
+                                        <p class="admin-note__text">
                                             Process manually via bank transfer or contact user to reconnect Stripe.
-                                        </div>
-                                        <button onclick="markWithdrawalComplete({{ withdrawal.id }})" style="background: #10b981; color: white; padding: 10px 16px; border-radius: 8px; border: none; cursor: pointer; margin-top: 10px; font-weight: 600; width: 100%;">
-                                            ✅ Mark as Completed
+                                        </p>
+                                        <button type="button" class="btn btn--success btn--sm btn--block" onclick="markWithdrawalComplete({{ withdrawal.id }})">
+                                            <i class="fa-solid fa-check" aria-hidden="true"></i> Mark as completed
                                         </button>
                                     </div>
                                 {% endif %}
@@ -538,49 +249,49 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </section>
         {% endif %}
 
-        <!-- Tabbed Content -->
-        <div class="section">
+        {# Tabbed content #}
+        <section class="card admin-section" aria-label="All records">
             <div class="tabs">
-                <div class="tab active" onclick="showTab('users')">
-                    <i class="fas fa-users"></i> Users ({{ users|length }})
-                </div>
-                <div class="tab" onclick="showTab('transactions')">
-                    <i class="fas fa-exchange-alt"></i> Transactions ({{ transactions|length }})
-                </div>
-                <div class="tab" onclick="showTab('complaints')">
-                    <i class="fas fa-exclamation-triangle"></i> Complaints ({{ complaints|length }})
-                </div>
+                <button type="button" class="tab active" onclick="showTab('users')">
+                    <i class="fa-solid fa-users" aria-hidden="true"></i> Users ({{ users|length }})
+                </button>
+                <button type="button" class="tab" onclick="showTab('transactions')">
+                    <i class="fa-solid fa-right-left" aria-hidden="true"></i> Transactions ({{ transactions|length }})
+                </button>
+                <button type="button" class="tab" onclick="showTab('complaints')">
+                    <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Complaints ({{ complaints|length }})
+                </button>
                 {% if verification_codes %}
-                <div class="tab" onclick="showTab('verification')">
-                    <i class="fas fa-check-circle"></i> Verification Codes ({{ verification_codes|length }})
-                </div>
+                <button type="button" class="tab" onclick="showTab('verification')">
+                    <i class="fa-solid fa-circle-check" aria-hidden="true"></i> Verification codes ({{ verification_codes|length }})
+                </button>
                 {% endif %}
             </div>
 
-            <!-- Users Tab -->
+            {# Users tab #}
             <div id="users" class="tab-content active">
-                <div class="section-content">
-                    <table class="table">
+                <div class="table-wrap section-content">
+                    <table class="table admin-table admin-table--wide">
                         <thead>
                             <tr>
-                                <th>User</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Role</th>
-                                <th>Verification</th>
-                                <th>Balance</th>
-                                <th>Last Login</th>
-                                <th>Created</th>
+                                <th scope="col">User</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Role</th>
+                                <th scope="col">Verification</th>
+                                <th scope="col">Balance</th>
+                                <th scope="col">Last login</th>
+                                <th scope="col">Created</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for user in users %}
                             <tr>
                                 <td>
-                                    <strong>{{ user.firstname }} {{ user.lastname }}</strong>
+                                    <strong class="text-ink">{{ user.firstname }} {{ user.lastname }}</strong>
                                 </td>
                                 <td>
                                     <span class="email">{{ user.email }}</span>
@@ -590,20 +301,20 @@
                                 </td>
                                 <td>
                                     {% if user.is_admin %}
-                                        <span class="badge admin">Admin</span>
+                                        <span class="badge badge--brand">Admin</span>
                                     {% else %}
-                                        <span class="badge user">User</span>
+                                        <span class="badge">User</span>
                                     {% endif %}
                                 </td>
                                 <td>
                                     {% if user.email_verified %}
-                                        <span class="badge verified">Verified</span>
+                                        <span class="badge badge--success">Verified</span>
                                     {% else %}
-                                        <span class="badge unverified">Unverified</span>
+                                        <span class="badge badge--warning">Unverified</span>
                                     {% endif %}
                                 </td>
                                 <td>
-                                    <span class="balance">${{ user.balance }}</span>
+                                    <span class="balance">${{ "%.2f"|format((user.balance or 0) / 100) }}</span>
                                 </td>
                                 <td>
                                     <span class="timestamp">{{ user.last_login }}</span>
@@ -618,28 +329,28 @@
                 </div>
             </div>
 
-            <!-- Transactions Tab -->
+            {# Transactions tab #}
             <div id="transactions" class="tab-content">
-                <div class="section-content">
-                    <table class="table">
+                <div class="table-wrap section-content">
+                    <table class="table admin-table admin-table--wide">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Event</th>
-                                <th>Buyer</th>
-                                <th>Seller</th>
-                                <th>Price</th>
-                                <th>Status</th>
-                                <th>Created</th>
-                                <th>Actions</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Event</th>
+                                <th scope="col">Buyer</th>
+                                <th scope="col">Seller</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Created</th>
+                                <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for transaction in transactions %}
                             <tr>
-                                <td><strong>#{{ transaction.transaction_id }}</strong></td>
+                                <td class="admin-id">#{{ transaction.transaction_id }}</td>
                                 <td>
-                                    <div>{{ transaction.ticket_description or 'N/A' }}</div>
+                                    <div class="admin-event__name">{{ transaction.ticket_description or 'N/A' }}</div>
                                     <small class="timestamp">{{ transaction.location or '' }}</small>
                                 </td>
                                 <td>
@@ -655,17 +366,17 @@
                                 </td>
                                 <td>
                                     {% if transaction.status == 'completed' %}
-                                        <span class="badge success">{{ transaction.status }}</span>
+                                        <span class="badge badge--success">{{ transaction.status }}</span>
                                     {% elif transaction.status == 'waiting_for_verification' %}
-                                        <span class="badge" style="background: #0ea5e9; color: white;">⏳ VERIFYING</span>
+                                        <span class="badge badge--info"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Verifying</span>
                                     {% elif transaction.status == 'waiting_for_ticket' %}
-                                        <span class="badge" style="background: #ff9800; color: white;">🎫 AWAITING TICKET</span>
+                                        <span class="badge badge--warning"><i class="fa-solid fa-ticket" aria-hidden="true"></i> Awaiting ticket</span>
                                     {% elif transaction.status == 'pending_ticket_submission' %}
-                                        <span class="badge" style="background: #ff9800; color: white;">🎫 TICKET NEEDED</span>
+                                        <span class="badge badge--warning"><i class="fa-solid fa-ticket" aria-hidden="true"></i> Ticket needed</span>
                                     {% elif 'complaint' in transaction.status %}
-                                        <span class="badge danger">{{ transaction.status }}</span>
+                                        <span class="badge badge--danger">{{ transaction.status }}</span>
                                     {% elif 'waiting' in transaction.status %}
-                                        <span class="badge warning">{{ transaction.status }}</span>
+                                        <span class="badge badge--warning">{{ transaction.status }}</span>
                                     {% else %}
                                         <span class="badge">{{ transaction.status }}</span>
                                     {% endif %}
@@ -673,28 +384,28 @@
                                 <td>
                                     <span class="timestamp">{{ transaction.created_time }}</span>
                                 </td>
-                                <td>
+                                <td class="admin-action-cell">
                                     {% if transaction.status == 'pending_ticket_submission' %}
-                                        <span class="badge warning">⏳ Awaiting Ticket</span>
+                                        <span class="badge badge--warning"><i class="fa-regular fa-clock" aria-hidden="true"></i> Awaiting ticket</span>
                                     {% elif transaction.status == 'waiting_for_verification' %}
-                                        <div style="display: flex; gap: 8px; justify-content: center;">
-                                            <button class="verify-ticket-btn" onclick="acceptTicket({{ transaction.transaction_id }})">
-                                                ✅ Accept
+                                        <div class="admin-actions">
+                                            <button type="button" class="btn btn--success btn--sm verify-ticket-btn" onclick="acceptTicket({{ transaction.transaction_id }})">
+                                                <i class="fa-solid fa-check" aria-hidden="true"></i> Accept
                                             </button>
-                                            <button class="reject-ticket-btn" onclick="rejectTicket({{ transaction.transaction_id }})">
-                                                ❌ Reject
+                                            <button type="button" class="btn btn--danger-outline btn--sm reject-ticket-btn" onclick="rejectTicket({{ transaction.transaction_id }})">
+                                                <i class="fa-solid fa-xmark" aria-hidden="true"></i> Reject
                                             </button>
                                         </div>
                                     {% elif transaction.status == 'waiting_for_ticket' %}
-                                        <span class="badge warning">⏳ Awaiting Ticket</span>
+                                        <span class="badge badge--warning"><i class="fa-regular fa-clock" aria-hidden="true"></i> Awaiting ticket</span>
                                     {% elif transaction.status in ['waiting_for_payment_processing'] or (transaction.payment_received == 1) %}
-                                        <button class="declare-ticket-btn" onclick="declareTicketSent({{ transaction.transaction_id }})">
-                                            📨 Declare Ticket Sent
+                                        <button type="button" class="btn btn--primary btn--sm declare-ticket-btn" onclick="declareTicketSent({{ transaction.transaction_id }})">
+                                            <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Declare ticket sent
                                         </button>
                                     {% elif transaction.status == 'ticket_sent' %}
-                                        <span class="badge success">✅ Ticket Sent</span>
+                                        <span class="badge badge--success"><i class="fa-solid fa-check" aria-hidden="true"></i> Ticket sent</span>
                                     {% elif transaction.status == 'completed' %}
-                                        <span class="badge success">✅ Completed</span>
+                                        <span class="badge badge--success"><i class="fa-solid fa-check" aria-hidden="true"></i> Completed</span>
                                     {% else %}
                                         <span class="badge">{{ transaction.status }}</span>
                                     {% endif %}
@@ -706,28 +417,28 @@
                 </div>
             </div>
 
-            <!-- Complaints Tab -->
+            {# Complaints tab #}
             <div id="complaints" class="tab-content">
-                <div class="section-content">
-                    <table class="table">
+                <div class="table-wrap section-content">
+                    <table class="table admin-table admin-table--wide">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Event</th>
-                                <th>Buyer</th>
-                                <th>Seller</th>
-                                <th>Price</th>
-                                <th>Complaint Reason</th>
-                                <th>Created</th>
-                                <th>Actions</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Event</th>
+                                <th scope="col">Buyer</th>
+                                <th scope="col">Seller</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Complaint reason</th>
+                                <th scope="col">Created</th>
+                                <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for complaint in complaints %}
                             <tr>
-                                <td><strong>#{{ complaint.transaction_id }}</strong></td>
+                                <td class="admin-id">#{{ complaint.transaction_id }}</td>
                                 <td>
-                                    <div>{{ complaint.ticket_description }}</div>
+                                    <div class="admin-event__name">{{ complaint.ticket_description }}</div>
                                     <small class="timestamp">{{ complaint.location }}</small>
                                 </td>
                                 <td>
@@ -741,17 +452,19 @@
                                 <td>
                                     <span class="balance">${{ complaint.price }}</span>
                                 </td>
-                                <td>{{ complaint.complaint_reason or 'No reason provided' }}</td>
+                                <td class="admin-reason">{{ complaint.complaint_reason or 'No reason provided' }}</td>
                                 <td>
                                     <span class="timestamp">{{ complaint.created_time }}</span>
                                 </td>
-                                <td>
-                                    <button class="resolve-btn" onclick="resolveComplaint({{ complaint.transaction_id }}, 'refund_buyer')">
-                                        Refund Buyer
-                                    </button>
-                                    <button class="resolve-btn" onclick="resolveComplaint({{ complaint.transaction_id }}, 'pay_seller')">
-                                        Pay Seller
-                                    </button>
+                                <td class="admin-action-cell">
+                                    <div class="admin-actions">
+                                        <button type="button" class="btn btn--danger-outline btn--sm resolve-btn" onclick="resolveComplaint({{ complaint.transaction_id }}, 'refund_buyer')">
+                                            Refund buyer
+                                        </button>
+                                        <button type="button" class="btn btn--success btn--sm resolve-btn" onclick="resolveComplaint({{ complaint.transaction_id }}, 'pay_seller')">
+                                            Pay seller
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -760,20 +473,20 @@
                 </div>
             </div>
 
-            <!-- Verification Codes Tab -->
+            {# Verification codes tab #}
             {% if verification_codes %}
             <div id="verification" class="tab-content">
-                <div class="section-content">
-                    <table class="table">
+                <div class="table-wrap section-content">
+                    <table class="table admin-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Email</th>
-                                <th>Code</th>
-                                <th>Type</th>
-                                <th>Status</th>
-                                <th>Expires</th>
-                                <th>Created</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Code</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Expires</th>
+                                <th scope="col">Created</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -781,13 +494,13 @@
                             <tr>
                                 <td>{{ code.id }}</td>
                                 <td><span class="email">{{ code.email }}</span></td>
-                                <td><strong>{{ code.code }}</strong></td>
+                                <td><strong class="mono text-ink">{{ code.code }}</strong></td>
                                 <td>{{ code.code_type }}</td>
                                 <td>
                                     {% if code.used %}
-                                        <span class="badge success">Used</span>
+                                        <span class="badge badge--success">Used</span>
                                     {% else %}
-                                        <span class="badge warning">Unused</span>
+                                        <span class="badge badge--warning">Unused</span>
                                     {% endif %}
                                 </td>
                                 <td><span class="timestamp">{{ code.expires_at }}</span></td>
@@ -799,286 +512,12 @@
                 </div>
             </div>
             {% endif %}
-        </div>
+        </section>
+
     </div>
+</main>
+{% endblock %}
 
-    <script>
-        function showTab(tabName) {
-            // Hide all tab contents
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Remove active class from all tabs
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected tab content
-            document.getElementById(tabName).classList.add('active');
-            
-            // Add active class to clicked tab
-            event.target.classList.add('active');
-        }
-
-        function resolveComplaint(transactionId, resolution) {
-            if (confirm(`Are you sure you want to ${resolution.replace('_', ' ')} for transaction #${transactionId}?`)) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = `/admin/resolve-complaint/${transactionId}`;
-                
-                const resolutionInput = document.createElement('input');
-                resolutionInput.type = 'hidden';
-                resolutionInput.name = 'resolution';
-                resolutionInput.value = resolution;
-                
-                form.appendChild(resolutionInput);
-                document.body.appendChild(form);
-                form.submit();
-            }
-        }
-
-        function declareTicketSent(transactionId) {
-            if (confirm(`Are you sure you want to declare that the ticket was sent for transaction #${transactionId}?\n\n⚠️ This should only be done AFTER the buyer has paid!\n\nThis will:\n- Update the transaction status to "ticket_sent"\n- Process payment to seller\n- Send notification emails to buyer and seller\n- Close the transaction`)) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = `/admin/declare-ticket-sent/${transactionId}`;
-                
-                document.body.appendChild(form);
-                form.submit();
-            }
-        }
-
-        function verifyTicket(transactionId) {
-            if (confirm(`Are you sure you want to verify the ticket for transaction #${transactionId}?\n\n✅ This will:\n- Mark the ticket as verified\n- Send payment email to the buyer\n- Change status to "waiting_for_payment"\n\n⚠️ Only do this AFTER you've received and verified the ticket from the seller!`)) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = `/admin/verify-ticket/${transactionId}`;
-                
-                document.body.appendChild(form);
-                form.submit();
-            }
-        }
-
-        function releaseFunds(transactionId) {
-            if (confirm(`Are you sure you want to release funds for transaction #${transactionId}?\n\n💰 This will:\n- Mark transaction as completed\n- Release funds to the seller\n- Close the transaction\n\n⚠️ Only do this AFTER you've forwarded the ticket to the buyer!`)) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = `/admin/release-funds/${transactionId}`;
-                
-                document.body.appendChild(form);
-                form.submit();
-            }
-        }
-
-        function acceptTicket(transactionId) {
-            if (confirm(`Are you sure you want to ACCEPT the ticket for transaction #${transactionId}?\n\n✅ This will:\n- Mark the ticket as verified\n- Send payment link to the buyer\n- Change status to "waiting_for_payment"\n\n⚠️ Only accept if the ticket is valid and correct!`)) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = `/admin/accept-ticket/${transactionId}`;
-                
-                document.body.appendChild(form);
-                form.submit();
-            }
-        }
-
-        function rejectTicket(transactionId) {
-            const reason = prompt(`Why are you rejecting this ticket?\n\nThis reason will be sent to the seller so they can fix the issue and resubmit.\n\nCommon reasons:\n- Wrong event\n- Invalid ticket format\n- Missing information\n- Unclear/blurry image`);
-            
-            if (reason && reason.trim()) {
-                if (confirm(`Reject ticket for transaction #${transactionId}?\n\n❌ This will:\n- Return ticket to seller\n- Send rejection reason: "${reason}"\n- Reset status to "pending_ticket_submission"\n- Seller can resubmit a corrected ticket\n\nContinue?`)) {
-                    const form = document.createElement('form');
-                    form.method = 'POST';
-                    form.action = `/admin/reject-ticket/${transactionId}`;
-                    
-                    const input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = 'rejection_reason';
-                    input.value = reason;
-                    form.appendChild(input);
-                    
-                    document.body.appendChild(form);
-                    form.submit();
-                }
-            } else if (reason !== null) {
-                alert('Please provide a reason for rejection.');
-            }
-        }
-
-        function markWithdrawalComplete(withdrawalId) {
-            if (confirm(`✅ Mark withdrawal #${withdrawalId} as complete?\n\n⚠️ Make sure you have already sent the money to the user before clicking OK!\n\nThis will:\n- Mark the withdrawal as completed\n- Send completion email to the user\n- Remove from pending list`)) {
-                // Show loading state
-                const button = event.target;
-                const originalText = button.innerHTML;
-                button.innerHTML = '⏳ Processing...';
-                button.disabled = true;
-                
-                // Send AJAX request
-                fetch(`/admin/withdrawal/complete/${withdrawalId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('✅ Withdrawal marked as complete! Completion email sent to user.');
-                        location.reload(); // Reload page to update the pending withdrawals list
-                    } else {
-                        alert('❌ Error: ' + (data.error || 'Failed to mark withdrawal as complete'));
-                        button.innerHTML = originalText;
-                        button.disabled = false;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('❌ Network error. Please try again.');
-                    button.innerHTML = originalText;
-                    button.disabled = false;
-                });
-            }
-        }
-
-        // Countdown timer for payment deadlines
-        function updateCountdownTimers() {
-            const timers = document.querySelectorAll('.countdown-timer');
-            timers.forEach(timer => {
-                const deadline = timer.getAttribute('data-deadline');
-                if (!deadline) return;
-
-                try {
-                    // Parse the deadline - handle both formats
-                    let deadlineDate;
-                    if (deadline.includes('T')) {
-                        deadlineDate = new Date(deadline);
-                    } else {
-                        deadlineDate = new Date(deadline.replace(/-/g, '/'));
-                    }
-
-                    const now = new Date();
-                    const diff = deadlineDate - now;
-
-                    if (diff <= 0) {
-                        timer.textContent = '⏰ EXPIRED';
-                        timer.style.color = '#c62828';
-                        timer.style.fontWeight = '800';
-                    } else {
-                        const hours = Math.floor(diff / (1000 * 60 * 60));
-                        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-                        let countdownText = '';
-                        if (hours > 0) {
-                            countdownText = `⏱️ ${hours}h ${minutes}m ${seconds}s remaining`;
-                        } else if (minutes > 0) {
-                            countdownText = `⏱️ ${minutes}m ${seconds}s remaining`;
-                        } else {
-                            countdownText = `⏱️ ${seconds}s remaining`;
-                        }
-
-                        timer.textContent = countdownText;
-                        
-                        // Change color based on urgency
-                        if (diff < 5 * 60 * 1000) { // Less than 5 minutes
-                            timer.style.color = '#c62828';
-                        } else if (diff < 15 * 60 * 1000) { // Less than 15 minutes
-                            timer.style.color = '#f57c00';
-                        } else {
-                            timer.style.color = '#1976d2';
-                        }
-                    }
-                } catch (e) {
-                    timer.textContent = '⚠️ Invalid deadline format';
-                    console.error('Countdown error:', e);
-                }
-            });
-        }
-
-        // Update countdown timers every second
-        setInterval(updateCountdownTimers, 1000);
-        // Initial update
-        updateCountdownTimers();
-    </script>
-
-    <style>
-        .resolve-btn {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 11px;
-            cursor: pointer;
-            margin-right: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .resolve-btn:hover {
-            background: #5a6fd8;
-            transform: translateY(-1px);
-        }
-
-        .declare-ticket-btn {
-            background: #16a34a;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 11px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .declare-ticket-btn:hover {
-            background: #15803d;
-            transform: translateY(-1px);
-        }
-
-        .verify-ticket-btn {
-            background: #10b981;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-weight: 600;
-        }
-
-        .verify-ticket-btn:hover {
-            background: #059669;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
-        }
-
-        .reject-ticket-btn {
-            background: #ef4444;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-weight: 600;
-        }
-
-        .reject-ticket-btn:hover {
-            background: #dc2626;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
-        }
-    </style>
-</body>
-</html>
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pages/admin_comprehensive.js') }}"></script>
+{% endblock %}

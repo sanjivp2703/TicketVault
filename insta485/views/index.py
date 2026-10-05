@@ -15,6 +15,9 @@ from insta485.email_utils import (
     send_reject_confirmation_email,
 )
 from insta485.payment_utils import send_payment_seller
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 # Custom Jinja2 filter for datetime conversion
@@ -122,11 +125,11 @@ def show_index():
                             event_name,
                             trans["price"],
                         )
-                        print(
+                        logger.info(
                             f"[AUTO-EXPIRE] Sent payment deadline expired emails for transaction {trans['transaction_id']}"
                         )
                     except Exception as email_error:
-                        print(
+                        logger.error(
                             f"[AUTO-EXPIRE ERROR] Failed to send emails for transaction {trans['transaction_id']}: {email_error}"
                         )
 
@@ -698,7 +701,7 @@ Ticketmaster Support
             return flask.jsonify({"success": False, "error": result["error"]}), 400
 
     except Exception as e:
-        print(f"Error in test verification: {e}")
+        logger.error(f"Error in test verification: {e}")
         return flask.jsonify({"success": False, "error": str(e)}), 500
 
 
@@ -816,7 +819,7 @@ def process_buyer_payment(transaction_id):
         return flask.jsonify({"checkout_url": session.url})
 
     except Exception as e:
-        print(f"Error creating payment session: {e}")
+        logger.error(f"Error creating payment session: {e}")
         return flask.jsonify({"success": False, "error": str(e)}), 500
 
 
@@ -877,7 +880,7 @@ def payment_success(transaction_id):
             (seller_amount_cents, transaction["seller_email"]),
         )
 
-        print(
+        logger.info(
             f"💰 Added ${seller_amount_dollars:.2f} ({seller_amount_cents} cents) to seller {transaction['seller_email']} balance"
         )
 
@@ -897,16 +900,16 @@ def payment_success(transaction_id):
                 payment_deadline=payment_deadline,
             )
 
-            print(
+            logger.info(
                 f"📧 Sent 'sale complete' email to seller {transaction['seller_email']}"
             )
         except Exception as e:
-            print(f"❌ Failed to send seller success email: {e}")
+            logger.error(f"❌ Failed to send seller success email: {e}")
 
         flask.flash("Payment successful! Your tickets have been sent to your email.")
 
     except Exception as e:
-        print(f"Error processing payment success: {e}")
+        logger.error(f"Error processing payment success: {e}")
         flask.flash(
             "Payment was successful but there was an error processing your order. Please contact support."
         )
@@ -1245,8 +1248,6 @@ def create_transaction():
     )  # Get school from form, default to michigan
 
     # Use default deadlines
-    ticket_deadline_hours = 24  # 24 hours to send tickets
-    payment_deadline_hours = 48  # 48 hours for buyer to pay
 
     # Fix datetime format - convert from HTML5 datetime-local to SQLite format
     if "T" in event_datetime_raw and len(event_datetime_raw) == 16:
@@ -1297,15 +1298,12 @@ def create_transaction():
         (event_name, event_location, event_datetime),
     ).fetchone()
 
-    if event:
-        event_id = event["event_id"]
-    else:
+    if not event:
         # Create new event
-        cursor = connection.execute(
+        connection.execute(
             "INSERT INTO events (name, location, event_datetime) VALUES (?, ?, ?)",
             (event_name, event_location, event_datetime),
         )
-        event_id = cursor.lastrowid
 
     # Use new automated transaction system
     try:
@@ -1339,7 +1337,7 @@ def create_transaction():
         )
 
     except Exception as e:
-        print(f"Error creating transaction: {e}")
+        logger.error(f"Error creating transaction: {e}")
         return flask.jsonify({"success": False, "error": str(e)})
 
 
@@ -1449,18 +1447,18 @@ def send_buyer_email_1(
         insta485.mail.send(msg)
 
         # Also log to console for debugging
-        print("\n✅ EMAIL 1 SENT SUCCESSFULLY!")
-        print(f"📧 TO: {buyer_email}")
-        print(f"📋 SUBJECT: {subject}")
-        print(f"🔗 Payment Link: http://localhost:8000/ticket/{transaction_id}")
-        print(f"{'=' * 50}\n")
+        logger.info("\n✅ EMAIL 1 SENT SUCCESSFULLY!")
+        logger.info(f"📧 TO: {buyer_email}")
+        logger.info(f"📋 SUBJECT: {subject}")
+        logger.info(f"🔗 Payment Link: http://localhost:8000/ticket/{transaction_id}")
+        logger.info(f"{'=' * 50}\n")
 
     except Exception as e:
-        print("\n❌ EMAIL SEND FAILED!")
-        print(f"Error: {e}")
-        print(f"TO: {buyer_email}")
-        print(f"SUBJECT: {subject}")
-        print(f"{'=' * 50}\n")
+        logger.error("\n❌ EMAIL SEND FAILED!")
+        logger.error(f"Error: {e}")
+        logger.info(f"TO: {buyer_email}")
+        logger.info(f"SUBJECT: {subject}")
+        logger.info(f"{'=' * 50}\n")
         # Still continue with the transaction creation
 
 
@@ -1793,9 +1791,11 @@ def validate_ticket(transaction_id):
     # Cancel any scheduled auto-validation
     try:
         insta485.app.scheduler.remove_job(f"auto_validate_{transaction_id}")
-        print(f"[SCHEDULER] Cancelled auto-validation for transaction {transaction_id}")
+        logger.info(
+            f"[SCHEDULER] Cancelled auto-validation for transaction {transaction_id}"
+        )
     except Exception as e:
-        print(
+        logger.info(
             f"[SCHEDULER] No auto-validation job to cancel for transaction {transaction_id}: {e}"
         )
 
@@ -1819,7 +1819,7 @@ def validate_ticket(transaction_id):
         )
 
         send_buyer_email_3(transaction_id, trans_details["buyer_email"])
-        print(f"[EMAIL] Sent success email to {trans_details['buyer_email']}")
+        logger.info(f"[EMAIL] Sent success email to {trans_details['buyer_email']}")
 
     # Get event details for confirmation page
     event_details = connection.execute(
@@ -1878,7 +1878,7 @@ def send_seller_notification(transaction_id, seller_email):
     ).fetchone()
 
     if not transaction_details:
-        print(f"❌ Transaction {transaction_id} not found")
+        logger.error(f"❌ Transaction {transaction_id} not found")
         return
 
     # Format event datetime for display
@@ -1916,7 +1916,7 @@ def send_seller_notification(transaction_id, seller_email):
         html_body = flask.render_template(
             "seller_payment_received.html", **template_context
         )
-    except Exception as e:
+    except Exception:
         # Fallback if template rendering fails
         html_body = f"<p>Payment received for Transaction #{transaction_id}. Please check your dashboard.</p>"
 
@@ -1948,18 +1948,18 @@ def send_seller_notification(transaction_id, seller_email):
         insta485.mail.send(msg)
 
         # Also log to console for debugging
-        print("\n✅ SELLER NOTIFICATION SENT!")
-        print(f"📧 TO: {seller_email}")
-        print(f"📋 Transaction: #{transaction_id}")
-        print(f"🎫 Event: {transaction_details['event_name']}")
-        print(f"💰 Amount: ${transaction_details['price']}")
-        print(f"{'=' * 40}\n")
+        logger.info("\n✅ SELLER NOTIFICATION SENT!")
+        logger.info(f"📧 TO: {seller_email}")
+        logger.info(f"📋 Transaction: #{transaction_id}")
+        logger.info(f"🎫 Event: {transaction_details['event_name']}")
+        logger.info(f"💰 Amount: ${transaction_details['price']}")
+        logger.info(f"{'=' * 40}\n")
 
     except Exception as e:
-        print("\n❌ SELLER EMAIL SEND FAILED!")
-        print(f"Error: {e}")
-        print(f"TO: {seller_email}")
-        print(f"{'=' * 40}\n")
+        logger.error("\n❌ SELLER EMAIL SEND FAILED!")
+        logger.error(f"Error: {e}")
+        logger.info(f"TO: {seller_email}")
+        logger.info(f"{'=' * 40}\n")
 
 
 def send_buyer_email_3(transaction_id, buyer_email):
@@ -2045,16 +2045,16 @@ def send_buyer_email_3(transaction_id, buyer_email):
         insta485.mail.send(msg)
 
         # Also log to console for debugging
-        print("\n✅ SUCCESS EMAIL SENT!")
-        print(f"📧 TO: {buyer_email}")
-        print(f"🎉 Transaction #{transaction_id} completed!")
-        print(f"{'=' * 40}\n")
+        logger.info("\n✅ SUCCESS EMAIL SENT!")
+        logger.info(f"📧 TO: {buyer_email}")
+        logger.info(f"🎉 Transaction #{transaction_id} completed!")
+        logger.info(f"{'=' * 40}\n")
 
     except Exception as e:
-        print("\n❌ SUCCESS EMAIL SEND FAILED!")
-        print(f"Error: {e}")
-        print(f"TO: {buyer_email}")
-        print(f"{'=' * 40}\n")
+        logger.error("\n❌ SUCCESS EMAIL SEND FAILED!")
+        logger.error(f"Error: {e}")
+        logger.info(f"TO: {buyer_email}")
+        logger.info(f"{'=' * 40}\n")
 
 
 # Legacy route - redirects to main index since we only support sellers now
@@ -2107,7 +2107,7 @@ def send_ticket_sent_email_route(transaction_id):
         )
 
     except Exception as e:
-        print(f"Error sending ticket sent email: {e}")
+        logger.error(f"Error sending ticket sent email: {e}")
         return flask.jsonify(
             {"success": False, "error": f"Failed to send email: {str(e)}"}
         ), 500
@@ -2272,7 +2272,7 @@ def payment_success_generic():
         from insta485.mailgun_sender import mailgun_sender
 
         # Get original ticket details from database
-        ticket_data = connection.execute(
+        connection.execute(
             "SELECT ticket_email_data, original_event_details FROM transactions WHERE transaction_id = ?",
             (transaction_id,),
         ).fetchone()
@@ -2285,10 +2285,10 @@ def payment_success_generic():
             seller_email=row["seller_email"],
         )
 
-        print(f"🎫 AUTO-TRANSFER: Ticket sent to buyer {row['buyer_email']}")
+        logger.info(f"🎫 AUTO-TRANSFER: Ticket sent to buyer {row['buyer_email']}")
 
     except Exception as e:
-        print(f"❌ AUTO-TRANSFER ERROR: {e}")
+        logger.error(f"❌ AUTO-TRANSFER ERROR: {e}")
 
     # AUTOMATIC FUND RELEASE - Add funds to seller balance
     try:
@@ -2315,12 +2315,12 @@ def payment_success_generic():
             buyer_email=row["buyer_email"],
         )
 
-        print(
+        logger.info(
             f"💰 AUTO-RELEASE: ${seller_amount_dollars:.2f} ({seller_amount_cents} cents) added to seller {row['seller_email']} balance"
         )
 
     except Exception as e:
-        print(f"❌ AUTO-RELEASE ERROR: {e}")
+        logger.error(f"❌ AUTO-RELEASE ERROR: {e}")
 
     # Send confirmation emails to both parties
     email_sent = False
@@ -2339,13 +2339,13 @@ def payment_success_generic():
                 transaction_id=transaction_id,
             )
             if email_sent:
-                print(f"✅ Confirmation email sent to {row['buyer_email']}")
+                logger.info(f"✅ Confirmation email sent to {row['buyer_email']}")
             else:
-                print(
+                logger.error(
                     f"❌ Confirmation email failed for {row['buyer_email']} - likely not authorized in Mailgun sandbox"
                 )
         except Exception as e:
-            print(f"❌ Confirmation email error for {row['buyer_email']}: {e}")
+            logger.error(f"❌ Confirmation email error for {row['buyer_email']}: {e}")
             email_sent = False
 
     # Render the new success page
@@ -2421,8 +2421,10 @@ def payment_cancel():
                         seller_email=transaction_info["seller_email"],
                     )
                 except Exception as e:
-                    print(f"[EMAIL ERROR] Failed to send cancellation email: {e}")
-            print(
+                    logger.error(
+                        f"[EMAIL ERROR] Failed to send cancellation email: {e}"
+                    )
+            logger.info(
                 f"[PAYMENT] Safe-Transaction refunded buyer for transaction {transaction_id} (double cancellation)."
             )
         connection.commit()
@@ -2509,12 +2511,12 @@ def update_ticket_status(transaction_id):
                     transaction_id,
                     validation_deadline,
                 )
-                print(
+                logger.info(
                     f"[EMAIL] Sent ticket notification to {trans_details['buyer_email']}"
                 )
 
         except Exception as e:
-            print(f"[EMAIL ERROR] Failed to send ticket sent email: {e}")
+            logger.error(f"[EMAIL ERROR] Failed to send ticket sent email: {e}")
 
         # Schedule auto-validation after 2 minutes
         schedule_auto_validation(transaction_id)
@@ -2568,7 +2570,7 @@ def update_ticket_status(transaction_id):
                     complaint_deadline=complaint_deadline,
                 )
             except Exception as e:
-                print(f"[EMAIL ERROR] Failed to send ticket received email: {e}")
+                logger.error(f"[EMAIL ERROR] Failed to send ticket received email: {e}")
         return "<html><body><h2>You have confirmed the ticket is sent. Please return to your email.</h2></body></html>"
     # Default: show not found if no valid action
     return "<html><body><h2>Invalid or missing action for this transaction.</h2></body></html>"
@@ -2602,14 +2604,14 @@ def report_problem(transaction_id):
 
     # Allow access if user is logged in as buyer OR if accessing via email link (no login required)
     logemail = flask.session.get("email")
-    print(
+    logger.info(
         f"[DEBUG] Complaint access - Logged in as: {logemail}, Transaction buyer: {transaction['buyer_email']}"
     )
 
     # Only restrict access if user is logged in as a DIFFERENT user than the buyer
     # If not logged in at all, allow access (email link)
     if logemail and logemail != transaction["buyer_email"]:
-        print("[DEBUG] Access denied - wrong user logged in")
+        logger.info("[DEBUG] Access denied - wrong user logged in")
         return "<html><body><h2>❌ Access denied. You must be the buyer for this transaction to file a complaint.</h2></body></html>"
 
     if flask.request.method == "GET":
@@ -2621,9 +2623,9 @@ def report_problem(transaction_id):
         )
 
     # POST - Handle complaint submission
-    print(f"[DEBUG] Form data: {dict(flask.request.form)}")
+    logger.info(f"[DEBUG] Form data: {dict(flask.request.form)}")
     reason = flask.request.form.get("reason")
-    print(f"[DEBUG] Reason: {reason}")
+    logger.info(f"[DEBUG] Reason: {reason}")
 
     if reason == "Other":
         complaint_reason = flask.request.form.get(
@@ -2632,7 +2634,7 @@ def report_problem(transaction_id):
     else:
         complaint_reason = reason
 
-    print(f"[DEBUG] Final complaint reason: {complaint_reason}")
+    logger.info(f"[DEBUG] Final complaint reason: {complaint_reason}")
 
     # Update transaction status to complaint_filed
     connection.execute(
@@ -2649,7 +2651,9 @@ def report_problem(transaction_id):
             transaction["buyer_email"],
             complaint_reason,
         )
-        print(f"[EMAIL] Sent proof request to seller: {transaction['seller_email']}")
+        logger.info(
+            f"[EMAIL] Sent proof request to seller: {transaction['seller_email']}"
+        )
 
         # Schedule reminder email after 12 hours
         schedule_seller_reminder(
@@ -2663,7 +2667,7 @@ def report_problem(transaction_id):
         schedule_auto_refund(transaction_id)
 
     except Exception as e:
-        print(f"[EMAIL ERROR] Failed to send proof request: {e}")
+        logger.error(f"[EMAIL ERROR] Failed to send proof request: {e}")
 
     if logemail:
         flash(
@@ -2804,10 +2808,10 @@ Safe Transaction Team
         msg = Message(subject, recipients=[seller_email], body=plain_body)
         msg.html = html_body
         mail.send(msg)
-        print(f"✅ Seller proof request sent to {seller_email}")
+        logger.info(f"✅ Seller proof request sent to {seller_email}")
         return True
     except Exception as e:
-        print(f"❌ Failed to send seller proof request: {e}")
+        logger.error(f"❌ Failed to send seller proof request: {e}")
         return False
 
 
@@ -2833,7 +2837,7 @@ def schedule_auto_validation(transaction_id):
                     (transaction_id,),
                 )
                 connection.commit()
-                print(
+                logger.info(
                     f"[AUTO-VALIDATION] Transaction {transaction_id} auto-validated after 2 minutes"
                 )
 
@@ -2859,19 +2863,19 @@ def schedule_auto_validation(transaction_id):
 
                         # Send Email 3 (success) to buyer
                         send_buyer_email_3(transaction_id, trans_details["buyer_email"])
-                        print(
+                        logger.info(
                             f"[EMAIL] Sent success email to buyer: {trans_details['buyer_email']}"
                         )
 
                 except Exception as e:
-                    print(f"[EMAIL ERROR] Failed to send success email: {e}")
+                    logger.error(f"[EMAIL ERROR] Failed to send success email: {e}")
             else:
-                print(
+                logger.info(
                     f"[AUTO-VALIDATION] Transaction {transaction_id} status is {transaction.get('status') if transaction else 'not found'}, skipping auto-validation"
                 )
 
         except Exception as e:
-            print(
+            logger.error(
                 f"[AUTO-VALIDATION ERROR] Failed to auto-validate transaction {transaction_id}: {e}"
             )
 
@@ -2884,7 +2888,7 @@ def schedule_auto_validation(transaction_id):
         id=f"auto_validate_{transaction_id}",
         replace_existing=True,
     )
-    print(
+    logger.info(
         f"[SCHEDULER] Scheduled auto-validation for transaction {transaction_id} at {run_time}"
     )
 
@@ -2942,14 +2946,16 @@ def schedule_seller_reminder(
 
                 msg = Message(subject, recipients=[seller_email], html=html_body)
                 mail.send(msg)
-                print(f"[REMINDER] Sent 12-hour reminder to seller: {seller_email}")
+                logger.info(
+                    f"[REMINDER] Sent 12-hour reminder to seller: {seller_email}"
+                )
             else:
-                print(
+                logger.info(
                     f"[REMINDER] Complaint {transaction_id} already resolved, no reminder needed"
                 )
 
         except Exception as e:
-            print(
+            logger.error(
                 f"[REMINDER ERROR] Failed to send reminder for transaction {transaction_id}: {e}"
             )
 
@@ -2962,7 +2968,7 @@ def schedule_seller_reminder(
         id=f"reminder_{transaction_id}",
         replace_existing=True,
     )
-    print(
+    logger.info(
         f"[SCHEDULER] Scheduled seller reminder for transaction {transaction_id} at {run_time}"
     )
 
@@ -2989,7 +2995,7 @@ def schedule_auto_refund(transaction_id):
                     (transaction_id,),
                 )
                 connection.commit()
-                print(
+                logger.info(
                     f"[AUTO-REFUND] Transaction {transaction_id} auto-refunded - seller didn't respond in 24 hours"
                 )
 
@@ -3002,19 +3008,21 @@ def schedule_auto_refund(transaction_id):
                         "refund_buyer",
                         "Seller failed to provide proof within 24 hours. Automatic refund issued.",
                     )
-                    print(
+                    logger.info(
                         f"[EMAIL] Sent auto-refund notification emails for transaction {transaction_id}"
                     )
                 except Exception as e:
-                    print(f"[EMAIL ERROR] Failed to send auto-refund emails: {e}")
+                    logger.error(
+                        f"[EMAIL ERROR] Failed to send auto-refund emails: {e}"
+                    )
 
             else:
-                print(
+                logger.info(
                     f"[AUTO-REFUND] Complaint {transaction_id} already resolved, no auto-refund needed"
                 )
 
         except Exception as e:
-            print(
+            logger.error(
                 f"[AUTO-REFUND ERROR] Failed to auto-refund transaction {transaction_id}: {e}"
             )
 
@@ -3027,6 +3035,6 @@ def schedule_auto_refund(transaction_id):
         id=f"auto_refund_{transaction_id}",
         replace_existing=True,
     )
-    print(
+    logger.info(
         f"[SCHEDULER] Scheduled auto-refund for transaction {transaction_id} at {run_time}"
     )

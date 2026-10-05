@@ -1,128 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Account</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        body {
-            background: linear-gradient(to right, #eef3f9, #cfe2ff);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 40px 20px;
-            color: #333;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 450px;
-            width: 100%;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 30, 80, 0.1);
-            padding: 40px;
-        }
-        h1, h2 {
-            text-align: center;
-            color: #1a3d7a;
-            margin-bottom: 25px;
-        }
-        .input-group {
-            position: relative;
-            margin-bottom: 20px;
-        }
-        .input-group i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #aaa;
-        }
-        input[type="text"], input[type="email"], input[type="password"] {
-            width: 100%;
-            padding: 12px 12px 12px 45px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-sizing: border-box;
-            transition: border-color 0.3s ease;
-        }
-        input[type="submit"] {
-            width: 100%;
-            padding: 12px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-            margin-top: 10px;
-        }
-        input[type="submit"]:hover {
-            background: #0056b3;
-        }
-        .delete-btn {
-            background: #dc3545;
-        }
-        .delete-btn:hover {
-            background: #c82333;
-        }
-        .form-section {
-            margin-bottom: 40px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Edit Account</h1>
+{% extends "layouts/base.html" %}
+{% block title %}Edit account{% endblock %}
 
-        <div class="form-section">
-            <h2>Update Profile</h2>
-            <form action="{{ url_for('manage_accounts') }}" method="post">
-                <input type="hidden" name="operation" value="edit_account">
-                <div class="input-group">
-                    <i class="fa fa-user"></i>
-                    <input type="text" name="firstname" value="{{ user.firstname }}" required>
-                </div>
-                <div class="input-group">
-                    <i class="fa fa-user"></i>
-                    <input type="text" name="lastname" value="{{ user.lastname }}" required>
-                </div>
-                <input type="submit" value="Update Profile">
-            </form>
-        </div>
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/forms.css') }}">
+{% endblock %}
 
-        <div class="form-section">
-            <h2>Change Password</h2>
-            <form action="{{ url_for('manage_accounts') }}" method="post">
-                <input type="hidden" name="operation" value="update_password">
-                <div class="input-group">
-                    <i class="fa fa-lock"></i>
-                    <input type="password" name="password" placeholder="Old Password" required>
-                </div>
-                <div class="input-group">
-                    <i class="fa fa-lock"></i>
-                    <input type="password" name="new_password1" placeholder="New Password" required>
-                </div>
-                <div class="input-group">
-                    <i class="fa fa-lock"></i>
-                    <input type="password" name="new_password2" placeholder="Confirm New Password" required>
-                </div>
-                <input type="submit" value="Change Password">
-            </form>
-        </div>
+{% block content %}
+<main class="page">
+    <div class="container container--narrow">
+        <header class="page-header">
+            <h1 class="page-header__title">Edit account</h1>
+        </header>
 
-        <div class="form-section">
-            <h2>Delete Account</h2>
-            <form action="{{ url_for('manage_accounts') }}" method="post">
-                <input type="hidden" name="operation" value="delete">
-                <input type="submit" class="delete-btn" value="Delete Account">
-            </form>
-        </div>
+        <section class="card form-card" aria-labelledby="profile-title">
+            <div class="card__body">
+                <h2 class="form-section-title" id="profile-title">Update profile</h2>
+                <form action="{{ url_for('manage_accounts') }}" method="post">
+                    <input type="hidden" name="operation" value="edit_account">
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label class="label" for="firstname">First name</label>
+                            <input class="input" type="text" id="firstname" name="firstname" value="{{ user.firstname }}" autocomplete="given-name" required>
+                        </div>
+                        <div class="form-field">
+                            <label class="label" for="lastname">Last name</label>
+                            <input class="input" type="text" id="lastname" name="lastname" value="{{ user.lastname }}" autocomplete="family-name" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn--primary">Update profile</button>
+                    </div>
+                </form>
+            </div>
+        </section>
 
+        <section class="card form-card" aria-labelledby="password-title">
+            <div class="card__body">
+                <h2 class="form-section-title" id="password-title">Change password</h2>
+                <form action="{{ url_for('manage_accounts') }}" method="post">
+                    <input type="hidden" name="operation" value="update_password">
+                    <div class="form-field">
+                        <label class="label" for="password">Old password</label>
+                        <input class="input" type="password" id="password" name="password" autocomplete="current-password" required>
+                    </div>
+                    <div class="form-field">
+                        <label class="label" for="new_password1">New password</label>
+                        <input class="input" type="password" id="new_password1" name="new_password1" autocomplete="new-password" required>
+                    </div>
+                    <div class="form-field">
+                        <label class="label" for="new_password2">Confirm new password</label>
+                        <input class="input" type="password" id="new_password2" name="new_password2" autocomplete="new-password" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn--primary">Change password</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section class="card form-card" aria-labelledby="delete-title">
+            <div class="card__body">
+                <h2 class="form-section-title" id="delete-title">Delete account</h2>
+                <form action="{{ url_for('manage_accounts') }}" method="post">
+                    <input type="hidden" name="operation" value="delete">
+                    <button type="submit" class="btn btn--danger-outline">Delete account</button>
+                </form>
+            </div>
+        </section>
     </div>
-</body>
-</html>
+</main>
+{% endblock %}

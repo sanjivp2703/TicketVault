@@ -1,5 +1,8 @@
 from flask_mail import Message
 from flask import current_app
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def send_email(to_email, subject, body, html=None):
@@ -26,15 +29,8 @@ def send_accept_confirmation_email(
     buyer_email, event_name, price, seller_email, transaction_id=None
 ):
     subject = f"🎉 Payment confirmed for {event_name}!"
-    body = (
-        f"Hello,\n\nYour payment for '{event_name}' was successful. "
-        f"Price: ${price}\nSeller: {seller_email}\n\n"
-        "We're now processing your ticket.\n\nBest,\nSafe-Transaction Team"
-    )
 
     # Generate action URLs
-    DOMAIN = "http://localhost:8000"
-    ticket_status_url = f"{DOMAIN}/ticket/{transaction_id}" if transaction_id else "#"
 
     html = f"""
     <!DOCTYPE html>
@@ -347,21 +343,21 @@ def send_accept_confirmation_email(
         if success:
             return True
         else:
-            print("❌ Gmail SMTP failed, trying Mailgun as fallback...")
+            logger.error("❌ Gmail SMTP failed, trying Mailgun as fallback...")
             # Fallback to Mailgun (will work for authorized emails)
             from insta485.mailgun_sender import mailgun_sender
 
             return mailgun_sender.send_email(buyer_email, subject, html)
 
     except Exception as e:
-        print(f"❌ Error sending confirmation email via Gmail: {e}")
+        logger.error(f"❌ Error sending confirmation email via Gmail: {e}")
         # Fallback to Mailgun
         try:
             from insta485.mailgun_sender import mailgun_sender
 
             return mailgun_sender.send_email(buyer_email, subject, html)
         except Exception as e2:
-            print(f"❌ Mailgun fallback also failed: {e2}")
+            logger.error(f"❌ Mailgun fallback also failed: {e2}")
             return False
 
 

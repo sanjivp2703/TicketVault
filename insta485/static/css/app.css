@@ -101,6 +101,8 @@ html {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
   margin: 0;
   min-height: 100vh;
   background: var(--color-canvas);
@@ -297,8 +299,9 @@ svg {
   flex: none;
 }
 
-/* Site footer */
+/* Site footer (pinned to the bottom of short pages) */
 .site-footer {
+  margin-top: auto;
   border-top: 1px solid var(--color-border);
   background: var(--color-surface);
   color: var(--color-muted);
@@ -624,6 +627,12 @@ svg {
   font-weight: 700;
 }
 
+.alert a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
 .alert--success {
   border-color: var(--color-success-border);
   background: var(--color-success-soft);
@@ -823,7 +832,6 @@ svg {
 .status-page {
   display: grid;
   place-items: start center;
-  min-height: calc(100vh - var(--header-height));
   padding: var(--space-12) var(--space-4) var(--space-16);
 }
 
@@ -1112,6 +1120,11 @@ svg {
   }
 
   .user-chip__meta {
+    display: none;
+  }
+
+  /* The footer keeps this link reachable on small screens. */
+  .site-header__nav {
     display: none;
   }
 

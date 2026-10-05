@@ -1,0 +1,507 @@
+/*
+ * How it works (/how-it-works/)
+ * Documentation-style page: compact hero, sticky table of contents on wide
+ * screens, numbered timeline for the process, disclosure-based FAQ.
+ */
+
+.hiw {
+  display: block;
+}
+
+/* Hero --------------------------------------------------------------------- */
+
+.hiw-hero {
+  padding-block: var(--space-8) var(--space-10);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.hiw-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+.hiw-back:hover {
+  color: var(--color-ink);
+}
+
+.hiw-hero__title {
+  margin-top: var(--space-3);
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.hiw-hero__lede {
+  max-width: 60ch;
+  margin-top: var(--space-3);
+  color: var(--color-muted);
+  font-size: var(--text-lg);
+}
+
+/* Layout ------------------------------------------------------------------- */
+
+.hiw-layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 44rem);
+  gap: var(--space-16);
+  align-items: start;
+  padding-block: var(--space-12) var(--space-16);
+}
+
+.hiw-article {
+  min-width: 0;
+}
+
+/* Table of contents -------------------------------------------------------- */
+
+.hiw-toc {
+  position: sticky;
+  top: calc(var(--header-height) + var(--space-8));
+}
+
+.hiw-toc__title {
+  margin-bottom: var(--space-3);
+  color: var(--color-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.hiw-toc__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-left: 1px solid var(--color-border);
+}
+
+.hiw-toc__list--sub {
+  margin-left: var(--space-4);
+  border-left: 0;
+}
+
+.hiw-toc__link {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  margin-left: -1px;
+  padding: var(--space-1) var(--space-4);
+  border-left: 1px solid transparent;
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.hiw-toc__list--sub .hiw-toc__link {
+  color: var(--color-muted);
+  font-weight: 400;
+}
+
+.hiw-toc__link:hover {
+  border-left-color: var(--color-brand);
+  color: var(--color-brand-strong);
+}
+
+/* Sections ----------------------------------------------------------------- */
+
+.hiw-section {
+  scroll-margin-top: calc(var(--header-height) + var(--space-6));
+}
+
+.hiw-section + .hiw-section {
+  margin-top: var(--space-16);
+}
+
+.hiw-section__title {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-3xl);
+  letter-spacing: -0.02em;
+}
+
+.hiw-section__intro {
+  margin-bottom: var(--space-6);
+  font-size: var(--text-lg);
+  line-height: 1.65;
+}
+
+.hiw-subtitle {
+  margin: var(--space-8) 0 var(--space-3);
+  font-size: var(--text-lg);
+}
+
+.hiw-section__title + .hiw-subtitle {
+  margin-top: var(--space-2);
+}
+
+/* Overview features -------------------------------------------------------- */
+
+.hiw-features {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hiw-feature {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+}
+
+.hiw-feature + .hiw-feature {
+  border-top: 1px solid var(--color-border);
+}
+
+.hiw-feature__icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--color-brand-soft);
+  color: var(--color-brand);
+}
+
+.hiw-feature__title {
+  font-size: var(--text-base);
+}
+
+.hiw-feature__text {
+  margin-top: var(--space-1);
+  line-height: 1.65;
+}
+
+/* Guarantee and term lists ------------------------------------------------- */
+
+.hiw-guarantee {
+  padding: var(--space-5) var(--space-6);
+  font-size: var(--text-base);
+  line-height: 1.65;
+}
+
+.hiw-guarantee > i {
+  margin-top: 5px;
+  font-size: var(--text-lg);
+}
+
+.hiw-guarantee + .hiw-terms {
+  margin-top: var(--space-4);
+}
+
+.hiw-terms .detail-list__label {
+  color: var(--color-text);
+}
+
+.hiw-terms .detail-list__value {
+  flex: 0 1 60%;
+}
+
+.hiw-terms .detail-list__value.text-success {
+  color: var(--color-success);
+}
+
+/* Process timeline --------------------------------------------------------- */
+
+.hiw-timeline {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hiw-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: var(--space-5);
+  padding-bottom: var(--space-6);
+  scroll-margin-top: calc(var(--header-height) + var(--space-6));
+}
+
+.hiw-step:last-child {
+  padding-bottom: 0;
+}
+
+/* Connector between step numbers */
+.hiw-step::before {
+  content: "";
+  position: absolute;
+  top: 40px;
+  bottom: 0;
+  left: 19px;
+  width: 2px;
+  background: var(--color-border);
+}
+
+.hiw-step:last-child::before {
+  display: none;
+}
+
+.hiw-step__number {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-brand);
+  color: var(--color-surface);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.hiw-step__body {
+  padding: var(--space-5) var(--space-6) var(--space-6);
+}
+
+.hiw-step__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.hiw-step__title {
+  font-size: var(--text-xl);
+}
+
+.hiw-step__text {
+  margin-top: var(--space-2);
+  line-height: 1.65;
+}
+
+.hiw-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hiw-list > li {
+  position: relative;
+  padding-left: var(--space-5);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.hiw-list > li::before {
+  content: "";
+  position: absolute;
+  top: 0.6em;
+  left: 2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-border-strong);
+}
+
+.hiw-list a {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.hiw-recipient {
+  max-width: 26rem;
+  margin: var(--space-3) 0 var(--space-2);
+}
+
+.hiw-step__body .alert {
+  margin-top: var(--space-5);
+}
+
+/* FAQ ---------------------------------------------------------------------- */
+
+.hiw-faq {
+  overflow: hidden;
+}
+
+.faq-item + .faq-item {
+  border-top: 1px solid var(--color-border);
+}
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 56px;
+  padding: var(--space-4) var(--space-6);
+  color: var(--color-ink);
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  transition: background var(--transition);
+}
+
+.faq-question::-webkit-details-marker {
+  display: none;
+}
+
+.faq-question:hover {
+  background: var(--color-surface-alt);
+}
+
+.faq-question:focus-visible {
+  outline-offset: -3px;
+}
+
+.faq-question > i {
+  flex: none;
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+  transition: transform var(--transition);
+}
+
+.faq-item[open] > .faq-question > i {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  padding: 0 var(--space-6) var(--space-5);
+  line-height: 1.65;
+}
+
+/* Call to action ----------------------------------------------------------- */
+
+.hiw-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  margin-top: var(--space-16);
+  padding: var(--space-8);
+}
+
+.hiw-cta__title {
+  font-size: var(--text-xl);
+}
+
+.hiw-cta__text {
+  margin-top: var(--space-1);
+  color: var(--color-muted);
+}
+
+/* Responsive --------------------------------------------------------------- */
+
+@media (max-width: 960px) {
+  .hiw-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-10);
+    padding-block: var(--space-8) var(--space-12);
+  }
+
+  .hiw-article {
+    max-width: 44rem;
+  }
+
+  .hiw-toc {
+    position: static;
+    max-width: 44rem;
+    padding: var(--space-5) var(--space-5) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+
+  .hiw-toc__list {
+    border-left: 0;
+  }
+
+  .hiw-toc__link {
+    min-height: 40px;
+    margin-left: 0;
+    padding-inline: 0;
+    border-left: 0;
+  }
+
+  .hiw-toc__list--sub .hiw-toc__link {
+    padding-left: var(--space-4);
+  }
+
+  .hiw-toc__list--sub {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .hiw-hero {
+    padding-block: var(--space-5) var(--space-8);
+  }
+
+  .hiw-hero__title {
+    font-size: var(--text-3xl);
+  }
+
+  .hiw-hero__lede {
+    font-size: var(--text-base);
+  }
+
+  .hiw-section + .hiw-section,
+  .hiw-cta {
+    margin-top: var(--space-12);
+  }
+
+  .hiw-section__title {
+    font-size: var(--text-2xl);
+  }
+
+  .hiw-section__intro {
+    font-size: var(--text-base);
+  }
+
+  .hiw-feature {
+    padding: var(--space-4);
+  }
+
+  .hiw-step {
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: var(--space-3);
+  }
+
+  .hiw-step::before {
+    top: 32px;
+    left: 15px;
+  }
+
+  .hiw-step__number {
+    width: 32px;
+    height: 32px;
+    font-size: var(--text-sm);
+  }
+
+  .hiw-step__body {
+    padding: var(--space-4);
+  }
+
+  .hiw-step__title {
+    font-size: var(--text-lg);
+  }
+
+  .hiw-terms .detail-list__value {
+    flex-basis: auto;
+  }
+
+  .faq-question {
+    padding-inline: var(--space-4);
+  }
+
+  .faq-answer {
+    padding-inline: var(--space-4);
+  }
+
+  .hiw-cta {
+    padding: var(--space-6) var(--space-5);
+  }
+
+  .hiw-cta .btn {
+    width: 100%;
+  }
+}

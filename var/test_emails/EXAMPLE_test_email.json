@@ -1,8 +1,0 @@
-{
-    "sender": "seller@test.com",
-    "recipient": "tx-000001@safetransaction.com",
-    "subject": "Your Test Event Tickets - Order Confirmation",
-    "body": "Thank you for your ticket purchase! Event: Test Event Venue: Test Stadium Your tickets are attached as PDF files.",
-    "attachments": ["tickets.pdf"],
-    "timestamp": "2025-09-05T18:00:00Z"
-}

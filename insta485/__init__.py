@@ -10,6 +10,8 @@ import flask
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask_mail import Mail
 
+logger = logging.getLogger(__name__)
+
 # app is a single object used by all the code modules in this package
 app = flask.Flask(__name__)  # pylint: disable=invalid-name
 
@@ -60,10 +62,10 @@ def start_automated_jobs():
         # Start email monitoring
         email_monitor.start()
 
-        print("✅ Automated background jobs started successfully")
+        logger.info("✅ Automated background jobs started successfully")
 
     except Exception as e:
-        print(f"❌ Error starting background jobs: {e}")
+        logger.error(f"❌ Error starting background jobs: {e}")
 
 
 @app.template_filter("format_datetime")

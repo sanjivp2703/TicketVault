@@ -13,6 +13,9 @@ from insta485.email_automation import (
     send_listing_expired_notification,
     send_ticket_returned_notification,
 )
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class DeadlineManager:
@@ -28,14 +31,14 @@ class DeadlineManager:
             self.running = True
             self.thread = threading.Thread(target=self._monitor_deadlines, daemon=True)
             self.thread.start()
-            print("🕒 Deadline Manager started")
+            logger.info("🕒 Deadline Manager started")
 
     def stop(self):
         """Stop the deadline monitoring"""
         self.running = False
         if self.thread:
             self.thread.join()
-        print("🕒 Deadline Manager stopped")
+        logger.info("🕒 Deadline Manager stopped")
 
     def _monitor_deadlines(self):
         """Main monitoring loop - runs every 30 seconds"""
@@ -48,7 +51,7 @@ class DeadlineManager:
                     self._send_deadline_reminders(connection)
                 time.sleep(30)  # Check every 30 seconds
             except Exception as e:
-                print(f"Error in deadline monitoring: {e}")
+                logger.error(f"Error in deadline monitoring: {e}")
                 time.sleep(60)  # Wait longer on error
 
     def _check_ticket_deadlines(self, connection):
@@ -70,7 +73,7 @@ class DeadlineManager:
             from insta485.error_handler import error_handler
 
             error_handler.handle_ticket_timeout(transaction["transaction_id"])
-            print(
+            logger.info(
                 f"⏰ Expired listing {transaction['transaction_id']} - no tickets received"
             )
 
@@ -93,7 +96,7 @@ class DeadlineManager:
             from insta485.error_handler import error_handler
 
             error_handler.handle_payment_timeout(transaction["transaction_id"])
-            print(
+            logger.info(
                 f"⏰ Returned tickets for transaction {transaction['transaction_id']} - no payment received"
             )
 
@@ -256,7 +259,7 @@ class DeadlineManager:
 
         # TODO: Forward original ticket email back to seller
         # This would require storing the original email and forwarding it
-        print(
+        logger.info(
             f"📧 Need to return original ticket email to {transaction['seller_email']}"
         )
 

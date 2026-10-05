@@ -9,6 +9,9 @@ import threading
 from datetime import datetime, timedelta
 from insta485.transaction_manager import TransactionManager
 import insta485.model
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class BackgroundJobManager:
@@ -35,17 +38,17 @@ class BackgroundJobManager:
 
         scheduler_thread = threading.Thread(target=run_scheduler, daemon=True)
         scheduler_thread.start()
-        print("✅ Background job scheduler started")
+        logger.info("✅ Background job scheduler started")
 
     def stop_scheduler(self):
         """Stop the background scheduler"""
         self.running = False
         schedule.clear()
-        print("🛑 Background job scheduler stopped")
+        logger.info("🛑 Background job scheduler stopped")
 
     def _check_all_deadlines(self):
         """Check all transaction deadlines and take appropriate actions"""
-        print(f"🔍 Checking deadlines at {datetime.now()}")
+        logger.info(f"🔍 Checking deadlines at {datetime.now()}")
 
         try:
             # Use transaction manager's deadline checking
@@ -57,7 +60,7 @@ class BackgroundJobManager:
             self._check_release_deadlines()
 
         except Exception as e:
-            print(f"❌ Error in deadline checking: {e}")
+            logger.error(f"❌ Error in deadline checking: {e}")
 
     def _check_ticket_deadlines(self):
         """Check for expired ticket deadlines"""
@@ -77,11 +80,13 @@ class BackgroundJobManager:
         for listing in expired_listings:
             try:
                 self._expire_listing_no_ticket(listing["transaction_id"])
-                print(
+                logger.info(
                     f"⏰ Expired listing {listing['transaction_id']} - no ticket received"
                 )
             except Exception as e:
-                print(f"❌ Error expiring listing {listing['transaction_id']}: {e}")
+                logger.error(
+                    f"❌ Error expiring listing {listing['transaction_id']}: {e}"
+                )
 
     def _check_payment_deadlines(self):
         """Check for expired payment deadlines"""
@@ -102,11 +107,13 @@ class BackgroundJobManager:
         for payment in expired_payments:
             try:
                 self._return_ticket_to_seller(payment["transaction_id"])
-                print(
+                logger.info(
                     f"🔄 Returned ticket for transaction {payment['transaction_id']} - payment deadline passed"
                 )
             except Exception as e:
-                print(f"❌ Error returning ticket {payment['transaction_id']}: {e}")
+                logger.error(
+                    f"❌ Error returning ticket {payment['transaction_id']}: {e}"
+                )
 
     def _check_release_deadlines(self):
         """Check for automatic fund release deadlines"""
@@ -130,11 +137,13 @@ class BackgroundJobManager:
                 self.transaction_manager._release_funds_to_seller(
                     release["transaction_id"], "automatic_24hr_release"
                 )
-                print(
+                logger.info(
                     f"💰 Auto-released funds for transaction {release['transaction_id']}"
                 )
             except Exception as e:
-                print(f"❌ Error releasing funds {release['transaction_id']}: {e}")
+                logger.error(
+                    f"❌ Error releasing funds {release['transaction_id']}: {e}"
+                )
 
     def _expire_listing_no_ticket(self, transaction_id):
         """Expire listing when seller doesn't send ticket"""
@@ -250,7 +259,7 @@ class BackgroundJobManager:
             archived_count += 1
 
         if archived_count > 0:
-            print(f"📁 Archived {archived_count} old transactions")
+            logger.info(f"📁 Archived {archived_count} old transactions")
 
     # Notification methods (implement based on your email system)
     def _notify_listing_expired(self, transaction_id, reason):
@@ -399,12 +408,12 @@ def stop_background_jobs():
 
 if __name__ == "__main__":
     # For testing - run background jobs
-    print("🚀 Starting background job manager...")
+    logger.info("🚀 Starting background job manager...")
     start_background_jobs()
 
     try:
         while True:
             time.sleep(10)
     except KeyboardInterrupt:
-        print("\n🛑 Stopping background job manager...")
+        logger.info("\n🛑 Stopping background job manager...")
         stop_background_jobs()
