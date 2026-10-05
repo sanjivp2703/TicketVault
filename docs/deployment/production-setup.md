@@ -1,6 +1,6 @@
-# 🚀 Production Setup Guide for Safe Transaction
+# 🚀 Production Setup Guide for TicketVault
 
-This guide covers all the steps needed to deploy Safe Transaction to production.
+This guide covers all the steps needed to deploy TicketVault to production.
 
 ## 📋 Prerequisites
 
@@ -77,7 +77,7 @@ class ProductionConfig:
     MAIL_USE_TLS = True
     MAIL_USERNAME = f'postmaster@{MAILGUN_DOMAIN}'
     MAIL_PASSWORD = os.environ.get('MAILGUN_API_KEY')
-    MAIL_DEFAULT_SENDER = f'Safe Transaction <noreply@{MAILGUN_DOMAIN}>'
+    MAIL_DEFAULT_SENDER = f'TicketVault <noreply@{MAILGUN_DOMAIN}>'
 ```
 
 ## 💳 Step 3: Stripe Production Setup
@@ -177,7 +177,7 @@ sudo chown $USER:$USER /var/www/safetransaction
 
 # Clone repository
 cd /var/www/safetransaction
-git clone https://github.com/yourusername/Safe-Transaction.git .
+git clone https://github.com/yourusername/TicketVault.git .
 
 # Create virtual environment
 python3 -m venv venv
@@ -516,4 +516,4 @@ After deployment, your system will be available at:
 
 ---
 
-🎉 **Congratulations!** Your Safe Transaction platform is now ready for production use!
+🎉 **Congratulations!** Your TicketVault platform is now ready for production use!

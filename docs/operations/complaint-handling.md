@@ -1,4 +1,4 @@
-# Safe Transaction Complaint Handling Guide
+# TicketVault Complaint Handling Guide
 
 ## Overview
 This document outlines all possible complaint scenarios and the proper resolution process for each. All complaints should be handled through support@safetransaction.app.
@@ -26,7 +26,7 @@ This document outlines all possible complaint scenarios and the proper resolutio
   - Body: "We've confirmed the seller did not transfer the ticket. Full refund of $[AMOUNT] has been issued to your payment method. You should see it within 3-5 business days."
 - **Email to Seller:**
   - Subject: `Warning - Transaction #[ID] | Ticket Not Transferred`
-  - Body: "Your account has been flagged for failing to transfer tickets. Buyer has been refunded. This may affect your ability to use Safe Transaction in the future."
+  - Body: "Your account has been flagged for failing to transfer tickets. Buyer has been refunded. This may affect your ability to use TicketVault in the future."
 - **Database:** Update transaction status to `complaint - refunded buyer (ticket not sent)`
 
 #### If Seller Did Send Ticket:
@@ -202,7 +202,7 @@ This document outlines all possible complaint scenarios and the proper resolutio
 - **Action:** No refund - complaint denied
 - **Email to Buyer:**
   - Subject: `Complaint Resolution - Transaction #[ID]`
-  - Body: "Our investigation confirms the ticket was successfully transferred to your Michigan Athletics account on [DATE]. We have proof from both Safe Transaction and Michigan Athletics systems. Your complaint cannot be honored."
+  - Body: "Our investigation confirms the ticket was successfully transferred to your Michigan Athletics account on [DATE]. We have proof from both TicketVault and Michigan Athletics systems. Your complaint cannot be honored."
 - **Email to Seller:**
   - Subject: `Complaint Resolved - Transaction #[ID] | In Your Favor`
   - Body: "The buyer's complaint has been investigated and denied. Your payment of $[AMOUNT] has been processed as scheduled."
@@ -224,7 +224,7 @@ This document outlines all possible complaint scenarios and the proper resolutio
 - **Email to Both Parties:**
   - Subject: `Support Mediation - Transaction #[ID]`
   - Body: "We're here to help resolve any issues. Please communicate through support@safetransaction.app for mediation."
-- **Note:** Safe Transaction discourages direct buyer-seller contact to prevent issues
+- **Note:** TicketVault discourages direct buyer-seller contact to prevent issues
 
 ---
 
@@ -279,7 +279,7 @@ Expected in Account: 3-5 business days
 If you have any questions, please contact support@safetransaction.app.
 
 Best regards,
-Safe Transaction Support Team
+TicketVault Support Team
 ```
 
 ### Seller Warning Email
@@ -305,7 +305,7 @@ To maintain good standing:
 Questions? Contact support@safetransaction.app.
 
 Best regards,
-Safe Transaction Support Team
+TicketVault Support Team
 ```
 
 ---

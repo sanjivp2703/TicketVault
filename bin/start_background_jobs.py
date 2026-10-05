@@ -13,7 +13,7 @@ sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
 from insta485.background_jobs import start_background_jobs
 
 if __name__ == "__main__":
-    print("🚀 Starting Safe Transaction Background Jobs...")
+    print("🚀 Starting TicketVault Background Jobs...")
     print("This will handle:")
     print("  ✅ Automatic deadline checking")
     print("  ✅ Payment release processing")

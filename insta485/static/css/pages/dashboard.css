@@ -898,7 +898,7 @@
 }
 
 .seller-badge,
-.safe-transaction-badge {
+.brand-badge {
   background: var(--color-brand-soft);
   border-color: var(--color-brand-ring);
   color: var(--color-brand-strong);

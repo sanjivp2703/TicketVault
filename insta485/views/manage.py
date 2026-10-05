@@ -1,4 +1,4 @@
-"""Safe-Transaction manage function for files."""
+"""TicketVault manage function for files."""
 
 import hashlib
 import uuid
@@ -135,7 +135,7 @@ def send_verification_sms(phone_number, code):
         # Uncomment the following lines to send real SMS in production:
         # payload = {
         #     'phone': phone_number,
-        #     'message': f'Your Safe Transaction verification code is: {code}',
+        #     'message': f'Your TicketVault verification code is: {code}',
         #     'key': 'textbelt'  # Use 'textbelt' for free quota
         # }
         # response = requests.post('https://textbelt.com/text', data=payload)
@@ -458,7 +458,7 @@ def send_payment_seller(transaction_id):
                     f"Scheduler: Status updated to 'success' for transaction {transaction_id}."
                 )
                 logger.info(
-                    f"[PAYMENT] Safe-Transaction paid seller for transaction {transaction_id}."
+                    f"[PAYMENT] TicketVault paid seller for transaction {transaction_id}."
                 )
             except Exception as db_err:
                 logger.error(

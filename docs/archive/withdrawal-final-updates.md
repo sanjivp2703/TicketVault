@@ -98,7 +98,7 @@ us ASAP if you made an error!
 **Transaction Breakdown**:
 ```
 Withdrawal Amount: $100.00
-Safe Transaction Fee (5%): -$5.00
+TicketVault Fee (5%): -$5.00
 Total You'll Receive: $95.00
 ```
 
@@ -117,7 +117,7 @@ Withdrawal Request Received
 Your withdrawal request has been received.
 
 Withdrawal Amount: $100.00
-Safe Transaction Fee (5%): -$5.00
+TicketVault Fee (5%): -$5.00
 Total You'll Receive: $95.00
 
 Sending to Venmo: @johndoe
@@ -131,7 +131,7 @@ NOTHING we can do to recover it.
 Funds typically arrive within one business day.
 Request ID: VENMO-123
 
-Thank you for using Safe Transaction!
+Thank you for using TicketVault!
 ```
 
 ### 4. Success Messages Now Show Destination ✅

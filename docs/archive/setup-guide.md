@@ -153,7 +153,7 @@ trust.yourcompany.com
 3. **Deploy code:**
    ```bash
    git clone your-repo
-   cd Safe-Transaction
+   cd TicketVault
    pip3 install -r requirements.txt
    ```
 

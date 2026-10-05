@@ -1,12 +1,12 @@
 # Withdrawal System Documentation
 
 ## Overview
-The Safe Transaction withdrawal system allows sellers to withdraw their earned balance to their bank accounts. The system supports both **automatic** (via Stripe) and **manual** processing.
+The TicketVault withdrawal system allows sellers to withdraw their earned balance to their bank accounts. The system supports both **automatic** (via Stripe) and **manual** processing.
 
 ## Key Features
 
 ### 1. **5% Transaction Fee**
-- All withdrawals have a 5% Safe Transaction fee
+- All withdrawals have a 5% TicketVault fee
 - Example: $100 withdrawal = $5 fee, user receives $95
 - Fee is clearly displayed before confirmation
 

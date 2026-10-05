@@ -1,4 +1,4 @@
-# Safe-Transaction UI Design Guidelines
+# TicketVault UI Design Guidelines
 
 ## 🎯 Design Philosophy
 

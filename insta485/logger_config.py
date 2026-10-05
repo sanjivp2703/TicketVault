@@ -1,5 +1,5 @@
 """
-Centralized logging configuration for Safe-Transaction application.
+Centralized logging configuration for TicketVault application.
 """
 
 import logging
@@ -40,7 +40,7 @@ def setup_logging():
 
     # File handler (DEBUG and above)
     log_file = os.path.join(
-        log_dir, f"safe_transaction_{datetime.now().strftime('%Y%m%d')}.log"
+        log_dir, f"ticketvault_{datetime.now().strftime('%Y%m%d')}.log"
     )
     file_handler = logging.handlers.RotatingFileHandler(
         log_file,

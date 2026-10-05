@@ -1,5 +1,5 @@
 """
-Comprehensive Error Handling and Edge Case Management for Safe Transaction
+Comprehensive Error Handling and Edge Case Management for TicketVault
 Handles all possible failure scenarios and edge cases
 """
 
@@ -351,7 +351,7 @@ class ErrorHandler:
                 <li>You can safely look for tickets elsewhere</li>
             </ul>
             
-            <p>This is exactly why Safe Transaction exists - to protect you from scams and fake tickets!</p>
+            <p>This is exactly why TicketVault exists - to protect you from scams and fake tickets!</p>
             <p><strong>Transaction ID:</strong> {transaction["transaction_id"]}</p>
             """
 

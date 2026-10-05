@@ -93,7 +93,7 @@ connected bank account.
 3. User clicks OK
 4. Redirected to Stripe's secure page
 5. User updates bank information on Stripe
-6. Redirected back to Safe Transaction
+6. Redirected back to TicketVault
 7. Success message shown
 8. Updated bank info displayed
 ```
@@ -223,7 +223,7 @@ FIRST TIME SETUP:
 4. User clicks "Connect Bank Account with Stripe"
    
 5. Redirected to Stripe's onboarding page
-   → Hosted by Stripe, not Safe Transaction!
+   → Hosted by Stripe, not TicketVault!
    
 6. Stripe asks for:
    - Business/Individual type
@@ -233,7 +233,7 @@ FIRST TIME SETUP:
    
 7. User completes Stripe onboarding (2-3 minutes)
    
-8. Redirected back to Safe Transaction
+8. Redirected back to TicketVault
    
 9. Success message:
    "✅ Stripe Connect setup complete! You can now 
@@ -315,7 +315,7 @@ NO ADMIN WORK NEEDED! 🎉
    - New account number
    - Verification
    
-9. Redirected back to Safe Transaction
+9. Redirected back to TicketVault
    
 10. Success message shown
 

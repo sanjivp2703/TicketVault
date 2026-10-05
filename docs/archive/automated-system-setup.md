@@ -1,8 +1,8 @@
-# Safe Transaction - Automated System Setup Guide
+# TicketVault - Automated System Setup Guide
 
 ## 🎯 System Overview
 
-Your Safe Transaction platform now has a **fully automated verification and payment system**. Here's how it works:
+Your TicketVault platform now has a **fully automated verification and payment system**. Here's how it works:
 
 ### Seller Flow:
 1. **Create Listing** → System generates unique email (tx-123456@safetransaction.com)

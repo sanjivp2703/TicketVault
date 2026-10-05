@@ -1,7 +1,7 @@
-# Safe Transaction
+# TicketVault
 
 Escrow for peer-to-peer student ticket sales. A seller lists a ticket for a
-specific buyer, Safe Transaction takes custody of the ticket, verifies it,
+specific buyer, TicketVault takes custody of the ticket, verifies it,
 collects the buyer's payment through Stripe, and only then releases the ticket
 to the buyer and the money to the seller. Either both sides of the deal happen
 or neither does.
@@ -33,7 +33,7 @@ Production: <https://safetransaction.app>
 ```mermaid
 sequenceDiagram
     actor Seller
-    participant ST as Safe Transaction
+    participant ST as TicketVault
     actor Admin
     actor Buyer
 
@@ -115,8 +115,8 @@ still in the codebase but switched off; see
 Requirements: Python 3.10 or newer and the `sqlite3` command-line tool.
 
 ```bash
-git clone https://github.com/sanjivp2703/Safe-Transaction.git
-cd Safe-Transaction
+git clone https://github.com/sanjivp2703/TicketVault.git
+cd TicketVault
 
 ./bin/insta485install        # virtualenv, dependencies, and a starter .env
 source .venv/bin/activate

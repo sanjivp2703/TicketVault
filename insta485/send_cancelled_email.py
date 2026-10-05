@@ -6,7 +6,7 @@ def send_cancelled_email(
         f"Hello,\n\nWe regret to inform you that your transaction for '{event_name}' has been cancelled. "
         + (f"Price: ${price}\n" if price else "")
         + (f"Seller: {seller_email}\n" if seller_email else "")
-        + "\nIf you have any questions, please contact support.\n\nBest,\nSafe-Transaction Team"
+        + "\nIf you have any questions, please contact support.\n\nBest,\nTicketVault Team"
     )
     html = f"""
         <p>Hello,</p>
@@ -14,7 +14,7 @@ def send_cancelled_email(
         {(f"<p>Price: <b>${price}</b><br></p>" if price else "")}
         {(f"<p>Seller: <b>{seller_email}</b></p>" if seller_email else "")}
         <p>If you have any questions, please contact support.</p>
-        <p style=\"margin-top:24px;\">Best,<br>Safe-Transaction Team</p>
+        <p style=\"margin-top:24px;\">Best,<br>TicketVault Team</p>
     """
     if send_email_func is not None:
         return send_email_func(buyer_email, subject, body, html=html)

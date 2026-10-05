@@ -259,7 +259,7 @@ def send_accept_confirmation_email(
     <body>
         <div class="email-container">
             <div class="header">
-                <div class="logo">Safe Transaction</div>
+                <div class="logo">TicketVault</div>
                 <div class="tagline">Secure Ticket Protection</div>
             </div>
             
@@ -326,7 +326,7 @@ def send_accept_confirmation_email(
                     <a href="mailto:support@safetransaction.app" class="footer-link">support@safetransaction.app</a>
                 </div>
                 <div class="footer-text" style="margin-top: 16px; font-size: 12px; color: #9ca3af;">
-                    Safe Transaction - Secure Ticket Protection
+                    TicketVault - Secure Ticket Protection
                 </div>
             </div>
         </div>
@@ -368,14 +368,14 @@ def send_reject_confirmation_email(buyer_email, event_name, seller_email):
     subject = f"You have rejected the offer for {event_name}"
     body = (
         f"Hello,\n\nYou have rejected the ticket offer for '{event_name}'. "
-        f"Seller: {seller_email}\n\nIf this was a mistake, please contact the seller directly.\n\nBest,\nSafe-Transaction Team"
+        f"Seller: {seller_email}\n\nIf this was a mistake, please contact the seller directly.\n\nBest,\nTicketVault Team"
     )
     html = f"""
         <p>Hello,</p>
         <p>You have rejected the ticket offer for <b>{event_name}</b>.<br>
         Seller: <b>{seller_email}</b></p>
         <p>If this was a mistake, please contact the seller directly.</p>
-        <p style="margin-top:24px;">Best,<br>Safe-Transaction Team</p>
+        <p style="margin-top:24px;">Best,<br>TicketVault Team</p>
     """
     return send_email(buyer_email, subject, body, html=html)
 
@@ -407,7 +407,7 @@ def send_ticket_sent_email(
         f"Validation deadline: {validation_deadline}\n\n"
         f"To validate: {validate_url}\n"
         f"To report problem: {complaint_url}\n\n"
-        "Best,\nSafe-Transaction Team"
+        "Best,\nTicketVault Team"
     )
 
     validate_btn = f'<a href="{validate_url}" style="background:#28a745;color:white;padding:12px 24px;border:none;border-radius:5px;text-decoration:none;display:inline-block;font-family:sans-serif;font-size:16px;font-weight:bold;margin-right:10px;">✅ Validate Ticket</a>'
@@ -444,7 +444,7 @@ def send_ticket_sent_email(
                 </p>
             </div>
             
-            <p style="margin-top: 30px;">Best,<br>Safe-Transaction Team</p>
+            <p style="margin-top: 30px;">Best,<br>TicketVault Team</p>
         </div>
     """
 
@@ -458,7 +458,7 @@ def send_ticket_received_email(
     body = (
         f"Hello,\n\nYou have confirmed receipt of your ticket for '{event_name}'. "
         f"Price: ${price}\nSeller: {seller_email}\n\n"
-        f"Enjoy the event! If you have any issues, you have until {complaint_deadline} to file a complaint.\n\nBest,\nSafe-Transaction Team"
+        f"Enjoy the event! If you have any issues, you have until {complaint_deadline} to file a complaint.\n\nBest,\nTicketVault Team"
     )
     html = f"""
         <p>Hello,</p>
@@ -467,6 +467,6 @@ def send_ticket_received_email(
         Seller: <b>{seller_email}</b></p>
         <p><b>Enjoy the event!</b></p>
         <p style="margin-top:18px;">If you have any issues, you have until <b>{complaint_deadline}</b> to file a complaint.</p>
-        <p style="margin-top:24px;">Best,<br>Safe-Transaction Team</p>
+        <p style="margin-top:24px;">Best,<br>TicketVault Team</p>
     """
     return send_email(buyer_email, subject, body, html=html)

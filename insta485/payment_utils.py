@@ -1,4 +1,4 @@
-"""Payment processing utilities for Safe Transaction."""
+"""Payment processing utilities for TicketVault."""
 
 import insta485
 import insta485.model

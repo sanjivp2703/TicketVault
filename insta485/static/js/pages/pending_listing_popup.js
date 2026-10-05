@@ -98,7 +98,7 @@ function markAsTransferredAndClose() {
         return;
     }
     
-    if (confirm('Confirm that you have sent the ticket to Safe Transaction. The transaction will move to verification.')) {
+    if (confirm('Confirm that you have sent the ticket to TicketVault. The transaction will move to verification.')) {
         const button = event.target;
         if (button) {
             button.disabled = true;

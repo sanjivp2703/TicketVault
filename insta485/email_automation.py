@@ -1,5 +1,5 @@
 """
-Modern email automation with ultra-sleek designs for Safe Transaction.
+Modern email automation with ultra-sleek designs for TicketVault.
 All emails redesigned with cutting-edge UI/UX.
 """
 
@@ -272,7 +272,7 @@ def send_seller_instructions(
             <div class="mission-footer">
                 <div class="transaction-id">TX-{transaction_id:06d}</div>
                 <div style="color: #94a3b8; margin: 16px 0; font-weight: 500;">Mission support available 24/7 - Reply for immediate assistance</div>
-                <div style="font-weight: 800; color: #ef4444; font-size: 1.125rem; text-shadow: 0 0 20px rgba(239, 68, 68, 0.3);">SAFE TRANSACTION</div>
+                <div style="font-weight: 800; color: #ef4444; font-size: 1.125rem; text-shadow: 0 0 20px rgba(239, 68, 68, 0.3);">TICKETVAULT</div>
             </div>
         </div>
     </body>
@@ -575,7 +575,7 @@ def forward_ticket_email(
             
             <div class="delivery-footer">
                 <div style="background: linear-gradient(135deg, #475569, #64748b); color: #f1f5f9; padding: 12px 24px; border-radius: 50px; font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; display: inline-block; margin: 16px 0; border: 1px solid rgba(255, 255, 255, 0.2);">TX-{transaction_id:06d}</div>
-                <div style="color: #94a3b8; margin: 16px 0;">Secure delivery powered by Safe Transaction</div>
+                <div style="color: #94a3b8; margin: 16px 0;">Secure delivery powered by TicketVault</div>
             </div>
         </div>
     </body>
@@ -905,7 +905,7 @@ def send_buyer_notification(
     <body>
         <div class="email-container">
             <div class="header">
-                <div class="logo">Safe Transaction</div>
+                <div class="logo">TicketVault</div>
                 <div class="tagline">Secure Ticket Protection</div>
             </div>
             
@@ -916,14 +916,14 @@ def send_buyer_notification(
                         <h2>Ticket Verified & Available</h2>
                     </div>
                     <p class="section-text">
-                        This ticket has been independently verified by Safe Transaction. It matches the event, date, and seat details listed below:
+                        This ticket has been independently verified by TicketVault. It matches the event, date, and seat details listed below:
                     </p>
                 </div>
                 
                 <div class="ticket-card">
                     <div class="ticket-header">
                         <div class="event-title">{event_details["name"]}</div>
-                        <div class="event-subtitle">Verified by Safe Transaction</div>
+                        <div class="event-subtitle">Verified by TicketVault</div>
                     </div>
                     
                     <div class="ticket-details">
@@ -978,7 +978,7 @@ def send_buyer_notification(
                 <div class="footer-text">
                     Need help? <a href="mailto:safetransactiontix@gmail.com" class="footer-link">Contact Support</a>
                 </div>
-                <div class="footer-brand">Safe Transaction</div>
+                <div class="footer-brand">TicketVault</div>
             </div>
         </div>
     </body>
@@ -1382,7 +1382,7 @@ def send_modern_buyer_notification(
     <body>
         <div class="email-container">
             <div class="header">
-                <div class="logo">Safe Transaction</div>
+                <div class="logo">TicketVault</div>
                 <div class="tagline">Secure Ticket Protection</div>
             </div>
             
@@ -1444,11 +1444,11 @@ def send_modern_buyer_notification(
                     </p>
                 </div>
                 
-                <!-- Section 3: Why Use Safe Transaction -->
+                <!-- Section 3: Why Use TicketVault -->
                 <div class="section">
                     <div class="section-header">
                         <span style="font-size: 20px; margin-right: 8px;">💡</span>
-                        <h2 style="font-size: 20px; font-weight: 700; color: #222222; margin: 0;">Why Use Safe Transaction?</h2>
+                        <h2 style="font-size: 20px; font-weight: 700; color: #222222; margin: 0;">Why Use TicketVault?</h2>
                 </div>
                     <ul class="protection-list">
                         <li class="protection-item">
@@ -1505,7 +1505,7 @@ def send_modern_buyer_notification(
                 <div class="footer-text">
                     Need help? <a href="mailto:safetransactiontix@gmail.com" class="footer-link">Contact Support</a>
                 </div>
-                <div class="footer-brand">Safe Transaction</div>
+                <div class="footer-brand">TicketVault</div>
             </div>
         </div>
     </body>
@@ -1606,7 +1606,7 @@ def send_buyer_waiting_notification(
     <body>
         <div class="email-container">
             <div class="header">
-                <h1>🛡️ Safe Transaction</h1>
+                <h1>🛡️ TicketVault</h1>
                 <p>Secure Ticket Protection</p>
             </div>
             
@@ -1643,7 +1643,7 @@ def send_buyer_waiting_notification(
             <div class="footer">
                 <p style="color: #94a3b8;">Transaction #{transaction_id}</p>
                 <p style="color: #94a3b8; margin-top: 8px;">We'll notify you when tickets are ready!</p>
-                <p style="font-weight: 700; color: #3b82f6; margin-top: 16px;">Safe Transaction</p>
+                <p style="font-weight: 700; color: #3b82f6; margin-top: 16px;">TicketVault</p>
             </div>
         </div>
     </body>
@@ -1796,7 +1796,7 @@ def send_payment_deadline_expired_emails(
                 
                 <div class="warning-box">
                     <strong style="color: #f59e0b;">🎫 What Happens Next:</strong><br><br>
-                    <strong>Safe Transaction will automatically transfer your ticket back to you.</strong><br><br>
+                    <strong>TicketVault will automatically transfer your ticket back to you.</strong><br><br>
                     You should receive the ticket back at your Michigan Athletics account within the next few hours.<br><br>
                     Once you receive it back, you can:
                     <ul style="margin: 10px 0;">
@@ -1916,7 +1916,7 @@ def send_payment_deadline_expired_emails(
                 
                 <p style="font-size: 14px; color: #94a3b8; margin-top: 30px;">
                     <strong>Still interested in this ticket?</strong><br>
-                    Contact the seller directly to arrange a new transaction. Safe Transaction protects sellers by limiting the payment window to 1 hour after ticket verification.
+                    Contact the seller directly to arrange a new transaction. TicketVault protects sellers by limiting the payment window to 1 hour after ticket verification.
                 </p>
                 
                 <p style="font-size: 14px; color: #94a3b8; margin-top: 20px;">
@@ -2039,7 +2039,7 @@ def send_payment_received_notification(
                 <h2 style="color: #10b981; margin-top: 0;">Funds Added to Your Balance</h2>
                 
                 <p style="font-size: 16px; line-height: 1.6;">
-                    Great news! The buyer has completed payment for your ticket listing. Your funds have been added to your Safe Transaction balance.
+                    Great news! The buyer has completed payment for your ticket listing. Your funds have been added to your TicketVault balance.
                 </p>
                 
                 <div class="amount-display">
@@ -2062,7 +2062,7 @@ def send_payment_received_notification(
                 <div style="background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; padding: 20px; margin: 20px 0; border-radius: 8px;">
                     <strong style="color: #3b82f6;">🎫 Next Steps:</strong><br><br>
                     • Ticket will be automatically transferred to buyer within 1 hour<br>
-                    • Funds are now in your Safe Transaction balance<br>
+                    • Funds are now in your TicketVault balance<br>
                     • You can withdraw funds anytime from your dashboard<br>
                     • Want to sell more tickets? Create another listing!
                 </div>
@@ -2074,7 +2074,7 @@ def send_payment_received_notification(
                 </div>
                 
                 <p style="font-size: 14px; color: #94a3b8; margin-top: 30px; text-align: center;">
-                    Thank you for using Safe Transaction!<br>
+                    Thank you for using TicketVault!<br>
                     <a href="mailto:support@safetransaction.app" style="color: #3b82f6;">support@safetransaction.app</a>
                 </p>
             </div>
@@ -2226,7 +2226,7 @@ def send_withdrawal_confirmation(
                     </div>
                     
                     <div class="breakdown-row">
-                        <span style="color: #94a3b8;">Safe Transaction Fee (5%)</span>
+                        <span style="color: #94a3b8;">TicketVault Fee (5%)</span>
                         <span style="color: #f59e0b; font-weight: 600;">-${fee_amount:.2f}</span>
                     </div>
                     
@@ -2252,7 +2252,7 @@ def send_withdrawal_confirmation(
                 
                 <div style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; padding: 20px; margin: 20px 0; border-radius: 8px;">
                     <strong style="color: #10b981;">💡 Pro Tip:</strong><br><br>
-                    Keep selling tickets to earn more! Every completed sale includes a 10% bonus from Safe Transaction. The more you sell, the more you earn!
+                    Keep selling tickets to earn more! Every completed sale includes a 10% bonus from TicketVault. The more you sell, the more you earn!
                 </div>
                 
                 <p style="font-size: 14px; color: #94a3b8; margin-top: 30px; text-align: center;">
@@ -2272,7 +2272,7 @@ def send_withdrawal_confirmation(
             to_email=user_email,
             subject=subject,
             html_body=html_body,
-            text_body=f"Withdrawal Request Received\n\nYour withdrawal request has been received.\n\nWithdrawal Amount: ${amount:.2f}\nSafe Transaction Fee (5%): -${fee_amount:.2f}\nTotal You'll Receive: ${transfer_amount:.2f}\n\n{f'Sending to {method_display}: {destination}' if destination else ''}\n\n⚠️ CRITICAL: If you entered the wrong {method_display if method_display != 'Bank Account' else 'bank account'}, email support@safetransaction.app IMMEDIATELY!\n\n⚠️ WARNING: If we already sent the money, there is NOTHING we can do to recover it.\n\nFunds typically arrive within one business day.{f' Request ID: {transfer_id}' if transfer_id else ''}\n\nThank you for using Safe Transaction!",
+            text_body=f"Withdrawal Request Received\n\nYour withdrawal request has been received.\n\nWithdrawal Amount: ${amount:.2f}\nTicketVault Fee (5%): -${fee_amount:.2f}\nTotal You'll Receive: ${transfer_amount:.2f}\n\n{f'Sending to {method_display}: {destination}' if destination else ''}\n\n⚠️ CRITICAL: If you entered the wrong {method_display if method_display != 'Bank Account' else 'bank account'}, email support@safetransaction.app IMMEDIATELY!\n\n⚠️ WARNING: If we already sent the money, there is NOTHING we can do to recover it.\n\nFunds typically arrive within one business day.{f' Request ID: {transfer_id}' if transfer_id else ''}\n\nThank you for using TicketVault!",
         )
         logger.info(
             f"[WITHDRAWAL-CONFIRMED] Sent notification to {user_email} for ${transfer_amount:.2f}"
@@ -2407,7 +2407,7 @@ def send_withdrawal_completed_email(
                     </div>
                     
                     <div class="breakdown-row">
-                        <span style="color: #94a3b8;">Safe Transaction Fee (5%)</span>
+                        <span style="color: #94a3b8;">TicketVault Fee (5%)</span>
                         <span style="color: #f59e0b; font-weight: 600;">-${fee_amount:.2f}</span>
                     </div>
                     
@@ -2429,7 +2429,7 @@ def send_withdrawal_completed_email(
                 
                 <div style="background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; padding: 20px; margin: 20px 0; border-radius: 8px;">
                     <strong style="color: #3b82f6;">💡 Keep Earning!</strong><br><br>
-                    Keep selling tickets to earn more! Remember: every completed sale includes a 10% bonus from Safe Transaction. The more you sell, the more you earn!
+                    Keep selling tickets to earn more! Remember: every completed sale includes a 10% bonus from TicketVault. The more you sell, the more you earn!
                 </div>
                 
                 <p style="font-size: 14px; color: #94a3b8; margin-top: 30px; text-align: center;">
@@ -2449,7 +2449,7 @@ def send_withdrawal_completed_email(
             to_email=user_email,
             subject=subject,
             html_body=html_body,
-            text_body=f"Withdrawal Completed!\n\nYour withdrawal has been processed and sent.\n\nWithdrawal Amount: ${amount:.2f}\nSafe Transaction Fee (5%): -${fee_amount:.2f}\nTotal Sent to You: ${transfer_amount:.2f}\n\n{f'Sent to {method_display}: {destination}' if destination else ''}\n\nThe payment should appear {'instantly or within minutes' if payment_method in ['venmo', 'cashapp'] else 'within 1-3 business days'}.\n\nThank you for using Safe Transaction!",
+            text_body=f"Withdrawal Completed!\n\nYour withdrawal has been processed and sent.\n\nWithdrawal Amount: ${amount:.2f}\nTicketVault Fee (5%): -${fee_amount:.2f}\nTotal Sent to You: ${transfer_amount:.2f}\n\n{f'Sent to {method_display}: {destination}' if destination else ''}\n\nThe payment should appear {'instantly or within minutes' if payment_method in ['venmo', 'cashapp'] else 'within 1-3 business days'}.\n\nThank you for using TicketVault!",
         )
         logger.info(
             f"[WITHDRAWAL-COMPLETED] Sent notification to {user_email} for ${transfer_amount:.2f}"

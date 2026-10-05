@@ -1,5 +1,5 @@
 /*
- * Safe Transaction design system
+ * TicketVault design system
  * ---------------------------------------------------------------------------
  * Shared tokens and components for every page. Page-specific rules live in
  * static/css/pages/<page>.css and must build on these tokens rather than

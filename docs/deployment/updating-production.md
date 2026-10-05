@@ -28,7 +28,7 @@ git config --global credential.helper store
 # Pull the latest changes
 sudo git pull origin main
 # OR if using the token:
-sudo git pull https://<GITHUB_TOKEN>@github.com/YOUR_USERNAME/Safe-Transaction.git main
+sudo git pull https://<GITHUB_TOKEN>@github.com/YOUR_USERNAME/TicketVault.git main
 ```
 
 ### 4. Update Dependencies (if needed)

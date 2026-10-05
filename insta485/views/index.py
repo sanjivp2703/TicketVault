@@ -1038,7 +1038,7 @@ def download_receipt(transaction_id):
     story = []
 
     # Header with gradient-like styling
-    story.append(Paragraph("🛡️ SAFE TRANSACTION", title_style))
+    story.append(Paragraph("🛡️ TICKETVAULT", title_style))
     story.append(Paragraph("Official Receipt", subtitle_style))
     story.append(Spacer(1, 12))
 
@@ -1185,7 +1185,7 @@ def download_receipt(transaction_id):
         "• Keep this receipt for your records",
         "• Contact support at safetransactiontix@gmail.com for any issues",
         "• You have 24 hours after the event to file any complaints",
-        "• All transactions are protected by Safe Transaction's guarantee",
+        "• All transactions are protected by TicketVault's guarantee",
     ]
 
     for note in notes:
@@ -1204,11 +1204,9 @@ def download_receipt(transaction_id):
         spaceAfter=4,
     )
 
-    story.append(Paragraph("Thank you for using Safe Transaction!", highlight_style))
+    story.append(Paragraph("Thank you for using TicketVault!", highlight_style))
     story.append(Spacer(1, 8))
-    story.append(
-        Paragraph("Safe Transaction LLC • Secure Ticket Marketplace", footer_style)
-    )
+    story.append(Paragraph("TicketVault LLC • Secure Ticket Marketplace", footer_style))
     story.append(Paragraph("Visit us at safetransaction.com", footer_style))
 
     # Build the PDF
@@ -1366,12 +1364,12 @@ def send_buyer_email_1(
     <body>
         <div class="container">
             <div class="header">
-                <h1>🛡️ Safe Transaction</h1>
+                <h1>🛡️ TicketVault</h1>
                 <p>Your Secure Ticket Purchase</p>
             </div>
             <div class="content">
                 <h2>Hi there! 👋</h2>
-                <p>Thanks for using <strong>Safe Transaction</strong>, our scam-free ticket platform!</p>
+                <p>Thanks for using <strong>TicketVault</strong>, our scam-free ticket platform!</p>
                 <p>You have a secure ticket offer from <strong>{
         seller_email
     }</strong>:</p>
@@ -1406,7 +1404,7 @@ def send_buyer_email_1(
     }
                 
                 <p>Click the link above to view full details and pay securely.</p>
-                <p>Best regards,<br>The Safe Transaction Team</p>
+                <p>Best regards,<br>The TicketVault Team</p>
             </div>
         </div>
     </body>
@@ -1417,7 +1415,7 @@ def send_buyer_email_1(
     text_body = f"""
     Hi there!
 
-    Thanks for using Safe Transaction, our scam-free ticket platform!
+    Thanks for using TicketVault, our scam-free ticket platform!
     You have a ticket offer from {seller_email}:
 
     🎫 Event: {event_name}
@@ -1436,7 +1434,7 @@ def send_buyer_email_1(
     Click the link above to view details and pay securely.
     Your payment is protected until you receive the ticket!
 
-    Safe Transaction Team
+    TicketVault Team
     """
 
     try:
@@ -1932,12 +1930,12 @@ def send_seller_notification(transaction_id, seller_email):
 
     Next Steps:
     1. Transfer the ticket to the buyer via your ticket platform
-    2. Log into Safe Transaction and mark the ticket as 'sent'
+    2. Log into TicketVault and mark the ticket as 'sent'
     3. Get paid once the buyer confirms receipt
 
     Dashboard: http://localhost:8000/seller
 
-    Safe Transaction Team
+    TicketVault Team
     """
 
     try:
@@ -1996,7 +1994,7 @@ def send_buyer_email_3(transaction_id, buyer_email):
                 <p>Transaction <strong>#{transaction_id}</strong> is now complete.</p>
                 
                 <div class="highlight">
-                    <p><strong>🛡️ Safe Transaction protected your purchase:</strong></p>
+                    <p><strong>🛡️ TicketVault protected your purchase:</strong></p>
                     <ul>
                         <li>✅ Verified seller</li>
                         <li>✅ Secure payment processing</li>
@@ -2005,7 +2003,7 @@ def send_buyer_email_3(transaction_id, buyer_email):
                     </ul>
                 </div>
                 
-                <p><strong>Enjoy your event!</strong> Thanks for using Safe Transaction to avoid scams.</p>
+                <p><strong>Enjoy your event!</strong> Thanks for using TicketVault to avoid scams.</p>
                 
                 <div style="text-align: center;">
                     <a href="http://localhost:8000/buyer" class="cta-button">
@@ -2013,8 +2011,8 @@ def send_buyer_email_3(transaction_id, buyer_email):
                     </a>
                 </div>
                 
-                <p>Help us prevent scams by sharing Safe Transaction with friends!</p>
-                <p>Best regards,<br>The Safe Transaction Team</p>
+                <p>Help us prevent scams by sharing TicketVault with friends!</p>
+                <p>Best regards,<br>The TicketVault Team</p>
             </div>
         </div>
     </body>
@@ -2028,13 +2026,13 @@ def send_buyer_email_3(transaction_id, buyer_email):
     You didn't get scammed and used our secure service!
 
     Transaction #{transaction_id} is now complete.
-    Enjoy your event and thanks for using Safe Transaction!
+    Enjoy your event and thanks for using TicketVault!
 
     ⭐ Rate your experience: http://localhost:8000/buyer
 
-    Help us prevent scams by sharing Safe Transaction with friends!
+    Help us prevent scams by sharing TicketVault with friends!
 
-    Safe Transaction Team
+    TicketVault Team
     """
 
     try:
@@ -2425,7 +2423,7 @@ def payment_cancel():
                         f"[EMAIL ERROR] Failed to send cancellation email: {e}"
                     )
             logger.info(
-                f"[PAYMENT] Safe-Transaction refunded buyer for transaction {transaction_id} (double cancellation)."
+                f"[PAYMENT] TicketVault refunded buyer for transaction {transaction_id} (double cancellation)."
             )
         connection.commit()
         flask.flash("Cancellation request submitted.")
@@ -2769,7 +2767,7 @@ def send_seller_proof_request(
                 </div>
                 
                 <p><strong>Questions?</strong> Contact us at <a href="mailto:safetransaction@gmail.com">safetransaction@gmail.com</a></p>
-                <p>Safe Transaction Team</p>
+                <p>TicketVault Team</p>
             </div>
         </div>
     </body>
@@ -2797,7 +2795,7 @@ No response = Automatic buyer refund
 Send proof to: safetransaction@gmail.com
 Subject: Proof for Transaction #{transaction_id}
 
-Safe Transaction Team
+TicketVault Team
     """
 
     # Send email using Flask-Mail

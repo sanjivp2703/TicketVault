@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "insta485"
 version = "1.0.0"
-description = "Safe Transaction: an escrow service for peer-to-peer student ticket sales."
+description = "TicketVault: an escrow service for peer-to-peer student ticket sales."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [

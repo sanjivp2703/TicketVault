@@ -1,5 +1,5 @@
 """
-Admin action routes for Safe-Transaction.
+Admin action routes for TicketVault.
 """
 
 import flask
@@ -21,7 +21,7 @@ def send_mailgun_email(to_email, subject, html_body, text_body=None):
             f"https://api.mailgun.net/v3/{domain}/messages",
             auth=("api", api_key),
             data={
-                "from": f"Safe Transaction <noreply@{domain}>",
+                "from": f"TicketVault <noreply@{domain}>",
                 "to": to_email,
                 "subject": subject,
                 "html": html_body,
@@ -372,7 +372,7 @@ def admin_reject_ticket(transaction_id):
             
             <div style="text-align: center; margin: 30px 0;">
                 <a href="https://safetransaction.app/" style="background: #3b82f6; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-size: 16px; font-weight: bold;">
-                    Go to Safe Transaction
+                    Go to TicketVault
                 </a>
             </div>
             
@@ -399,7 +399,7 @@ def admin_reject_ticket(transaction_id):
         3. Click "I've Sent the Ticket" button again to resubmit
         4. We'll review it as soon as possible
         
-        Go to Safe Transaction: https://safetransaction.app/
+        Go to TicketVault: https://safetransaction.app/
         
         Questions? Contact us at safetransactiontix@gmail.com
         """
@@ -686,7 +686,7 @@ def send_ticket_sent_notifications(transaction_id, transaction):
         <body>
             <div class="container">
                 <div class="header">
-                    <h1>🛡️ Safe Transaction</h1>
+                    <h1>🛡️ TicketVault</h1>
                     <p>Your Ticket Delivery Confirmation</p>
                 </div>
                 <div class="content">
@@ -732,7 +732,7 @@ def send_ticket_sent_notifications(transaction_id, transaction):
                             <li><strong>Contact us immediately</strong> if you don't receive tickets within 1 hour</li>
                             <li><strong>Save this email</strong> as proof of purchase and payment</li>
                             <li><strong>24-hour protection:</strong> You have until 24 hours after the event to report any issues</li>
-                            <li><strong>Enjoy your event!</strong> You're protected by Safe Transaction's guarantee</li>
+                            <li><strong>Enjoy your event!</strong> You're protected by TicketVault's guarantee</li>
                         </ul>
                     </div>
                     
@@ -745,12 +745,12 @@ def send_ticket_sent_notifications(transaction_id, transaction):
                     
                     <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center;">
                         <h4 style="margin-top: 0; color: #28a745;">✅ You're Protected!</h4>
-                        <p style="margin: 0; color: #6c757d;">This transaction was processed through Safe Transaction's secure platform. Your payment is protected and your tickets are guaranteed.</p>
+                        <p style="margin: 0; color: #6c757d;">This transaction was processed through TicketVault's secure platform. Your payment is protected and your tickets are guaranteed.</p>
                     </div>
                 </div>
                 <div class="footer">
-                    <p>Thank you for choosing Safe Transaction - The secure way to buy tickets!</p>
-                    <p style="margin: 5px 0;"><strong>Safe Transaction LLC</strong> | <a href="mailto:safetransactiontix@gmail.com" style="color: #007bff;">safetransactiontix@gmail.com</a></p>
+                    <p>Thank you for choosing TicketVault - The secure way to buy tickets!</p>
+                    <p style="margin: 5px 0;"><strong>TicketVault LLC</strong> | <a href="mailto:safetransactiontix@gmail.com" style="color: #007bff;">safetransactiontix@gmail.com</a></p>
                 </div>
             </div>
         </body>
@@ -780,15 +780,15 @@ Your tickets should arrive within 30 minutes. Please check:
 • Contact us immediately if you don't receive tickets within 1 hour
 • Save this email as proof of purchase
 • 24-hour protection: You can report issues until 24 hours after the event
-• Enjoy your event! You're protected by Safe Transaction's guarantee
+• Enjoy your event! You're protected by TicketVault's guarantee
 
 Need help? Contact us at safetransactiontix@gmail.com
 
 ✅ YOU'RE PROTECTED!
-This transaction was processed through Safe Transaction's secure platform.
+This transaction was processed through TicketVault's secure platform.
 
-Thank you for choosing Safe Transaction - The secure way to buy tickets!
-Safe Transaction LLC | safetransactiontix@gmail.com
+Thank you for choosing TicketVault - The secure way to buy tickets!
+TicketVault LLC | safetransactiontix@gmail.com
         """
 
         buyer_msg = Message(
@@ -816,10 +816,10 @@ Your tickets have been marked as successfully sent to the buyer. This transactio
 💰 Payment:
 Your earnings will be processed and added to your account balance shortly.
 
-Thank you for using Safe Transaction!
+Thank you for using TicketVault!
 
 Best regards,
-The Safe Transaction Team
+The TicketVault Team
         """
 
         seller_msg = Message(

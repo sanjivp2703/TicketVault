@@ -61,7 +61,7 @@
         };
 
         window.testTicketSent = function(transactionId) {
-            if (confirm('Confirm that you have sent the ticket to Safe Transaction at the email address shown above. The transaction will move to the next step.')) {
+            if (confirm('Confirm that you have sent the ticket to TicketVault at the email address shown above. The transaction will move to the next step.')) {
                 const button = event.target.closest('button');
                 if (button) {
                     button.disabled = true;
@@ -1141,7 +1141,7 @@
         };
 
         window.simulateTicketSent = function(transactionId) {
-            if (confirm('Simulate Safe Transaction transferring the ticket to the buyer? This will send a ticket delivery email to the buyer.')) {
+            if (confirm('Simulate TicketVault transferring the ticket to the buyer? This will send a ticket delivery email to the buyer.')) {
                 fetch(`/api/transactions/${transactionId}/simulate-ticket-sent`, {
                     method: 'POST',
                     headers: {

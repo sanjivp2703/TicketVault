@@ -1,4 +1,4 @@
-"""Safe Transaction application package.
+"""TicketVault application package.
 
 The package keeps its historical name (``insta485``) because the production
 service, CLI scripts and database paths all reference it.

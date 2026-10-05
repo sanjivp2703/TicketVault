@@ -1,5 +1,5 @@
 """
-Email Webhook System for Safe Transaction
+Email Webhook System for TicketVault
 Receives and processes incoming ticket emails from sellers
 """
 

@@ -1,4 +1,4 @@
-# 🎬 DEMO SCRIPT - Safe Transaction Platform
+# 🎬 DEMO SCRIPT - TicketVault Platform
 
 ## 🎯 **2-MINUTE COMPLETE DEMO**
 

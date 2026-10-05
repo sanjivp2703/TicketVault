@@ -81,7 +81,7 @@ MAIL_USE_TLS = _env_bool("MAIL_USE_TLS", True)
 MAIL_USERNAME = os.environ.get("MAIL_USERNAME", f"postmaster@{MAILGUN_DOMAIN}")
 MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD", MAILGUN_API_KEY)
 MAIL_DEFAULT_SENDER = os.environ.get(
-    "MAIL_DEFAULT_SENDER", f"Safe Transaction <noreply@{MAILGUN_DOMAIN}>"
+    "MAIL_DEFAULT_SENDER", f"TicketVault <noreply@{MAILGUN_DOMAIN}>"
 )
 
 GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")

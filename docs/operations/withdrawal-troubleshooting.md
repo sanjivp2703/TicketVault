@@ -87,7 +87,7 @@ python -c "import sqlite3; conn = sqlite3.connect('var/insta485.sqlite3'); cur =
    - Fill in your information
    - Verify your identity (test mode is lenient)
 5. **Complete onboarding**
-6. **Return to Safe Transaction** - Your bank account will now be connected
+6. **Return to TicketVault** - Your bank account will now be connected
 7. **See your bank details** - Bank name and last 4 digits will display
 
 #### **Making a Withdrawal:**
@@ -108,7 +108,7 @@ python -c "import sqlite3; conn = sqlite3.connect('var/insta485.sqlite3'); cur =
 3. **Click "Update Bank Account" button** (ONLY if you already completed onboarding)
 4. **Redirected to Stripe**
 5. **Update your bank information**
-6. **Return to Safe Transaction**
+6. **Return to TicketVault**
 
 ---
 

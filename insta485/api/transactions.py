@@ -707,7 +707,7 @@ def get_transaction_status(transaction_id):
 )
 def simulate_ticket_sent(transaction_id):
     """
-    Simulate Safe Transaction transferring ticket to buyer and send congratulations email to seller
+    Simulate TicketVault transferring ticket to buyer and send congratulations email to seller
     """
     try:
         connection = insta485.model.get_db()
@@ -1023,7 +1023,7 @@ def send_cancellation_emails(
         cancellation_message = (
             "<p><strong>The seller has cancelled this transaction.</strong></p>"
         )
-        next_steps_section = '<div class="next-steps"><h3>🚀 What You Can Do Next:</h3><ul><li>Contact the seller to see if they can create a new listing</li><li>Look for other tickets to the same event on Safe Transaction</li><li>All new listings come with our full security guarantee</li></ul></div>'
+        next_steps_section = '<div class="next-steps"><h3>🚀 What You Can Do Next:</h3><ul><li>Contact the seller to see if they can create a new listing</li><li>Look for other tickets to the same event on TicketVault</li><li>All new listings come with our full security guarantee</li></ul></div>'
 
         # Email to Buyer
         buyer_subject = f"🚫 Transaction Cancelled - {event_name}"
@@ -1050,7 +1050,7 @@ def send_cancellation_emails(
         <body>
             <div class="container">
                 <div class="header">
-                    <h1>🛡️ Safe Transaction</h1>
+                    <h1>🛡️ TicketVault</h1>
                     <p>Transaction Cancellation Notice</p>
                 </div>
                 <div class="content">
@@ -1079,7 +1079,7 @@ def send_cancellation_emails(
                     {next_steps_section}
                 </div>
                 <div class="footer">
-                    <p>Safe Transaction - Secure Ticket Marketplace</p>
+                    <p>TicketVault - Secure Ticket Marketplace</p>
                     <p>Questions? Contact us anytime for support.</p>
                 </div>
             </div>
@@ -1092,11 +1092,11 @@ def send_cancellation_emails(
         text_intro = "🚫 The seller has cancelled your transaction for:"
         text_next_steps = """🚀 What You Can Do Next:
 • Contact the seller for a potential new listing
-• Look for other tickets on Safe Transaction
+• Look for other tickets on TicketVault
 • All new listings come with our security guarantee"""
 
         buyer_text = f"""
-        🛡️ SAFE TRANSACTION - Transaction Cancelled
+        🛡️ TICKETVAULT - Transaction Cancelled
         
         {text_intro}
         
@@ -1112,7 +1112,7 @@ def send_cancellation_emails(
         
         {text_next_steps}
         
-        Safe Transaction Team
+        TicketVault Team
         """
 
         # Email to Seller
@@ -1139,7 +1139,7 @@ def send_cancellation_emails(
         <body>
             <div class="container">
                 <div class="header">
-                    <h1>🛡️ Safe Transaction</h1>
+                    <h1>🛡️ TicketVault</h1>
                     <p>Cancellation Confirmation</p>
                 </div>
                 <div class="content">
@@ -1165,18 +1165,18 @@ def send_cancellation_emails(
                         <ul>
                             <li>Your ticket is now available for a new listing</li>
                             <li>The buyer has been notified of the cancellation</li>
-                            <li>You can create a new listing anytime on Safe Transaction</li>
+                            <li>You can create a new listing anytime on TicketVault</li>
                             <li>If the buyer is still interested, they may contact you directly</li>
                         </ul>
                     </div>
                     
                     <p style="text-align: center; margin: 30px 0;">
                         We're sorry this transaction didn't work out as planned.<br>
-                        Thank you for using Safe Transaction's secure platform.
+                        Thank you for using TicketVault's secure platform.
                     </p>
                 </div>
                 <div class="footer">
-                    <p>Safe Transaction - Secure Ticket Marketplace</p>
+                    <p>TicketVault - Secure Ticket Marketplace</p>
                     <p>Questions? Contact us anytime for support.</p>
                 </div>
             </div>
@@ -1185,7 +1185,7 @@ def send_cancellation_emails(
         """
 
         seller_text = f"""
-        🛡️ SAFE TRANSACTION - Cancellation Confirmation
+        🛡️ TICKETVAULT - Cancellation Confirmation
         
         ✅ You have successfully cancelled your transaction for:
         
@@ -1200,13 +1200,13 @@ def send_cancellation_emails(
         🚀 What Happens Next:
         • Your ticket is now available for a new listing
         • The buyer has been notified of the cancellation
-        • You can create a new listing anytime on Safe Transaction
+        • You can create a new listing anytime on TicketVault
         • If the buyer is still interested, they may contact you directly
         
         We're sorry this transaction didn't work out as planned.
-        Thank you for using Safe Transaction's secure platform.
+        Thank you for using TicketVault's secure platform.
         
-        Safe Transaction Team
+        TicketVault Team
         """
 
         # Send buyer email
@@ -1279,7 +1279,7 @@ def test_ticket_sent():
                 }
             ), 400
 
-        # Update status to waiting_for_verification (seller confirms they sent ticket to Safe Transaction)
+        # Update status to waiting_for_verification (seller confirms they sent ticket to TicketVault)
         # Also set ticket_email_received to 1 to mark that we received the ticket
         connection.execute(
             "UPDATE transactions SET status = 'waiting_for_verification', ticket_email_received = 1, ticket_received_time = CURRENT_TIMESTAMP WHERE transaction_id = ?",

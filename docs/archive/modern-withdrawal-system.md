@@ -20,14 +20,14 @@
 - ✅ Automatic transfers (no manual processing needed)
 - ✅ Arrives in 1-3 business days
 - ✅ Industry standard used by Uber, Lyft, DoorDash
-- ✅ 5% Safe Transaction fee
+- ✅ 5% TicketVault fee
 
 **User Experience**:
 ```
 User clicks "Connect Bank Account" 
   → Redirected to Stripe onboarding
   → Enters bank info directly on Stripe (not our site)
-  → Returns to Safe Transaction
+  → Returns to TicketVault
   → Can now withdraw anytime!
 ```
 
@@ -44,7 +44,7 @@ User clicks "Connect Bank Account"
 - ✅ Receive money within minutes
 - ✅ Super simple - just username or email
 - ✅ Everyone already has it
-- ✅ 5% Safe Transaction fee
+- ✅ 5% TicketVault fee
 
 **User Experience**:
 ```
@@ -67,7 +67,7 @@ Enter: @johndoe or john@gmail.com
 - ✅ Receive money within minutes
 - ✅ Just enter your $Cashtag
 - ✅ Popular with younger users
-- ✅ 5% Safe Transaction fee
+- ✅ 5% TicketVault fee
 
 **User Experience**:
 ```
@@ -79,7 +79,7 @@ Enter: $johndoe
 
 ## Fee Structure
 
-**All methods**: 5% Safe Transaction fee
+**All methods**: 5% TicketVault fee
 
 **Example**:
 - Balance: $100.00

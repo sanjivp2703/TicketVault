@@ -1,4 +1,4 @@
-"""Balance and withdrawal management for Safe Transaction."""
+"""Balance and withdrawal management for TicketVault."""
 
 import flask
 import stripe
@@ -268,10 +268,10 @@ def process_withdrawal():
         flash("Minimum withdrawal amount is $10.", "error")
         return redirect(url_for("withdraw_funds"))
 
-    # Calculate 5% Safe Transaction fee
-    safe_transaction_fee = int(amount * 0.05)
+    # Calculate 5% TicketVault fee
+    platform_fee = int(amount * 0.05)
     total_deduction = amount
-    amount_to_transfer = amount - safe_transaction_fee
+    amount_to_transfer = amount - platform_fee
 
     # Check user balance
     user = connection.execute(
@@ -306,7 +306,7 @@ def process_withdrawal():
         connection.execute(
             "INSERT INTO balance_changes (user_email, amount, change_type) "
             "VALUES (?, ?, 'withdrawal')",
-            (logemail, -safe_transaction_fee),
+            (logemail, -platform_fee),
         )
 
         # Record monetary transaction
@@ -326,7 +326,7 @@ def process_withdrawal():
             (
                 logemail,
                 amount,
-                safe_transaction_fee,
+                platform_fee,
                 amount_to_transfer,
                 payment_method.upper(),
                 "",
@@ -339,7 +339,7 @@ def process_withdrawal():
         withdrawal_id = connection.execute("SELECT last_insert_rowid()").fetchone()[0]
         connection.commit()
 
-        fee_dollars = safe_transaction_fee / 100
+        fee_dollars = platform_fee / 100
         transfer_dollars = amount_to_transfer / 100
 
         logger.info(
@@ -392,7 +392,7 @@ def process_withdrawal():
             send_withdrawal_confirmation(
                 user_email=logemail,
                 amount=amount / 100,
-                fee_amount=safe_transaction_fee / 100,
+                fee_amount=platform_fee / 100,
                 transfer_amount=amount_to_transfer / 100,
                 transfer_id=stripe_transfer_id
                 if stripe_transfer_id

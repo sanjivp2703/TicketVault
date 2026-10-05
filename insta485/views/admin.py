@@ -263,8 +263,8 @@ Your refund of ${trans_details["price"]} will be processed within 3-5 business d
 
 {admin_notes if admin_notes else ""}
 
-Thank you for using Safe Transaction.
-Safe Transaction Team
+Thank you for using TicketVault.
+TicketVault Team
         """
 
         buyer_msg = Message(
@@ -287,7 +287,7 @@ No payment will be issued to you for this transaction.
 
 {admin_notes if admin_notes else ""}
 
-Safe Transaction Team
+TicketVault Team
         """
 
         seller_msg = Message(
@@ -311,8 +311,8 @@ Payment of ${trans_details["price"]} will be processed within 3-5 business days.
 
 {admin_notes if admin_notes else ""}
 
-Thank you for using Safe Transaction.
-Safe Transaction Team
+Thank you for using TicketVault.
+TicketVault Team
         """
 
         seller_msg = Message(
@@ -335,7 +335,7 @@ No refund will be issued for this transaction.
 
 {admin_notes if admin_notes else ""}
 
-Safe Transaction Team
+TicketVault Team
         """
 
         buyer_msg = Message(

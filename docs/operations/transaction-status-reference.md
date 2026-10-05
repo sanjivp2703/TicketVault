@@ -1,11 +1,11 @@
 # Transaction Status Reference
 
-This document lists all valid transaction statuses in the Safe Transaction system, organized by workflow stage.
+This document lists all valid transaction statuses in the TicketVault system, organized by workflow stage.
 
 ## Valid Statuses (21 total)
 
 ### 📝 Initial Setup
-- **`pending_ticket_submission`** - Listing created, waiting for seller to send ticket to Safe Transaction
+- **`pending_ticket_submission`** - Listing created, waiting for seller to send ticket to TicketVault
 
 ### 🎫 Ticket Transfer Stage
 - **`waiting_for_ticket`** - Waiting for seller to physically send the ticket

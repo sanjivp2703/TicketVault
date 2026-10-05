@@ -1,5 +1,5 @@
 """
-Safe Transaction How it Works view.
+TicketVault How it Works view.
 
 URLs include:
 /how-it-works/

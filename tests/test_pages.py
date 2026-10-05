@@ -10,7 +10,7 @@ from conftest import SEEDED_STATUSES
 def test_public_pages_render(client, path):
     response = client.get(path)
     assert response.status_code == 200
-    assert b"Safe Transaction" in response.data
+    assert b"TicketVault" in response.data
 
 
 @pytest.mark.parametrize(

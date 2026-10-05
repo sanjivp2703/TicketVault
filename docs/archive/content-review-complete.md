@@ -32,14 +32,14 @@ I've systematically reviewed every section you mentioned. Here's the complete br
 - ✅ Timer shows: "⏰ 1 hour to pay"
 
 ### **How It Works Modal - Page 4:**
-- ✅ Badge: "Safe Transaction" (different color - purple)
+- ✅ Badge: "TicketVault" (different color - purple)
 - ✅ Title: "Automatic Payment/Ticket Delivery"
 - ✅ Bullets: Pay + 10%, Buyer gets ticket within hour, Repayment if issues
 - ✅ Graphic shows: Payment verified, Tickets authenticated, Transaction Insured
 
 ### **How It Works Modal - Page 5:**
 - ✅ Title: "You get Paid + Buyer Gets Ticket"
-- ✅ Bullets: Funds to balance, 10% added On Us, Withdraw to bank, Enjoy SafeTransaction
+- ✅ Bullets: Funds to balance, 10% added On Us, Withdraw to bank, Enjoy TicketVault
 - ✅ Breakdown shows: $150 + $15 bonus = $165 total
 
 ### **Main Homepage:**
@@ -198,7 +198,7 @@ I've systematically reviewed every section you mentioned. Here's the complete br
 ## 📊 Key Numbers
 
 - **Seller Bonus:** 10% on completed sales
-- **Withdrawal Fee:** 5% (Safe Transaction fee)
+- **Withdrawal Fee:** 5% (TicketVault fee)
 - **Payment Deadline:** 1 hour
 - **Withdrawal Processing:** Within 1 business day (manual methods)
 - **Stripe Transfers:** 1-3 business days

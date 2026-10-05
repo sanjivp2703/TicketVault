@@ -178,7 +178,7 @@ Before clicking "Mark as Sent":
 - **Prevention is key!** Always double-check before sending
 - If it happens: Try to cancel in payment app (if still pending)
 - Contact the recipient and request a refund
-- Contact Safe Transaction support
+- Contact TicketVault support
 - May need to manually refund user from our funds
 
 ### "Withdrawal stuck in pending?"
@@ -225,5 +225,5 @@ Track your performance:
 - Payment app issue: Check Venmo/Cash App/PayPal support
 - User complaint: Check transaction history, verify you sent correctly
 
-**Emergency contact**: Your own email or Safe Transaction support
+**Emergency contact**: Your own email or TicketVault support
 

@@ -1,5 +1,5 @@
 """
-Deadline Management System for Safe Transaction
+Deadline Management System for TicketVault
 Handles all automated deadline checking and actions
 """
 

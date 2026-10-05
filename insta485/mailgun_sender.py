@@ -1,5 +1,5 @@
 """
-Mailgun Email Sender for Safe Transaction
+Mailgun Email Sender for TicketVault
 Handles all email sending with proper routing and templates
 """
 
@@ -20,7 +20,7 @@ class MailgunSender:
         self.api_key = insta485.app.config["MAILGUN_API_KEY"]
         self.domain = insta485.app.config["MAILGUN_DOMAIN"]
 
-    def send_email(self, to_email, subject, html_content, from_name="Safe Transaction"):
+    def send_email(self, to_email, subject, html_content, from_name="TicketVault"):
         """Send email via Mailgun with professional sender"""
         url = f"{self.base_url}/messages"
 
@@ -447,7 +447,7 @@ class MailgunSender:
         <body>
             <div class="email-container">
                 <div class="header">
-                    <div class="logo">Safe Transaction</div>
+                    <div class="logo">TicketVault</div>
                     <div class="tagline">Your sale is complete!</div>
                 </div>
                 
@@ -459,7 +459,7 @@ class MailgunSender:
                             <h2 style="font-size: 24px; font-weight: 800; color: #059669; margin: 0;">Congratulations, your ticket has sold!</h2>
                     </div>
                         <p style="color: #222222; margin-bottom: 32px; line-height: 1.6; font-size: 18px; font-weight: 500;">
-                            The buyer's payment is secured in your balance on SafeTransaction. We'll send your ticket to them shortly.
+                            The buyer's payment is secured in your balance on TicketVault. We'll send your ticket to them shortly.
                         </p>
                        
                         <div class="amount-card">
@@ -520,7 +520,7 @@ class MailgunSender:
                                     <div class="check-icon">
                                         <span style="color: white; font-size: 12px; font-weight: bold;">✓</span>
                                     </div>
-                                    Your Bonus - We've added a +10% bonus on us — thanks for selling with Safe Transaction!
+                                    Your Bonus - We've added a +10% bonus on us — thanks for selling with TicketVault!
                                 </li>
                             </ul>
                         </div>
@@ -570,7 +570,7 @@ class MailgunSender:
                     <div class="footer-text">
                         Need help? <a href="mailto:support@safetransaction.app" class="footer-link">Contact Support</a>
                     </div>
-                    <div class="footer-brand">Safe Transaction</div>
+                    <div class="footer-brand">TicketVault</div>
                 </div>
             </div>
         </body>
@@ -641,7 +641,7 @@ class MailgunSender:
                 </div>
                 
                 <div class="footer">
-                    <p>🎯 Safe Transaction - Automated Ticket Platform</p>
+                    <p>🎯 TicketVault - Automated Ticket Platform</p>
                     <p>Transaction ID: {transaction_id:06d} | Secure & Automated</p>
                 </div>
             </div>
@@ -767,7 +767,7 @@ class MailgunSender:
                 </div>
                 
                 <div class="footer">
-                    <p>🎯 Safe Transaction - Automated Ticket Platform</p>
+                    <p>🎯 TicketVault - Automated Ticket Platform</p>
                     <p>Transaction ID: {transaction_id:06d} | Secure & Automated</p>
                     <p><em>This is a secure, verified ticket offer</em></p>
                 </div>
@@ -831,7 +831,7 @@ class MailgunSender:
                     
                     <p style="text-align: center; color: #6b7280; margin-top: 30px;">
                         Enjoy the event! 🎉<br>
-                        - Safe Transaction Team
+                        - TicketVault Team
                     </p>
                 </div>
             </div>
@@ -898,8 +898,8 @@ class MailgunSender:
                     </div>
                     
                     <p style="text-align: center; color: #6b7280; margin-top: 30px;">
-                        Thanks for using Safe Transaction! 🎉<br>
-                        - Safe Transaction Team
+                        Thanks for using TicketVault! 🎉<br>
+                        - TicketVault Team
                     </p>
                 </div>
             </div>
@@ -989,7 +989,7 @@ class MailgunSender:
                 </div>
                 
                 <div class="footer">
-                    <p>🎯 Safe Transaction - Automated Ticket Platform</p>
+                    <p>🎯 TicketVault - Automated Ticket Platform</p>
                     <p>Transaction ID: {transaction_id:06d} | Secure & Automated</p>
                 </div>
             </div>
@@ -1002,7 +1002,7 @@ class MailgunSender:
     def send_ticket_transfer_congratulations(
         self, buyer_email, transaction_id, event_name, seller_email, event_datetime_str
     ):
-        """Send congratulations email to buyer when Safe Transaction transfers their ticket to them"""
+        """Send congratulations email to buyer when TicketVault transfers their ticket to them"""
         subject = f"🎫 Your {event_name} tickets have arrived!"
 
         html_content = f"""
@@ -1256,7 +1256,7 @@ class MailgunSender:
         <body>
             <div class="email-container">
                 <div class="header">
-                    <div class="logo">Safe Transaction</div>
+                    <div class="logo">TicketVault</div>
                     <div class="tagline">Your Tickets Have Arrived!</div>
                 </div>
                
@@ -1329,7 +1329,7 @@ class MailgunSender:
                     <!-- Section 3: Thank you message -->
                     <div style="text-align: center; margin: 32px 0;">
                         <div style="font-size: 16px; color: #222222; margin-bottom: 16px; font-weight: 500;">
-                            🎉 Thank you for choosing Safe Transaction! Hope we've made your ticket purchase seamless and secure.
+                            🎉 Thank you for choosing TicketVault! Hope we've made your ticket purchase seamless and secure.
                         </div>
                         <div style="font-size: 14px; color: #717171;">
                             Questions? <a href="mailto:support@safetransaction.app" style="color: #3b82f6; text-decoration: none;">Contact our support team</a>
@@ -1342,7 +1342,7 @@ class MailgunSender:
                     <div class="footer-text">
                         Need help? <a href="mailto:support@safetransaction.app" class="footer-link">Contact Support</a>
                     </div>
-                    <div class="footer-brand">Safe Transaction</div>
+                    <div class="footer-brand">TicketVault</div>
                 </div>
             </div>
         </body>

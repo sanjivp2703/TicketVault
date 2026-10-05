@@ -1,4 +1,4 @@
-# 🚀 Safe Transaction Automated System Deployment Guide
+# 🚀 TicketVault Automated System Deployment Guide
 
 This guide will help you deploy the new automated transaction system that eliminates manual intervention and provides 100% automated escrow for ticket sales.
 
@@ -26,7 +26,7 @@ This guide will help you deploy the new automated transaction system that elimin
 
 ```bash
 # Navigate to your project directory
-cd /path/to/Safe-Transaction
+cd /path/to/TicketVault
 
 # Run the migration script
 python bin/run_migration.py

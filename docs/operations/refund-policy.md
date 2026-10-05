@@ -1,4 +1,4 @@
-# Safe Transaction Refund Policy
+# TicketVault Refund Policy
 
 **Effective Date:** [DATE]  
 **Last Updated:** [DATE]
@@ -7,7 +7,7 @@
 
 ## Overview
 
-Safe Transaction is committed to facilitating secure ticket transactions between buyers and sellers. This refund policy outlines when refunds are available, how they are processed, and what protections are in place for both parties.
+TicketVault is committed to facilitating secure ticket transactions between buyers and sellers. This refund policy outlines when refunds are available, how they are processed, and what protections are in place for both parties.
 
 ---
 
@@ -77,7 +77,7 @@ Refunds are **NOT available** in these circumstances:
 1. **Buyer Changed Mind**
    - Buyer no longer wants to attend
    - Buyer found cheaper tickets elsewhere
-   - **Solution:** Buyer can resell through Safe Transaction
+   - **Solution:** Buyer can resell through TicketVault
 
 2. **Buyer Provided Wrong Email**
    - Ticket sent to email address buyer specified
@@ -123,7 +123,7 @@ Refunds are **NOT available** in these circumstances:
 3. **Buyer Payment Issues**
    - Buyer's payment method fails after ticket sent
    - Seller protected if acted in good faith
-   - Safe Transaction mediates resolution
+   - TicketVault mediates resolution
 
 ### ❌ **Seller Doesn't Get Paid When:**
 
@@ -161,7 +161,7 @@ Refunds are **NOT available** in these circumstances:
 - Decision explained with reasoning
 
 ### **Step 4: Refund Processing**
-- **Immediate:** Refund initiated in Safe Transaction system
+- **Immediate:** Refund initiated in TicketVault system
 - **3-5 Business Days:** Funds appear in buyer's account
 - **Method:** Refund to original payment method (credit card, etc.)
 
@@ -190,7 +190,7 @@ Refunds are **NOT available** in these circumstances:
 - Exceptions only for fraud or system errors
 
 ### **Dispute Resolution**
-- Safe Transaction makes final determination on all disputes
+- TicketVault makes final determination on all disputes
 - Decisions based on:
   - System records and timestamps
   - Michigan Athletics transfer logs
@@ -216,7 +216,7 @@ Refunds are **NOT available** in these circumstances:
 ### **Compensation (Rare Cases)**
 - Fraud victims: Additional $20
 - Significant inconvenience: Up to $50
-- At Safe Transaction's discretion
+- At TicketVault's discretion
 
 ---
 
@@ -224,7 +224,7 @@ Refunds are **NOT available** in these circumstances:
 
 ### **No Refund Fees**
 - Buyers receive full refund amount
-- Safe Transaction absorbs processing fees
+- TicketVault absorbs processing fees
 - Stripe refund fees waived for buyer
 
 ### **Seller Responsibility**
@@ -296,7 +296,7 @@ Refunds are **NOT available** in these circumstances:
 ## Exceptions & Edge Cases
 
 ### **System Errors:**
-- If Safe Transaction system causes issue, buyer protected
+- If TicketVault system causes issue, buyer protected
 - Full refund + compensation
 - Seller also compensated
 
@@ -338,7 +338,7 @@ We publish quarterly reports on:
 ## Legal Disclaimers
 
 1. **No Guarantee of Refund:** Each case evaluated individually
-2. **Safe Transaction Discretion:** Final determination on all disputes
+2. **TicketVault Discretion:** Final determination on all disputes
 3. **Payment Method:** Refunds to original payment method only
 4. **No Cash Refunds:** All refunds processed electronically
 5. **Terms May Change:** Policy updated with 30 days notice
@@ -376,7 +376,7 @@ Our refund policy balances:
 - **Fraud prevention** (bad actors removed)
 - **Transparency** (clear rules for everyone)
 
-We believe in fair, fast, and transparent resolutions. Both buyers and sellers should feel confident using Safe Transaction.
+We believe in fair, fast, and transparent resolutions. Both buyers and sellers should feel confident using TicketVault.
 
 ---
 

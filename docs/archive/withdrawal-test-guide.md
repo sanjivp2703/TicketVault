@@ -150,7 +150,7 @@ ORDER BY created_at DESC LIMIT 1;
 4. Redirected to Stripe's secure onboarding (hosted by Stripe, not us!)
 5. User enters bank details directly on Stripe's site
 6. Stripe verifies identity & bank account
-7. User redirected back to Safe Transaction
+7. User redirected back to TicketVault
 8. `stripe_id` stored in database
 9. ✅ Ready for withdrawals!
 
@@ -290,14 +290,14 @@ User: "I want to withdraw"
 ### Example: $100 Withdrawal
 ```
 Balance:            $100.00
-Safe Transaction Fee: -$5.00 (5%)
+TicketVault Fee: -$5.00 (5%)
 You Receive:         $95.00
 ```
 
 ### Example: $47.50 Withdrawal
 ```
 Balance:            $47.50
-Safe Transaction Fee: -$2.38 (5%)
+TicketVault Fee: -$2.38 (5%)
 You Receive:        $45.12
 ```
 
@@ -378,7 +378,7 @@ Amount Sent: $95.00
 
 Transaction Breakdown:
 - Withdrawal Amount: $100.00
-- Safe Transaction Fee (5%): -$5.00
+- TicketVault Fee (5%): -$5.00
 - Total Transferred: $95.00
 
 ⏱️ What to Expect:

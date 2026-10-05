@@ -67,7 +67,7 @@ def run_migration():
 
 
 if __name__ == "__main__":
-    print("🗃️  Safe Transaction Database Migration")
+    print("🗃️  TicketVault Database Migration")
     print("This will upgrade your database to support the new automated system")
     print()
 
